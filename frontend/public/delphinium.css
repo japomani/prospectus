@@ -1,0 +1,533 @@
+/* ==========================================================================
+   Delphinium — Brand & UI Stylesheet
+   Aligned to the production Delphinium app CSS · v3 · 2026
+
+   Color model:
+     • BLUE   (#1879cd) — primary interactive / info / data
+     • MAGENTA(#ED008C) — call-to-action & emphasis only
+   Brand secondary colors (yellow/green/indigo) used for status & marks.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Interactive / info */
+  --dl-blue:      #1879cd;  /* primary interactive · info · data */
+  --dl-blue-fill: #e3f0fb;  /* tint for badges / option hover */
+
+  /* Call-to-action & emphasis */
+  --dl-magenta:   #ED008C;  /* CTA buttons · emphasis */
+  --dl-magenta-fill: #fde0f0;
+
+  /* Status / brand secondary */
+  --dl-yellow:   #FEF200;   /* highlight marks · key stats */
+  --dl-green:    #00A652;   /* success · complete */
+  --dl-warning:  #f0ad4e;   /* warning */
+  --dl-error:    #c0392b;   /* error / danger */
+  --dl-indigo:   #2E3192;   /* deep accent */
+
+  /* Supporting / neutral */
+  --dl-pale-yellow: #FBFAD2;
+  --dl-mint-panel:  #B4DED9;
+  --dl-mint-tint:   #D2EBE8;
+
+  /* Functional */
+  --dl-text:        #424242;  /* main text */
+  --dl-text-muted:  #5b6361;
+  --dl-disabled:    #6b6b6b;  /* disabled / not-allowed */
+  --dl-page-bg:     #fafafa;  /* app background */
+  --dl-surface:     #ffffff;
+  --dl-level1:      #eef1f0;
+  --dl-border:      #eef1f0;
+
+  /* Type */
+  --dl-font: 'Trebuchet MS', Tahoma, Helvetica, sans-serif;
+  --dl-line: 1.1;
+  --dl-tracking: 0.1px;
+
+  /* Corner radius */
+  --dl-radius-sm: 4px;   /* default for most rectangles & buttons */
+  --dl-radius:    6px;   /* cards / surfaces */
+  --dl-radius-lg: 24px;  /* arcs / pills-as-blocks */
+  --dl-radius-pill: 999px;
+
+  --dl-border-w: 2px;
+
+  /* Spacing — padding (5 / 10 / 20) */
+  --dl-pad-sm: 5px;
+  --dl-pad-md: 10px;
+  --dl-pad-lg: 20px;
+
+  /* Spacing — margin below (10 / 15 / 30 / 45) */
+  --dl-mb-sm: 10px;
+  --dl-mb-md: 15px;
+  --dl-mb-lg: 30px;
+  --dl-mb-xl: 45px;
+
+  /* Elevation — Material dp drop shadows (matches production recipe) */
+  --dl-elev-1: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+  --dl-elev-2: 0 1px 5px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12);
+  --dl-elev-3: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+  --dl-elev-4: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  --dl-elev-5: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
+
+  --dl-motion: 200ms;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+body {
+  font-family: var(--dl-font);
+  color: var(--dl-text);
+  fill: var(--dl-text);
+  background: var(--dl-page-bg);
+  line-height: var(--dl-line);
+  letter-spacing: var(--dl-tracking);
+}
+* { font-family: var(--dl-font); }
+
+::selection { background: var(--dl-magenta); color: #fff; }
+
+/* --------------------------------------------------------------------------
+   Spacing & layout utilities
+   -------------------------------------------------------------------------- */
+.dPaddingSml { padding: var(--dl-pad-sm); }
+.dPaddingMed { padding: var(--dl-pad-md); }
+.dPaddingLrg { padding: var(--dl-pad-lg); }
+.dMarginBelowSml  { margin-bottom: var(--dl-mb-sm); }
+.dMarginBelowMed  { margin-bottom: var(--dl-mb-md); }
+.dMarginBelowLrg  { margin-bottom: var(--dl-mb-lg); }
+.dMarginBelowXLrg { margin-bottom: var(--dl-mb-xl); }
+.dRow    { display: flex; }
+.dColumn { display: flex; flex-direction: column; }
+.dMiddle { display: flex; justify-content: center; align-items: center; }
+.dElevation1 { box-shadow: var(--dl-elev-1); }
+.dElevation2 { box-shadow: var(--dl-elev-2); }
+.dElevation3 { box-shadow: var(--dl-elev-3); }
+.dElevation4 { box-shadow: var(--dl-elev-4); }
+.dElevation5 { box-shadow: var(--dl-elev-5); }
+
+/* --------------------------------------------------------------------------
+   Typography  (px scale per production; Bold / Regular only)
+   line-height 1.1 · letter-spacing 0.1px
+   -------------------------------------------------------------------------- */
+.dH1, .dl-h1 { font-weight: bold; font-size: 26px;   color: var(--dl-text); }
+.dH2, .dl-h2 { font-weight: bold; font-size: 22px;   color: var(--dl-text); }
+.dH3, .dl-h3 { font-weight: bold; font-size: 16px;   color: var(--dl-text); }
+.dH4, .dl-h4 { font-weight: bold; font-size: 14.5px; color: var(--dl-text); }
+.dBody, .dl-body     { font-weight: normal; font-size: 14.5px; color: var(--dl-text-muted); line-height: 1.4; }
+.dSubtitle, .dl-subtitle { font-weight: bold; font-size: 12px; color: var(--dl-text); }
+.dCaption, .dl-caption   { font-weight: normal; font-size: 12px; color: var(--dl-text-muted); }
+.dFontEmphasis { font-weight: bold; }
+.dComponentHeader { font-size: 26px; margin-bottom: 15px; color: var(--dl-text); }
+.dl-accent { color: var(--dl-magenta); }   /* emphasis = magenta */
+.dl-link   { color: var(--dl-blue); text-decoration: none; }
+.dl-link:hover { text-decoration: underline; }
+
+/* --------------------------------------------------------------------------
+   Buttons
+   Most buttons match the app: white, 2px blue border, fill blue on hover.
+   The call-to-action (.dButtonCTA) keeps the magenta solid pill.
+   -------------------------------------------------------------------------- */
+.dButton {
+  font-family: var(--dl-font);
+  font-weight: bold;
+  font-size: 14.5px;
+  line-height: 1.1;
+  letter-spacing: var(--dl-tracking);
+  border-radius: var(--dl-radius-sm);
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  transition: all var(--dl-motion) ease-in-out;
+  position: relative;
+  overflow: hidden;           /* clips ripple */
+}
+.dButton:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(24,121,205,.45); }
+
+/* Primary — white with blue border, fills blue on hover/focus/pressed */
+.dButtonPrimary {
+  color: var(--dl-text);
+  background: #fff;
+  border: var(--dl-border-w) solid var(--dl-blue);
+}
+.dButtonPrimary:not(.disabled):not(:disabled):hover,
+.dButtonPrimary:not(.disabled):not(:disabled):focus,
+.dButtonPrimary:not(.disabled):not(:disabled)[aria-pressed="true"] {
+  background: var(--dl-blue);
+  color: #fff;
+  box-shadow: var(--dl-elev-2);
+}
+
+/* Secondary — quiet text button */
+.dButtonSecondary {
+  color: var(--dl-text);
+  background: transparent;
+  border: var(--dl-border-w) solid transparent;
+}
+.dButtonSecondary:hover { background: var(--dl-level1); }
+
+/* Call to action — magenta solid pill (kept from brand) */
+.dButtonCTA {
+  color: #fff;
+  background: var(--dl-magenta);
+  border: none;
+  border-radius: var(--dl-radius-pill);
+  padding: 10px 24px;
+  box-shadow: 0 4px 12px rgba(237,0,140,.3);
+}
+.dButtonCTA:hover  { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(237,0,140,.38); }
+.dButtonCTA:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(237,0,140,.3); }
+
+/* Interface — neutral utility */
+.dButtonInterface {
+  color: var(--dl-text);
+  background: var(--dl-level1);
+  border: none;
+  box-shadow: var(--dl-elev-1);
+}
+.dButtonInterface:hover { background: #e4e9e8; }
+
+/* Icon — circular blue */
+.dButtonIcon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; padding: 0;
+  border-radius: 50%;
+  color: var(--dl-blue);
+  background: #fff;
+  border: var(--dl-border-w) solid var(--dl-blue);
+}
+.dButtonIcon:hover { background: var(--dl-blue); color: #fff; box-shadow: var(--dl-elev-2); }
+
+/* Disabled (any button) */
+.dButton.disabled, .dButton:disabled {
+  color: var(--dl-disabled);
+  border-color: var(--dl-disabled);
+  background: #fff;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Ripple  (Material tap feedback — copied from production)
+   Put .dButton position:relative;overflow:hidden (already set). JS appends
+   a .rippleWave span on click.
+   -------------------------------------------------------------------------- */
+.rippleWave {
+  backface-visibility: hidden;
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0.7);
+  background: #fff;
+  opacity: .45;
+  pointer-events: none;
+  animation: ripple 1s forwards;
+}
+@keyframes ripple { to { transform: scale(24); opacity: 0; } }
+
+/* --------------------------------------------------------------------------
+   Toggle  (on = blue; it's a control/state, not a CTA)
+   -------------------------------------------------------------------------- */
+.dToggle {
+  position: relative; display: inline-block;
+  width: 48px; height: 26px;
+  border-radius: var(--dl-radius-pill);
+  background: var(--dl-level1);
+  border: none; cursor: pointer; padding: 0;
+  transition: background var(--dl-motion) ease;
+  vertical-align: middle;
+}
+.dToggle__knob {
+  position: absolute; top: 3px; left: 3px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #fff; box-shadow: var(--dl-elev-1);
+  transition: transform var(--dl-motion) ease;
+}
+.dToggle.dToggleOn { background: var(--dl-blue); }
+.dToggle.dToggleOn .dToggle__knob { transform: translateX(22px); }
+.dToggle:disabled { opacity: .5; cursor: not-allowed; }
+
+/* --------------------------------------------------------------------------
+   Cards
+   -------------------------------------------------------------------------- */
+.dCard {
+  background: var(--dl-surface);
+  border-radius: var(--dl-radius);
+  padding: var(--dl-pad-lg);
+  box-shadow: var(--dl-elev-2);
+}
+.dCard__header { font-weight: bold; font-size: 16px; color: var(--dl-text); margin-bottom: var(--dl-mb-sm); }
+.dCard__body   { font-size: 14.5px; color: var(--dl-text-muted); line-height: 1.4; }
+/* Current-student card — white bg + blue border */
+.dCard--student { border: var(--dl-border-w) solid var(--dl-blue); }
+
+/* --------------------------------------------------------------------------
+   Tile  (single style per production .dTilePrimary — no state color schemes)
+   White + blue border; fills blue on hover / selected / active.
+   -------------------------------------------------------------------------- */
+.dTile {
+  color: var(--dl-text);
+  background: #fff;
+  border-radius: var(--dl-radius-sm);
+  border: var(--dl-border-w) solid var(--dl-blue);
+  box-shadow: var(--dl-elev-2);
+  padding: var(--dl-pad-lg);
+  cursor: pointer;
+  transition: all var(--dl-motion) ease-in-out;
+}
+.dTile i { color: var(--dl-blue); font-size: 25px; }
+.dTile:hover:not(.disabled),
+.dTile.selected:not(.disabled),
+.dTile:active:not(.disabled) {
+  background: var(--dl-blue);
+  color: #fff;
+  box-shadow: var(--dl-elev-3);
+}
+.dTile:hover:not(.disabled) i,
+.dTile.selected:not(.disabled) i { color: #fff; }
+.dTile.disabled { border-color: var(--dl-disabled); color: var(--dl-disabled); cursor: not-allowed; }
+.dTile.disabled i { color: var(--dl-disabled); }
+
+/* --------------------------------------------------------------------------
+   Select / dropdown  (adapted from production .nice-select)
+   -------------------------------------------------------------------------- */
+.dSelect {
+  position: relative;
+  display: inline-block;
+  min-width: 175px;
+  font-size: 14.5px;
+  color: var(--dl-text);
+  background: #fff;
+  border: var(--dl-border-w) solid var(--dl-blue);
+  border-radius: var(--dl-radius-sm);
+  cursor: pointer;
+  padding: 6px 32px 6px 10px;
+  user-select: none;
+  white-space: nowrap;
+  transition: all var(--dl-motion) ease-in-out;
+}
+.dSelect:hover { background: var(--dl-blue); color: #fff; box-shadow: var(--dl-elev-2); }
+.dSelect::after {
+  content: "";
+  position: absolute; right: 12px; top: 50%;
+  width: 8px; height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-65%) rotate(45deg);
+  transition: transform var(--dl-motion) ease;
+}
+.dSelect.open::after { transform: translateY(-35%) rotate(-135deg); }
+.dSelect__list {
+  display: none;
+  position: absolute; left: 0; top: calc(100% + 4px); z-index: 50;
+  min-width: 100%;
+  background: #fff;
+  color: var(--dl-text);
+  border-radius: var(--dl-radius-sm);
+  box-shadow: var(--dl-elev-3);
+  padding: 4px;
+  max-height: 220px; overflow-y: auto;
+}
+.dSelect.open .dSelect__list { display: block; }
+.dSelect__option {
+  padding: 7px 10px;
+  border-radius: var(--dl-radius-sm);
+  font-size: 14.5px;
+}
+.dSelect__option:hover { background: var(--dl-blue-fill); }
+.dSelect__option.selected { color: var(--dl-blue); font-weight: bold; }
+/* search box inside an open select */
+.dSelect__search {
+  width: 100%;
+  color: var(--dl-text);
+  border: var(--dl-border-w) solid var(--dl-blue);
+  border-radius: var(--dl-radius-sm);
+  font-size: 14.5px;
+  padding: 6px 8px;
+  margin-bottom: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Form fields
+   -------------------------------------------------------------------------- */
+.dLabel { display: block; font-size: 14.5px; color: var(--dl-text); margin-bottom: 6px; }
+.dInput, .dTextarea {
+  width: 100%;
+  font-family: var(--dl-font);
+  font-size: 14.5px;
+  color: var(--dl-text);
+  background: #fff;
+  border: var(--dl-border-w) solid var(--dl-blue);
+  border-radius: var(--dl-radius-sm);
+  padding: 6px 10px;
+  transition: box-shadow var(--dl-motion) ease;
+}
+.dInput::placeholder { color: var(--dl-disabled); }
+.dInput:focus, .dTextarea:focus { outline: none; box-shadow: 0 0 0 3px rgba(24,121,205,.25); }
+.dInput:disabled, .dTextarea:disabled { border-color: var(--dl-disabled); color: var(--dl-disabled); background: #fff; cursor: not-allowed; }
+.dInput:disabled ~ .dLabel, label:has(~ :disabled) { color: var(--dl-disabled); }
+/* native checkbox / radio tinted to blue */
+.dCheck, .dRadio { width: 18px; height: 18px; accent-color: var(--dl-blue); cursor: pointer; vertical-align: middle; }
+.dCheck:disabled, .dRadio:disabled { accent-color: var(--dl-disabled); cursor: not-allowed; }
+.dField { display: flex; align-items: center; gap: 8px; }
+
+/* --------------------------------------------------------------------------
+   Tabs  (active = blue)
+   -------------------------------------------------------------------------- */
+.dTabHeaders { display: flex; gap: 4px; border-bottom: 1px solid var(--dl-border); position: relative; }
+.dTabHeader {
+  font-weight: bold; font-size: 14.5px; letter-spacing: var(--dl-tracking);
+  color: var(--dl-text-muted);
+  padding: var(--dl-pad-md) 18px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: color var(--dl-motion) ease, border-color var(--dl-motion) ease;
+}
+.dTabHeader:hover { color: var(--dl-text); }
+.dTabHeader.selected, .dTabHeader[aria-selected="true"] {
+  color: var(--dl-blue);
+  border-bottom-color: var(--dl-blue);
+}
+.dTabContent { display: none; padding: var(--dl-pad-lg) 0; }
+.dTabContent.dTabContentActive { display: block; }
+
+/* --------------------------------------------------------------------------
+   Tables
+   -------------------------------------------------------------------------- */
+.dTable { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.dTable thead th {
+  text-align: left; font-weight: bold; color: var(--dl-text);
+  padding: var(--dl-pad-md) var(--dl-pad-lg);
+  border-bottom: 2px solid var(--dl-blue);
+}
+.dTable tbody th {
+  text-align: left; font-weight: bold; color: var(--dl-text);
+  background: var(--dl-mint-tint);
+  padding: var(--dl-pad-sm) var(--dl-pad-lg);
+}
+.dTable tbody td { color: var(--dl-text-muted); padding: var(--dl-pad-md) var(--dl-pad-lg); border-bottom: 1px solid var(--dl-border); }
+.dTable tbody tr:hover td { background: var(--dl-level1); }
+
+/* --------------------------------------------------------------------------
+   Message boxes & Tooltips  (info = blue)
+   -------------------------------------------------------------------------- */
+.dMessage {
+  display: flex; gap: var(--dl-pad-md); align-items: flex-start;
+  background: #fff;
+  border: var(--dl-border-w) solid var(--dl-blue);   /* info */
+  border-radius: var(--dl-radius);
+  padding: var(--dl-pad-md) var(--dl-pad-lg);
+  box-shadow: var(--dl-elev-1);
+}
+.dMessage__text { font-size: 12px; color: var(--dl-text-muted); line-height: 1.4; }
+.dMessageSuccess { border-color: var(--dl-green); }
+.dMessageWarning { border-color: var(--dl-warning); }
+.dMessageDanger  { border-color: var(--dl-error); }
+
+.dTooltip {
+  display: inline-block; background: #fff;
+  border: var(--dl-border-w) solid var(--dl-blue);
+  border-radius: var(--dl-radius);
+  padding: var(--dl-pad-sm) var(--dl-pad-md);
+  box-shadow: var(--dl-elev-5);
+  font-size: 12px; color: var(--dl-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Flash messages / toasts  (transient, fixed top-center · from production)
+   -------------------------------------------------------------------------- */
+.dFlash {
+  position: fixed; width: 500px; left: 50%; top: 50px; margin-left: -250px;
+  color: #fff; font-size: 14px; font-weight: bold;
+  padding: 10px 30px 10px 15px;
+  z-index: 10300; word-wrap: break-word; text-align: center;
+  box-shadow: 0 1px 6px rgba(0,0,0,.12), 0 1px 4px rgba(0,0,0,.24);
+  border-radius: 3px;
+}
+.dFlash.fade { opacity: 0; transition: all .5s, width 0s; transform: scale(0.9); }
+.dFlash.fade.in { opacity: 1; transform: scale(1); }
+.dFlashSuccess { background: var(--dl-green); }
+.dFlashError   { background: var(--dl-error); }
+.dFlashWarning { background: var(--dl-warning); }
+.dFlashInfo    { background: var(--dl-blue); }
+@media (max-width: 768px) { .dFlash { left: 10px; right: 10px; top: 10px; margin-left: 0; width: auto; } }
+
+/* --------------------------------------------------------------------------
+   Badges
+   -------------------------------------------------------------------------- */
+.dBadge {
+  display: inline-block; font-size: 12px; font-weight: bold;
+  line-height: 1.4; border-radius: var(--dl-radius-pill);
+  padding: 2px 10px;
+}
+.dBadgeInfo    { background: var(--dl-blue-fill);    color: var(--dl-blue); }
+.dBadgeCTA     { background: var(--dl-magenta-fill); color: var(--dl-magenta); }
+.dBadgeSuccess { background: #e2f4ea;                color: var(--dl-green); }
+.dBadgeNeutral { background: var(--dl-level1);       color: var(--dl-disabled); }
+/* count / notification bubble */
+.dBadgeCount {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  font-size: 11px; font-weight: bold; color: #fff;
+  background: var(--dl-magenta); border-radius: var(--dl-radius-pill);
+}
+
+/* --------------------------------------------------------------------------
+   Progress bars  (default = blue / data)
+   -------------------------------------------------------------------------- */
+.dProgress { width: 100%; height: 20px; background: var(--dl-level1); border-radius: var(--dl-radius-pill); overflow: hidden; }
+.dProgressThick { height: 32px; }
+.dProgress__fill { height: 100%; background: var(--dl-blue); border-radius: var(--dl-radius-pill); transform-origin: left; transition: width 600ms cubic-bezier(.2,.8,.2,1); }
+.dProgress__fill--green   { background: var(--dl-green); }
+.dProgress__fill--magenta { background: var(--dl-magenta); }
+.dProgress__fill--yellow  { background: var(--dl-yellow); }
+
+/* --------------------------------------------------------------------------
+   Drawer  (slide-in panel)
+   -------------------------------------------------------------------------- */
+.dDrawerOverlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dl-motion) ease; z-index: 1100;
+}
+.dDrawerOverlay.open { opacity: 1; pointer-events: auto; }
+.dDrawer {
+  position: fixed; top: 0; right: 0; height: 100%;
+  width: 320px; max-width: 90vw;
+  background: #fff; box-shadow: var(--dl-elev-5);
+  transform: translateX(100%);
+  transition: transform var(--dl-motion) ease;
+  z-index: 1101; padding: var(--dl-pad-lg);
+}
+.dDrawer.open { transform: translateX(0); }
+.dDrawerLeft { right: auto; left: 0; transform: translateX(-100%); }
+.dDrawerLeft.open { transform: translateX(0); }
+
+/* --------------------------------------------------------------------------
+   Modal
+   -------------------------------------------------------------------------- */
+.dModalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,.8); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.dModal { position: relative; background: #fff; border-radius: var(--dl-radius-lg); padding: var(--dl-pad-lg); box-shadow: var(--dl-elev-5); max-width: 540px; width: calc(100% - 40px); }
+.dModal__close { position: absolute; top: var(--dl-pad-md); right: var(--dl-pad-md); width: 32px; height: 32px; border: none; border-radius: 50%; background: var(--dl-level1); color: var(--dl-text); font-size: 1em; cursor: pointer; }
+.dModal__close:hover { background: #e4e9e8; }
+
+/* --------------------------------------------------------------------------
+   Scrollbars
+   -------------------------------------------------------------------------- */
+.dScroll { overflow: auto; scrollbar-width: thin; scrollbar-color: var(--dl-blue) transparent; }
+.dScroll::-webkit-scrollbar { width: 10px; height: 10px; }
+.dScroll::-webkit-scrollbar-track { background: transparent; }
+.dScroll::-webkit-scrollbar-thumb { background: var(--dl-blue); border-radius: var(--dl-radius-pill); border: 2px solid #fff; }
+.dScroll::-webkit-scrollbar-thumb:hover { background: #1366af; }
+
+/* --------------------------------------------------------------------------
+   Highlight mark / stat callout / quote  (emphasis = yellow & magenta)
+   -------------------------------------------------------------------------- */
+.dl-mark { background: var(--dl-yellow); padding: 1px 6px; border-radius: var(--dl-radius-sm); }
+.dl-callout { background: var(--dl-yellow); border-radius: var(--dl-radius); padding: var(--dl-pad-md) var(--dl-pad-lg); font-weight: bold; font-size: 14.5px; color: var(--dl-text); line-height: 1.4; }
+.dl-quote { background: var(--dl-pale-yellow); border-radius: var(--dl-radius); padding: var(--dl-pad-lg); }
+.dl-quote__label { font-weight: bold; font-size: 12px; color: var(--dl-magenta); margin-bottom: var(--dl-pad-sm); }
+.dl-quote__text  { font-style: italic; font-size: 12px; color: var(--dl-text-muted); line-height: 1.4; }

@@ -1,0 +1,31 @@
+@page {
+  margin: 1in;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    break-inside: avoid;
+  }
+
+  .result-row.total {
+    border-top: 2pt solid black;
+    padding-top: 8pt;
+    font-size: 14pt;
+  }
+
+  .prospectus-header h1 {
+    font-size: 20pt;
+  }
+}

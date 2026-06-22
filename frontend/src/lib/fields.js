@@ -1,4 +1,5 @@
 import { formatCurrency } from './pricing.js';
+import { formatDate } from './dates.js';
 
 /** Pain → solution options from migration brief §11 */
 export const PAIN_OPTIONS = [
@@ -58,14 +59,6 @@ export const PILOT_FEE = 5000;
 
 function formatSchoolType(schoolType) {
   return schoolType === 'online' ? 'fully online K-12' : 'traditional K-12';
-}
-
-function formatDate(date) {
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 }
 
 function formatTermYears(years) {
@@ -128,12 +121,16 @@ export function getDefaultQuote() {
     schoolType: 'online',
     students: 0,
     isDistrict: false,
+    isUniversity: false,
     isFirstYear: true,
     years: 1,
+    payUpfront: true,
+    yearlyPayments: [],
     engagementBuilder: true,
     communityBuilder: false,
     controlTowerUltra: false,
     clever: false,
+    cleverSchools: 1,
     sms: false,
     smsFee: 0,
     notes: '',
@@ -146,6 +143,9 @@ export function getDefaultQuote() {
     painPoint3: PAIN_OPTIONS[3].pain,
     peerReference: 'a 5,000-student virtual academy',
     targetGoLive: 'August 2026',
+    includeFreeTrialPage: true,
+    includePilotPage: false,
+    quoteName: '',
     quoteId: '',
   };
 }

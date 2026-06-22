@@ -40,6 +40,24 @@ func TestCalculate_2000Students_EB_CB_3Years(t *testing.T) {
 	}
 }
 
+func TestMultiYearDiscount_2Years(t *testing.T) {
+	q := QuoteInput{
+		SchoolType: SchoolOnline, Students: 1000, Years: 2, IsFirstYear: true,
+		Products: Products{EngagementBuilder: true},
+	}
+	r, err := Calculate(q)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if r.MultiYearDiscount <= 0 {
+		t.Errorf("expected multi-year discount for 2yr term, got %v", r.MultiYearDiscount)
+	}
+	expected := round2(r.ProductSubtotal * 0.025)
+	if r.MultiYearDiscount != expected {
+		t.Errorf("2yr discount: got %v want %v (2.5%% of product subtotal)", r.MultiYearDiscount, expected)
+	}
+}
+
 func TestMultiYearDiscount_5Years(t *testing.T) {
 	q3 := QuoteInput{
 		SchoolType: SchoolOnline, Students: 1000, Years: 3, IsFirstYear: true,
@@ -59,13 +77,23 @@ func TestMultiYearDiscount_5Years(t *testing.T) {
 func TestCleverAddOn(t *testing.T) {
 	q := QuoteInput{
 		SchoolType: SchoolOnline, Students: 1000, Years: 1, IsFirstYear: true,
-		Products: Products{EngagementBuilder: true, Clever: true},
+		Products: Products{EngagementBuilder: true, Clever: true}, CleverSchools: 1,
 	}
 	r, err := Calculate(q)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if r.ModulePrices.Clever != 500 {
-		t.Errorf("clever fee: got %v want 500", r.ModulePrices.Clever)
+		t.Errorf("clever fee (1 school): got %v want 500", r.ModulePrices.Clever)
+	}
+
+	q3 := q
+	q3.CleverSchools = 3
+	r3, err := Calculate(q3)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if r3.ModulePrices.Clever != 1500 {
+		t.Errorf("clever fee (3 schools): got %v want 1500", r3.ModulePrices.Clever)
 	}
 }

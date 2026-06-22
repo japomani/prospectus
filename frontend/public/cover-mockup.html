@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Delphinium — Cover redesign mockup</title>
+<style>
+  :root {
+    --dl-blue: #1879cd;
+    --dl-blue-fill: #e3f0fb;
+    --dl-magenta: #ED008C;
+    --dl-magenta-fill: #fde0f0;
+    --dl-yellow: #FEF200;
+    --dl-green: #00A652;
+    --dl-indigo: #2E3192;
+    --dl-pale-yellow: #FBFAD2;
+    --dl-mint-panel: #B4DED9;
+    --dl-mint-tint: #D2EBE8;
+    --dl-text: #424242;
+    --dl-text-muted: #5b6361;
+    --dl-surface: #ffffff;
+    --dl-border: #e3e7e6;
+    --dl-level1: #eef1f0;
+    --dl-font: 'Trebuchet MS', Tahoma, Helvetica, sans-serif;
+    --dl-radius-sm: 4px;
+    --dl-radius: 6px;
+    --dl-radius-lg: 24px;
+    --dl-radius-pill: 999px;
+    --dl-elev-1: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+    --dl-elev-2: 0 1px 5px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.12);
+    --dl-elev-3: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+    --dl-elev-4: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  }
+
+  * { box-sizing: border-box; font-family: var(--dl-font); }
+  body {
+    margin: 0;
+    background: #cfd4d8;
+    color: var(--dl-text);
+    line-height: 1.5;
+    padding: 40px 20px 80px;
+  }
+
+  .wrap { max-width: 880px; margin: 0 auto; }
+
+  .doc-note {
+    background: #1f2430;
+    color: #fff;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 28px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .doc-note b { color: #ffd84d; }
+  .doc-note code { background: rgba(255,255,255,.12); padding: 1px 6px; border-radius: 4px; font-size: 12.5px; }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #5a6470;
+    margin: 36px 0 12px;
+  }
+
+  /* ---- Sheet (Letter-ish) ---- */
+  .sheet {
+    width: 816px;
+    max-width: 100%;
+    margin: 0 auto;
+    background: var(--dl-mint-tint);
+    border-radius: 4px;
+    box-shadow: var(--dl-elev-4);
+    padding: 52px 60px 40px;
+  }
+
+  /* ---- Intro: brand + school (Tier 1) ---- */
+  .cv-intro { margin-bottom: 22px; }
+  .cv-header { display: flex; align-items: center; gap: 22px; margin-bottom: 20px; }
+  .cv-logo {
+    flex: none; width: 72px; height: 72px; border-radius: 14px;
+    background: var(--dl-indigo);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 34px; font-weight: bold;
+  }
+  .cv-tagline { font-size: 16px; color: var(--dl-text-muted); line-height: 1.2; }
+  .cv-headline { font-size: 26px; font-weight: bold; color: var(--dl-text); line-height: 1.08; }
+  .cv-accent { color: var(--dl-magenta); }
+  .cv-kicker {
+    font-size: 11px; font-weight: bold; letter-spacing: 1.6px;
+    text-transform: uppercase; color: var(--dl-blue); margin-bottom: 4px;
+  }
+  .cv-intro > .cv-kicker { margin-top: 14px; }
+  .cv-school {
+    font-size: 38px; font-weight: bold; color: var(--dl-indigo);
+    line-height: 1.05; letter-spacing: -0.3px;
+  }
+  .cv-story-lead {
+    font-size: 17px;
+    font-weight: normal;
+    line-height: 1.5;
+    color: var(--dl-text);
+    margin: 18px auto 4px;
+    padding: 14px 0;
+    max-width: 35em;
+    text-align: center;
+    text-wrap: balance;
+    border-top: 2px solid color-mix(in srgb, var(--dl-indigo) 18%, transparent);
+    border-bottom: 2px solid color-mix(in srgb, var(--dl-indigo) 18%, transparent);
+  }
+
+  /* ---- Story zone: proof + narrative (Tier 2 — one container) ---- */
+  .cv-story {
+    background: var(--dl-surface);
+    border-radius: var(--dl-radius);
+    box-shadow: var(--dl-elev-3);
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .cv-story-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 0;
+  }
+  .cv-stat-tower {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 10px;
+    background: color-mix(in srgb, var(--dl-pale-yellow) 55%, #fff);
+    border-right: 1px solid #e6e2cf;
+    text-align: center;
+  }
+  .cv-stat-num {
+    font-size: 56px;
+    font-weight: bold;
+    line-height: .9;
+    color: var(--dl-indigo);
+    letter-spacing: -2px;
+  }
+  .cv-stat-label {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+    color: var(--dl-text);
+    margin-top: 4px;
+    line-height: 1.2;
+  }
+  .cv-stat-src {
+    font-size: 10px;
+    line-height: 1.2;
+    color: var(--dl-text-muted);
+    margin-top: 6px;
+    white-space: nowrap;
+  }
+  .cv-story-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .cv-quote-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    padding: 12px 22px 14px;
+    background: color-mix(in srgb, var(--dl-magenta-fill) 45%, #fff);
+    border-left: 3px solid var(--dl-magenta);
+  }
+  .cv-quote-tx {
+    font-size: 14.5px;
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--dl-text);
+    margin: 0;
+  }
+  .cv-quote-by {
+    font-size: 11.5px;
+    font-weight: bold;
+    color: var(--dl-magenta);
+    margin-top: 8px;
+  }
+
+  /* Trust badges — separate cards below story */
+  .cv-trust-cards {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .cv-trust-card {
+    flex: 1 1 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 11px 14px;
+    min-width: 0;
+    background: var(--dl-surface);
+    border: 1px solid var(--dl-border);
+    border-radius: var(--dl-radius);
+    box-shadow: var(--dl-elev-1);
+  }
+  .cv-trust-ic {
+    flex: none; width: 26px; height: 26px; border-radius: 50%;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--dl-elev-1);
+  }
+  .cv-trust-ic svg { width: 14px; height: 14px; stroke: var(--dl-indigo); }
+  .cv-trust-tx { font-size: 11.5px; font-weight: bold; color: var(--dl-text); line-height: 1.25; }
+  .cv-trust-tx span { display: block; font-weight: normal; color: var(--dl-text-muted); font-size: 10.5px; margin-top: 2px; line-height: 1.3; }
+
+  /* ---- Package: tier label + products/price card (Tier 3) ---- */
+  .cv-package {
+    background: var(--dl-surface);
+    border-radius: var(--dl-radius);
+    box-shadow: var(--dl-elev-2);
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+  .cv-package-head {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--dl-blue);
+    margin: 14px 0 10px;
+    padding: 0;
+  }
+  .cv-index { display: flex; flex-direction: column; }
+  .cv-index-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--dl-border);
+    border-left: 4px solid var(--rc);
+    background: color-mix(in srgb, var(--rc) 6%, #fff);
+  }
+  .cv-index-row:last-child { border-bottom: none; }
+  .cv-index-ic {
+    flex: none; width: 28px; height: 28px; border-radius: 50%;
+    background: color-mix(in srgb, var(--rc) 12%, #fff);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cv-index-ic svg { width: 15px; height: 15px; stroke: var(--rc); }
+  .cv-index-tx { flex: 1 1 auto; min-width: 0; }
+  .cv-index-name {
+    font-size: 14px; font-weight: bold; color: var(--dl-text);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cv-pill {
+    font-size: 9.5px; font-weight: bold; border-radius: 999px; padding: 2px 8px;
+    color: color-mix(in srgb, var(--rc) 72%, #000);
+    background: color-mix(in srgb, var(--rc) 14%, #fff);
+  }
+  .cv-index-desc { font-size: 11.5px; color: var(--dl-text-muted); margin-top: 1px; line-height: 1.35; }
+  .cv-index-ref {
+    flex: none; font-size: 11px; font-weight: bold; color: var(--dl-text-muted);
+  }
+
+  .cv-package-price {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    background: var(--dl-indigo);
+    color: #fff;
+  }
+  .cv-package-price-label {
+    font-size: 10px; font-weight: bold; letter-spacing: .9px;
+    text-transform: uppercase; color: rgba(255,255,255,.75);
+    margin-bottom: 3px;
+  }
+  .cv-package-price-amt {
+    font-size: 30px; font-weight: bold; line-height: 1; color: #fff;
+  }
+  .cv-package-price-amt small { font-size: 14px; font-weight: bold; color: rgba(255,255,255,.7); }
+  .cv-package-save {
+    font-size: 11.5px; font-weight: bold; color: var(--dl-indigo);
+    background: var(--dl-pale-yellow);
+    border-radius: 999px; padding: 5px 12px;
+  }
+  .cv-package-link {
+    margin-left: auto; font-size: 12px; font-weight: bold;
+    color: rgba(255,255,255,.92);
+  }
+  .cv-package-link:hover { color: #fff; }
+
+  .cv-footer { margin-top: 20px; font-size: 12px; color: var(--dl-text-muted); line-height: 1.5; }
+  .cv-footer b { color: var(--dl-text); }
+  .cv-foot-note { font-size: 11px; color: var(--dl-text-muted); margin-top: 8px; line-height: 1.45; }
+
+  /* Legacy gallery styles (options section below) */
+  .cv-trust { display: flex; gap: 10px; margin-top: 14px; }
+  .cv-trust-item {
+    flex: 1 1 0; display: flex; align-items: center; gap: 10px;
+    background: var(--dl-surface); border: 1px solid rgba(46,49,146,.12);
+    border-radius: var(--dl-radius); box-shadow: var(--dl-elev-1);
+    padding: 9px 14px;
+  }
+
+  /* ---- Options gallery ---- */
+  .opt { background: #fff; border-radius: 10px; box-shadow: var(--dl-elev-2); padding: 20px 22px; margin-bottom: 16px; }
+  .opt-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+  .opt-tag { font-size: 11px; font-weight: bold; color: #fff; background: var(--dl-indigo); border-radius: 999px; padding: 2px 10px; }
+  .opt-tag.rec { background: var(--dl-magenta); }
+  .opt-title { font-size: 15px; font-weight: bold; color: var(--dl-text); }
+  .opt-note { font-size: 12.5px; color: var(--dl-text-muted); margin-top: 10px; }
+  .demo { background: var(--dl-mint-tint); border-radius: 8px; padding: 16px; }
+
+  /* Option A: stat chips */
+  .optA { display: flex; gap: 10px; }
+  .optA .chip { flex: 1 1 0; background: #fff; border: 1px solid rgba(46,49,146,.12); border-radius: 6px; box-shadow: var(--dl-elev-1); padding: 9px 14px; }
+  .optA .chip b { display: block; font-size: 14.5px; color: var(--dl-indigo); }
+  .optA .chip span { font-size: 11.5px; color: var(--dl-text-muted); }
+
+  /* Option C: inline */
+  .optC { font-size: 14px; font-weight: bold; color: var(--dl-text); text-align: center; }
+  .optC .dot { color: var(--dl-mint-panel); margin: 0 10px; }
+  .optC .chk { color: var(--dl-green); margin-right: 5px; }
+
+  /* Option D: testimonial */
+  .optD { background: var(--dl-pale-yellow); border-radius: 6px; padding: 14px 18px; }
+  .optD .q { font-style: italic; font-size: 14.5px; color: var(--dl-text); }
+  .optD .a { font-size: 12px; font-weight: bold; color: var(--dl-magenta); margin-top: 6px; }
+
+  /* Option E: credibility bar */
+  .optE { display: flex; flex-wrap: wrap; gap: 8px; }
+  .optE .badge { font-size: 12px; font-weight: bold; color: var(--dl-text); background: #fff; border: 1px solid var(--dl-border); border-radius: 999px; padding: 5px 13px; box-shadow: var(--dl-elev-1); }
+  .optE .badge svg { width: 13px; height: 13px; stroke: var(--dl-indigo); vertical-align: -2px; margin-right: 5px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="doc-note">
+    <b>Cover redesign mockup.</b> Static, brand-accurate concept — not the live React page.
+    The top sheet uses a <b>three-tier hierarchy</b>: intro (brand + school), one unified story
+    block (stat + quote + trust strip), and one package card (products + price).
+    Below is a gallery of alternate proof-strip options. Open this file directly or via the dev server.
+    Nothing in the app changed yet.
+  </div>
+
+  <!-- ============ RECOMMENDED COVER ============ -->
+  <div class="section-label">Recommended cover</div>
+  <div class="sheet">
+
+    <!-- Tier 1: brand + school -->
+    <div class="cv-intro">
+      <div class="cv-header">
+        <div class="cv-logo">✿</div>
+        <div>
+          <div class="cv-tagline">Canvas delivers content.</div>
+          <div class="cv-headline">Delphinium delivers <span class="cv-accent">ENGAGEMENT.</span></div>
+        </div>
+      </div>
+      <div class="cv-kicker">Prospectus prepared for</div>
+      <div class="cv-school">Evergreen Academy</div>
+      <p class="cv-story-lead">Delphinium transforms the Canvas courses schools already have into engaging experiences for students and early-warning systems for parents and teachers.</p>
+    </div>
+
+    <!-- Tier 2: story (stat + quote) -->
+    <div class="cv-story">
+      <div class="cv-story-grid">
+        <div class="cv-stat-tower">
+          <div class="cv-stat-num">31%</div>
+          <div class="cv-stat-label">fewer failures</div>
+          <div class="cv-stat-src">6,000 online students • 72 classes</div>
+        </div>
+        <div class="cv-story-body">
+          <blockquote class="cv-quote-block">
+            <p class="cv-quote-tx">“We can confidently say that we're seeing better success with Delphinium… we improved significantly.”</p>
+            <div class="cv-quote-by">— Ryan Hansen, Digital Learning Director, Davis School District</div>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-trust-cards">
+      <div class="cv-trust-card">
+        <span class="cv-trust-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M9 13a4.5 4.5 0 0 0 3-4"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M12 13h4"/><path d="M12 18h4"/><path d="m17 8-1.5 1.5"/><path d="M14 8l1.5 1.5"/><path d="m15.004 4.136-.5 2.5"/></svg></span>
+        <div class="cv-trust-tx">Built on science<span>14 years of published behavioral research</span></div>
+      </div>
+      <div class="cv-trust-card">
+        <span class="cv-trust-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+        <div class="cv-trust-tx">Lightning fast setup<span>Transform your class instantly — just turn Delphinium on</span></div>
+      </div>
+      <div class="cv-trust-card">
+        <span class="cv-trust-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V7"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="m9 10 2 2 4-4"/></svg></span>
+        <div class="cv-trust-tx">Zero learning curve<span>Teachers keep using Canvas exactly as before</span></div>
+      </div>
+    </div>
+
+    <!-- Tier 3: package label + products/price card -->
+    <div class="cv-package-head">What Evergreen Academy gets</div>
+    <div class="cv-package">
+      <div class="cv-index">
+        <div class="cv-index-row" style="--rc: #00A652;">
+          <span class="cv-index-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><circle cx="8" cy="12" r="6"/><circle cx="16" cy="12" r="6"/></svg></span>
+          <div class="cv-index-tx">
+            <div class="cv-index-name">Delphinium Core</div>
+            <div class="cv-index-desc">See every student and act on it, seamless Canvas integration, and full support.</div>
+          </div>
+          <span class="cv-index-ref">p.2</span>
+        </div>
+        <div class="cv-index-row" style="--rc: #1879cd;">
+          <span class="cv-index-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L19.7 9 15 12.5l1.8 5.8L12 14.8 7.2 18.3 9 12.5 4.3 9l5.8-.2z"/></svg></span>
+          <div class="cv-index-tx">
+            <div class="cv-index-name">Engagement Builder</div>
+            <div class="cv-index-desc">Turn the gray wall of text into a course students actually want to open.</div>
+          </div>
+          <span class="cv-index-ref">p.3</span>
+        </div>
+        <div class="cv-index-row" style="--rc: #2E3192;">
+          <span class="cv-index-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M15.5 14.2c2.5.4 4.5 2.4 4.5 5.8"/></svg></span>
+          <div class="cv-index-tx">
+            <div class="cv-index-name">Community Builder</div>
+            <div class="cv-index-desc">Reach the right families at the right moment, without the manual email.</div>
+          </div>
+          <span class="cv-index-ref">p.4</span>
+        </div>
+      </div>
+      <div class="cv-package-price">
+        <div>
+          <div class="cv-package-price-label">Your investment</div>
+          <div class="cv-package-price-amt">$16,164<small> / year</small></div>
+        </div>
+        <span class="cv-package-save">Save $29,508 over 3 years</span>
+        <span class="cv-package-link">Full breakdown on p.10</span>
+      </div>
+    </div>
+
+    <div class="cv-footer">
+      Prepared by <b>Jared Chapman</b>, Chief Innovation Officer, Delphinium, on Jun 20, '26.
+      <b>Pricing held until Jul 20, '26.</b>
+      <div class="cv-foot-note">This proposal is confidential and prepared exclusively for Evergreen Academy. The pricing and terms within apply only to Evergreen Academy and are not to be shared outside your organization.</div>
+    </div>
+  </div>
+
+  <!-- ============ OPTIONS FOR THE "CHECKBOXES" ============ -->
+  <div class="section-label">Options for the proof strip (the “checkboxes”)</div>
+
+  <div class="opt">
+    <div class="opt-head"><span class="opt-tag">A</span><span class="opt-title">Proof-stat chips (current direction)</span></div>
+    <div class="demo">
+      <div class="optA">
+        <div class="chip"><b>72%</b><span>of students say it's more motivating</span></div>
+        <div class="chip"><b>No migration</b><span>nothing new for teachers to learn</span></div>
+        <div class="chip"><b>Saturday nights</b><span>handed back to your teachers</span></div>
+      </div>
+    </div>
+    <div class="opt-note">Punchy and scannable. Risk: three bold stats compete with the 31% hero right above. Best if the hero is visually dominant.</div>
+  </div>
+
+  <div class="opt">
+    <div class="opt-head"><span class="opt-tag rec">B · recommended</span><span class="opt-title">Icon + label trust badges</span></div>
+    <div class="demo">
+      <div class="cv-trust">
+        <div class="cv-trust-item"><span class="cv-trust-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span><div class="cv-trust-tx">Lightning fast setup<span>Transform your class instantly — just turn Delphinium on</span></div></div>
+        <div class="cv-trust-item"><span class="cv-trust-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V7"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="m9 10 2 2 4-4"/></svg></span><div class="cv-trust-tx">Zero learning curve<span>Teachers keep using Canvas exactly as before</span></div></div>
+        <div class="cv-trust-item"><span class="cv-trust-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M9 13a4.5 4.5 0 0 0 3-4"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M12 13h4"/><path d="M12 18h4"/><path d="m17 8-1.5 1.5"/><path d="M14 8l1.5 1.5"/><path d="m15.004 4.136-.5 2.5"/></svg></span><div class="cv-trust-tx">Built on science<span>14 years of published behavioral research</span></div></div>
+      </div>
+    </div>
+    <div class="opt-note">Reads as reassurance/“trust badges,” not competing proof. Subordinate to the hero, answers the top three institutional objections (migration, adoption, effort). Strongest pairing with the 31% hero.</div>
+  </div>
+
+  <div class="opt">
+    <div class="opt-head"><span class="opt-tag">C</span><span class="opt-title">Single quiet trust line</span></div>
+    <div class="demo">
+      <div class="optC"><span class="chk">✓</span>No migration <span class="dot">·</span> <span class="chk">✓</span>Nothing new to learn <span class="dot">·</span> <span class="chk">✓</span>Just turn it on</div>
+    </div>
+    <div class="opt-note">Most minimal/premium and saves the most vertical space — frees room so the cover breathes. Lower emphasis; relies on the hero to carry the proof.</div>
+  </div>
+
+  <div class="opt">
+    <div class="opt-head"><span class="opt-tag">D</span><span class="opt-title">Testimonial (social proof)</span></div>
+    <div class="demo">
+      <div class="optD">
+        <div class="q">“Delphinium has saved most of my Saturday nights. The ease gives me much more time to work one-on-one with my students.”</div>
+        <div class="a">— Natalie Niederhauser, High School Math Teacher, Davis Connect</div>
+      </div>
+    </div>
+    <div class="opt-note">A named quote is the highest-trust signal per the research. Adds a human/time-savings proof distinct from the 31% outcome stat. Could sit beside the hero or replace one chip row.</div>
+  </div>
+
+  <div class="opt">
+    <div class="opt-head"><span class="opt-tag">E</span><span class="opt-title">Credibility / methodology bar</span></div>
+    <div class="demo">
+      <div class="optE">
+        <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M4 19V5l8-3 8 3v14"/><path d="M4 19h16"/></svg>14 years of published research</span>
+        <span class="badge">PhD-led behavioral science</span>
+        <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>FERPA-ready · hosted on AWS</span>
+        <span class="badge">Built on Canvas LTI 1.3</span>
+      </div>
+    </div>
+    <div class="opt-note">Speaks to procurement/IT due-diligence (the “3-minute trust test”). Best if your buyer skews district-admin/IT. Can also live near the Security page rather than the cover.</div>
+  </div>
+
+</div>
+</body>
+</html>

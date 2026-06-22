@@ -76,26 +76,43 @@ function calculateImplementationFee(normalizedSubtotal) {
   return 2950;
 }
 
-function calculateMultiYearDiscount(subtotal, years) {
-  if (years === 3) return safeMultiply(subtotal, 0.05);
-  if (years === 5) return safeMultiply(subtotal, 0.1);
+export function getMultiYearDiscountPercent(years) {
+  if (years === 2) return 2.5;
+  if (years === 3) return 5;
+  if (years === 5) return 10;
   return 0;
+}
+
+function calculateMultiYearDiscount(subtotal, years) {
+  const rate = getMultiYearDiscountPercent(years) / 100;
+  if (!rate) return 0;
+  return safeMultiply(subtotal, rate);
 }
 
 function getActiveProducts(quote) {
   return PRODUCT_KEYS.filter(key => Boolean(quote[key]));
 }
 
-function processCustomItems(customItems, subtotalAfterMultiProduct) {
+function computeCustomItemValue(item, percentBase) {
+  const amount = Number(item.amount) || 0;
+  let value;
+  if (item.isPercent) {
+    value = safeMultiply(percentBase, amount / 100);
+  } else {
+    value = amount;
+  }
+  return item.isDiscount ? -Math.abs(value) : Math.abs(value);
+}
+
+function processCustomItems(customItems, annualPercentBase, oneTimePercentBase) {
   return (customItems || []).map(item => {
-    const amount = Number(item.amount) || 0;
-    let value;
-    if (item.isPercent) {
-      value = safeMultiply(subtotalAfterMultiProduct, amount / 100);
-    } else {
-      value = amount;
-    }
-    return { ...item, computedValue: item.isDiscount ? -Math.abs(value) : Math.abs(value) };
+    const isOneTime = Boolean(item.isOneTime);
+    const percentBase = isOneTime ? oneTimePercentBase : annualPercentBase;
+    return {
+      ...item,
+      isOneTime,
+      computedValue: computeCustomItemValue(item, percentBase),
+    };
   });
 }
 
@@ -125,29 +142,46 @@ export function calculatePricing(quote) {
 
   const productSubtotal = round2(licensePerProduct * productCount);
   const volumeDiscount = calculateVolumeDiscount(students, productSubtotal);
+  const volumeDiscountPercent =
+    productSubtotal > 0 ? Math.round((volumeDiscount / productSubtotal) * 100) : 0;
   const subtotalAfterVolume = round2(productSubtotal - volumeDiscount);
 
   const multiProductDiscount =
-    productCount >= 2 ? safeMultiply(subtotalAfterVolume, 0.1) : 0;
+    productCount >= 2 ? safeMultiply(productSubtotal, 0.1) : 0;
   const subtotalAfterMultiProduct = round2(subtotalAfterVolume - multiProductDiscount);
 
   const normalizedSubtotal = productCount > 0 ? subtotalAfterVolume / productCount : 0;
   const implementationFee = isFirstYear ? calculateImplementationFee(normalizedSubtotal) : 0;
 
-  const processedCustomItems = processCustomItems(customItems, subtotalAfterMultiProduct);
-  const customItemsTotal = processedCustomItems.reduce((sum, i) => sum + i.computedValue, 0);
-
-  const cleverFee = quote.clever ? CLEVER_FEE_FLAT : 0;
+  const cleverSchools = quote.clever ? Math.max(1, Number(quote.cleverSchools) || 1) : 0;
+  const cleverFee = quote.clever ? CLEVER_FEE_FLAT * cleverSchools : 0;
   const smsFee = quote.sms ? (Number(quote.smsFee) || 0) : 0;
   const addOnTotal = round2(cleverFee + smsFee);
 
-  const annualBase = round2(subtotalAfterMultiProduct + customItemsTotal + addOnTotal);
-  const multiYearDiscount = calculateMultiYearDiscount(annualBase, years);
-  const annualTotal = round2(annualBase - multiYearDiscount);
+  const multiYearDiscount = calculateMultiYearDiscount(productSubtotal, years);
+  const subtotalAfterMultiYear = round2(subtotalAfterMultiProduct - multiYearDiscount);
+
+  const oneTimePercentBase = round2(
+    (subtotalAfterMultiYear + addOnTotal) * years + implementationFee,
+  );
+  const processedCustomItems = processCustomItems(
+    customItems,
+    subtotalAfterMultiProduct,
+    oneTimePercentBase,
+  );
+  const annualCustomTotal = round2(
+    processedCustomItems.filter(i => !i.isOneTime).reduce((sum, i) => sum + i.computedValue, 0),
+  );
+  const dealCustomTotal = round2(
+    processedCustomItems.filter(i => i.isOneTime).reduce((sum, i) => sum + i.computedValue, 0),
+  );
+
+  const annualBase = round2(subtotalAfterMultiYear + annualCustomTotal + addOnTotal);
+  const annualTotal = annualBase;
 
   const listTotal = round2(productSubtotal + addOnTotal);
   const annualSavings = round2(listTotal - annualTotal);
-  const grandTotal = round2(annualTotal * years + implementationFee);
+  const grandTotal = round2(annualTotal * years + implementationFee + dealCustomTotal);
   const listGrandTotal = round2(listTotal * years + implementationFee);
   const totalSavings = round2(listGrandTotal - grandTotal);
 
@@ -162,7 +196,7 @@ export function calculatePricing(quote) {
       year: y,
       license: annualTotal,
       implementation: y === 1 ? implementationFee : 0,
-      total: round2(annualTotal + (y === 1 ? implementationFee : 0)),
+      total: round2(annualTotal + (y === 1 ? implementationFee + dealCustomTotal : 0)),
     });
   }
 
@@ -170,11 +204,15 @@ export function calculatePricing(quote) {
     productLicenses,
     productSubtotal,
     volumeDiscount,
+    volumeDiscountPercent,
     subtotalAfterVolume,
     multiProductDiscount,
     subtotalAfterMultiProduct,
+    subtotalAfterMultiYear,
     implementationFee,
     customItems: processedCustomItems,
+    annualCustomTotal,
+    dealCustomTotal,
     annualBase,
     multiYearDiscount,
     annualTotal,
@@ -184,6 +222,7 @@ export function calculatePricing(quote) {
     totalSavings,
     annualSavings,
     cleverFee,
+    cleverSchools,
     smsFee,
     addOnTotal,
     yearBreakdowns,
@@ -197,6 +236,54 @@ export function calculatePricing(quote) {
     termTotal: round2(annualTotal * years),
     listTermTotal: round2(listTotal * years),
   };
+}
+
+/** Default yearly schedule: license split evenly; implementation fee in year 1 only. */
+export function buildDefaultYearlyPayments(results) {
+  const years = results.years;
+  if (years <= 1) return [];
+
+  const licensePerYear = round2(results.termTotal / years);
+  const editable = [];
+  for (let i = 0; i < years - 1; i += 1) {
+    editable.push(
+      i === 0
+        ? round2(licensePerYear + results.implementationFee + (results.dealCustomTotal || 0))
+        : licensePerYear,
+    );
+  }
+  return editable;
+}
+
+/**
+ * Resolve display schedule for multi-year quotes when pay-upfront is off.
+ * Years 1..N-1 come from quote.yearlyPayments (or defaults); year N is the remainder.
+ */
+export function resolveYearlyPaymentSchedule(quote, results) {
+  const years = results.years;
+  if (years <= 1 || quote.payUpfront !== false) return [];
+
+  let editable = quote.yearlyPayments;
+  if (!Array.isArray(editable) || editable.length !== years - 1) {
+    editable = buildDefaultYearlyPayments(results);
+  }
+
+  const sumPrevious = editable.reduce((sum, amt) => round2(sum + (Number(amt) || 0)), 0);
+  const finalYear = round2(results.grandTotal - sumPrevious);
+
+  const schedule = editable.map((amount, index) => ({
+    year: index + 1,
+    amount: round2(Number(amount) || 0),
+    editable: true,
+    isRemainder: false,
+  }));
+  schedule.push({
+    year: years,
+    amount: finalYear,
+    editable: false,
+    isRemainder: true,
+  });
+  return schedule;
 }
 
 /** @deprecated Use calculatePricing(quote) instead */

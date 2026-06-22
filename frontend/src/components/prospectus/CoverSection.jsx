@@ -1,281 +1,249 @@
+import { BookOpenCheck, BrainCircuit, Zap } from 'lucide-react';
+import CoverProductPage from './CoverProductPage.jsx';
+import CoverModuleIcon from './CoverModuleIcon.jsx';
 import { Field } from './Field.jsx';
+import { selectedAddons, selectedModules } from '../../lib/productCatalog.js';
 
-const MODULES = [
+const STORY_LEAD_K12 =
+  'Delphinium transforms the Canvas courses schools already have into engaging experiences for students and early-warning systems for parents and teachers.';
+
+const STORY_LEAD_UNIVERSITY =
+  'Delphinium transforms the Canvas courses schools already have into engaging experiences for students and early-warning systems for teachers.';
+
+function storyLeadForQuote(quote) {
+  return quote?.isUniversity ? STORY_LEAD_UNIVERSITY : STORY_LEAD_K12;
+}
+
+const COVER_QUOTE = {
+  text: '\u201cWe can confidently say that we\u2019re seeing better success with Delphinium\u2026 we improved significantly.\u201d',
+  attribution: '\u2014 Ryan Hansen, Digital Learning Director, Davis School District',
+};
+
+const TRUST_BADGES = [
   {
-    key: 'core',
-    dot: '#00A652',
-    name: 'Delphinium Core',
-    benefit: 'Student data at a glance — the foundation in every plan.',
-    features: [
-      'Control Tower: engagement, progress & performance',
-      'Assignment & class stats, message history',
-      'Data management and support',
-    ],
-    included: true,
-    priceKey: null,
-    quoteKey: null,
+    key: 'science',
+    Icon: BrainCircuit,
+    label: 'Built on science',
+    sub: '14 years of published behavioral research',
   },
   {
-    key: 'eb',
-    dot: '#1879cd',
-    name: 'Engagement Builder',
-    benefit: 'Turn the gray wall into an experience students want to open.',
-    features: ['3-minute Makeover', 'Gamification & Who\'s Near Me', 'Parent view, Periscope, Layout Editor'],
-    quoteKey: 'engagementBuilder',
-    priceKey: 'EB_PRICE',
+    key: 'setup',
+    Icon: Zap,
+    label: 'Lightning fast setup',
+    sub: 'Transform your class instantly \u2014 just turn Delphinium on',
   },
   {
-    key: 'cb',
-    dot: '#F1EC1C',
-    name: 'Community Builder',
-    benefit: 'Reach the right families without drowning in manual email.',
-    features: ['Message Center: scheduled & targeted', 'Templates, blocks, banners', 'Auto-translation, 160 languages'],
-    quoteKey: 'communityBuilder',
-    priceKey: 'CB_PRICE',
-  },
-  {
-    key: 'ctu',
-    dot: '#ED008C',
-    name: 'Control Tower Ultra',
-    benefit: 'Cross-course visibility for students, parents, teachers, and admins.',
-    features: ['Cross-course visibility', 'Students, parents, teachers, admins', 'Research access'],
-    quoteKey: 'controlTowerUltra',
-    priceKey: 'CTU_PRICE',
+    key: 'curve',
+    Icon: BookOpenCheck,
+    label: 'Zero learning curve',
+    sub: 'Teachers keep using Canvas exactly as before',
   },
 ];
 
-export default function CoverSection({ fields, quote, highlightFields }) {
-  const studentLabel = fields.STUDENT_COUNT || 'your';
+export default function CoverSection({ fields, quote, pricing, highlightFields }) {
+  const modules = selectedModules(quote);
+
+  const years = Number(quote.years) || 1;
+  const isMultiYear = years > 1;
+  const hasSavings = Boolean(pricing && pricing.totalSavings > 0);
+
+  const productPage = index => index + 2;
+  const coverSheetCount = 1 + modules.length;
+  const hasAddons = selectedAddons(quote).length > 0;
+  const pricingPage = coverSheetCount + (hasAddons ? 4 : 3);
 
   return (
-    <section className="sheet sheet-dark cover-section" style={{ background: '#3A3A47' }}>
-      <div className="page-label screen-only" style={{ color: '#9d99c8' }}>01 · Cover</div>
+    <>
+      <section className="sheet sheet-mint cover-section cover-page-1">
+        <div className="page-label screen-only page-label-mint">01 · Cover</div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '36px' }}>
-        <div style={{
-          background: 'rgba(255,255,255,.96)',
-          borderRadius: '8px',
-          padding: '8px 14px',
-          flex: 'none',
-          display: 'inline-block',
-        }}
-        >
-          <img src="/logo.png" alt="Delphinium" style={{ height: '58px', width: 'auto', display: 'block' }} />
-        </div>
-        <div>
-          <div style={{ fontSize: '17px', fontWeight: 'bold', color: 'rgba(255,255,255,.65)', lineHeight: 1.2 }}>
-            Canvas delivers content.
+        <div className="cover-intro">
+          <div className="dRow cover-header-row">
+            <img
+              src="/logo.png"
+              alt="Delphinium"
+              className="cover-logo"
+            />
+            <div>
+              <div className="cover-tagline-muted">Canvas delivers content.</div>
+              <div className="cover-headline">
+                Delphinium delivers <span className="dl-accent">ENGAGEMENT.</span>
+              </div>
+            </div>
           </div>
-          <div style={{ fontSize: '31px', fontWeight: 'bold', color: '#fff', lineHeight: 1.08 }}>
-            Delphinium delivers <span style={{ color: '#ED008C' }}>ENGAGEMENT!</span>
+
+          <div className="cover-kicker">Prospectus prepared for</div>
+          <div className="cover-school-name">
+            <Field value={fields.SCHOOL_NAME} highlight={highlightFields} />
+          </div>
+          <p className="cover-story-lead">{storyLeadForQuote(quote)}</p>
+        </div>
+
+        <div className="keep cover-story">
+          <div className="cover-story-grid">
+            <div className="cover-stat-tower">
+              <div className="cover-stat-num">31%</div>
+              <div className="cover-stat-label">fewer failures</div>
+              <div className="cover-stat-src">6,000 online students &bull; 72 classes</div>
+            </div>
+            <div className="cover-story-body">
+              <blockquote className="cover-quote-block">
+                <p className="cover-quote-tx">{COVER_QUOTE.text}</p>
+                <div className="cover-quote-by">{COVER_QUOTE.attribution}</div>
+              </blockquote>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div style={{
-        fontSize: '12px',
-        fontWeight: 'bold',
-        letterSpacing: '1.6px',
-        textTransform: 'uppercase',
-        color: '#B4DED9',
-        marginBottom: '8px',
-      }}
-      >
-        Prospectus prepared for
-      </div>
-      <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#fff', marginBottom: '28px' }}>
-        <Field value={fields.SCHOOL_NAME} highlight={highlightFields} />
-      </div>
-
-      <div className="keep cover-proof" style={{
-        background: '#fff',
-        borderRadius: '6px',
-        padding: '22px 24px',
-        marginBottom: '20px',
-        boxShadow: '0 4px 18px rgba(0,0,0,.30)',
-      }}
-      >
-        <div style={{ fontSize: '11px', fontWeight: 'bold', letterSpacing: '1.4px', textTransform: 'uppercase', color: '#1879cd', marginBottom: '8px' }}>
-          Fewer failures
+        <div className="cover-trust-cards">
+          {TRUST_BADGES.map(({ key, Icon, label, sub }) => (
+            <div key={key} className="cover-trust-card">
+              <span className="cover-trust-ic">
+                <Icon size={14} color="var(--dl-indigo)" strokeWidth={2.2} />
+              </span>
+              <div className="cover-trust-tx">
+                {label}
+                <span>{sub}</span>
+              </div>
+            </div>
+          ))}
         </div>
-        <div style={{ fontSize: '46px', fontWeight: 'bold', color: '#1879cd', lineHeight: 1 }}>31%</div>
-        <div style={{ fontSize: '14px', color: '#424242', marginTop: '8px', lineHeight: 1.5 }}>
-          decrease in course failure rates — at {studentLabel} students, that is real seats saved and dollars multiplied across everything you already spend on teachers, content, and technology.
-        </div>
-      </div>
 
-      <div className="keep cover-setup-strip" style={{
-        display: 'flex',
-        gap: '12px',
-        flexWrap: 'wrap',
-        marginBottom: '24px',
-      }}
-      >
-        {['3-minute setup per course', 'No migration required', 'Nothing new for teachers to learn'].map(label => (
-          <div
-            key={label}
-            style={{
-              background: 'rgba(255,255,255,.12)',
-              border: '1px solid rgba(255,255,255,.22)',
-              borderRadius: '4px',
-              padding: '8px 14px',
-              fontSize: '12.5px',
-              fontWeight: 'bold',
-              color: '#fff',
-            }}
-          >
-            <span style={{ color: '#00A652' }}>✓</span>
+        <div className="cover-package-head">
+          What
+          {' '}
+          <Field value={fields.SCHOOL_NAME} highlight={highlightFields} />
+          {' '}
+          gets
+        </div>
+
+        <div className="keep cover-package">
+          <div className="cover-index">
+            {modules.map((mod, index) => (
+              <div
+                key={mod.key}
+                className={`cover-index-row${mod.includedLabel ? ' cover-index-row--included' : ''}`}
+                style={{ '--product-color': mod.color }}
+              >
+                <span className="cover-index-icon">
+                  <CoverModuleIcon moduleKey={mod.key} color={mod.color} />
+                </span>
+                <div className="cover-index-text">
+                  <div className="cover-index-name-row">
+                    <span className="cover-index-name">{mod.name}</span>
+                  </div>
+                  {mod.summary && (
+                    <div className="cover-index-desc">{mod.summary}</div>
+                  )}
+                </div>
+                <span className="cover-index-page">{`p.${productPage(index)}`}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="cover-package-price">
+            <div>
+              <div className="cover-package-price-label">Your investment</div>
+              <div className="cover-package-price-amt">
+                <Field value={fields.ANNUAL_PRICE} highlight={highlightFields} />
+                <small> / year</small>
+              </div>
+            </div>
+
+            {hasSavings && (
+              <span className="cover-package-save">
+                Save
+                {' '}
+                <Field
+                  value={isMultiYear ? fields.TOTAL_SAVINGS : fields.ANNUAL_SAVINGS}
+                  highlight={highlightFields}
+                />
+                {isMultiYear ? (
+                  <>
+                    {' '}
+                    over
+                    {' '}
+                    <Field value={fields.TERM_YEARS} highlight={highlightFields} />
+                  </>
+                ) : (
+                  ' / yr'
+                )}
+              </span>
+            )}
+
+            <span
+              className={`cover-package-link${hasAddons ? ' cover-package-link--wrap' : ''}`}
+            >
+              {hasAddons
+                ? `Full breakdown with add-ons on page. ${pricingPage}`
+                : `Full breakdown on p.${pricingPage}`}
+            </span>
+          </div>
+        </div>
+
+        <div className="cover-page-footer">
+          <div className="cover-footer">
+            Prepared by
             {' '}
-            {label}
+            <b>
+              <Field value={fields.PREPARED_BY_NAME} highlight={highlightFields} />
+            </b>
+            ,
+            {' '}
+            <Field value={fields.PREPARED_BY_TITLE} highlight={highlightFields} />
+            , Delphinium, on
+            {' '}
+            <Field value={fields.PREPARED_DATE} highlight={highlightFields} />
+            .
+            {' '}
+            <b>
+              Pricing held until
+              {' '}
+              <Field value={fields.VALID_UNTIL} highlight={highlightFields} />
+            </b>
+            .
+            {' '}
+            Target go-live:
+            {' '}
+            <b>
+              <Field value={fields.TARGET_GO_LIVE} highlight={highlightFields} />
+            </b>
+            .
           </div>
-        ))}
-      </div>
 
-      <div style={{
-        fontSize: '12px',
-        fontWeight: 'bold',
-        letterSpacing: '1.6px',
-        textTransform: 'uppercase',
-        color: '#B4DED9',
-        marginBottom: '12px',
-      }}
-      >
-        What
-        {' '}
-        <Field value={fields.SCHOOL_NAME} highlight={highlightFields} />
-        {' '}
-        gets
-      </div>
-
-      <div className="keep" style={{ marginBottom: '16px' }}>
-        {MODULES.filter(m => m.included).map(mod => (
-          <div
-            key={mod.key}
-            style={{
-              background: '#E2F2EC',
-              borderRadius: '6px',
-              padding: '16px 18px',
-              marginBottom: '10px',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
-              <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: mod.dot, flex: 'none' }} />
-              <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#424242' }}>{mod.name}</span>
-              <span className="dBadge dBadgeSuccess">Included</span>
-            </div>
-            <div style={{ fontSize: '13.5px', color: '#424242', marginBottom: '6px' }}>{mod.benefit}</div>
-            <ul style={{ margin: 0, paddingLeft: '16px' }}>
-              {mod.features.map(f => (
-                <li key={f} style={{ fontSize: '13px', lineHeight: 1.5, color: '#424242' }}>{f}</li>
-              ))}
-            </ul>
+          <div className="cover-footnote">
+            This proposal is confidential and prepared exclusively for
+            {' '}
+            <Field value={fields.SCHOOL_NAME} highlight={highlightFields} />
+            . The pricing and terms within apply only to
+            {' '}
+            <Field value={fields.SCHOOL_NAME} highlight={highlightFields} />
+            {' '}
+            and are not to be shared outside your organization.
           </div>
-        ))}
-      </div>
+        </div>
+      </section>
 
-      {MODULES.filter(m => !m.included && quote[m.quoteKey]).map(mod => (
-        <div
+      {modules.map(mod => (
+        <section
           key={mod.key}
-          className="keep"
-          style={{
-            background: 'rgba(255,255,255,.96)',
-            borderRadius: '6px',
-            padding: '14px 18px',
-            marginBottom: '10px',
-            boxShadow: '0 2px 10px rgba(0,0,0,.18)',
-          }}
+          className="sheet sheet-mint cover-section cover-product-sheet"
         >
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-                <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: mod.dot, flex: 'none' }} />
-                <span style={{ fontSize: '15px', fontWeight: 'bold', color: '#424242' }}>{mod.name}</span>
-              </div>
-              <div style={{ fontSize: '13px', color: '#565663', marginBottom: '6px' }}>{mod.benefit}</div>
-              <ul style={{ margin: 0, paddingLeft: '16px' }}>
-                {mod.features.map(f => (
-                  <li key={f} style={{ fontSize: '12.5px', lineHeight: 1.45, color: '#424242' }}>{f}</li>
-                ))}
-              </ul>
+          <div className="page-label screen-only page-label-mint">01 · Cover (continued)</div>
+
+          {mod.key === 'core' && (
+            <div className="cover-package-head cover-product-sheet-head">
+              What
+              {' '}
+              <Field value={fields.SCHOOL_NAME} highlight={highlightFields} />
+              {' '}
+              gets
             </div>
-            <div style={{ textAlign: 'right', flex: 'none' }}>
-              <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#ED008C' }}>
-                <Field value={fields[mod.priceKey]} highlight={highlightFields} />
-              </div>
-              <div style={{ fontSize: '10px', letterSpacing: '1px', textTransform: 'uppercase', color: '#5b6361' }}>per year</div>
-            </div>
-          </div>
-        </div>
+          )}
+
+          <CoverProductPage mod={mod} />
+        </section>
       ))}
-
-      {(quote.clever || quote.sms) && (
-        <div className="keep" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '18px' }}>
-          {quote.clever && (
-            <div style={{ background: 'rgba(255,255,255,.96)', borderRadius: '6px', padding: '12px 14px' }}>
-              <div style={{ fontSize: '13.5px', fontWeight: 'bold', color: '#424242' }}>
-                Clever integration
-                {' '}
-                <Field value={fields.CLEVER_FEE} highlight={highlightFields} />
-              </div>
-              <div style={{ fontSize: '12px', color: '#565663', marginTop: '4px' }}>Add-on — expanded parent communication.</div>
-            </div>
-          )}
-          {quote.sms && (
-            <div style={{ background: 'rgba(255,255,255,.96)', borderRadius: '6px', padding: '12px 14px' }}>
-              <div style={{ fontSize: '13.5px', fontWeight: 'bold', color: '#424242' }}>
-                SMS texting
-                {' '}
-                <Field value={fields.SMS_FEE} highlight={highlightFields} />
-              </div>
-              <div style={{ fontSize: '12px', color: '#565663', marginTop: '4px' }}>Add-on — reach families on their phones.</div>
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="keep" style={{
-        display: 'flex',
-        gap: '30px',
-        flexWrap: 'wrap',
-        padding: '14px 0',
-        borderTop: '1px solid rgba(255,255,255,.18)',
-        borderBottom: '1px solid rgba(255,255,255,.18)',
-        marginBottom: '14px',
-      }}
-      >
-        <div style={{ fontSize: '13px', color: 'rgba(255,255,255,.6)' }}>
-          <b style={{ color: '#fff' }}>Students</b>
-          {' '}
-          <Field value={fields.STUDENT_COUNT} highlight={highlightFields} />
-        </div>
-        <div style={{ fontSize: '13px', color: 'rgba(255,255,255,.6)' }}>
-          <b style={{ color: '#fff' }}>Term</b>
-          {' '}
-          <Field value={fields.TERM_YEARS} highlight={highlightFields} />
-        </div>
-        <div style={{ fontSize: '13px', color: 'rgba(255,255,255,.6)' }}>
-          <b style={{ color: '#fff' }}>Prepared</b>
-          {' '}
-          <Field value={fields.PREPARED_DATE} highlight={highlightFields} />
-        </div>
-      </div>
-
-      <div style={{ fontSize: '13px', color: 'rgba(255,255,255,.55)', lineHeight: 1.5 }}>
-        Prepared by
-        {' '}
-        <b style={{ color: '#fff' }}>
-          <Field value={fields.PREPARED_BY_NAME} highlight={highlightFields} />
-        </b>
-        ,
-        {' '}
-        <Field value={fields.PREPARED_BY_TITLE} highlight={highlightFields} />
-        , Delphinium.
-        {' '}
-        Pricing held until
-        {' '}
-        <Field value={fields.VALID_UNTIL} highlight={highlightFields} />
-        .
-      </div>
-    </section>
+    </>
   );
 }

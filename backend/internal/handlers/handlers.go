@@ -98,13 +98,14 @@ func (a *API) createQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	now := time.Now().UTC()
 	id := uuid.New().String()
 	q := quotes.Quote{
-		QuoteID: id, SchoolName: body.SchoolName, SchoolType: body.SchoolType,
-		Students: body.Students, IsDistrict: body.IsDistrict, IsFirstYear: body.IsFirstYear,
-		Years: body.Years, Products: body.Products, CustomItems: body.CustomItems,
-		SMSFee: body.SMSFee, Notes: body.Notes, PreparedByName: body.PreparedByName,
+		QuoteID: id, QuoteName: body.QuoteName, SchoolName: body.SchoolName, SchoolType: body.SchoolType,
+		Students: body.Students, IsDistrict: body.IsDistrict, IsUniversity: body.IsUniversity, IsFirstYear: body.IsFirstYear,
+		Years: body.Years, PayUpfront: body.PayUpfront, YearlyPayments: body.YearlyPayments, Products: body.Products, CustomItems: body.CustomItems,
+		SMSFee: body.SMSFee, CleverSchools: body.CleverSchools, Notes: body.Notes, PreparedByName: body.PreparedByName,
 		PreparedByTitle: body.PreparedByTitle, PrimaryPain: body.PrimaryPain,
 		PainPoint1: body.PainPoint1, PainPoint2: body.PainPoint2, PainPoint3: body.PainPoint3,
 		PeerReference: body.PeerReference, TargetGoLive: body.TargetGoLive,
+		IncludeFreeTrialPage: body.IncludeFreeTrialPage, IncludePilotPage: body.IncludePilotPage,
 		SlackUserID: body.SlackUserID, Ref: body.Ref,
 		PricingSnapshot: pr, CreatedAt: now, UpdatedAt: now,
 	}
@@ -147,10 +148,15 @@ func (a *API) getQuote(ctx context.Context, id string) (events.APIGatewayV2HTTPR
 
 func (a *API) listQuotes(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	rep := apigw.Query(req, "rep")
-	if rep == "" {
-		return apigw.Error(400, "rep query param required"), nil
+	var (
+		items []quotes.Quote
+		err   error
+	)
+	if rep != "" {
+		items, err = a.repo.ListByRep(ctx, rep, 20)
+	} else {
+		items, err = a.repo.ListRecent(ctx, 50)
 	}
-	items, err := a.repo.ListByRep(ctx, rep, 20)
 	if err != nil {
 		return apigw.Error(500, err.Error()), nil
 	}
@@ -205,14 +211,19 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 		return apigw.Error(400, "invalid json"), nil
 	}
 	q.SchoolName = body.SchoolName
+	q.QuoteName = body.QuoteName
 	q.SchoolType = body.SchoolType
 	q.Students = body.Students
 	q.IsDistrict = body.IsDistrict
+	q.IsUniversity = body.IsUniversity
 	q.IsFirstYear = body.IsFirstYear
 	q.Years = body.Years
+	q.PayUpfront = body.PayUpfront
+	q.YearlyPayments = body.YearlyPayments
 	q.Products = body.Products
 	q.CustomItems = body.CustomItems
 	q.SMSFee = body.SMSFee
+	q.CleverSchools = body.CleverSchools
 	q.Notes = body.Notes
 	q.PreparedByName = body.PreparedByName
 	q.PreparedByTitle = body.PreparedByTitle
@@ -222,11 +233,14 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	q.PainPoint3 = body.PainPoint3
 	q.PeerReference = body.PeerReference
 	q.TargetGoLive = body.TargetGoLive
+	q.IncludeFreeTrialPage = body.IncludeFreeTrialPage
+	q.IncludePilotPage = body.IncludePilotPage
 	pr, err := pricing.Calculate(q.ToQuoteInput())
 	if err != nil {
 		return apigw.Error(400, err.Error()), nil
 	}
 	q.PricingSnapshot = pr
+	q.UpdatedAt = time.Now().UTC()
 	if err := a.repo.Put(ctx, q); err != nil {
 		return apigw.Error(500, err.Error()), nil
 	}

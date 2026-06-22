@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import ProspectusDocument from '../components/prospectus/ProspectusDocument.jsx';
 import { getQuote, isApiConfigured } from '../lib/api.js';
@@ -7,14 +7,26 @@ import { buildFields, getDefaultQuote } from '../lib/fields.js';
 import { calculatePricing } from '../lib/pricing.js';
 import '../styles/prospectus.css';
 
+function quoteSearchKey(searchString) {
+  const params = new URLSearchParams(searchString);
+  params.delete('print');
+  params.delete('highlightFields');
+  return params.toString();
+}
+
 export default function Prospectus() {
   const { id } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [quote, setQuote] = useState(null);
   const [loadError, setLoadError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const hasAutoPrinted = useRef(false);
 
   const highlightFields = searchParams.get('highlightFields') !== 'false';
+  const quoteParamKey = useMemo(
+    () => quoteSearchKey(searchParams.toString()),
+    [searchParams],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -56,14 +68,22 @@ export default function Prospectus() {
     return () => {
       cancelled = true;
     };
-  }, [id, searchParams.toString()]);
+  }, [id, quoteParamKey]);
 
   useEffect(() => {
-    if (searchParams.get('print') === 'true' && quote && !loading) {
-      const timer = setTimeout(() => window.print(), 300);
-      return () => clearTimeout(timer);
+    if (searchParams.get('print') !== 'true' || !quote || loading || hasAutoPrinted.current) {
+      return;
     }
-  }, [searchParams, quote, loading]);
+
+    hasAutoPrinted.current = true;
+
+    const next = new URLSearchParams(searchParams);
+    next.delete('print');
+    setSearchParams(next, { replace: true });
+
+    const timer = setTimeout(() => window.print(), 300);
+    return () => clearTimeout(timer);
+  }, [quote, loading, searchParams, setSearchParams]);
 
   const pricing = useMemo(() => {
     if (!quote) return null;
@@ -90,7 +110,7 @@ export default function Prospectus() {
   }
 
   if (loading || !quote || !fields) {
-    return <div style={{ padding: '40px' }}>Loading prospectus…</div>;
+    return <div className="prospectus-loading">Loading prospectus…</div>;
   }
 
   return (
@@ -104,10 +124,10 @@ export default function Prospectus() {
           Highlight merge fields
         </label>
         {loadError && (
-          <span style={{ color: 'var(--discount)', fontSize: '0.875rem' }}>{loadError}</span>
+          <span className="prospectus-error">{loadError}</span>
         )}
       </div>
-      <ProspectusDocument fields={fields} quote={quote} highlightFields={highlightFields} />
+      <ProspectusDocument fields={fields} quote={quote} pricing={pricing} highlightFields={highlightFields} />
     </>
   );
 }

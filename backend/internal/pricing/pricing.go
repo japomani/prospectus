@@ -56,6 +56,7 @@ type CustomItem struct {
 	Name       string  `json:"name"`
 	IsDiscount bool    `json:"isDiscount"`
 	IsPercent  bool    `json:"isPercent"`
+	IsOneTime  bool    `json:"isOneTime"`
 	Amount     float64 `json:"amount"`
 }
 
@@ -68,6 +69,7 @@ type QuoteInput struct {
 	Products    Products     `json:"products"`
 	CustomItems []CustomItem `json:"customItems"`
 	SMSFee      float64      `json:"smsFee"`
+	CleverSchools int        `json:"cleverSchools"`
 }
 
 type ModulePrices struct {
@@ -176,6 +178,8 @@ func implementationFee(normalizedSubtotal float64) float64 {
 
 func multiYearDiscountRate(years int) float64 {
 	switch years {
+	case 2:
+		return 0.025
 	case 3:
 		return 0.05
 	case 5:
@@ -222,7 +226,7 @@ func Calculate(q QuoteInput) (Result, error) {
 
 	multiDisc := 0.0
 	if count >= 2 {
-		multiDisc = safeMul(afterVolume, 0.10)
+		multiDisc = safeMul(productSubtotal, 0.10)
 	}
 	afterMulti := round2(afterVolume - multiDisc)
 
@@ -236,21 +240,14 @@ func Calculate(q QuoteInput) (Result, error) {
 	}
 
 	customTotal := 0.0
-	for _, item := range q.CustomItems {
-		val := item.Amount
-		if item.IsPercent {
-			val = safeMul(afterMulti, item.Amount/100)
-		}
-		if item.IsDiscount {
-			customTotal -= math.Abs(val)
-		} else {
-			customTotal += math.Abs(val)
-		}
-	}
-
+	dealCustomTotal := 0.0
 	cleverFee := 0.0
 	if q.Products.Clever {
-		cleverFee = CleverFlatFee
+		schools := q.CleverSchools
+		if schools < 1 {
+			schools = 1
+		}
+		cleverFee = CleverFlatFee * float64(schools)
 	}
 	smsFee := 0.0
 	if q.Products.SMS {
@@ -258,20 +255,44 @@ func Calculate(q QuoteInput) (Result, error) {
 	}
 	addOnTotal := round2(cleverFee + smsFee)
 
-	annualBase := round2(afterMulti + customTotal + addOnTotal)
 	myRate := multiYearDiscountRate(q.Years)
-	myDisc := safeMul(annualBase, myRate)
-	annualTotal := round2(annualBase - myDisc)
+	myDisc := safeMul(productSubtotal, myRate)
+	afterMultiYear := round2(afterMulti - myDisc)
+
+	oneTimePercentBase := round2((afterMultiYear+addOnTotal)*float64(q.Years) + implFee)
+	for _, item := range q.CustomItems {
+		base := afterMulti
+		if item.IsOneTime {
+			base = oneTimePercentBase
+		}
+		val := item.Amount
+		if item.IsPercent {
+			val = safeMul(base, item.Amount/100)
+		}
+		signed := math.Abs(val)
+		if item.IsDiscount {
+			signed = -signed
+		}
+		if item.IsOneTime {
+			dealCustomTotal += signed
+		} else {
+			customTotal += signed
+		}
+	}
+	dealCustomTotal = round2(dealCustomTotal)
+
+	annualBase := round2(afterMultiYear + customTotal + addOnTotal)
+	annualTotal := annualBase
 
 	listPerYear := round2(productSubtotal + addOnTotal)
 	listTerm := round2(listPerYear*float64(q.Years) + implFee)
-	grandTotal := round2(annualTotal*float64(q.Years) + implFee)
+	grandTotal := round2(annualTotal*float64(q.Years) + implFee + dealCustomTotal)
 	totalSavings := round2(listTerm - grandTotal)
 	annualSavings := round2(totalSavings / float64(q.Years))
 
 	perModuleAfter := 0.0
 	if count > 0 {
-		moduleShare := round2((afterMulti - addOnTotal) / float64(count))
+		moduleShare := round2(afterMultiYear / float64(count))
 		perModuleAfter = moduleShare
 		if perModuleAfter < 0 {
 			perModuleAfter = 0

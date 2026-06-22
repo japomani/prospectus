@@ -1,3 +1,5 @@
+import { apiQuoteToForm, quoteToApiBody } from './quoteMapper.js';
+
 const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
 function assertApiUrl() {
@@ -37,23 +39,35 @@ export function isApiConfigured() {
 }
 
 export async function createQuote(quote) {
-  return request('/quotes', {
+  const data = await request('/quotes', {
     method: 'POST',
-    body: JSON.stringify(quote),
+    body: JSON.stringify(quoteToApiBody(quote)),
   });
+  if (!data?.quote?.quoteId) {
+    throw new Error('Save succeeded but no quote ID was returned');
+  }
+  return apiQuoteToForm(data);
 }
 
 export async function getQuote(id) {
-  return request(`/quotes/${encodeURIComponent(id)}`);
+  const data = await request(`/quotes/${encodeURIComponent(id)}`);
+  return apiQuoteToForm(data);
 }
 
 export async function updateQuote(id, quote) {
-  return request(`/quotes/${encodeURIComponent(id)}`, {
+  const data = await request(`/quotes/${encodeURIComponent(id)}`, {
     method: 'PATCH',
-    body: JSON.stringify(quote),
+    body: JSON.stringify(quoteToApiBody(quote)),
   });
+  if (!data?.quote?.quoteId) {
+    throw new Error('Update succeeded but no quote ID was returned');
+  }
+  return apiQuoteToForm(data);
 }
 
-export async function listQuotes() {
-  return request('/quotes');
+export async function listQuotes({ rep } = {}) {
+  const qs = rep ? `?rep=${encodeURIComponent(rep)}` : '';
+  const data = await request(`/quotes${qs}`);
+  if (!Array.isArray(data)) return [];
+  return data.map(item => apiQuoteToForm(item));
 }

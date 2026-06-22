@@ -58,6 +58,38 @@ func (r *Repository) Get(ctx context.Context, quoteID string) (Quote, error) {
 	return q, nil
 }
 
+func (r *Repository) ListRecent(ctx context.Context, limit int32) ([]Quote, error) {
+	if limit <= 0 {
+		limit = 50
+	}
+	out, err := r.client.Scan(ctx, &dynamodb.ScanInput{
+		TableName: aws.String(r.tableName),
+		Limit:     aws.Int32(limit),
+	})
+	if err != nil {
+		return nil, err
+	}
+	var items []Quote
+	if err := attributevalue.UnmarshalListOfMaps(out.Items, &items); err != nil {
+		return nil, err
+	}
+	sortQuotesByUpdated(items)
+	if int32(len(items)) > limit {
+		items = items[:limit]
+	}
+	return items, nil
+}
+
+func sortQuotesByUpdated(items []Quote) {
+	for i := 0; i < len(items); i++ {
+		for j := i + 1; j < len(items); j++ {
+			if items[j].UpdatedAt.After(items[i].UpdatedAt) {
+				items[i], items[j] = items[j], items[i]
+			}
+		}
+	}
+}
+
 func (r *Repository) ListByRep(ctx context.Context, slackUserID string, limit int32) ([]Quote, error) {
 	if limit <= 0 {
 		limit = 20
@@ -77,5 +109,6 @@ func (r *Repository) ListByRep(ctx context.Context, slackUserID string, limit in
 	if err := attributevalue.UnmarshalListOfMaps(out.Items, &items); err != nil {
 		return nil, err
 	}
+	sortQuotesByUpdated(items)
 	return items, nil
 }

@@ -1,0 +1,39 @@
+---
+description: Delphinium marketing voice, positioning, and proof points for prospectus and sales copy
+globs:
+  - frontend/src/components/prospectus/**
+  - frontend/src/lib/fields.js
+  - frontend/src/pages/PricingCalculator.jsx
+  - hermes/skills/**
+  - docs/**
+alwaysApply: false
+---
+
+# Delphinium copy & messaging
+
+When writing or editing user-facing copy (prospectus pages, pain options, CTAs, Hermes messages, docs), **read and follow**:
+
+`docs/delphinium-marketing-synthesis.md`
+
+That file is the single source of truth for positioning, proof points, pain→answer table, voice, and quote bank.
+
+## Non-negotiables (from the synthesis)
+
+- **Headline:** Canvas delivers content. Delphinium delivers engagement.
+- **31% claim:** One Davis study (72 classes, 6,000 async online students). Use **"up to 31%"** in forward-looking copy (proposals, cover, ads). Unqualified "31%" only when naming the study in context.
+- **Never promise** 31% (or seat savings) as guaranteed for the prospect's enrollment.
+- **Lead with problems** before solutions; researcher/educator tone — not salesy.
+- **Setup:** ~3 minutes per course, no migration, nothing new for teachers.
+- **Trial-first:** 30-day free trial; $5k pilot only when asked (credits toward license).
+- **Avoid:** "hope this finds you well," "touch base," "leverage," "synergy," generic LMS hype.
+
+## Where copy lives in this repo
+
+| Area | File |
+|------|------|
+| Prospectus layout & body | `frontend/src/components/prospectus/` |
+| Pain dropdown options | `frontend/src/lib/fields.js` → `PAIN_OPTIONS` |
+| Default demo values | `frontend/src/lib/fields.js` → `getDefaultQuote()` |
+| Hermes / Slack | `hermes/skills/delphinium-quotes/SKILL.md` |
+
+If copy conflicts with the synthesis doc, **the synthesis doc wins** unless the user explicitly overrides.

@@ -20,16 +20,16 @@ const PRICING_TIERS = [
   { min: 600, max: 749, startRatio: 1.0, endRatio: 0.914063 },
 ];
 
-const PRODUCT_KEYS = ['engagementBuilder', 'communityBuilder', 'controlTowerUltra'];
+const PRODUCT_KEYS = ['communityBuilder', 'engagementBuilder', 'controlTowerUltra'];
 
 export function formatCurrency(amount) {
   if (amount === undefined || amount === null) return '$0';
-  const rounded = Math.round(amount * 100) / 100;
+  const rounded = Math.round(amount);
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: rounded % 1 === 0 ? 0 : 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(rounded);
 }
 

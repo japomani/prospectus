@@ -48,6 +48,19 @@ export default function AdminControlsSection({ pageLabel }) {
           </div>
         ))}
       </div>
+
+      <div className="keep admin-controls-figures">
+        <img
+          src="/admin-layouts.png"
+          alt="Delphinium admin course layouts dashboard"
+          className="admin-controls-figure admin-controls-figure--back"
+        />
+        <img
+          src="/admin-messages.png"
+          alt="Delphinium message center templates"
+          className="admin-controls-figure admin-controls-figure--front"
+        />
+      </div>
     </section>
   );
 }

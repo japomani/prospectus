@@ -1,17 +1,23 @@
 import { BookOpenCheck, BrainCircuit, Zap } from 'lucide-react';
-import CoverProductPage from './CoverProductPage.jsx';
 import CoverModuleIcon from './CoverModuleIcon.jsx';
 import { Field } from './Field.jsx';
 import { selectedAddons, selectedModules } from '../../lib/productCatalog.js';
 
-const STORY_LEAD_K12 =
-  'Delphinium transforms your existing Canvas courses into engaging student experiences, and an early-warning system for parents and teachers.';
-
-const STORY_LEAD_UNIVERSITY =
-  'Delphinium transforms your existing Canvas courses into engaging student experiences, and an early-warning system for teachers.';
-
 function storyLeadForQuote(quote) {
-  return quote?.isUniversity ? STORY_LEAD_UNIVERSITY : STORY_LEAD_K12;
+  const isUniversity = Boolean(quote?.isUniversity);
+  return (
+    <>
+      Delphinium transforms your existing Canvas courses into{' '}
+      <b>engaging</b>
+      {' '}
+      student experiences, and an{' '}
+      <b>early-warning</b>
+      {' '}
+      system
+      {' '}
+      {isUniversity ? 'for teachers.' : 'for parents and teachers.'}
+    </>
+  );
 }
 
 const COVER_QUOTE = {
@@ -40,6 +46,24 @@ const TRUST_BADGES = [
   },
 ];
 
+const COVER_PRODUCT_COLORS = {
+  core: 'var(--dl-green)',
+  cb: 'var(--dl-blue)',
+  eb: 'var(--dl-indigo)',
+};
+
+function coverProductColor(mod) {
+  return COVER_PRODUCT_COLORS[mod.key] || mod.color;
+}
+
+function ArrowRight() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 12h13M12 5l7 7-7 7" />
+    </svg>
+  );
+}
+
 export default function CoverSection({ fields, quote, pricing, highlightFields }) {
   const modules = selectedModules(quote);
 
@@ -47,10 +71,9 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
   const isMultiYear = years > 1;
   const hasSavings = Boolean(pricing && pricing.totalSavings > 0);
 
-  const productPage = index => index + 2;
-  const coverSheetCount = 1 + modules.length;
+  const productPage = index => 5 + index;
   const hasAddons = selectedAddons(quote).length > 0;
-  const pricingPage = coverSheetCount + (hasAddons ? 5 : 4);
+  const pricingPage = 5 + modules.length + (hasAddons ? 1 : 0);
 
   return (
     <>
@@ -59,20 +82,23 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
 
         <div className="cover-intro">
           <div className="dRow cover-header-row">
-            <img
-              src="/logo.png"
-              alt="Delphinium"
-              className="cover-logo"
-            />
-            <div>
+            <div style={{ flex: 1 }}>
               <div className="cover-tagline-muted">Canvas delivers content.</div>
               <div className="cover-headline">
                 Delphinium delivers <span className="dl-accent">ENGAGEMENT!</span>
               </div>
             </div>
+            <img
+              src="/logo.png"
+              alt="Delphinium"
+              className="cover-logo"
+            />
           </div>
 
-          <div className="cover-kicker">Prospectus prepared for</div>
+          <div className="ex-kicker cover-intro-kicker">
+            <span className="ex-tick" />
+            Prospectus prepared for
+          </div>
           <div className="cover-school-name">
             <Field value={fields.SCHOOL_NAME} highlight={highlightFields} />
           </div>
@@ -109,36 +135,45 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
           ))}
         </div>
 
-        <div className="cover-package-head">
+        <h3 className="ex-subhead is-top keep">
           What
           {' '}
           <Field value={fields.SCHOOL_NAME} highlight={highlightFields} />
           {' '}
-          gets
-        </div>
+          gets…
+        </h3>
 
         <div className="keep cover-package">
           <div className="cover-index">
-            {modules.map((mod, index) => (
+            {modules.map((mod, index) => {
+              const productColor = coverProductColor(mod);
+              return (
               <div
                 key={mod.key}
-                className={`cover-index-row${mod.includedLabel ? ' cover-index-row--included' : ''}`}
-                style={{ '--product-color': mod.color }}
+                className={`cover-index-row${mod.key === 'core' ? ' cover-index-row--core' : ''}`}
+                style={{ '--product-color': productColor }}
               >
                 <span className="cover-index-icon">
-                  <CoverModuleIcon moduleKey={mod.key} color={mod.color} />
+                  <CoverModuleIcon moduleKey={mod.key} color={productColor} />
                 </span>
                 <div className="cover-index-text">
                   <div className="cover-index-name-row">
                     <span className="cover-index-name">{mod.name}</span>
+                    {mod.includedLabel && (
+                      <span className="cover-index-tag">{mod.includedLabel}</span>
+                    )}
                   </div>
                   {mod.summary && (
                     <div className="cover-index-desc">{mod.summary}</div>
                   )}
                 </div>
-                <span className="cover-index-page">{`p.${productPage(index)}`}</span>
+                <span className="cover-index-page">
+                  {`p.${productPage(index)}`}
+                  <ArrowRight />
+                </span>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="cover-package-price">
@@ -171,12 +206,33 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
               </span>
             )}
 
-            <span
-              className={`cover-package-link${hasAddons ? ' cover-package-link--wrap' : ''}`}
-            >
-              {hasAddons
-                ? `Full breakdown with add-ons on page. ${pricingPage}`
-                : `Full breakdown on p.${pricingPage}`}
+            <span className="cover-price-breakdown">
+              {`Full breakdown on p.${pricingPage}`}
+              <ArrowRight />
+            </span>
+          </div>
+
+          <div className="cover-package-meta">
+            <span className="cover-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--dl-indigo)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              <span className="cover-meta-item-tx">
+                Pricing held until
+                {' '}
+                <b><Field value={fields.VALID_UNTIL} highlight={highlightFields} /></b>
+              </span>
+            </span>
+            <span className="cover-meta-divider" aria-hidden="true" />
+            <span className="cover-meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--dl-indigo)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" />
+              </svg>
+              <span className="cover-meta-item-tx">
+                Go-live Target:
+                {' '}
+                <b><Field value={fields.TARGET_GO_LIVE} highlight={highlightFields} /></b>
+              </span>
             </span>
           </div>
         </div>
@@ -195,20 +251,6 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
             {' '}
             <Field value={fields.PREPARED_DATE} highlight={highlightFields} />
             .
-            {' '}
-            <b>
-              Pricing held until
-              {' '}
-              <Field value={fields.VALID_UNTIL} highlight={highlightFields} />
-            </b>
-            .
-            {' '}
-            Target go-live:
-            {' '}
-            <b>
-              <Field value={fields.TARGET_GO_LIVE} highlight={highlightFields} />
-            </b>
-            .
           </div>
 
           <div className="cover-footnote">
@@ -223,27 +265,6 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
           </div>
         </div>
       </section>
-
-      {modules.map(mod => (
-        <section
-          key={mod.key}
-          className="sheet sheet-mint cover-section cover-product-sheet"
-        >
-          <div className="page-label screen-only page-label-mint">01 · Cover (continued)</div>
-
-          {mod.key === 'core' && (
-            <div className="cover-package-head cover-product-sheet-head">
-              What
-              {' '}
-              <Field value={fields.SCHOOL_NAME} highlight={highlightFields} />
-              {' '}
-              gets
-            </div>
-          )}
-
-          <CoverProductPage mod={mod} />
-        </section>
-      ))}
     </>
   );
 }

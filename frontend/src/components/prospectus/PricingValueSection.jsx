@@ -40,7 +40,11 @@ export default function PricingValueSection({
     <section className="sheet">
       <div className="page-label screen-only">{pageLabel}</div>
       <div className="doc-kicker">Pricing &amp; value</div>
-      <h2 className="doc-h2 doc-pricing-page-title">Your investment</h2>
+      <h2 className="doc-h2 doc-pricing-page-title">
+        <Field value={fields.SCHOOL_NAME_POSSESSIVE} highlight={highlightFields} />
+        {' '}
+        <span className="doc-pricing-page-title-accent">investment in engagement</span>
+      </h2>
 
       <div className="doc-pricing-page keep">
         <div className="doc-pricing-summary">

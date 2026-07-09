@@ -5,17 +5,17 @@ import { Field } from './Field.jsx';
 import { selectedAddons, selectedModules } from '../../lib/productCatalog.js';
 
 const STORY_LEAD_K12 =
-  'Delphinium transforms the Canvas courses schools already have into engaging experiences for students and early-warning systems for parents and teachers.';
+  'Delphinium transforms your existing Canvas courses into engaging student experiences, and an early-warning system for parents and teachers.';
 
 const STORY_LEAD_UNIVERSITY =
-  'Delphinium transforms the Canvas courses schools already have into engaging experiences for students and early-warning systems for teachers.';
+  'Delphinium transforms your existing Canvas courses into engaging student experiences, and an early-warning system for teachers.';
 
 function storyLeadForQuote(quote) {
   return quote?.isUniversity ? STORY_LEAD_UNIVERSITY : STORY_LEAD_K12;
 }
 
 const COVER_QUOTE = {
-  text: '\u201cWe can confidently say that we\u2019re seeing better success with Delphinium\u2026 we improved significantly.\u201d',
+  text: '\u201cWe can confidently say that we\u2019re seeing better success with Delphinium \u2014 look at our data there and see that we improved significantly.\u201d',
   attribution: '\u2014 Ryan Hansen, Digital Learning Director, Davis School District',
 };
 
@@ -50,7 +50,7 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
   const productPage = index => index + 2;
   const coverSheetCount = 1 + modules.length;
   const hasAddons = selectedAddons(quote).length > 0;
-  const pricingPage = coverSheetCount + (hasAddons ? 4 : 3);
+  const pricingPage = coverSheetCount + (hasAddons ? 5 : 4);
 
   return (
     <>
@@ -67,7 +67,7 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
             <div>
               <div className="cover-tagline-muted">Canvas delivers content.</div>
               <div className="cover-headline">
-                Delphinium delivers <span className="dl-accent">ENGAGEMENT.</span>
+                Delphinium delivers <span className="dl-accent">ENGAGEMENT!</span>
               </div>
             </div>
           </div>
@@ -84,7 +84,7 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
             <div className="cover-stat-tower">
               <div className="cover-stat-num">31%</div>
               <div className="cover-stat-label">fewer failures</div>
-              <div className="cover-stat-src">6,000 online students &bull; 72 classes</div>
+              <div className="cover-stat-src">6,000 students &bull; 72 classes</div>
             </div>
             <div className="cover-story-body">
               <blockquote className="cover-quote-block">

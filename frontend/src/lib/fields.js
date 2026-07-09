@@ -75,6 +75,11 @@ function formatSmsFee(pricing, quote) {
   return 'Custom / quote';
 }
 
+function possessive(name) {
+  if (!name) return "Your School's";
+  return name.endsWith('s') ? `${name}'` : `${name}'s`;
+}
+
 export function buildFields(quote, pricing) {
   const preparedDate = quote.preparedDate ? new Date(quote.preparedDate) : new Date();
   const validUntil = quote.validUntil
@@ -85,6 +90,7 @@ export function buildFields(quote, pricing) {
 
   return {
     SCHOOL_NAME: quote.schoolName || 'Your School',
+    SCHOOL_NAME_POSSESSIVE: possessive(quote.schoolName),
     SCHOOL_TYPE: formatSchoolType(quote.schoolType),
     STUDENT_COUNT: formatStudentCount(quote.students || 0),
     PREPARED_DATE: formatDate(preparedDate),

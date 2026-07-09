@@ -3,64 +3,14 @@ import ExecutiveSummarySection from './ExecutiveSummarySection.jsx';
 import OtherProductsSection from './OtherProductsSection.jsx';
 import PricingValueSection from './PricingValueSection.jsx';
 import SelectedAddOnsSection from './SelectedAddOnsSection.jsx';
+import SecuritySection from './SecuritySection.jsx';
+import ImplementationSection from './ImplementationSection.jsx';
+import ResearchFoundationSection from './ResearchFoundationSection.jsx';
+import AdminControlsSection from './AdminControlsSection.jsx';
 import { Field } from './Field.jsx';
-import { selectedAddons, unselectedAddons, unselectedModules } from '../../lib/productCatalog.js';
-
-function SecuritySection({ pageLabel }) {
-  return (
-    <section className="sheet">
-      <div className="page-label screen-only">{pageLabel}</div>
-      <div className="doc-kicker">Security &amp; privacy</div>
-      <h2 className="doc-h2">SECURITY, PRIVACY, &amp; ACCESSIBILITY</h2>
-      <p className="doc-lead-bold">Built for FERPA, hosted on AWS</p>
-      <p className="doc-lead">Delphinium is a Canvas LTI 1.3 plugin running serverless on AWS.</p>
-
-      <div className="dCard keep" style={{ margin: 0 }}>
-        <div className="doc-security-section-title">Security</div>
-        <ul className="doc-security-list">
-          <li>
-            Encrypted everywhere: AES-256 at rest plus S3 server-side encryption;
-            HTTPS/TLS in transit; storage isolated from the public internet.
-          </li>
-          <li>
-            Least-privilege access via AWS IAM with 2FA required; activity logged
-            via CloudTrail.
-          </li>
-          <li>Encrypted, point-in-time backups and disaster recovery plan.</li>
-          <li>
-            Regular external penetration testing and continuous monitoring via AWS
-            Security Hub and Snyk.
-          </li>
-          <li>
-            Infrastructure compliance (SOC 2 / ISO 27001, physical security)
-            inherited from AWS.
-          </li>
-          <li>Cyber-liability insurance in place ($1M per claim / $2M aggregate).</li>
-        </ul>
-
-        <div className="doc-security-section-title">Privacy</div>
-        <ul className="doc-security-list">
-          <li>All storage and processing in the United States.</li>
-          <li>Student data is never sold or shared with third parties.</li>
-        </ul>
-
-        <div className="doc-security-section-title">Accessibility</div>
-        <ul className="doc-security-list">
-          <li>Published VPAT.</li>
-        </ul>
-        <a
-          className="doc-link"
-          href="https://tutorials.delphi-me.com/deep_dive/admin/compliance"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: 'inline-block', marginTop: 10 }}
-        >
-          Click here to view all compliance documents
-        </a>
-      </div>
-    </section>
-  );
-}
+import {
+  selectedAddons, selectedModules, unselectedAddons, unselectedModules,
+} from '../../lib/productCatalog.js';
 
 function otherProductsPageCount(quote) {
   const modules = unselectedModules(quote);
@@ -71,7 +21,8 @@ function otherProductsPageCount(quote) {
 
 function docPageLabels(quote) {
   const hasAddons = selectedAddons(quote).length > 0;
-  let n = 2;
+  const coverSheetCount = 1 + selectedModules(quote).length;
+  let n = coverSheetCount + 1;
   const pages = {};
   if (hasAddons) {
     pages.addons = n;
@@ -81,7 +32,17 @@ function docPageLabels(quote) {
   n += 1;
   pages.executiveSummaryB = n;
   n += 1;
+  pages.executiveSummaryC = n;
+  n += 1;
   pages.pricing = n;
+  n += 1;
+  pages.security = n;
+  n += 1;
+  pages.implementation = n;
+  n += 1;
+  pages.implementationB = n;
+  n += 1;
+  pages.researchFoundation = n;
   n += 1;
   if (quote.includeFreeTrialPage !== false) {
     pages.freeTrial = n;
@@ -91,15 +52,13 @@ function docPageLabels(quote) {
     pages.pilot = n;
     n += 1;
   }
-  pages.security = n;
-  n += 1;
-  pages.implementation = n;
-  n += 1;
   const otherCount = otherProductsPageCount(quote);
   if (otherCount > 0) {
     pages.otherProducts = n;
   }
   n += otherCount;
+  pages.adminControls = n;
+  n += 1;
   pages.pathForward = n;
   return pages;
 }
@@ -131,8 +90,9 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
                 fields={f}
                 quote={quote}
                 highlightFields={hl}
-                pageLabel={`${pad(pages.executiveSummary)} · The reason to buy`}
-                pageLabelB={`${pad(pages.executiveSummaryB)} · The reason to buy`}
+                pageLabel={`${pad(pages.executiveSummary)} · The case for engagement`}
+                pageLabelB={`${pad(pages.executiveSummaryB)} · Why it pays off`}
+                pageLabelC={`${pad(pages.executiveSummaryC)} · Why it pays / trust`}
               />
 
               <PricingValueSection
@@ -143,6 +103,15 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
                 pageLabel={`${pad(pages.pricing)} · Pricing & value`}
               />
 
+              <SecuritySection pageLabel={`${pad(pages.security)} · Security & privacy`} />
+
+              <ImplementationSection
+                pageLabel={`${pad(pages.implementation)} · Implementation`}
+                pageLabelB={`${pad(pages.implementationB)} · Support`}
+              />
+
+              <ResearchFoundationSection pageLabel={`${pad(pages.researchFoundation)} · Research foundation`} />
+
               {quote.includeFreeTrialPage !== false && (
                 <section className="sheet sheet-blue-fill">
                   <div className="page-label screen-only page-label-blue">
@@ -150,16 +119,24 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
                     {' '}
                     · Free trial
                   </div>
-                  <div className="doc-kicker">Try it with low risk</div>
-                  <h2 className="doc-h2" style={{ marginBottom: '18px' }}>See it on your own courses first</h2>
+                  <div className="doc-kicker">Try Delphinium with no risk</div>
+                  <h2 className="doc-h2" style={{ marginBottom: '18px' }}>See it in your own courses first</h2>
                   <div className="dCard keep" style={{ margin: '0 0 18px' }}>
-                    <div className="doc-try-title">30-day free trial</div>
+                    <div className="doc-try-title">14-day free trial</div>
                     <p className="doc-lead" style={{ marginBottom: 0 }}>
-                      Turn on the full Delphinium experience in your own Canvas courses for 30 days. No migration, no commitment — see the before-and-after for yourself before you decide.
+                      Turn on the full Delphinium experience in your own Canvas courses for 14 days. Your
+                      course gets the full makeover instantly, and your Control Tower fills in with real
+                      student data from day one — so you&apos;re not imagining the difference, you&apos;re
+                      watching it happen. No migration, no commitment — see it for yourself!
                     </p>
                   </div>
-                  <div className="keep doc-try-chips">
-                    {['Works in your existing Canvas', 'No credit card required', 'Nothing new for teachers to learn'].map(label => (
+                  <div className="keep doc-try-chips" style={{ marginBottom: '18px' }}>
+                    {[
+                      'Works in your existing Canvas',
+                      'No credit card required',
+                      'Nothing new for teachers to learn',
+                      'Turn it off anytime — your courses go right back to normal',
+                    ].map(label => (
                       <div key={label} className="doc-try-chip">
                         <span className="doc-try-chip-check">✓</span>
                         {' '}
@@ -167,6 +144,9 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
                       </div>
                     ))}
                   </div>
+                  <p className="doc-body" style={{ fontWeight: 'bold' }}>
+                    Ask your Delphinium contact to activate your free trial today.
+                  </p>
                 </section>
               )}
 
@@ -178,63 +158,52 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
                     · Guided pilot
                   </div>
                   <div className="doc-kicker">Guided pilot</div>
-                  <h2 className="doc-h2" style={{ marginBottom: '18px' }}>Structured evaluation across live courses</h2>
-                  <div className="dCard keep" style={{ margin: 0 }}>
-                    <div className="doc-try-title">Guided pilot</div>
-                    <p className="doc-body" style={{ fontSize: '14px', lineHeight: 1.6, marginBottom: '12px' }}>
-                      A guided pilot is available for
+                  <h2 className="doc-h2" style={{ marginBottom: '10px' }}>See it work before you scale it</h2>
+                  <p className="doc-lead" style={{ marginBottom: '14px' }}>
+                    In your guided pilot, we&apos;ll work with you to run Delphinium in real classes for a full
+                    term — typically with
+                    {' '}
+                    <b>3–7 teachers</b>
+                    {' '}
+                    for
+                    {' '}
+                    <b>2–4 months</b>
+                    .
+                  </p>
+                  <div className="keep doc-process-strip" style={{ marginBottom: '14px' }}>
+                    {['Setup', 'Onboarding', 'Training', 'Support'].map((step, i, arr) => (
+                      <span key={step} className="doc-process-step">
+                        {step}
+                        {i < arr.length - 1 && <span className="doc-process-arrow">&rarr;</span>}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="doc-security-section-title">Run a full pilot, not just a preview</div>
+                  <ol className="doc-security-list" style={{ marginBottom: '14px' }}>
+                    <li>We guide you through install, configuration, and layout design until your pilot teachers know Delphinium inside out</li>
+                    <li>We provide hands-on training to your pilot teachers over Zoom until they&apos;re proficient</li>
+                    <li>Your pilot teachers become your champions — bringing real expertise and peer reinforcement into professional development and staff meetings as adoption spreads</li>
+                    <li>Together we bring the rest of your staff up to speed with train-the-trainer support, self-paced lessons, and a community forum</li>
+                    <li>We back your primary admin with dedicated ticket support, so you always have the answers you need</li>
+                  </ol>
+                  <p className="doc-body" style={{ fontWeight: 'bold', marginBottom: '14px' }}>
+                    You&apos;ll see real engagement data build in your Control Tower the whole time — not a
+                    simulation.
+                  </p>
+                  <div className="keep doc-panel-mint doc-golive">
+                    <div className="doc-panel-label-muted">Guided pilot fee</div>
+                    <div className="doc-body" style={{ fontSize: '14px', lineHeight: 1.55 }}>
+                      <b><Field value={f.PILOT_FEE} highlight={hl} /></b>
                       {' '}
-                      <Field value={f.PILOT_FEE} highlight={hl} />
-                      {' '}
-                      (typically $5,000): we set up your templates, train your teachers, and run Delphinium across live courses. If you move to a full agreement, the entire pilot fee is credited toward your license.
-                    </p>
-                    <p className="doc-caption" style={{ margin: 0 }}>
-                      References from
-                      {' '}
-                      <Field value={f.PEER_REFERENCE} highlight={hl} />
-                      {' '}
-                      available on request.
+                      * (typically $5,000)
+                    </div>
+                    <p className="doc-caption" style={{ margin: '4px 0 0' }}>
+                      * Pilot fees are credited toward your license — so the pilot ultimately costs nothing
+                      when you move forward.
                     </p>
                   </div>
                 </section>
               )}
-
-              <SecuritySection pageLabel={`${pad(pages.security)} · Security & privacy`} />
-
-              <section className="sheet">
-                <div className="page-label screen-only">
-                  {pad(pages.implementation)}
-                  {' '}
-                  · Implementation &amp; onboarding
-                </div>
-                <div className="doc-kicker">Implementation &amp; onboarding</div>
-                <h2 className="doc-h2" style={{ marginBottom: '8px' }}>Live in 3 minutes per course</h2>
-                <p className="doc-lead" style={{ marginBottom: '18px' }}>
-                  Nothing new for teachers to learn — they keep using Canvas as they do today, and Delphinium reflects whatever they build. About 45 seconds by the second course.
-                </p>
-                <div className="keep doc-grid-2" style={{ marginBottom: '16px' }}>
-                  {[
-                    ['Year-1 setup', 'We configure Delphinium and build your school\'s layout and message templates.'],
-                    ['4 live teacher trainings', 'We walk your teachers through setup and best practices over four sessions.'],
-                    ['View customization', 'We tailor the default 3-minute experience to your school\'s look and priorities.'],
-                    ['Support Center', 'H5P video lessons, an active community, and in-app "Learn More" guidance everywhere.'],
-                  ].map(([title, body], i) => (
-                    <div key={title} className="dCard" style={{ margin: 0 }}>
-                      <div className="doc-step-num">{i + 1}</div>
-                      <div className="doc-step-title">{title}</div>
-                      <div className="doc-step-body">{body}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="keep doc-panel-mint doc-golive">
-                  <div className="doc-panel-label-muted">Target go-live</div>
-                  <div className="doc-body" style={{ fontSize: '14px', lineHeight: 1.55 }}>
-                    <b><Field value={f.TARGET_GO_LIVE} highlight={hl} /></b>
-                    . We recommend going live before a term starts so students meet the new experience on
-                    day one.
-                  </div>
-                </div>
-              </section>
 
               {pages.otherProducts && (
                 <OtherProductsSection
@@ -244,6 +213,8 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
                   pad={pad}
                 />
               )}
+
+              <AdminControlsSection pageLabel={`${pad(pages.adminControls)} · Admin controls`} />
 
               <section className="sheet sheet-dark sheet-indigo cover-section">
                 <div className="page-label screen-only page-label-indigo">
@@ -264,7 +235,7 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
                     <div className="doc-closing-step">
                       <b className="doc-closing-step-num">1.</b>
                       {' '}
-                      Start your 30-day free trial on your own courses — no migration, no commitment.
+                      Start your 14-day free trial on your own courses — no migration, no commitment.
                     </div>
                   )}
                   {quote.includePilotPage && (

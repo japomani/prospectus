@@ -40,6 +40,8 @@ export default function CoverProductPage({ mod, kicker }) {
         )}
       </header>
 
+      {mod.intro && <p className="cover-product-intro">{mod.intro}</p>}
+
       <div className="cover-product-body">
         {hasSections ? (
           mod.sections.map(section => (

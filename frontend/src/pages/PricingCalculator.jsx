@@ -5,6 +5,7 @@ import SaveQuoteDialog from '../components/SaveQuoteDialog.jsx';
 import { useQuote } from '../context/QuoteContext.jsx';
 import {
   createQuote,
+  deleteQuote,
   getQuote,
   isApiConfigured,
   listQuotes,
@@ -42,6 +43,7 @@ export default function PricingCalculator() {
   const [savedQuotes, setSavedQuotes] = useState([]);
   const [listLoading, setListLoading] = useState(false);
   const [listError, setListError] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [saveNameDraft, setSaveNameDraft] = useState('');
   const [scheduleStale, setScheduleStale] = useState(false);
@@ -82,6 +84,32 @@ export default function PricingCalculator() {
       setLoadingQuote(false);
     }
   }, [apiConfigured, searchParams, setQuote, setSearchParams]);
+
+  const handleDeleteQuote = useCallback(async (item) => {
+    if (!item?.quoteId || !apiConfigured) return;
+    const label = displayQuoteLabel(item);
+    const ok = window.confirm(`Delete saved quote "${label}"? This cannot be undone.`);
+    if (!ok) return;
+
+    setDeletingId(item.quoteId);
+    setListError(null);
+    try {
+      await deleteQuote(item.quoteId);
+      setSavedQuotes(prev => prev.filter(q => q.quoteId !== item.quoteId));
+      if (quote.quoteId === item.quoteId) {
+        scheduleBaseTotalRef.current = null;
+        setScheduleStale(false);
+        setQuote(getDefaultQuote());
+        const next = new URLSearchParams(searchParams);
+        next.delete('quoteId');
+        setSearchParams(next, { replace: true });
+      }
+    } catch (err) {
+      setListError(err.message);
+    } finally {
+      setDeletingId(null);
+    }
+  }, [apiConfigured, quote.quoteId, searchParams, setQuote, setSearchParams]);
 
   useEffect(() => {
     const quoteId = searchParams.get('quoteId');
@@ -343,9 +371,11 @@ export default function PricingCalculator() {
           loading={listLoading}
           error={listError}
           apiConfigured={apiConfigured}
+          deletingId={deletingId}
           onRefresh={refreshQuoteList}
           onEdit={quoteId => loadQuoteIntoForm(quoteId)}
           onView={quoteId => handleViewProspectus(quoteId)}
+          onDelete={handleDeleteQuote}
         />
       ) : (
         <>

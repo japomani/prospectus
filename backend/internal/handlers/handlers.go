@@ -54,6 +54,9 @@ func (a *API) Handle(ctx context.Context, req events.APIGatewayV2HTTPRequest) (e
 	if apigw.IsOptions(req) {
 		return apigw.OptionsOK(), nil
 	}
+	if !apigw.Authorized(req) {
+		return apigw.Error(401, "unauthorized"), nil
+	}
 	path := req.RawPath
 	method := apigw.Method(req)
 	id := req.PathParameters["id"]
@@ -77,6 +80,8 @@ func (a *API) Handle(ctx context.Context, req events.APIGatewayV2HTTPRequest) (e
 		return a.getQuote(ctx, id)
 	case method == "PATCH" && id != "":
 		return a.updateQuote(ctx, req)
+	case method == "DELETE" && id != "" && !strings.HasSuffix(path, "/pdf") && !strings.HasSuffix(path, "/notify"):
+		return a.deleteQuote(ctx, id)
 	case method == "POST" && id != "" && strings.HasSuffix(path, "/pdf"):
 		return a.generatePdf(ctx, id)
 	case method == "POST" && id != "" && strings.HasSuffix(path, "/notify"):
@@ -247,6 +252,19 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	return apigw.JSON(200, quotes.QuoteResponse{
 		Quote: q, Pricing: pr, WebURL: fmt.Sprintf("%s/quotes/%s", a.webBase, id),
 	}), nil
+}
+
+func (a *API) deleteQuote(ctx context.Context, id string) (events.APIGatewayV2HTTPResponse, error) {
+	if id == "" {
+		return apigw.Error(400, "quote id required"), nil
+	}
+	if _, err := a.repo.Get(ctx, id); err != nil {
+		return apigw.Error(404, err.Error()), nil
+	}
+	if err := a.repo.Delete(ctx, id); err != nil {
+		return apigw.Error(500, err.Error()), nil
+	}
+	return apigw.JSON(200, map[string]string{"status": "deleted", "quoteId": id}), nil
 }
 
 func (a *API) generatePdf(ctx context.Context, id string) (events.APIGatewayV2HTTPResponse, error) {

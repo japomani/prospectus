@@ -17,6 +17,7 @@ Globals:
         HUBSPOT_ACCESS_TOKEN: !Ref HubspotAccessToken
         SLACK_BOT_TOKEN: !Ref SlackBotToken
         SLACK_QUOTES_CHANNEL: !Ref SlackQuotesChannel
+        API_PASSWORD: !Ref ApiPassword
 
 Parameters:
   HubspotAccessToken:
@@ -30,6 +31,11 @@ Parameters:
   SlackQuotesChannel:
     Type: String
     Default: ''
+  ApiPassword:
+    Type: String
+    Default: 'delphinium'
+    NoEcho: true
+    Description: Shared password required for all API requests
 
 Resources:
   QuotesTable:
@@ -121,7 +127,7 @@ Resources:
     Properties:
       CorsConfiguration:
         AllowOrigins: ['*']
-        AllowMethods: [GET, POST, PATCH, OPTIONS]
+        AllowMethods: [GET, POST, PATCH, DELETE, OPTIONS]
         AllowHeaders: [Content-Type, Authorization, X-Api-Key]
 
   ApiFunction:
@@ -173,6 +179,12 @@ Resources:
             ApiId: !Ref ProspectusApi
             Path: /quotes/{id}
             Method: PATCH
+        DeleteQuote:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /quotes/{id}
+            Method: DELETE
         PostPdf:
           Type: HttpApi
           Properties:

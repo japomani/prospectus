@@ -1,4 +1,5 @@
 import { apiQuoteToForm, quoteToApiBody } from './quoteMapper.js';
+import { clearApiPassword, getApiPassword } from './auth.js';
 
 const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
@@ -10,13 +11,21 @@ function assertApiUrl() {
 
 async function request(path, options = {}) {
   assertApiUrl();
+  const password = getApiPassword();
   const res = await fetch(`${API_URL}${path}`, {
+    ...options,
     headers: {
       'Content-Type': 'application/json',
+      ...(password ? { Authorization: `Bearer ${password}` } : {}),
       ...(options.headers || {}),
     },
-    ...options,
   });
+
+  if (res.status === 401) {
+    clearApiPassword();
+    window.location.reload();
+    throw new Error('unauthorized');
+  }
 
   if (!res.ok) {
     let message = `Request failed (${res.status})`;
@@ -63,6 +72,12 @@ export async function updateQuote(id, quote) {
     throw new Error('Update succeeded but no quote ID was returned');
   }
   return apiQuoteToForm(data);
+}
+
+export async function deleteQuote(id) {
+  await request(`/quotes/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  });
 }
 
 export async function listQuotes({ rep } = {}) {

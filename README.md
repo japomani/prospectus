@@ -37,17 +37,36 @@ go test ./...
 
 ## AWS deploy
 
+**Simple path (Windows):** from the repo root, run:
+
+```powershell
+.\deploy.ps1
+```
+
+Or from anywhere:
+
+```powershell
+cd C:\Users\10618071\Projects\prospectus; .\deploy.ps1
+```
+
+This detects frontend/backend changes, deploys only what changed (SAM + S3/CloudFront), then commits and pushes to GitHub. Optional flags: `-ForceAll`, `-FrontendOnly`, `-BackendOnly`, `-SkipGit`.
+
+Unix/macOS helper (manual/guided):
+
 ```bash
 ./scripts/deploy.sh
 ```
 
-Or manually:
+Or fully manual:
 
 ```powershell
-cd frontend; npm run build
-cd ../backend; sam build; sam deploy --guided
-aws s3 sync ../frontend/dist/ s3://YOUR_FRONTEND_BUCKET/ --delete
+cd frontend; $env:VITE_API_URL='https://g6yxi9yar3.execute-api.us-east-1.amazonaws.com'; npm run build
+cd ../backend; sam build; sam deploy
+aws s3 sync ../frontend/dist/ s3://delphinium-prospectus-frontendbucket-wmyrnj6h9qay/ --delete
+aws cloudfront create-invalidation --distribution-id E2UVEOPVDSKJ0I --paths '/*'
 ```
+
+Live site: https://dgnilygbxuhxd.cloudfront.net
 
 ## Hermes skill
 

@@ -22,7 +22,7 @@ export default function Prospectus() {
   const [loading, setLoading] = useState(true);
   const hasAutoPrinted = useRef(false);
 
-  const highlightFields = searchParams.get('highlightFields') !== 'false';
+  const highlightFields = searchParams.get('highlightFields') === 'true';
   const quoteParamKey = useMemo(
     () => quoteSearchKey(searchParams.toString()),
     [searchParams],
@@ -57,7 +57,12 @@ export default function Prospectus() {
       } catch (err) {
         if (!cancelled) {
           setLoadError(err.message);
-          setQuote(getDefaultQuote());
+          // Saved-quote routes: don't fall back to a blank demo prospectus on API failure
+          if (id && id !== 'new') {
+            setQuote(null);
+          } else {
+            setQuote(getDefaultQuote());
+          }
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -102,14 +107,29 @@ export default function Prospectus() {
   function toggleHighlight() {
     const next = new URLSearchParams(searchParams);
     if (highlightFields) {
-      next.set('highlightFields', 'false');
-    } else {
       next.delete('highlightFields');
+    } else {
+      next.set('highlightFields', 'true');
     }
     setSearchParams(next);
   }
 
-  if (loading || !quote || !fields) {
+  if (loading) {
+    return <div className="prospectus-loading">Loading prospectus…</div>;
+  }
+
+  if (loadError && id && id !== 'new' && !quote) {
+    return (
+      <div className="prospectus-loading">
+        <p className="prospectus-error">{loadError}</p>
+        <p>
+          <a href="/pricing">Go to pricing to log in</a>
+        </p>
+      </div>
+    );
+  }
+
+  if (!quote || !fields) {
     return <div className="prospectus-loading">Loading prospectus…</div>;
   }
 

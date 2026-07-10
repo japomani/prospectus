@@ -7,9 +7,11 @@ export default function QuoteList({
   loading,
   error,
   apiConfigured,
+  deletingId,
   onRefresh,
   onEdit,
   onView,
+  onDelete,
 }) {
   if (!apiConfigured) {
     return (
@@ -56,6 +58,7 @@ export default function QuoteList({
                 const total = item.pricingSnapshot?.grandTotal;
                 const label = displayQuoteLabel(item);
                 const school = item.schoolName?.trim() || '—';
+                const deleting = deletingId === item.quoteId;
                 return (
                   <tr key={item.quoteId}>
                     <td>
@@ -73,6 +76,14 @@ export default function QuoteList({
                         </button>
                         <button type="button" className="btn btn-primary btn-sm" onClick={() => onView(item.quoteId)}>
                           Prospectus
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-sm"
+                          disabled={deleting}
+                          onClick={() => onDelete(item)}
+                        >
+                          {deleting ? 'Deleting…' : 'Delete'}
                         </button>
                       </div>
                     </td>

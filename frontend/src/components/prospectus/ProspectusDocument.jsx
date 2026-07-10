@@ -55,7 +55,7 @@ function docPageLabels(quote) {
   pages.research = n;
   n += 1;
 
-  if (quote.includeFreeTrialPage !== false) {
+  if (quote.includeFreeTrialPage) {
     pages.freeTrial = n;
     n += 1;
   }
@@ -129,7 +129,7 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
 
               <ResearchFoundationSection pageLabel={`${pad(pages.research)} · Research foundation`} />
 
-              {quote.includeFreeTrialPage !== false && (
+              {quote.includeFreeTrialPage && (
                 <FreeTrialSection pageLabel={`${pad(pages.freeTrial)} · Free trial`} />
               )}
 

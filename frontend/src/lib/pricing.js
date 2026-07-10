@@ -4,8 +4,6 @@ export const PRICING_CONFIG = {
   districtMinimum: 6000,
 };
 
-export const CLEVER_FEE_FLAT = 500;
-
 const PRICING_TIERS = [
   { min: 120000, max: Infinity, startRatio: 0.484375, endRatio: 0.484375 },
   { min: 60000, max: 119999, startRatio: 0.515625, endRatio: 0.484375 },
@@ -79,6 +77,7 @@ function calculateImplementationFee(normalizedSubtotal) {
 export function getMultiYearDiscountPercent(years) {
   if (years === 2) return 2.5;
   if (years === 3) return 5;
+  if (years === 4) return 7.5;
   if (years === 5) return 10;
   return 0;
 }
@@ -153,8 +152,7 @@ export function calculatePricing(quote) {
   const normalizedSubtotal = productCount > 0 ? subtotalAfterVolume / productCount : 0;
   const implementationFee = isFirstYear ? calculateImplementationFee(normalizedSubtotal) : 0;
 
-  const cleverSchools = quote.clever ? Math.max(1, Number(quote.cleverSchools) || 1) : 0;
-  const cleverFee = quote.clever ? CLEVER_FEE_FLAT * cleverSchools : 0;
+  const cleverFee = quote.clever ? (Number(quote.cleverFee) || 0) : 0;
   const smsFee = quote.sms ? (Number(quote.smsFee) || 0) : 0;
   const addOnTotal = round2(cleverFee + smsFee);
 
@@ -222,7 +220,6 @@ export function calculatePricing(quote) {
     totalSavings,
     annualSavings,
     cleverFee,
-    cleverSchools,
     smsFee,
     addOnTotal,
     yearBreakdowns,
@@ -288,7 +285,7 @@ export function resolveYearlyPaymentSchedule(quote, results) {
 
 /** @deprecated Use calculatePricing(quote) instead */
 export class ProductPricingCalculator {
-  constructor({ schoolType, students, isDistrict, isFirstYear, years, products, customItems, clever, sms, smsFee }) {
+  constructor({ schoolType, students, isDistrict, isFirstYear, years, products, customItems, clever, cleverFee, sms, smsFee }) {
     this.schoolType = schoolType || 'online';
     this.students = Number(students) || 0;
     this.isDistrict = Boolean(isDistrict);
@@ -297,6 +294,7 @@ export class ProductPricingCalculator {
     this.products = products || {};
     this.customItems = customItems || [];
     this.clever = Boolean(clever);
+    this.cleverFee = cleverFee;
     this.sms = Boolean(sms);
     this.smsFee = smsFee;
   }
@@ -316,6 +314,7 @@ export class ProductPricingCalculator {
       years: this.years,
       customItems: this.customItems,
       clever: this.clever,
+      cleverFee: this.cleverFee,
       sms: this.sms,
       smsFee: this.smsFee,
       engagementBuilder: this.products.engagementBuilder,

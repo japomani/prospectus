@@ -21,6 +21,12 @@ function formatSmsFee(pricing, quote) {
   return 'Custom / quote';
 }
 
+function formatCleverFee(pricing, quote) {
+  if (!quote.clever) return '—';
+  if (pricing.cleverFee > 0) return formatCurrency(pricing.cleverFee);
+  return 'Custom / quote';
+}
+
 function possessive(name) {
   if (!name) return "Your School's";
   return name.endsWith('s') ? `${name}'` : `${name}'s`;
@@ -54,7 +60,7 @@ export function buildFields(quote, pricing) {
     EB_PRICE: quote.engagementBuilder ? formatCurrency(pricing.ebPrice) : '—',
     CB_PRICE: quote.communityBuilder ? formatCurrency(pricing.cbPrice) : '—',
     CTU_PRICE: quote.controlTowerUltra ? formatCurrency(pricing.ctuPrice) : '—',
-    CLEVER_FEE: quote.clever ? formatCurrency(pricing.cleverFee) : '—',
+    CLEVER_FEE: formatCleverFee(pricing, quote),
     SMS_FEE: formatSmsFee(pricing, quote),
     IMPLEMENTATION_FEE: formatCurrency(pricing.implementationFee),
     PILOT_FEE: formatCurrency(PILOT_FEE),
@@ -77,7 +83,7 @@ export function getDefaultQuote() {
     communityBuilder: true,
     controlTowerUltra: false,
     clever: false,
-    cleverSchools: 1,
+    cleverFee: 0,
     sms: false,
     smsFee: 0,
     notes: '',
@@ -85,7 +91,7 @@ export function getDefaultQuote() {
     preparedByName: 'Jared Chapman',
     preparedByTitle: 'Chief Innovation Officer',
     targetGoLive: 'August 2026',
-    includeFreeTrialPage: true,
+    includeFreeTrialPage: false,
     includePilotPage: false,
     quoteName: '',
     quoteId: '',

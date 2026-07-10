@@ -77,23 +77,23 @@ func TestMultiYearDiscount_5Years(t *testing.T) {
 func TestCleverAddOn(t *testing.T) {
 	q := QuoteInput{
 		SchoolType: SchoolOnline, Students: 1000, Years: 1, IsFirstYear: true,
-		Products: Products{EngagementBuilder: true, Clever: true}, CleverSchools: 1,
+		Products: Products{EngagementBuilder: true, Clever: true}, CleverFee: 500,
 	}
 	r, err := Calculate(q)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if r.ModulePrices.Clever != 500 {
-		t.Errorf("clever fee (1 school): got %v want 500", r.ModulePrices.Clever)
+		t.Errorf("clever fee: got %v want 500", r.ModulePrices.Clever)
 	}
 
-	q3 := q
-	q3.CleverSchools = 3
-	r3, err := Calculate(q3)
+	qCustom := q
+	qCustom.CleverFee = 0
+	rCustom, err := Calculate(qCustom)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if r3.ModulePrices.Clever != 1500 {
-		t.Errorf("clever fee (3 schools): got %v want 1500", r3.ModulePrices.Clever)
+	if rCustom.ModulePrices.Clever != 0 {
+		t.Errorf("custom/quote clever fee: got %v want 0", rCustom.ModulePrices.Clever)
 	}
 }

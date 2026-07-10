@@ -21,7 +21,7 @@ export function buildSuggestedQuoteName(quote, pricing = null) {
   const products = Object.entries(PRODUCT_ABBREV)
     .filter(([key]) => quote[key])
     .map(([, abbrev]) => abbrev);
-  if (quote.clever) products.push('Clever');
+  if (quote.clever) products.push('SIS');
   if (quote.sms) products.push('SMS');
   if (products.length) parts.push(products.join(', '));
 

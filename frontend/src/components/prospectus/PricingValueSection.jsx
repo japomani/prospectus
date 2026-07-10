@@ -20,7 +20,7 @@ export default function PricingValueSection({
   const customDiscounts = pricing.customItems.filter(i => i.computedValue < 0);
   const hasAddons =
     pricing.implementationFee > 0
-    || pricing.cleverFee > 0
+    || quote.clever
     || quote.sms
     || customCharges.length > 0;
   const hasDiscounts =
@@ -130,13 +130,12 @@ export default function PricingValueSection({
                   <span>{formatCurrency(pricing.implementationFee)}</span>
                 </div>
               )}
-              {pricing.cleverFee > 0 && (
+              {quote.clever && (
                 <div className="doc-pricing-row">
+                  <span>SIS Integration</span>
                   <span>
-                    Clever Integration
-                    {(quote.cleverSchools || 1) > 1 && ` (${quote.cleverSchools} schools)`}
+                    {pricing.cleverFee > 0 ? formatCurrency(pricing.cleverFee) : 'Custom / quote'}
                   </span>
-                  <span>{formatCurrency(pricing.cleverFee)}</span>
                 </div>
               )}
               {quote.sms && (

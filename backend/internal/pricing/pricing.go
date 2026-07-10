@@ -11,7 +11,6 @@ const (
 	SchoolOnline       SchoolType = "online"
 	SchoolTraditional  SchoolType = "traditional"
 	DistrictMinimum    float64    = 6000
-	CleverFlatFee      float64    = 500
 )
 
 type Config struct {
@@ -69,7 +68,8 @@ type QuoteInput struct {
 	Products    Products     `json:"products"`
 	CustomItems []CustomItem `json:"customItems"`
 	SMSFee      float64      `json:"smsFee"`
-	CleverSchools int        `json:"cleverSchools"`
+	CleverFee   float64      `json:"cleverFee"`
+	CleverSchools int        `json:"cleverSchools"` // legacy; ignored when CleverFee is used
 }
 
 type ModulePrices struct {
@@ -243,11 +243,7 @@ func Calculate(q QuoteInput) (Result, error) {
 	dealCustomTotal := 0.0
 	cleverFee := 0.0
 	if q.Products.Clever {
-		schools := q.CleverSchools
-		if schools < 1 {
-			schools = 1
-		}
-		cleverFee = CleverFlatFee * float64(schools)
+		cleverFee = q.CleverFee
 	}
 	smsFee := 0.0
 	if q.Products.SMS {

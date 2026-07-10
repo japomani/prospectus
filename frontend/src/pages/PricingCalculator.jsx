@@ -15,7 +15,7 @@ import { encodeQuoteParams } from '../lib/encoder.js';
 import { getDefaultQuote } from '../lib/fields.js';
 import { formatCustomItemLabel, PRODUCT_LABELS } from '../lib/pricingSummary.js';
 import { calculatePricing, formatCurrency, getMultiYearDiscountPercent, buildDefaultYearlyPayments, resolveYearlyPaymentSchedule } from '../lib/pricing.js';
-import { formatDate } from '../lib/dates.js';
+import { formatDate, fromMonthInputValue, toMonthInputValue } from '../lib/dates.js';
 import { buildSuggestedQuoteName, displayQuoteLabel } from '../lib/quoteName.js';
 
 function integerInputProps(value, onChange) {
@@ -500,22 +500,17 @@ export default function PricingCalculator() {
                     <input
                       type="checkbox"
                       checked={quote.clever}
-                      onChange={e => updateQuote({
-                        clever: e.target.checked,
-                        ...(e.target.checked && !quote.cleverSchools ? { cleverSchools: 1 } : {}),
-                      })}
+                      onChange={e => updateQuote({ clever: e.target.checked })}
                     />
-                    Clever integration ($500/school)
+                    SIS integration (custom / quote)
                   </label>
                 </div>
                 {quote.clever && (
                   <div className="form-group form-group-nested">
-                    <label>Number of schools</label>
+                    <label>SIS fee (optional override)</label>
                     <input
-                      {...integerInputProps(
-                        quote.cleverSchools || 1,
-                        cleverSchools => updateQuote({ cleverSchools: Math.max(1, cleverSchools) }),
-                      )}
+                      placeholder="0 = show as custom/quote"
+                      {...integerInputProps(quote.cleverFee, cleverFee => updateQuote({ cleverFee }))}
                     />
                   </div>
                 )}
@@ -543,11 +538,10 @@ export default function PricingCalculator() {
           </div>
 
           <div className="card">
-            <div className="card-title">Contract Term</div>
+            <div className="card-title">Number of Years</div>
             <div className="form-group">
-              <label>Number of Years</label>
               <div className="radio-group">
-                {[1, 2, 3, 5].map(y => (
+                {[1, 2, 3, 4, 5].map(y => (
                   <label className="checkbox-label" key={y}>
                     <input
                       type="radio"
@@ -597,10 +591,11 @@ export default function PricingCalculator() {
             <div className="form-group">
               <label>Target go-live</label>
               <input
-                type="text"
-                value={quote.targetGoLive}
-                onChange={e => updateQuote({ targetGoLive: e.target.value })}
-                placeholder="August 2026"
+                type="month"
+                value={toMonthInputValue(quote.targetGoLive)}
+                onChange={e => updateQuote({
+                  targetGoLive: fromMonthInputValue(e.target.value),
+                })}
               />
             </div>
             <div className="form-group">
@@ -608,7 +603,7 @@ export default function PricingCalculator() {
               <label className="checkbox-label">
                 <input
                   type="checkbox"
-                  checked={quote.includeFreeTrialPage !== false}
+                  checked={Boolean(quote.includeFreeTrialPage)}
                   onChange={e => updateQuote({ includeFreeTrialPage: e.target.checked })}
                 />
                 Include free trial page
@@ -719,7 +714,7 @@ export default function PricingCalculator() {
                   const customDiscounts = results.customItems.filter(i => i.computedValue < 0);
                   const hasAddons =
                     results.implementationFee > 0
-                    || results.cleverFee > 0
+                    || quote.clever
                     || quote.sms
                     || customCharges.length > 0;
                   const hasDiscounts =
@@ -784,13 +779,12 @@ export default function PricingCalculator() {
                               <span>{formatCurrency(results.implementationFee)}</span>
                             </div>
                           )}
-                          {results.cleverFee > 0 && (
+                          {quote.clever && (
                             <div className="result-row">
+                              <span>SIS Integration</span>
                               <span>
-                                Clever Integration
-                                {(quote.cleverSchools || 1) > 1 && ` (${quote.cleverSchools} schools)`}
+                                {results.cleverFee > 0 ? formatCurrency(results.cleverFee) : 'Custom / quote'}
                               </span>
-                              <span>{formatCurrency(results.cleverFee)}</span>
                             </div>
                           )}
                           {quote.sms && (

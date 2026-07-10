@@ -75,6 +75,7 @@ label {
 /* Mirrors .dInput */
 input[type="text"],
 input[type="number"],
+input[type="month"],
 select,
 textarea {
   width: 100%;
@@ -91,6 +92,7 @@ textarea {
 
 input[type="text"]:focus,
 input[type="number"]:focus,
+input[type="month"]:focus,
 select:focus,
 textarea:focus {
   box-shadow: 0 0 0 3px rgba(24, 121, 205, 0.25);

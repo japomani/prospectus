@@ -106,7 +106,7 @@ func (a *API) createQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 		QuoteID: id, QuoteName: body.QuoteName, SchoolName: body.SchoolName, SchoolType: body.SchoolType,
 		Students: body.Students, IsDistrict: body.IsDistrict, IsUniversity: body.IsUniversity, IsFirstYear: body.IsFirstYear,
 		Years: body.Years, PayUpfront: body.PayUpfront, YearlyPayments: body.YearlyPayments, Products: body.Products, CustomItems: body.CustomItems,
-		SMSFee: body.SMSFee, CleverSchools: body.CleverSchools, Notes: body.Notes, PreparedByName: body.PreparedByName,
+		SMSFee: body.SMSFee, CleverFee: body.CleverFee, CleverSchools: body.CleverSchools, Notes: body.Notes, PreparedByName: body.PreparedByName,
 		PreparedByTitle: body.PreparedByTitle, PrimaryPain: body.PrimaryPain,
 		PainPoint1: body.PainPoint1, PainPoint2: body.PainPoint2, PainPoint3: body.PainPoint3,
 		PeerReference: body.PeerReference, TargetGoLive: body.TargetGoLive,
@@ -228,6 +228,7 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	q.Products = body.Products
 	q.CustomItems = body.CustomItems
 	q.SMSFee = body.SMSFee
+	q.CleverFee = body.CleverFee
 	q.CleverSchools = body.CleverSchools
 	q.Notes = body.Notes
 	q.PreparedByName = body.PreparedByName

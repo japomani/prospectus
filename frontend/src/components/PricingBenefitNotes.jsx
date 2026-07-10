@@ -38,7 +38,10 @@ export default function PricingBenefitNotes({ fields, highlightFields }) {
       <div className="benefit-notes-section">
         <h3>Multi-year agreements:</h3>
         <ul>
-          <li>Receive a discount for committing to multiple years</li>
+          <li>
+            Discounts available: 2 years at 2.5% off, 3 years at 5% off, 4 years at 7.5% off, or
+            5 years at 10% off
+          </li>
           <li>Lock in today&apos;s pricing for the length of the agreement</li>
           <li>Pay in advance of the license term, with payment plans available</li>
         </ul>

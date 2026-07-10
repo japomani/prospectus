@@ -20,14 +20,14 @@ export function encodeQuoteParams(formData) {
   params.set('communityBuilder', formData.communityBuilder ? '1' : '0');
   params.set('controlTowerUltra', formData.controlTowerUltra ? '1' : '0');
   params.set('clever', formData.clever ? '1' : '0');
-  params.set('cleverSchools', String(Math.max(1, Number(formData.cleverSchools) || 1)));
+  params.set('cleverFee', String(formData.cleverFee || 0));
   params.set('sms', formData.sms ? '1' : '0');
   params.set('smsFee', String(formData.smsFee || 0));
 
   params.set('preparedByName', formData.preparedByName || '');
   params.set('preparedByTitle', formData.preparedByTitle || '');
   params.set('targetGoLive', formData.targetGoLive || '');
-  params.set('includeFreeTrialPage', formData.includeFreeTrialPage !== false ? '1' : '0');
+  params.set('includeFreeTrialPage', formData.includeFreeTrialPage ? '1' : '0');
   params.set('includePilotPage', formData.includePilotPage ? '1' : '0');
 
   if (formData.quoteId) params.set('quoteId', formData.quoteId);
@@ -95,13 +95,13 @@ export function decodeQuoteParams(searchString) {
     communityBuilder: has('communityBuilder') ? bool('communityBuilder') : products.communityBuilder,
     controlTowerUltra: has('controlTowerUltra') ? bool('controlTowerUltra') : products.controlTowerUltra,
     clever: bool('clever'),
-    cleverSchools: Math.max(1, Number(params.get('cleverSchools')) || 1),
+    cleverFee: Number(params.get('cleverFee')) || 0,
     sms: bool('sms'),
     smsFee: Number(params.get('smsFee')) || 0,
     preparedByName: params.get('preparedByName') || '',
     preparedByTitle: params.get('preparedByTitle') || '',
     targetGoLive: params.get('targetGoLive') || '',
-    includeFreeTrialPage: !has('includeFreeTrialPage') || bool('includeFreeTrialPage'),
+    includeFreeTrialPage: bool('includeFreeTrialPage'),
     includePilotPage: bool('includePilotPage'),
     quoteId: params.get('quoteId') || '',
     customItems,

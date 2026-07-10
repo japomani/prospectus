@@ -21,6 +21,7 @@ type Quote struct {
 	Products         pricing.Products      `json:"products" dynamodbav:"products"`
 	CustomItems      []pricing.CustomItem  `json:"customItems" dynamodbav:"customItems"`
 	SMSFee           float64               `json:"smsFee" dynamodbav:"smsFee"`
+	CleverFee        float64               `json:"cleverFee" dynamodbav:"cleverFee"`
 	CleverSchools    int                   `json:"cleverSchools" dynamodbav:"cleverSchools"`
 	Notes            string                `json:"notes" dynamodbav:"notes"`
 	PreparedByName   string                `json:"preparedByName" dynamodbav:"preparedByName"`
@@ -57,6 +58,7 @@ type CreateRequest struct {
 	Products        pricing.Products     `json:"products"`
 	CustomItems     []pricing.CustomItem `json:"customItems"`
 	SMSFee          float64              `json:"smsFee"`
+	CleverFee       float64              `json:"cleverFee"`
 	CleverSchools   int                  `json:"cleverSchools"`
 	Notes           string               `json:"notes"`
 	PreparedByName  string               `json:"preparedByName"`
@@ -100,6 +102,7 @@ func (r CreateRequest) ToQuoteInput() pricing.QuoteInput {
 		Products:    r.Products,
 		CustomItems: r.CustomItems,
 		SMSFee:      r.SMSFee,
+		CleverFee:   r.CleverFee,
 		CleverSchools: r.CleverSchools,
 	}
 }
@@ -114,6 +117,7 @@ func (q Quote) ToQuoteInput() pricing.QuoteInput {
 		Products:    q.Products,
 		CustomItems: q.CustomItems,
 		SMSFee:      q.SMSFee,
+		CleverFee:   q.CleverFee,
 		CleverSchools: q.CleverSchools,
 	}
 }

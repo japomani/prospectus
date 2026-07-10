@@ -133,7 +133,7 @@ export function getDefaultQuote() {
     payUpfront: true,
     yearlyPayments: [],
     engagementBuilder: true,
-    communityBuilder: false,
+    communityBuilder: true,
     controlTowerUltra: false,
     clever: false,
     cleverSchools: 1,

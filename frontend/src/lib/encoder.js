@@ -1,6 +1,6 @@
 const DEFAULT_PRODUCTS = {
   engagementBuilder: true,
-  communityBuilder: false,
+  communityBuilder: true,
   controlTowerUltra: false,
 };
 

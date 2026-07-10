@@ -22,8 +22,12 @@ async function request(path, options = {}) {
   });
 
   if (res.status === 401) {
+    const hadPassword = Boolean(password);
     clearApiPassword();
-    window.location.reload();
+    // Avoid reload loops on public prospectus links that call the API without a session.
+    if (hadPassword) {
+      window.location.assign('/pricing');
+    }
     throw new Error('unauthorized');
   }
 

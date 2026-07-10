@@ -3,6 +3,7 @@ import { selectedModules } from '../../lib/productCatalog.js';
 
 export default function CoverProductSheetsSection({ quote, startPage, pad }) {
   const modules = selectedModules(quote);
+  const isUniversity = Boolean(quote?.isUniversity);
 
   return (
     <>
@@ -19,7 +20,7 @@ export default function CoverProductSheetsSection({ quote, startPage, pad }) {
             {mod.name}
           </div>
 
-          <CoverProductPage mod={mod} />
+          <CoverProductPage mod={mod} isUniversity={isUniversity} />
         </section>
       ))}
     </>

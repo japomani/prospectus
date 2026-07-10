@@ -51,6 +51,8 @@ export default function ExecutiveSummarySection({
   pageLabelC,
   pageLabelD,
 }) {
+  const isUniversity = Boolean(quote?.isUniversity);
+
   return (
     <>
       {/* ==================== PAGE A — THE CASE FOR ENGAGEMENT ==================== */}
@@ -67,7 +69,10 @@ export default function ExecutiveSummarySection({
         </h2>
 
         <p className="ex-lead" style={{ marginBottom: 0 }}>
-          More education has moved online — and students and families expect that access now. But
+          More education has moved online — and students
+          {isUniversity ? '' : ' and families'}
+          {' '}
+          expect that access now. But
           delivering content online is not the same as engaging students. In a classroom, teachers
           can read the room, catch a glance, stand by a student who is drifting, or capture focus
           with a quick activity.{' '}
@@ -152,13 +157,15 @@ export default function ExecutiveSummarySection({
               buried. A slipping student can quietly fade, and nothing pulls them back.
             </p>
           </div>
-          <div className="ex-gap-row">
-            <div className="ex-gap-who">THE PARENT wants...</div>
-            <p className="ex-gap-tx">
-              <b>to be the cheerleader and coach </b>their kid needs, but Canvas gives opaque data
-              without a story they can act on.
-            </p>
-          </div>
+          {!isUniversity && (
+            <div className="ex-gap-row">
+              <div className="ex-gap-who">THE PARENT wants...</div>
+              <p className="ex-gap-tx">
+                <b>to be the cheerleader and coach </b>their kid needs, but Canvas gives opaque data
+                without a story they can act on.
+              </p>
+            </div>
+          )}
           <div className="ex-gap-row">
             <div className="ex-gap-who">THE TEACHER FACES...</div>
             <p className="ex-gap-tx">
@@ -191,7 +198,10 @@ export default function ExecutiveSummarySection({
         <p className="ex-lead" style={{ margin: '0 0 6px' }}>
           For an online student, <b>Canvas is the entire school experience.</b> Delphinium adds a
           quick layer over your existing Canvas courses — no rebuild, no new platform. It
-          re-engages students, gives parents a clear picture, and hands teachers early warnings
+          re-engages students
+          {isUniversity ? '' : ', gives parents a clear picture,'}
+          {' '}
+          and hands teachers early warnings
           instead of spreadsheets.
         </p>
 
@@ -336,7 +346,16 @@ export default function ExecutiveSummarySection({
             <text x="38" y="360" fontSize="20" style={{ fill: 'var(--dl-text)' }}>• Students connect, build momentum, and drive their learning</text>
 
             {/* And you get (top-right, white) */}
-            <rect x="700" y="10" width="680" height="216" rx="12" strokeWidth="1.5" filter="url(#shadow-p09)" style={{ fill: 'var(--dl-surface)', stroke: 'var(--dl-border)' }} />
+            <rect
+              x="700"
+              y="10"
+              width="680"
+              height={isUniversity ? 168 : 216}
+              rx="12"
+              strokeWidth="1.5"
+              filter="url(#shadow-p09)"
+              style={{ fill: 'var(--dl-surface)', stroke: 'var(--dl-border)' }}
+            />
             <text x="725" y="52" fontSize="26" fontWeight="bold" style={{ fill: 'var(--dl-text)' }}>And you get…</text>
 
             {/* pill: Students */}
@@ -344,32 +363,100 @@ export default function ExecutiveSummarySection({
             <text x="791" y="98" fontSize="20" fontWeight="bold" textAnchor="middle" style={{ fill: 'var(--dl-indigo)' }}>Students</text>
             <text x="872" y="98" fontSize="20" style={{ fill: 'var(--dl-text)' }}>that see the whole path — and own it</text>
 
-            {/* pill: Families */}
-            <rect x="725" y="120" width="132" height="40" rx="20" strokeWidth="1.5" style={{ fill: 'color-mix(in srgb, var(--dl-indigo) 10%, #fff)', stroke: 'var(--dl-indigo)' }} />
-            <text x="791" y="146" fontSize="20" fontWeight="bold" textAnchor="middle" style={{ fill: 'var(--dl-indigo)' }}>Families</text>
-            <text x="872" y="146" fontSize="20" style={{ fill: 'var(--dl-text)' }}>armed with the knowledge to encourage and coach</text>
+            {!isUniversity && (
+              <>
+                {/* pill: Families */}
+                <rect x="725" y="120" width="132" height="40" rx="20" strokeWidth="1.5" style={{ fill: 'color-mix(in srgb, var(--dl-indigo) 10%, #fff)', stroke: 'var(--dl-indigo)' }} />
+                <text x="791" y="146" fontSize="20" fontWeight="bold" textAnchor="middle" style={{ fill: 'var(--dl-indigo)' }}>Families</text>
+                <text x="872" y="146" fontSize="20" style={{ fill: 'var(--dl-text)' }}>armed with the knowledge to encourage and coach</text>
+              </>
+            )}
 
             {/* pill: Teachers */}
-            <rect x="725" y="168" width="132" height="40" rx="20" strokeWidth="1.5" style={{ fill: 'color-mix(in srgb, var(--dl-indigo) 10%, #fff)', stroke: 'var(--dl-indigo)' }} />
-            <text x="791" y="194" fontSize="20" fontWeight="bold" textAnchor="middle" style={{ fill: 'var(--dl-indigo)' }}>Teachers</text>
-            <text x="872" y="194" fontSize="20" style={{ fill: 'var(--dl-text)' }}>that reach the right student at the right time</text>
+            <rect
+              x="725"
+              y={isUniversity ? 120 : 168}
+              width="132"
+              height="40"
+              rx="20"
+              strokeWidth="1.5"
+              style={{ fill: 'color-mix(in srgb, var(--dl-indigo) 10%, #fff)', stroke: 'var(--dl-indigo)' }}
+            />
+            <text
+              x="791"
+              y={isUniversity ? 146 : 194}
+              fontSize="20"
+              fontWeight="bold"
+              textAnchor="middle"
+              style={{ fill: 'var(--dl-indigo)' }}
+            >
+              Teachers
+            </text>
+            <text
+              x="872"
+              y={isUniversity ? 146 : 194}
+              fontSize="20"
+              style={{ fill: 'var(--dl-text)' }}
+            >
+              that reach the right student at the right time
+            </text>
 
             {/* Better outcomes (bottom-right, green tint) */}
-            <rect x="700" y="284" width="680" height="196" rx="12" strokeWidth="1.5" filter="url(#shadow-p09)" style={{ fill: 'color-mix(in srgb, var(--dl-green) 10%, #fff)', stroke: 'var(--dl-green)' }} />
-            <text x="725" y="324" fontSize="26" fontWeight="bold" style={{ fill: 'var(--dl-text)' }}>Better outcomes, top to bottom</text>
-            <text x="728" y="360" fontSize="20" style={{ fill: 'var(--dl-text)' }}>• More students succeed — the first time</text>
-            <text x="728" y="392" fontSize="20" style={{ fill: 'var(--dl-text)' }}>• Attendance, completion, and retention rise</text>
-            <text x="728" y="424" fontSize="20" style={{ fill: 'var(--dl-text)' }}>• Families feel connected, informed, and confident</text>
-            <text x="728" y="456" fontSize="20" style={{ fill: 'var(--dl-text)' }}>• Teachers do more in less time, with less frustration</text>
+            <rect
+              x="700"
+              y={isUniversity ? 236 : 284}
+              width="680"
+              height={isUniversity ? 164 : 196}
+              rx="12"
+              strokeWidth="1.5"
+              filter="url(#shadow-p09)"
+              style={{ fill: 'color-mix(in srgb, var(--dl-green) 10%, #fff)', stroke: 'var(--dl-green)' }}
+            />
+            <text
+              x="725"
+              y={isUniversity ? 276 : 324}
+              fontSize="26"
+              fontWeight="bold"
+              style={{ fill: 'var(--dl-text)' }}
+            >
+              Better outcomes, top to bottom
+            </text>
+            <text x="728" y={isUniversity ? 312 : 360} fontSize="20" style={{ fill: 'var(--dl-text)' }}>• More students succeed — the first time</text>
+            <text x="728" y={isUniversity ? 344 : 392} fontSize="20" style={{ fill: 'var(--dl-text)' }}>• Attendance, completion, and retention rise</text>
+            {!isUniversity && (
+              <text x="728" y="424" fontSize="20" style={{ fill: 'var(--dl-text)' }}>• Families feel connected, informed, and confident</text>
+            )}
+            <text
+              x="728"
+              y={isUniversity ? 376 : 456}
+              fontSize="20"
+              style={{ fill: 'var(--dl-text)' }}
+            >
+              • Teachers do more in less time, with less frustration
+            </text>
 
             {/* Start → Multiply (down) */}
             <path d="M305,180 L305,246" fill="none" strokeWidth="3" markerEnd="url(#arrow-p09)" style={{ stroke: 'var(--dl-text)' }} />
 
             {/* Multiply → And you get (elbow) */}
-            <path d="M622,315 H644 A16,16 0 0 0 660,299 V111 A16,16 0 0 1 676,95 H696" fill="none" strokeWidth="3" markerEnd="url(#arrow-p09)" style={{ stroke: 'var(--dl-text)' }} />
+            <path
+              d={isUniversity
+                ? 'M622,315 H644 A16,16 0 0 0 660,299 V95 A16,16 0 0 1 676,79 H696'
+                : 'M622,315 H644 A16,16 0 0 0 660,299 V111 A16,16 0 0 1 676,95 H696'}
+              fill="none"
+              strokeWidth="3"
+              markerEnd="url(#arrow-p09)"
+              style={{ stroke: 'var(--dl-text)' }}
+            />
 
             {/* And you get → Better outcomes (down) */}
-            <path d="M970,226 L970,278" fill="none" strokeWidth="3" markerEnd="url(#arrow-p09)" style={{ stroke: 'var(--dl-text)' }} />
+            <path
+              d={isUniversity ? 'M970,178 L970,230' : 'M970,226 L970,278'}
+              fill="none"
+              strokeWidth="3"
+              markerEnd="url(#arrow-p09)"
+              style={{ stroke: 'var(--dl-text)' }}
+            />
           </svg>
           <p className="ex-mult-roi">
             Results like a 31% drop in failures <b>means more</b> of the ~$229K invested in each

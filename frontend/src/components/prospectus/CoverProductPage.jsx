@@ -1,3 +1,5 @@
+import { adaptModuleForAudience } from '../../lib/productCatalog.js';
+
 function ProductFigure({ src, alt, width, className = 'cover-product-figure' }) {
   return (
     <figure className={className}>
@@ -73,6 +75,7 @@ function HeroImages({ images, heroTitle, plain }) {
 }
 
 function SectionBlock({ section, isFirst }) {
+  const items = section.items || [];
   return (
     <div className="cover-product-block">
       {section.badge ? (
@@ -90,11 +93,13 @@ function SectionBlock({ section, isFirst }) {
       {section.lead && (
         <p className="ex-lead cover-product-block-lead">{section.lead}</p>
       )}
-      <ul className="cover-product-list">
-        {section.items.map(item => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
+      {items.length > 0 && (
+        <ul className="cover-product-list">
+          {items.map(item => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      )}
       {section.imageAfter && (
         <ProductFigure
           src={section.imageAfter}
@@ -121,7 +126,8 @@ function PullQuote({ quote, mutedAttr }) {
   );
 }
 
-export default function CoverProductPage({ mod, kicker, titleSuffix }) {
+export default function CoverProductPage({ mod: rawMod, kicker, titleSuffix, isUniversity = false }) {
+  const mod = adaptModuleForAudience(rawMod, isUniversity);
   const sections = mod.sections ?? [];
   const quotes = mod.quotes ?? (mod.quote ? [mod.quote] : []);
   const usesTitleHeader = Boolean(mod.heroSubtitle);

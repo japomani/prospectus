@@ -17,7 +17,7 @@ function AddonsLandingHeading() {
 export default function OtherProductsSection({ quote, startPage = 1, pad = n => String(n).padStart(2, '0') }) {
   const isUniversity = Boolean(quote?.isUniversity);
   const modules = unselectedModules(quote);
-  const addons = unselectedAddons(quote).filter(a => !(isUniversity && a.key === 'clever'));
+  const addons = unselectedAddons(quote);
   if (modules.length === 0 && addons.length === 0) return null;
 
   const moduleStartPage = startPage + (addons.length > 0 ? 1 : 0);
@@ -59,7 +59,7 @@ export default function OtherProductsSection({ quote, startPage = 1, pad = n => 
               {' '}
               · Other products
             </div>
-            <CoverProductPage mod={mod} />
+            <CoverProductPage mod={mod} isUniversity={isUniversity} />
           </section>
         );
       })}

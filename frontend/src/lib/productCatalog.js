@@ -320,8 +320,117 @@ export const ADDONS = [
   },
 ];
 
+function isHigherEd(quote) {
+  return Boolean(quote?.isUniversity);
+}
+
+/** Drop SIS / parent-contact add-on from prospectus when Higher Ed is on. */
+function audienceAddons(addons, quote) {
+  if (!isHigherEd(quote)) return addons;
+  return addons.filter(a => a.key !== 'clever');
+}
+
+function mapSectionItems(sections, mapItem) {
+  return (sections || []).map(section => ({
+    ...section,
+    items: (section.items || []).map(mapItem).filter(Boolean),
+  }));
+}
+
+/**
+ * Higher Ed: remove parent/guardian/family/observer copy (drop lines when
+ * they exist only for that audience; otherwise strip those words from lists).
+ */
+export function adaptModuleForAudience(mod, isUniversity) {
+  if (!isUniversity || !mod) return mod;
+  const m = structuredClone(mod);
+
+  if (m.key === 'core') {
+    m.sections = mapSectionItems(m.sections, item => {
+      if (item.includes('students and families')) {
+        return item.replace('students and families', 'students');
+      }
+      if (item.includes('student and parent apps')) {
+        return item.replace('student and parent apps', 'student app');
+      }
+      return item;
+    }).map(section => {
+      if (section.title === 'Support' && section.lead) {
+        return {
+          ...section,
+          lead: section.lead.replace('students, parents, teachers, and admins', 'students, teachers, and admins'),
+        };
+      }
+      return section;
+    });
+  }
+
+  if (m.key === 'cb') {
+    if (m.intro) {
+      m.intro = m.intro.replace('Teachers chase less, families know how to help, and every student feels seen.', 'Teachers chase less, and every student feels seen.');
+    }
+    m.sections = mapSectionItems(m.sections, item => {
+      if (item.includes('a targeted group, parents, or')) {
+        return item.replace('a targeted group, parents, or', 'a targeted group, or');
+      }
+      if (item.includes('loop parents in')) return null;
+      if (item.includes('every family hears')) {
+        return item.replace('every family hears', 'every student hears');
+      }
+      return item;
+    });
+    if (m.otherProduct?.sections) {
+      m.otherProduct.sections = mapSectionItems(m.otherProduct.sections, item => {
+        if (item.includes('a targeted group, parents, or')) {
+          return item.replace('a targeted group, parents, or', 'a targeted group, or');
+        }
+        return item;
+      });
+    }
+  }
+
+  if (m.key === 'eb') {
+    if (m.intro) {
+      m.intro = m.intro.replace(
+        'and a shared view so parents and teachers can step in at the right moment.',
+        'and a shared view so teachers can step in at the right moment.',
+      );
+    }
+    m.sections = (m.sections || []).map(section => {
+      if (section.title !== 'Give every student a champion') return section;
+      return {
+        ...section,
+        lead: 'Surround every student with people who can actually help',
+        items: [],
+      };
+    });
+  }
+
+  if (m.key === 'ctu') {
+    if (m.benefit) {
+      m.benefit = m.benefit.replace('students, parents, teachers, and admins', 'students, teachers, and admins');
+    }
+    m.sections = mapSectionItems(m.sections, item => {
+      if (item.includes('students, parents, teachers, teacher groups, and admins')) {
+        return item.replace(
+          'students, parents, teachers, teacher groups, and admins',
+          'students, teachers, teacher groups, and admins',
+        );
+      }
+      return item;
+    });
+    if (m.otherProduct?.bullets) {
+      m.otherProduct.bullets = m.otherProduct.bullets.map(b => (
+        b === 'Students, parents, teachers, admins' ? 'Students, teachers, admins' : b
+      ));
+    }
+  }
+
+  return m;
+}
+
 export function selectedAddons(quote) {
-  return ADDONS.filter(a => quote[a.quoteKey]);
+  return audienceAddons(ADDONS.filter(a => quote[a.quoteKey]), quote);
 }
 
 export const OPTIONAL_MODULES = MODULES.filter(m => !m.included && m.quoteKey);
@@ -335,7 +444,7 @@ export function unselectedModules(quote) {
 }
 
 export function unselectedAddons(quote) {
-  return ADDONS.filter(a => !quote[a.quoteKey]);
+  return audienceAddons(ADDONS.filter(a => !quote[a.quoteKey]), quote);
 }
 
 export function hasUnselectedProducts(quote) {

@@ -26,11 +26,6 @@ export function encodeQuoteParams(formData) {
 
   params.set('preparedByName', formData.preparedByName || '');
   params.set('preparedByTitle', formData.preparedByTitle || '');
-  params.set('primaryPain', formData.primaryPain || '');
-  params.set('painPoint1', formData.painPoint1 || '');
-  params.set('painPoint2', formData.painPoint2 || '');
-  params.set('painPoint3', formData.painPoint3 || '');
-  params.set('peerReference', formData.peerReference || '');
   params.set('targetGoLive', formData.targetGoLive || '');
   params.set('includeFreeTrialPage', formData.includeFreeTrialPage !== false ? '1' : '0');
   params.set('includePilotPage', formData.includePilotPage ? '1' : '0');
@@ -105,11 +100,6 @@ export function decodeQuoteParams(searchString) {
     smsFee: Number(params.get('smsFee')) || 0,
     preparedByName: params.get('preparedByName') || '',
     preparedByTitle: params.get('preparedByTitle') || '',
-    primaryPain: params.get('primaryPain') || '',
-    painPoint1: params.get('painPoint1') || '',
-    painPoint2: params.get('painPoint2') || '',
-    painPoint3: params.get('painPoint3') || '',
-    peerReference: params.get('peerReference') || '',
     targetGoLive: params.get('targetGoLive') || '',
     includeFreeTrialPage: !has('includeFreeTrialPage') || bool('includeFreeTrialPage'),
     includePilotPage: bool('includePilotPage'),

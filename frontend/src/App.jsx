@@ -15,19 +15,27 @@ export default function App() {
     setAuthed(false);
   }
 
-  if (!authed) {
-    return <LoginGate onSuccess={() => setAuthed(true)} />;
-  }
-
   return (
     <QuoteProvider>
-      <div className="app-logout-bar no-print">
-        <button type="button" className="btn btn-secondary btn-sm" onClick={handleLogout}>
-          Log out
-        </button>
-      </div>
+      {authed && (
+        <div className="app-logout-bar no-print">
+          <button type="button" className="btn btn-secondary btn-sm" onClick={handleLogout}>
+            Log out
+          </button>
+        </div>
+      )}
       <Routes>
-        <Route path="/pricing" element={<PricingCalculator />} />
+        <Route
+          path="/pricing"
+          element={
+            authed ? (
+              <PricingCalculator />
+            ) : (
+              <LoginGate onSuccess={() => setAuthed(true)} />
+            )
+          }
+        />
+        {/* Prospectus view routes are public so Copy Link / View Prospectus URLs work when shared */}
         <Route path="/prospectus" element={<Prospectus />} />
         <Route path="/quotes/new" element={<Prospectus />} />
         <Route path="/quotes/:id" element={<Prospectus />} />

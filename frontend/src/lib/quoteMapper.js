@@ -24,11 +24,6 @@ export function quoteToApiBody(quote) {
     notes: quote.notes || '',
     preparedByName: quote.preparedByName || '',
     preparedByTitle: quote.preparedByTitle || '',
-    primaryPain: quote.primaryPain || '',
-    painPoint1: quote.painPoint1 || '',
-    painPoint2: quote.painPoint2 || '',
-    painPoint3: quote.painPoint3 || '',
-    peerReference: quote.peerReference || '',
     targetGoLive: quote.targetGoLive || '',
     includeFreeTrialPage: quote.includeFreeTrialPage !== false,
     includePilotPage: Boolean(quote.includePilotPage),
@@ -64,11 +59,6 @@ export function apiQuoteToForm(source) {
     customItems: Array.isArray(q.customItems) ? q.customItems : [],
     preparedByName: q.preparedByName || '',
     preparedByTitle: q.preparedByTitle || '',
-    primaryPain: q.primaryPain || '',
-    painPoint1: q.painPoint1 || '',
-    painPoint2: q.painPoint2 || '',
-    painPoint3: q.painPoint3 || '',
-    peerReference: q.peerReference || '',
     targetGoLive: q.targetGoLive || '',
     includeFreeTrialPage: Object.prototype.hasOwnProperty.call(q, 'includeFreeTrialPage')
       ? q.includeFreeTrialPage !== false

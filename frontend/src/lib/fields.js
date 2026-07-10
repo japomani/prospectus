@@ -1,60 +1,6 @@
 import { formatCurrency } from './pricing.js';
 import { formatDate } from './dates.js';
 
-/** Pain → solution options from migration brief §11 */
-export const PAIN_OPTIONS = [
-  {
-    id: 'absenteeism',
-    pain: 'High absenteeism / low log-ins',
-    solution: 'Countdown urgency + nudges + early-alert messaging',
-  },
-  {
-    id: 'failure-rates',
-    pain: 'Course failure & withdrawal rates',
-    solution: 'Self-regulated learning + Control Tower early intervention (31% proof)',
-  },
-  {
-    id: 'parent-visibility',
-    pain: "Parents can't tell how kids are doing",
-    solution: 'Parent view, color-coded, auto-included on messages',
-  },
-  {
-    id: 'gray-wall',
-    pain: 'Canvas is a "gray wall of death"',
-    solution: 'The 3-minute Makeover',
-  },
-  {
-    id: 'email-burden',
-    pain: 'Manual parent email burden',
-    solution: 'Message Center templates/scheduling/filter-and-send',
-  },
-  {
-    id: 'isolation',
-    pain: 'Student isolation',
-    solution: 'Social presence / Who\'s Near Me',
-  },
-  {
-    id: 'multilingual',
-    pain: 'Multilingual families excluded',
-    solution: '160-language auto-translation',
-  },
-  {
-    id: 'inconsistent-canvas',
-    pain: 'Inconsistent Canvas across teachers',
-    solution: 'School-wide layout templates',
-  },
-  {
-    id: 'late-identification',
-    pain: 'Late identification of struggling students',
-    solution: 'Red/yellow/green triage, ~40-second turnaround',
-  },
-  {
-    id: 'wasted-spend',
-    pain: 'Wasted spend on non-completing students',
-    solution: '"Multiplier" ROI framing',
-  },
-];
-
 export const PILOT_FEE = 5000;
 
 function formatSchoolType(schoolType) {
@@ -105,10 +51,6 @@ export function buildFields(quote, pricing) {
     VOLUME_DISCOUNT: formatCurrency(pricing.volumeDiscount),
     MULTI_DISCOUNT: formatCurrency(pricing.multiProductDiscount),
     LIST_TOTAL: formatCurrency(pricing.listTotal),
-    PRIMARY_PAIN: quote.primaryPain || 'rising course-failure rates',
-    PAIN_POINT_1: quote.painPoint1 || PAIN_OPTIONS[0].pain,
-    PAIN_POINT_2: quote.painPoint2 || PAIN_OPTIONS[1].pain,
-    PAIN_POINT_3: quote.painPoint3 || PAIN_OPTIONS[2].pain,
     EB_PRICE: quote.engagementBuilder ? formatCurrency(pricing.ebPrice) : '—',
     CB_PRICE: quote.communityBuilder ? formatCurrency(pricing.cbPrice) : '—',
     CTU_PRICE: quote.controlTowerUltra ? formatCurrency(pricing.ctuPrice) : '—',
@@ -117,7 +59,6 @@ export function buildFields(quote, pricing) {
     IMPLEMENTATION_FEE: formatCurrency(pricing.implementationFee),
     PILOT_FEE: formatCurrency(PILOT_FEE),
     TARGET_GO_LIVE: quote.targetGoLive || 'Next term',
-    PEER_REFERENCE: quote.peerReference || 'a comparable virtual academy',
   };
 }
 
@@ -143,11 +84,6 @@ export function getDefaultQuote() {
     customItems: [],
     preparedByName: 'Jared Chapman',
     preparedByTitle: 'Chief Innovation Officer',
-    primaryPain: PAIN_OPTIONS[1].pain,
-    painPoint1: PAIN_OPTIONS[0].pain,
-    painPoint2: PAIN_OPTIONS[1].pain,
-    painPoint3: PAIN_OPTIONS[3].pain,
-    peerReference: 'a 5,000-student virtual academy',
     targetGoLive: 'August 2026',
     includeFreeTrialPage: true,
     includePilotPage: false,

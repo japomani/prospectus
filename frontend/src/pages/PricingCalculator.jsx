@@ -12,7 +12,7 @@ import {
   updateQuote as updateQuoteApi,
 } from '../lib/api.js';
 import { encodeQuoteParams } from '../lib/encoder.js';
-import { getDefaultQuote, PAIN_OPTIONS } from '../lib/fields.js';
+import { getDefaultQuote } from '../lib/fields.js';
 import { formatCustomItemLabel, PRODUCT_LABELS } from '../lib/pricingSummary.js';
 import { calculatePricing, formatCurrency, getMultiYearDiscountPercent, buildDefaultYearlyPayments, resolveYearlyPaymentSchedule } from '../lib/pricing.js';
 import { formatDate } from '../lib/dates.js';
@@ -158,19 +158,20 @@ export default function PricingCalculator() {
     if (!saving) setSaveDialogOpen(false);
   }
 
-  function handleViewProspectus(quoteId = quote.quoteId) {
+  /** Path (+ query) for the prospectus view — shared by View Prospectus and Copy Link. */
+  function prospectusViewPath(quoteId = quote.quoteId) {
     if (quoteId && apiConfigured) {
-      window.open(`/quotes/${quoteId}`, '_blank');
-      return;
+      return `/quotes/${quoteId}`;
     }
-    const qs = encodeQuoteParams(quote);
-    window.open(`/quotes/new?${qs}`, '_blank');
+    return `/quotes/new?${encodeQuoteParams(quote)}`;
+  }
+
+  function handleViewProspectus(quoteId = quote.quoteId) {
+    window.open(prospectusViewPath(quoteId), '_blank');
   }
 
   function handleCopyLink() {
-    const url = quote.quoteId && apiConfigured
-      ? `${window.location.origin}/quotes/${quote.quoteId}`
-      : `${window.location.origin}/quotes/new?${encodeQuoteParams(quote)}`;
+    const url = `${window.location.origin}${prospectusViewPath()}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -327,23 +328,6 @@ export default function PricingCalculator() {
     }
   }, [results?.grandTotal, payUpfront, results?.years]);
 
-  function painSelect(label, field, allowEmpty = false) {
-    return (
-      <div className="form-group" key={field}>
-        <label>{label}</label>
-        <select
-          value={quote[field] || ''}
-          onChange={e => updateQuote({ [field]: e.target.value })}
-        >
-          {allowEmpty && <option value="">— Select —</option>}
-          {PAIN_OPTIONS.map(opt => (
-            <option key={opt.id} value={opt.pain}>{opt.pain}</option>
-          ))}
-        </select>
-      </div>
-    );
-  }
-
   return (
     <div className="pricing-page">
       <h1 className="dComponentHeader dMarginBelowLrg">Delphinium Pricing Calculator</h1>
@@ -465,7 +449,10 @@ export default function PricingCalculator() {
                 <input
                   type="checkbox"
                   checked={quote.isUniversity}
-                  onChange={e => updateQuote({ isUniversity: e.target.checked })}
+                  onChange={e => updateQuote({
+                    isUniversity: e.target.checked,
+                    ...(e.target.checked ? { clever: false } : {}),
+                  })}
                 />
                 Higher Ed (Remove references to parents)
               </label>
@@ -506,29 +493,33 @@ export default function PricingCalculator() {
                 </label>
               </div>
             ))}
-            <div className="form-group">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={quote.clever}
-                  onChange={e => updateQuote({
-                    clever: e.target.checked,
-                    ...(e.target.checked && !quote.cleverSchools ? { cleverSchools: 1 } : {}),
-                  })}
-                />
-                Clever integration ($500/school)
-              </label>
-            </div>
-            {quote.clever && (
-              <div className="form-group form-group-nested">
-                <label>Number of schools</label>
-                <input
-                  {...integerInputProps(
-                    quote.cleverSchools || 1,
-                    cleverSchools => updateQuote({ cleverSchools: Math.max(1, cleverSchools) }),
-                  )}
-                />
-              </div>
+            {!quote.isUniversity && (
+              <>
+                <div className="form-group">
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      checked={quote.clever}
+                      onChange={e => updateQuote({
+                        clever: e.target.checked,
+                        ...(e.target.checked && !quote.cleverSchools ? { cleverSchools: 1 } : {}),
+                      })}
+                    />
+                    Clever integration ($500/school)
+                  </label>
+                </div>
+                {quote.clever && (
+                  <div className="form-group form-group-nested">
+                    <label>Number of schools</label>
+                    <input
+                      {...integerInputProps(
+                        quote.cleverSchools || 1,
+                        cleverSchools => updateQuote({ cleverSchools: Math.max(1, cleverSchools) }),
+                      )}
+                    />
+                  </div>
+                )}
+              </>
             )}
             <div className="form-group">
               <label className="checkbox-label">
@@ -601,19 +592,6 @@ export default function PricingCalculator() {
                 type="text"
                 value={quote.preparedByTitle}
                 onChange={e => updateQuote({ preparedByTitle: e.target.value })}
-              />
-            </div>
-            {painSelect('Primary pain (executive summary)', 'primaryPain')}
-            {painSelect('Pain point 1', 'painPoint1')}
-            {painSelect('Pain point 2', 'painPoint2')}
-            {painSelect('Pain point 3', 'painPoint3')}
-            <div className="form-group">
-              <label>Peer reference</label>
-              <input
-                type="text"
-                value={quote.peerReference}
-                onChange={e => updateQuote({ peerReference: e.target.value })}
-                placeholder="e.g. a 5,000-student virtual academy"
               />
             </div>
             <div className="form-group">

@@ -135,6 +135,26 @@ export default function CoverProductPage({ mod: rawMod, kicker, titleSuffix, isU
   const columnSections = sections.slice(1);
   const eyebrow = kicker ?? mod.sheetKicker;
 
+  const quotesEl = quotes.length > 1 ? (
+    <div className="cover-product-quote-grid">
+      {quotes.map(q => (
+        <PullQuote key={q.attr} quote={q} mutedAttr={mod.quoteMutedAttr} />
+      ))}
+    </div>
+  ) : (
+    quotes.length === 1 && (
+      <PullQuote quote={quotes[0]} mutedAttr={mod.quoteMutedAttr} />
+    )
+  );
+
+  const columnsEl = columnSections.length > 0 && (
+    <div className="cover-product-columns">
+      {columnSections.map(section => (
+        <SectionBlock key={section.title} section={section} />
+      ))}
+    </div>
+  );
+
   return (
     <div className={`cover-product cover-product--${mod.key}`}>
       {eyebrow && mod.key !== 'cb' && (
@@ -183,24 +203,17 @@ export default function CoverProductPage({ mod: rawMod, kicker, titleSuffix, isU
         </div>
       )}
 
-      {quotes.length > 1 ? (
-        <div className="cover-product-quote-grid">
-          {quotes.map(q => (
-            <PullQuote key={q.attr} quote={q} mutedAttr={mod.quoteMutedAttr} />
-          ))}
+      {/* page2Class (e.g. EB): keep quote with remaining columns on the next page */}
+      {mod.page2Class ? (
+        <div className={mod.page2Class}>
+          {quotesEl}
+          {columnsEl}
         </div>
       ) : (
-        quotes.length === 1 && (
-          <PullQuote quote={quotes[0]} mutedAttr={mod.quoteMutedAttr} />
-        )
-      )}
-
-      {columnSections.length > 0 && (
-        <div className={`cover-product-columns${mod.page2Class ? ` ${mod.page2Class}` : ''}`}>
-          {columnSections.map(section => (
-            <SectionBlock key={section.title} section={section} />
-          ))}
-        </div>
+        <>
+          {quotesEl}
+          {columnsEl}
+        </>
       )}
 
       {mod.bottomQuote && (

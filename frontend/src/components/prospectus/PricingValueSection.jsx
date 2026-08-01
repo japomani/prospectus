@@ -38,17 +38,19 @@ export default function PricingValueSection({
       : [];
 
   return (
-    <section id={id} className="sheet">
+    <section id={id} className="sheet sheet-pricing">
       <div className="page-label screen-only">{pageLabel}</div>
-      <div className="ex-kicker"><span className="ex-tick"></span>Pricing &amp; value</div>
-      <h2 className="ex-h doc-pricing-page-title">
-        <span style={{ fontWeight: 'normal' }}>
-          <Field value={fields.SCHOOL_NAME_POSSESSIVE} highlight={highlightFields} />
-        </span>{' '}
-        <span className="em" style={{ fontStyle: 'normal' }}>investment in engagement</span>
-      </h2>
 
-      <div className="doc-pricing-page keep">
+      {/* Eyebrow + title + totals stay together; notes may break to the next page */}
+      <div className="doc-pricing-main keep">
+        <div className="ex-kicker"><span className="ex-tick"></span>Pricing &amp; value</div>
+        <h2 className="ex-h doc-pricing-page-title">
+          <span style={{ fontWeight: 'normal' }}>
+            <Field value={fields.SCHOOL_NAME_POSSESSIVE} highlight={highlightFields} />
+          </span>{' '}
+          <span className="em" style={{ fontStyle: 'normal' }}>investment in engagement</span>
+        </h2>
+
         <div className="doc-pricing-summary">
           <div className="doc-pricing-row doc-pricing-meta">
             <span className="doc-pricing-meta-label ex-subhead is-top">Number of students</span>
@@ -277,9 +279,9 @@ export default function PricingValueSection({
             .
           </div>
         </div>
-
-        <PricingBenefitNotes fields={fields} highlightFields={highlightFields} />
       </div>
+
+      <PricingBenefitNotes fields={fields} highlightFields={highlightFields} />
     </section>
   );
 }

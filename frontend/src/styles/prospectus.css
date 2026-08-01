@@ -780,6 +780,11 @@ body:has(.doc) {
   margin-top: 18px;
 }
 
+/* CB — no trailing space under bottom pullquote (keeps it on page with columns) */
+.cover-product--cb .cover-product-columns + .cover-product-pullquote {
+  margin-bottom: 0;
+}
+
 .cover-product-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -822,19 +827,26 @@ body:has(.doc) {
   margin: 10px 0 16px;
 }
 
-.cover-product--eb .cover-product-image-card {
-  margin-top: 22px;
-}
-
 .cover-product-image-card-img {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.eb-page2 {
-  break-before: page;
-  page-break-before: always;
+/* EB page 2 — quote + columns share a print page break (screen flows normally) */
+.eb-page2 > .cover-product-pullquote {
+  /* Match early-page .ex-pullquote presence */
+  margin: 13px 0 14px;
+  padding: 0 0 0 14px;
+}
+
+.eb-page2 > .cover-product-pullquote .cover-product-pullquote-tx {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.eb-page2 > .cover-product-columns {
+  margin-top: 0;
 }
 
 
@@ -1087,7 +1099,12 @@ body:has(.doc) {
   grid-template-columns: 1.45fr 1fr;
   gap: 18px;
   align-items: center;
-  margin: 10px 0 14px;
+  margin: 0;
+}
+
+/* CB — less air above hero images */
+.cover-product--cb .cover-product-intro.ex-lead {
+  margin-bottom: 4px;
 }
 
 .cover-product--cb .cover-product-hero-grid-img {
@@ -1509,11 +1526,20 @@ body:has(.doc) {
   margin-bottom: 16px;
 }
 
-.doc-pricing-page {
+.doc-pricing-page,
+.doc-pricing-main {
   display: flex;
   flex-direction: column;
   flex: 1;
+  gap: 0;
+}
+
+.doc-pricing-page {
   gap: 20px;
+}
+
+.doc-pricing-main + .doc-pricing-benefits {
+  margin-top: 20px;
 }
 
 .doc-pricing-summary {
@@ -1644,6 +1670,7 @@ body:has(.doc) {
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.04);
   border-top: 1px solid #424242;
+  /* Keep all benefit notes together on one page (avoid Multi-year orphan stub) */
   break-inside: avoid;
   page-break-inside: avoid;
 }
@@ -1666,6 +1693,8 @@ body:has(.doc) {
 
 .doc-pricing-benefits .benefit-notes-section {
   margin-bottom: 14px;
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 .doc-pricing-benefits .benefit-notes-section:last-child {
@@ -2622,14 +2651,18 @@ body:has(.doc) {
 
 /* Zero @page margin: full-bleed sheet backgrounds + suppresses browser
    header/footer chrome when Chrome “Headers and footers” is unchecked.
-   CSS cannot force that checkbox off — see README. */
+   CSS cannot force that checkbox off — see README.
+   Do not use CSS named pages (`page: …`) — changing page names between
+   sheets forces an extra blank page in Chromium print (seen after EB). */
 @page {
   size: letter;
   margin: 0;
+  background-color: #ffffff;
 }
 
 @page :blank {
   margin: 0;
+  background-color: #ffffff;
 }
 
 @media print {
@@ -2649,7 +2682,28 @@ body:has(.doc) {
     margin: 0 !important;
     padding: 0 !important;
     width: 100%;
-    background: #fff;
+    background: #fff !important;
+  }
+
+  /*
+   * Chromium paints position:fixed on every printed page. Without this,
+   * short sheet fragments leave the rest of the letter page empty and
+   * Acrobat shows that empty region as gray.
+   */
+  html::before,
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: -1;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   .no-print,
@@ -2712,6 +2766,10 @@ body:has(.doc) {
        pages keep full-bleed tint and bottom inset (not a short white stub). */
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
+    /* Default white; product sheets override with solid tints below */
+    background-color: #ffffff;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   /* One break between sheets only — never break-after + break-before */
@@ -2746,6 +2804,77 @@ body:has(.doc) {
     background-image: none !important;
     break-after: auto !important;
     page-break-after: auto !important;
+  }
+
+  /* Pricing: eyebrow + totals stay one unit; notes follow as one block */
+  .doc-pricing-main.keep {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .doc-pricing-benefits {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    /* auto margin only for screen flex; in print it can leave a blank gap/page */
+    margin-top: 20px !important;
+  }
+
+  .sheet-pricing {
+    min-height: 0 !important;
+    break-after: auto !important;
+    page-break-after: auto !important;
+  }
+
+  /* Research is always last — full letter page, never collapse in print */
+  .research-sheet {
+    min-height: 11in !important;
+    break-after: auto !important;
+    page-break-after: auto !important;
+    overflow: visible !important;
+  }
+
+  .research-citation {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .doc-pricing-benefits .benefit-notes-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .sheet-print-filler {
+    display: block !important;
+    overflow: hidden !important;
+  }
+
+  /* EB page-2: forced break; fill the letter page so sheet tint reaches the bottom */
+  .eb-page2 {
+    break-before: page;
+    page-break-before: always;
+    min-height: calc(11in - 0.75in - 0.55in);
+    box-sizing: border-box;
+  }
+
+  .eb-page2 > .cover-product-pullquote {
+    margin-top: 0;
+  }
+
+  /* Solid product tints for print (color-mix can drop out; fill matches screen) */
+  .cover-product-sheet--core {
+    background-color: #edf4f3 !important;
+  }
+
+  .cover-product-sheet--cb {
+    background-color: #edf6fa !important;
+  }
+
+  .cover-product-sheet--eb {
+    background-color: #f4f4fa !important;
+  }
+
+  .cover-product-sheet--ctu {
+    background-color: #fef2f9 !important;
   }
 
   .sheet-mint,
@@ -3029,6 +3158,22 @@ body:has(.doc) {
   margin-bottom: 12px;
 }
 
+/* Keep Canvas headline with the diagram (and ROI line) — no orphan title page */
+.ex-canvas-lead {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.ex-canvas-title {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.ex-canvas-lead > svg {
+  break-before: avoid;
+  page-break-before: avoid;
+}
+
 /* Strip predecessor bottom margin so flex layouts don't stack extra space. */
 :is(
   .ex-lead,
@@ -3103,7 +3248,20 @@ body:has(.doc) {
 .cover-product--cb .cover-product-block
   > .cover-product-section-badgerow
   > .cover-product-block-title.ex-subhead.cover-product-block-title--first:not(.is-top) {
-  margin-top: 8px !important;
+  margin-top: 0 !important;
+}
+
+/* CB — space below mid-page quote grid before column sections */
+.cover-product--cb .cover-product-quote-grid {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.cover-product--cb .cover-product-quote-grid + .cover-product-columns .cover-product-block > .cover-product-block-title.ex-subhead:not(.is-top),
+.cover-product--cb .cover-product-quote-grid + .cover-product-columns .cover-product-block
+  > .cover-product-section-badgerow
+  > .cover-product-block-title.ex-subhead:not(.is-top) {
+  margin-top: 12px !important;
 }
 
 /* Wrapper blocks defer to title margin — avoid stacking with global :has() rule. */
@@ -3624,9 +3782,13 @@ svg + .ex-mult-roi {
 /* ── "In their words" three-column quotes (page C; synced from DC 2026-07-08) ── */
 .ex-voices {
   margin-bottom: 14px;
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 .ex-voices .ex-subhead {
   margin-bottom: 12px;
+  break-after: avoid;
+  page-break-after: avoid;
 }
 .ex-voices-grid {
   display: grid;
@@ -3653,7 +3815,22 @@ svg + .ex-mult-roi {
 
 /* Lead before client logos (page C enrollments; synced from DC 2026-07-08) */
 .ex-enroll-lead {
+  margin: 0 0 10px;
   margin-bottom: 10px;
+}
+
+.ex-page-c-closing {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.ex-full-story {
+  margin-top: 14px;
+}
+
+.ex-full-story .ex-subhead {
+  break-after: avoid;
+  page-break-after: avoid;
 }
 
 /* ── Client trust strip (synced from DC 2026-07-08: indigo-tint, matches .ex-thesis) ── */

@@ -1,6 +1,7 @@
 @page {
   size: letter;
   margin: 0;
+  background-color: #ffffff;
 }
 
 @media print {

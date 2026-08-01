@@ -6,6 +6,7 @@ import { getQuote, isApiConfigured } from '../lib/api.js';
 import { decodeQuoteParams } from '../lib/encoder.js';
 import { buildFields, getDefaultQuote } from '../lib/fields.js';
 import { calculatePricing } from '../lib/pricing.js';
+import { clearSheetPrintPads, padSheetsToPageMultiple } from '../lib/printSheetPad.js';
 import '../styles/prospectus.css';
 
 function quoteSearchKey(searchString) {
@@ -31,6 +32,7 @@ function printProspectus(schoolName) {
     : 'Delphinium Prospectus';
   const restore = () => {
     document.title = prevTitle;
+    clearSheetPrintPads();
     window.removeEventListener('afterprint', restore);
   };
   window.addEventListener('afterprint', restore);
@@ -112,6 +114,29 @@ export default function Prospectus() {
     const timer = setTimeout(() => printProspectus(quote.schoolName), 300);
     return () => clearTimeout(timer);
   }, [quote, loading, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    const onBeforePrint = () => padSheetsToPageMultiple();
+    const onAfterPrint = () => clearSheetPrintPads();
+    const onPrintMql = (event) => {
+      if (event.matches) padSheetsToPageMultiple();
+      else clearSheetPrintPads();
+    };
+
+    window.addEventListener('beforeprint', onBeforePrint);
+    window.addEventListener('afterprint', onAfterPrint);
+    const mql = window.matchMedia('print');
+    if (mql.addEventListener) mql.addEventListener('change', onPrintMql);
+    else mql.addListener(onPrintMql);
+
+    return () => {
+      window.removeEventListener('beforeprint', onBeforePrint);
+      window.removeEventListener('afterprint', onAfterPrint);
+      if (mql.removeEventListener) mql.removeEventListener('change', onPrintMql);
+      else mql.removeListener(onPrintMql);
+      clearSheetPrintPads();
+    };
+  }, []);
 
   const pricing = useMemo(() => {
     if (!quote) return null;

@@ -28,10 +28,11 @@ export default function AdminControlsSection({ pageLabel }) {
         <span className="ex-tick" />
         Admin controls
       </div>
-      <h2 className="doc-h2" style={{ marginBottom: '8px' }}>
-        Every teacher <span className="dl-accent">supported.</span> Every class <span className="dl-accent">consistent.</span>
+      <h2 className="ex-h">
+        Every teacher <span className="em" style={{ fontStyle: 'normal' }}>supported.</span> Every class{' '}
+        <span className="em" style={{ fontStyle: 'normal' }}>consistent.</span>
       </h2>
-      <p className="doc-lead">
+      <p className="ex-lead">
         From the admin panel, a school can set defaults and templates that carry into every course
         automatically. A new teacher doesn&apos;t start from a blank page, and every class reflects the same
         standard, without each teacher building it themselves. The result: a school that looks and feels like

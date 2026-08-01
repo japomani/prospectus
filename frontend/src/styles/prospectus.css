@@ -800,14 +800,16 @@ body:has(.doc) {
   .cover-product-pullquote,
   .cover-product-image-card,
   .cover-product-block,
-  .doc-lead
+  .doc-lead,
+  .ex-lead
 ):has(+ .cover-product-columns),
 :is(
   .cover-product-quote-grid,
   .cover-product-pullquote,
   .cover-product-image-card,
   .cover-product-block,
-  .doc-lead
+  .doc-lead,
+  .ex-lead
 ):has(+ .keep.cover-product-columns) {
   margin-bottom: 0 !important;
 }

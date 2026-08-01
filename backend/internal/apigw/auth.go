@@ -9,16 +9,25 @@ import (
 )
 
 const (
-	defaultAPIPassword = "delphinium"
-	basicAuthUsername  = "delphinium"
+	defaultAPIPassword   = "delphinium"
+	defaultAdminPassword = "delphiniumadmin"
+	basicAuthUsername    = "delphinium"
 )
 
-// ExpectedPassword returns the shared gatekeeper password.
+// ExpectedPassword returns the shared site gatekeeper password.
 func ExpectedPassword() string {
 	if p := strings.TrimSpace(os.Getenv("API_PASSWORD")); p != "" {
 		return p
 	}
 	return defaultAPIPassword
+}
+
+// ExpectedAdminPassword returns the admin settings password.
+func ExpectedAdminPassword() string {
+	if p := strings.TrimSpace(os.Getenv("ADMIN_PASSWORD")); p != "" {
+		return p
+	}
+	return defaultAdminPassword
 }
 
 // ExtractPassword reads the shared password from Authorization Bearer,
@@ -42,11 +51,25 @@ func ExtractPassword(req events.APIGatewayV2HTTPRequest) string {
 	return ""
 }
 
-// Authorized reports whether the request presents the correct shared password.
+// Authorized reports whether the request presents the site or admin password.
 func Authorized(req events.APIGatewayV2HTTPRequest) bool {
 	got := ExtractPassword(req)
-	want := ExpectedPassword()
-	return got != "" && got == want
+	if got == "" {
+		return false
+	}
+	return got == ExpectedPassword() || got == ExpectedAdminPassword()
+}
+
+// AdminAuthorized reports whether the request presents the admin password.
+func AdminAuthorized(req events.APIGatewayV2HTTPRequest) bool {
+	got := ExtractPassword(req)
+	return got != "" && got == ExpectedAdminPassword()
+}
+
+// IsAdminPassword reports whether the given password is the admin password.
+func IsAdminPassword(password string) bool {
+	p := strings.TrimSpace(password)
+	return p != "" && p == ExpectedAdminPassword()
 }
 
 func passwordFromBasic(encoded string) string {

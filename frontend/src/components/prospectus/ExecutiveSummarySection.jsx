@@ -2,6 +2,9 @@
 // Source of truth: "Executive Summary Page Preview.dc.html"
 // Synced: 2026-06-30
 
+import { PEER_UNIVERSITIES } from '../../lib/peerLogos.js';
+import { FRAME_STATS_HIGHER_ED, FRAME_STATS_K12, PROOF_HIGHER_ED } from '../../lib/proofStats.js';
+
 const CITATIONS = [
   'Chapman, J. R., Kohler, T. B., Rich, P. J., &amp; Trego, A. (2023). Maybe we\'ve got it wrong: An experimental evaluation of self-determination and flow theory in gamification. <em>Journal of Research on Technology in Education, 57</em>(2), 417–436.',
   'Chapman, J. R., &amp; Andrade, M. (2024). Improving part-time instructors\' student failure rate with an educational engagement information system. <em>Educational Technology Research and Development.</em>',
@@ -52,6 +55,7 @@ export default function ExecutiveSummarySection({
   pageLabelD,
 }) {
   const isUniversity = Boolean(quote?.isUniversity);
+  const frameStats = isUniversity ? FRAME_STATS_HIGHER_ED : FRAME_STATS_K12;
 
   return (
     <>
@@ -81,43 +85,38 @@ export default function ExecutiveSummarySection({
         </p>
 
         <blockquote className="ex-pullquote">
-          <p className="ex-pullquote-tx">
-            &ldquo;There&rsquo;s downsides to Canvas, if you ask kids, they don&rsquo;t like Canvas.
-            It&rsquo;s basic, it needs something else to engage in the way we&rsquo;re looking for.
-            Canvas itself falls way short.&rdquo;
-          </p>
-          <div className="ex-pullquote-by">&mdash; Ryan Hansen, Digital Learning Director</div>
+          {isUniversity ? (
+            <>
+              <p className="ex-pullquote-tx">
+                &ldquo;There&rsquo;s downsides to Canvas, if you ask students, they don&rsquo;t like Canvas.
+                It&rsquo;s basic, it needs something else to engage in the way we&rsquo;re looking for.
+                Canvas itself falls way short.&rdquo;
+              </p>
+              <div className="ex-pullquote-by">&mdash; Online learning leader</div>
+            </>
+          ) : (
+            <>
+              <p className="ex-pullquote-tx">
+                &ldquo;There&rsquo;s downsides to Canvas, if you ask kids, they don&rsquo;t like Canvas.
+                It&rsquo;s basic, it needs something else to engage in the way we&rsquo;re looking for.
+                Canvas itself falls way short.&rdquo;
+              </p>
+              <div className="ex-pullquote-by">&mdash; Ryan Hansen, Digital Learning Director</div>
+            </>
+          )}
         </blockquote>
 
         <h3 className="ex-subhead">When engagement breaks down...</h3>
 
         <div className="ex-stats">
-          <div className="ex-stat">
-            <div className="ex-stat-tag">Attendance</div>
-            <div className="ex-stat-num">1 in 4</div>
-            <div className="ex-stat-lbl">
-              students are chronically absent — still elevated years after the shift online.
+          {frameStats.map(stat => (
+            <div key={stat.tag} className={`ex-stat${stat.climax ? ' is-climax' : ''}`}>
+              <div className="ex-stat-tag">{stat.tag}</div>
+              <div className="ex-stat-num">{stat.num}</div>
+              <div className="ex-stat-lbl">{stat.label}</div>
+              <div className="ex-stat-src">{stat.src}</div>
             </div>
-            <div className="ex-stat-src">RAND / Return to Learn Tracker, 2024–25</div>
-          </div>
-          <div className="ex-stat">
-            <div className="ex-stat-tag">Achievement</div>
-            <div className="ex-stat-num">1 in 3</div>
-            <div className="ex-stat-lbl">
-              students score below grade level across all core subjects—below pre-pandemic levels.
-              The lowest performers keep losing ground.
-            </div>
-            <div className="ex-stat-src">The Nation's Report Card (NAEP), 2024</div>
-          </div>
-          <div className="ex-stat is-climax">
-            <div className="ex-stat-tag">Cost</div>
-            <div className="ex-stat-num">$229K</div>
-            <div className="ex-stat-lbl">
-              — the cost of a K–12 education, and a student's lost potential, when they don't
-              finish.
-            </div>
-            <div className="ex-stat-src">U.S. Census Bureau, FY2024</div>
-          </div>
+          ))}
         </div>
 
         <p className="ex-lead" style={{ margin: '12px 0 16px' }}>
@@ -132,11 +131,11 @@ export default function ExecutiveSummarySection({
             <span className="em">the part that matters most.</span>
           </div>
           <p className="ex-thesis-p">
-            Your school has strong curriculum, capable teachers, and a platform to deliver it all.
+            Your {isUniversity ? 'institution' : 'school'} has strong curriculum, capable teachers, and a platform to deliver it all.
             But <b>great teaching was never really about content</b> — it's about knowing when a
             student is winning and when they're slipping, and making sure they <b>feel seen</b> and{' '}
             <b>feel progress</b> along the way. The tools built for online learning were designed to
-            deliver content, not to <span className="em">spark engagement</span> with it. That
+            deliver content, not <span className="em">spark engagement</span>. That
             signal, that connection — <b>that's what's been missing.</b>
           </p>
         </div>
@@ -176,10 +175,8 @@ export default function ExecutiveSummarySection({
         </div>
 
         <p className="ex-lead" style={{ margin: '10px 0 0' }}>
-          <b style={{ fontSize: '16px' }}>
-            What you need is the tools to turn that data into action —{' '}
-            <span style={{ color: 'var(--dl-magenta)' }}>Delphinium</span>.
-          </b>
+          What you need is the tools to turn that data into action:{' '}
+          <span style={{ color: 'var(--dl-magenta)' }}>Delphinium</span>.
         </p>
       </section>
 
@@ -208,38 +205,63 @@ export default function ExecutiveSummarySection({
         <h3 className="ex-subhead" style={{ marginBottom: '12px' }}>Proof it works</h3>
 
         <div className="ex-proof-bento">
-          {/* Cards 1+2: headline result + bar chart */}
+          {/* Cards 1+2: headline result + chart (K-12) or HE outcomes */}
           <div className="ex-piw-card ex-proof-card ex-proof-card--merged">
-            <div className="ex-proof-col ex-proof-col--result">
-              <div className="ex-stat-tag">Fewer Failures</div>
-              <div className="ex-proof-num ex-proof-num--green">31%</div>
-              <div className="ex-piw-lbl">
-                Across <b>72 classes</b> and <b>6,000+ students</b>
-              </div>
-              <div className="ex-piw-cap ex-proof-cap">
-                Davis Connect case study · &rsquo;22 vs. &rsquo;23
-              </div>
-            </div>
-            <div className="ex-proof-divider" aria-hidden="true" />
-            <div className="ex-proof-col ex-proof-col--chart ex-proof-chart">
-              <div className="ex-stat-tag">Course Failure Rate</div>
-              <div className="ex-chart">
-                <div className="ex-barwrap">
-                  <div className="ex-bar before" style={{ height: '86.7%' }}>
-                    <span className="ex-bar-val">26%</span>
+            {isUniversity ? (
+              <>
+                <div className="ex-proof-col ex-proof-col--result">
+                  <div className="ex-stat-tag">Fewer Failures</div>
+                  <div className="ex-proof-num ex-proof-num--green">{PROOF_HIGHER_ED.num}</div>
+                  <div className="ex-piw-lbl">{PROOF_HIGHER_ED.label}</div>
+                  <div className="ex-piw-cap ex-proof-cap">{PROOF_HIGHER_ED.src}</div>
+                </div>
+                <div className="ex-proof-divider" aria-hidden="true" />
+                <div className="ex-proof-col ex-proof-col--chart">
+                  <div className="ex-stat-tag">Key Outcomes</div>
+                  <ul className="ex-he-outcomes">
+                    {PROOF_HIGHER_ED.outcomes.map(row => (
+                      <li key={row.label}>
+                        <span className="ex-he-outcomes-pct">{row.pct}</span>
+                        <span>{row.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="ex-proof-col ex-proof-col--result">
+                  <div className="ex-stat-tag">Fewer Failures</div>
+                  <div className="ex-proof-num ex-proof-num--green">31%</div>
+                  <div className="ex-piw-lbl">
+                    Across <b>72 classes</b> and <b>6,000+ students</b>
+                  </div>
+                  <div className="ex-piw-cap ex-proof-cap">
+                    Davis Connect case study · &rsquo;22 vs. &rsquo;23
                   </div>
                 </div>
-                <div className="ex-barwrap">
-                  <div className="ex-bar after" style={{ height: '60%' }}>
-                    <span className="ex-bar-val">18%</span>
+                <div className="ex-proof-divider" aria-hidden="true" />
+                <div className="ex-proof-col ex-proof-col--chart ex-proof-chart">
+                  <div className="ex-stat-tag">Course Failure Rate</div>
+                  <div className="ex-chart">
+                    <div className="ex-barwrap">
+                      <div className="ex-bar before" style={{ height: '86.7%' }}>
+                        <span className="ex-bar-val">26%</span>
+                      </div>
+                    </div>
+                    <div className="ex-barwrap">
+                      <div className="ex-bar after" style={{ height: '60%' }}>
+                        <span className="ex-bar-val">18%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="ex-chart-axis">
+                    <div className="ex-axis-lbl">without Delphinium</div>
+                    <div className="ex-axis-lbl">with Delphinium</div>
                   </div>
                 </div>
-              </div>
-              <div className="ex-chart-axis">
-                <div className="ex-axis-lbl">without Delphinium</div>
-                <div className="ex-axis-lbl">with Delphinium</div>
-              </div>
-            </div>
+              </>
+            )}
           </div>
 
           {/* Card 3: motivation */}
@@ -257,12 +279,12 @@ export default function ExecutiveSummarySection({
           Delphinium is built on 14 years of published research.{' '}
           <b>The results are measured, not promised.</b> The results come from real schools, with
           real students. The courses didn&apos;t change. The teachers didn&apos;t change. Engagement
-          did — and so did the outcomes.
+          did — and so did the outcomes. See the last page in this prospectus for research details.
         </p>
 
         <p className="ex-lead" style={{ margin: '10px 0 0', fontSize: '14px' }}>
           In our research, when we ask students how a Delphinium course is different than a
-          traditional course and one of the most common words we hear back is &ldquo;<b>Fun</b>.&rdquo;
+          traditional course, one of the most common words we hear back is &ldquo;<b>Fun</b>.&rdquo;
           They also report doing their work earlier — and with higher quality. One student put it
           this way: &ldquo;I was sitting on the couch watching Netflix and the thought popped into my
           head — I could be doing homework right now — and I did!&rdquo; That is intrinsic motivation
@@ -322,7 +344,7 @@ export default function ExecutiveSummarySection({
 
         <div>
           <h3 className="ex-subhead is-top ex-canvas-title">
-            Your school already runs on Canvas — make it work harder for you
+            Your {isUniversity ? 'institution' : 'school'} already runs on Canvas — make it work harder for you
           </h3>
           <svg width="100%" viewBox="0 0 1400 500" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', fontFamily: 'inherit' }}>
             <defs>
@@ -459,9 +481,20 @@ export default function ExecutiveSummarySection({
             />
           </svg>
           <p className="ex-mult-roi">
-            Results like a 31% drop in failures <b>means more</b> of the ~$229K invested in each
-            student actually reaches the finish line — the same budget, working harder, every
-            year.&nbsp;<b>Doing nothing is the most expensive option on the table.</b>
+            {isUniversity ? (
+              <>
+                Results like a 47% drop in failures — and sharp declines in withdrawals and
+                dropouts — <b>mean more</b> of every tuition dollar and instructional hour
+                reaches completion — the same budget, working harder, every
+                year.&nbsp;<b>Doing nothing is the most expensive option on the table.</b>
+              </>
+            ) : (
+              <>
+                Results like a 31% drop in failures <b>means more</b> of the ~$229K invested in each
+                student actually reaches the finish line — the same budget, working harder, every
+                year.&nbsp;<b>Doing nothing is the most expensive option on the table.</b>
+              </>
+            )}
           </p>
         </div>
 
@@ -498,120 +531,139 @@ export default function ExecutiveSummarySection({
 
         <h3 className="ex-subhead">Over 125,000 Delphinium enrollments this year</h3>
         <p className="ex-lead ex-enroll-lead">
-          The investment in engagement has already paid off, at scale, in schools like yours!
+          The investment in engagement has already paid off, at scale, in{' '}
+          {isUniversity ? 'institutions' : 'schools'} like yours!
         </p>
         <div className="ex-clients">
-          <div className="ex-logos">
-            <div className="ex-logo-card">
-              <img
-                src="https://delphi-me.com/hs-fs/hubfs/Davis%20School%20District.png?width=1340&height=250&name=Davis%20School%20District.png"
-                alt="Davis School District"
-              />
-            </div>
-            <div className="ex-logo-card">
-              <img
-                src="https://delphi-me.com/hs-fs/hubfs/vpw_logo_no_motto.webp?width=398&height=250&name=vpw_logo_no_motto.webp"
-                alt="VPW"
-              />
-            </div>
-            <div className="ex-logo-card">
-              <img
-                src="https://delphi-me.com/hs-fs/hubfs/cropped-utva_pbk12_logo_rgb-1.webp?width=908&height=250&name=cropped-utva_pbk12_logo_rgb-1.webp"
-                alt="UTVA PBK12"
-              />
-            </div>
-            <div className="ex-logo-card">
-              <img
-                src="https://delphi-me.com/hs-fs/hubfs/bakerwebacademylogo.webp?width=250&height=250&name=bakerwebacademylogo.webp"
-                alt="Baker Web Academy"
-              />
-            </div>
-            <div className="ex-logo-card">
-              <img
-                src="https://delphi-me.com/hs-fs/hubfs/weblogo-e1668897946927.png?width=750&height=250&name=weblogo-e1668897946927.png"
-                alt="School logo"
-              />
-            </div>
-            <div className="ex-logo-card">
-              <img
-                src="https://delphi-me.com/hs-fs/hubfs/web_kelseypeak_logo.png?width=750&height=250&name=web_kelseypeak_logo.png"
-                alt="Kelsey Peak"
-              />
-            </div>
-            <div className="ex-logo-card">
-              <img
-                src="https://delphi-me.com/hs-fs/hubfs/web_rockypeak_logo.png?width=750&height=250&name=web_rockypeak_logo.png"
-                alt="Rocky Peak"
-              />
-            </div>
-            <div className="ex-logo-card">
-              <img
-                src="https://images.squarespace-cdn.com/content/v1/582f38b737c581192c45a53d/5ec03609-0938-417f-95ce-a4b4b849d250/logo.gif"
-                alt="School logo"
-              />
-            </div>
+          <div className={`ex-logos${isUniversity ? ' ex-logos--he' : ''}`}>
+            {isUniversity ? (
+              PEER_UNIVERSITIES.map(({ name, logo, logoClass }) => (
+                <div key={name} className="ex-logo-card">
+                  <img
+                    src={logo}
+                    alt={name}
+                    className={logoClass || undefined}
+                  />
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="ex-logo-card">
+                  <img
+                    src="https://delphi-me.com/hs-fs/hubfs/Davis%20School%20District.png?width=1340&height=250&name=Davis%20School%20District.png"
+                    alt="Davis School District"
+                  />
+                </div>
+                <div className="ex-logo-card">
+                  <img
+                    src="https://delphi-me.com/hs-fs/hubfs/vpw_logo_no_motto.webp?width=398&height=250&name=vpw_logo_no_motto.webp"
+                    alt="VPW"
+                  />
+                </div>
+                <div className="ex-logo-card">
+                  <img
+                    src="https://delphi-me.com/hs-fs/hubfs/cropped-utva_pbk12_logo_rgb-1.webp?width=908&height=250&name=cropped-utva_pbk12_logo_rgb-1.webp"
+                    alt="UTVA PBK12"
+                  />
+                </div>
+                <div className="ex-logo-card">
+                  <img
+                    src="https://delphi-me.com/hs-fs/hubfs/bakerwebacademylogo.webp?width=250&height=250&name=bakerwebacademylogo.webp"
+                    alt="Baker Web Academy"
+                  />
+                </div>
+                <div className="ex-logo-card">
+                  <img
+                    src="https://delphi-me.com/hs-fs/hubfs/weblogo-e1668897946927.png?width=750&height=250&name=weblogo-e1668897946927.png"
+                    alt="School logo"
+                  />
+                </div>
+                <div className="ex-logo-card">
+                  <img
+                    src="https://delphi-me.com/hs-fs/hubfs/web_kelseypeak_logo.png?width=750&height=250&name=web_kelseypeak_logo.png"
+                    alt="Kelsey Peak"
+                  />
+                </div>
+                <div className="ex-logo-card">
+                  <img
+                    src="https://delphi-me.com/hs-fs/hubfs/web_rockypeak_logo.png?width=750&height=250&name=web_rockypeak_logo.png"
+                    alt="Rocky Peak"
+                  />
+                </div>
+                <div className="ex-logo-card">
+                  <img
+                    src="https://images.squarespace-cdn.com/content/v1/582f38b737c581192c45a53d/5ec03609-0938-417f-95ce-a4b4b849d250/logo.gif"
+                    alt="School logo"
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
 
-        {/* Video cards */}
-        <h3 className="ex-subhead">Hear the full story</h3>
-        <p className="ex-lead" style={{ margin: '0 0 10px' }}>
-          Meet the educators who use Delphinium every day to drive better outcomes for their
-          students.
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-          <a
-            href="https://www.youtube.com/watch?v=Tp3IO0TzvM0"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '14px',
-              background: 'var(--dl-surface)',
-              border: '1px solid var(--dl-border)',
-              borderRadius: 'var(--dl-radius)',
-              padding: '14px 16px',
-              textDecoration: 'none',
-              color: 'inherit',
-              boxShadow: '0 2px 8px rgba(46,49,146,0.08), 0 1px 2px rgba(0,0,0,0.05)',
-            }}
-          >
-            <div style={{ flex: 'none', width: '40px', height: '40px', borderRadius: '50%', background: 'color-mix(in srgb, var(--dl-indigo) 12%, #fff)', border: '1px solid color-mix(in srgb, var(--dl-indigo) 25%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" style={{ fill: 'var(--dl-indigo)', marginLeft: '2px' }}><path d="M8 5v14l11-7z" /></svg>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 }}>
-              <div style={{ fontSize: '9px', fontWeight: 'bold', letterSpacing: '1.3px', textTransform: 'uppercase', color: 'var(--dl-indigo)' }}>Watch video</div>
-              <div style={{ fontSize: '13px', fontWeight: 'bold', lineHeight: 1.3, color: 'var(--dl-text)' }}>Digital learning &amp; curriculum directors</div>
-            </div>
-          </a>
+        {/* Video cards — K-12 only (educator testimonials) */}
+        {!isUniversity && (
+          <>
+            <h3 className="ex-subhead">Hear the full story</h3>
+            <p className="ex-lead" style={{ margin: '0 0 10px' }}>
+              Meet the educators who use Delphinium every day to drive better outcomes for their
+              students.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <a
+                href="https://www.youtube.com/watch?v=Tp3IO0TzvM0"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  background: 'var(--dl-surface)',
+                  border: '1px solid var(--dl-border)',
+                  borderRadius: 'var(--dl-radius)',
+                  padding: '14px 16px',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  boxShadow: '0 2px 8px rgba(46,49,146,0.08), 0 1px 2px rgba(0,0,0,0.05)',
+                }}
+              >
+                <div style={{ flex: 'none', width: '40px', height: '40px', borderRadius: '50%', background: 'color-mix(in srgb, var(--dl-indigo) 12%, #fff)', border: '1px solid color-mix(in srgb, var(--dl-indigo) 25%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" style={{ fill: 'var(--dl-indigo)', marginLeft: '2px' }}><path d="M8 5v14l11-7z" /></svg>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 }}>
+                  <div style={{ fontSize: '9px', fontWeight: 'bold', letterSpacing: '1.3px', textTransform: 'uppercase', color: 'var(--dl-indigo)' }}>Watch video</div>
+                  <div style={{ fontSize: '13px', fontWeight: 'bold', lineHeight: 1.3, color: 'var(--dl-text)' }}>Digital learning &amp; curriculum directors</div>
+                </div>
+              </a>
 
-          <a
-            href="https://www.youtube.com/watch?v=3N0SXpFT36w"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '14px',
-              background: 'var(--dl-surface)',
-              border: '1px solid var(--dl-border)',
-              borderRadius: 'var(--dl-radius)',
-              padding: '14px 16px',
-              textDecoration: 'none',
-              color: 'inherit',
-              boxShadow: '0 2px 8px rgba(46,49,146,0.08), 0 1px 2px rgba(0,0,0,0.05)',
-            }}
-          >
-            <div style={{ flex: 'none', width: '40px', height: '40px', borderRadius: '50%', background: 'color-mix(in srgb, var(--dl-indigo) 12%, #fff)', border: '1px solid color-mix(in srgb, var(--dl-indigo) 25%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" style={{ fill: 'var(--dl-indigo)', marginLeft: '2px' }}><path d="M8 5v14l11-7z" /></svg>
+              <a
+                href="https://www.youtube.com/watch?v=3N0SXpFT36w"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  background: 'var(--dl-surface)',
+                  border: '1px solid var(--dl-border)',
+                  borderRadius: 'var(--dl-radius)',
+                  padding: '14px 16px',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  boxShadow: '0 2px 8px rgba(46,49,146,0.08), 0 1px 2px rgba(0,0,0,0.05)',
+                }}
+              >
+                <div style={{ flex: 'none', width: '40px', height: '40px', borderRadius: '50%', background: 'color-mix(in srgb, var(--dl-indigo) 12%, #fff)', border: '1px solid color-mix(in srgb, var(--dl-indigo) 25%, transparent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" style={{ fill: 'var(--dl-indigo)', marginLeft: '2px' }}><path d="M8 5v14l11-7z" /></svg>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 }}>
+                  <div style={{ fontSize: '9px', fontWeight: 'bold', letterSpacing: '1.3px', textTransform: 'uppercase', color: 'var(--dl-indigo)' }}>Watch video</div>
+                  <div style={{ fontSize: '13px', fontWeight: 'bold', lineHeight: 1.3, color: 'var(--dl-text)' }}>Teachers &amp; instructional coaches</div>
+                </div>
+              </a>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 }}>
-              <div style={{ fontSize: '9px', fontWeight: 'bold', letterSpacing: '1.3px', textTransform: 'uppercase', color: 'var(--dl-indigo)' }}>Watch video</div>
-              <div style={{ fontSize: '13px', fontWeight: 'bold', lineHeight: 1.3, color: 'var(--dl-text)' }}>Teachers &amp; instructional coaches</div>
-            </div>
-          </a>
-        </div>
+          </>
+        )}
       </section>
 
       {/* ==================== PAGE D — RESEARCH CITATIONS (optional; use ResearchFoundationSection when omitted) ==================== */}

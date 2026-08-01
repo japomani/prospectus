@@ -1,5 +1,5 @@
 import { apiQuoteToForm, quoteToApiBody } from './quoteMapper.js';
-import { clearApiPassword, getApiPassword } from './auth.js';
+import { clearApiPassword, getApiPassword, setIsAdmin } from './auth.js';
 
 const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
@@ -23,10 +23,16 @@ async function request(path, options = {}) {
 
   if (res.status === 401) {
     const hadPassword = Boolean(password);
-    clearApiPassword();
-    // Avoid reload loops on public prospectus links that call the API without a session.
-    if (hadPassword) {
-      window.location.assign('/pricing');
+    if (!options.skipAuthRedirect) {
+      clearApiPassword();
+      // Avoid reload loops on public prospectus links that call the API without a session.
+      if (hadPassword) {
+        const here = `${window.location.pathname}${window.location.search}`;
+        const next = here.startsWith('/') && !here.startsWith('//')
+          ? `?next=${encodeURIComponent(here)}`
+          : '';
+        window.location.assign(`/pricing${next}`);
+      }
     }
     throw new Error('unauthorized');
   }
@@ -63,7 +69,8 @@ export async function createQuote(quote) {
 }
 
 export async function getQuote(id) {
-  const data = await request(`/quotes/${encodeURIComponent(id)}`);
+  // Public read — do not clear session / bounce to login on 401 (shareable customer links).
+  const data = await request(`/quotes/${encodeURIComponent(id)}`, { skipAuthRedirect: true });
   return apiQuoteToForm(data);
 }
 
@@ -89,4 +96,35 @@ export async function listQuotes({ rep } = {}) {
   const data = await request(`/quotes${qs}`);
   if (!Array.isArray(data)) return [];
   return data.map(item => apiQuoteToForm(item));
+}
+
+export async function searchHubspotCompanies(query) {
+  const q = (query || '').trim();
+  if (!q) return [];
+  const data = await request(`/hubspot/companies?q=${encodeURIComponent(q)}`);
+  return Array.isArray(data?.results) ? data.results : [];
+}
+
+export async function getHubspotCompany(id) {
+  if (!id) return null;
+  return request(`/hubspot/companies/${encodeURIComponent(id)}`);
+}
+
+/** Verify password against API and detect admin session. */
+export async function verifySession() {
+  const data = await request('/auth/session', { skipAuthRedirect: true });
+  const admin = Boolean(data?.admin);
+  setIsAdmin(admin);
+  return { ok: true, admin };
+}
+
+export async function getConfig() {
+  return request('/config');
+}
+
+export async function putConfig(config) {
+  return request('/config', {
+    method: 'PUT',
+    body: JSON.stringify(config),
+  });
 }

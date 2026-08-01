@@ -1,3 +1,5 @@
+import CheckIcon from './CheckIcon.jsx';
+
 const INSTALL_URL = 'https://tutorials.delphi-me.com/deep_dive/admin/installing-delphinium';
 const ENABLE_URL = 'https://tutorials.delphi-me.com/deep_dive/set-up-a-course/enable-delphinium';
 
@@ -78,6 +80,9 @@ const BUILT_IN_STEPS = [
   '\u201cLearn More\u201d links and tooltips beside every feature.',
   'Plain-language explanations embedded throughout the settings.',
   'Self-paced Getting Started and feature lessons for every teacher, at any time.',
+  'Community support forum for teachers.',
+  'Train the trainer for primary contacts.',
+  'Ticket support for primary contacts.',
 ];
 
 export default function ImplementationSection({ pageLabel, pageLabelB }) {
@@ -172,20 +177,21 @@ export default function ImplementationSection({ pageLabel, pageLabelB }) {
           already on the screen.
         </p>
 
-        <div className="keep impl-flow support-flow">
+        <div className="keep security-pills support-flow">
           {FLOW_STEPS.flatMap((step, i, arr) => {
-            const isLast = i === arr.length - 1;
-            const stepEl = (
-              <span
-                key={step}
-                className={`impl-flow-step${isLast ? ' impl-flow-step--active' : ''}`}
-              >
+            const pill = (
+              <span key={step} className="security-pill">
+                <CheckIcon />
                 {step}
               </span>
             );
-            return isLast
-              ? [stepEl]
-              : [stepEl, <span key={`${step}-arrow`} className="impl-flow-arrow">&rarr;</span>];
+            if (i === arr.length - 1) return [pill];
+            return [
+              pill,
+              <span key={`${step}-arrow`} className="support-flow-arrow" aria-hidden="true">
+                &rarr;
+              </span>,
+            ];
           })}
         </div>
 

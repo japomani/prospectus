@@ -1,3 +1,5 @@
+import CheckIcon from './CheckIcon.jsx';
+
 const COMPLIANCE_URL = 'https://tutorials.delphi-me.com/deep_dive/admin/compliance';
 
 const BADGES = [
@@ -12,7 +14,7 @@ const LEFT_SECTIONS = [
   {
     title: 'Security',
     items: [
-      'Authenticated through Canvas via LTI 1.3 — no separate Delphinium logins or passwords to manage. Access tokens expire hourly, renew over OAuth, and can be revoked by any admin, teacher, or student from Canvas at any time.',
+      'Authenticated through Canvas via LTI 1.3 — no separate Delphinium logins or passwords to manage. Delphinium receives Canvas data over three channels, each independently controlled by your Canvas admin: the Canvas REST API (OAuth 2.0 tokens that expire hourly, renew automatically, and can be revoked from Canvas at any time), Canvas Data 2 (a JWT credential your admin issues and can revoke), and Live Events (a subscription your admin can disable, delivered to a Delphinium-managed AWS SQS queue inside our US account).',
       'Encrypted everywhere: AES-256 at rest plus S3 server-side encryption; HTTPS/TLS in transit; storage isolated from the public internet.',
       'Least-privilege access via AWS IAM with 2FA required; activity logged via CloudTrail.',
       'Regular external penetration testing and continuous monitoring via AWS Security Hub and Snyk.',
@@ -24,7 +26,7 @@ const LEFT_SECTIONS = [
     items: [
       'All storage and processing in the United States.',
       'Student data is never sold, and never used for advertising.',
-      'Canvas enforces exactly which API endpoints Delphinium can reach — a fixed, published scope list — and we intentionally request only the data needed to run the service.',
+      'Every data channel is scope-limited: the REST API is restricted to a fixed Canvas-enforced scope list, DAP is limited to a named set of Canvas Data 2 tables, and Live Events is limited to a named set of subscribed event types.',
       'You own your data. Export or deletion is available on request, with full deletion at the end of the contract.',
       'Data is retained only as long as needed to provide the service.',
     ],
@@ -60,22 +62,6 @@ const EVIDENCE_ITEMS = [
   'Penetration-test summary',
 ];
 
-function CheckIcon() {
-  return (
-    <svg className="security-pill-icon" viewBox="0 0 12 12" aria-hidden="true">
-      <circle cx="6" cy="6" r="6" fill="currentColor" />
-      <path
-        d="M3.5 6.1 5.2 7.8 8.6 4.4"
-        fill="none"
-        stroke="#fff"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 function SecurityBlock({ title, items, isFirst }) {
   return (
     <div className={`security-block${isFirst ? ' security-block--first' : ''}`}>
@@ -98,7 +84,7 @@ export default function SecuritySection({ pageLabel }) {
       </div>
       <h2 className="ex-h security-title">FERPA-aligned, HECVAT-ready, independently tested</h2>
       <p className="ex-lead security-lead">
-        Delphinium is a Canvas LTI 1.3 plugin running on AWS services, with student data encrypted end-to-end
+        Delphinium is a Canvas LTI 1.3 plugin running on AWS, with student data encrypted in transit and at rest
         and stored entirely in the United States.
       </p>
 

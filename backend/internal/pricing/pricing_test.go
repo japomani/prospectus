@@ -1,6 +1,7 @@
 package pricing
 
 import (
+	"math"
 	"testing"
 )
 
@@ -52,9 +53,142 @@ func TestMultiYearDiscount_2Years(t *testing.T) {
 	if r.MultiYearDiscount <= 0 {
 		t.Errorf("expected multi-year discount for 2yr term, got %v", r.MultiYearDiscount)
 	}
-	expected := round2(r.ProductSubtotal * 0.025)
+	// 2yr = 2.5% of post-volume subtotal (plain round — not safeMul, which maps 0.025→0.03)
+	expected := math.Round((r.ProductSubtotal - r.VolumeDiscount) * 0.025)
 	if r.MultiYearDiscount != expected {
-		t.Errorf("2yr discount: got %v want %v (2.5%% of product subtotal)", r.MultiYearDiscount, expected)
+		t.Errorf("2yr discount: got %v want %v (2.5%% of post-volume subtotal)", r.MultiYearDiscount, expected)
+	}
+}
+
+// Regression: CB+EB at minimum ($3900 each = $7800), 2yr, no volume.
+// safeMul(7800, 0.025) wrongly yields 234; correct is 195.
+func TestMultiYearDiscount_7800_2Years_NotSafeMulInflated(t *testing.T) {
+	q := QuoteInput{
+		SchoolType:  SchoolOnline,
+		Students:    100, // below volume threshold; hits $3900 minimum per product
+		IsFirstYear: true,
+		Years:       2,
+		Products: Products{
+			EngagementBuilder: true,
+			CommunityBuilder:  true,
+		},
+	}
+	r, err := Calculate(q)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if r.ProductSubtotal != 7800 {
+		t.Fatalf("productSubtotal: got %v want 7800", r.ProductSubtotal)
+	}
+	if r.VolumeDiscount != 0 {
+		t.Fatalf("volumeDiscount: got %v want 0", r.VolumeDiscount)
+	}
+	if r.MultiProductDiscount != 780 {
+		t.Errorf("multiProductDiscount: got %v want 780", r.MultiProductDiscount)
+	}
+	if r.MultiYearDiscount != 195 {
+		t.Errorf("multiYearDiscount: got %v want 195 (2.5%% of 7800; not safeMul-inflated 234)", r.MultiYearDiscount)
+	}
+	// Annual = 7800 - 780 - 195 = 6825; list = 7800; savings = 975
+	if r.AnnualTotal != 6825 {
+		t.Errorf("annualTotal: got %v want 6825", r.AnnualTotal)
+	}
+	if r.AnnualSavings != 975 {
+		t.Errorf("annualSavings: got %v want 975", r.AnnualSavings)
+	}
+}
+
+func TestMultiYearDiscount_7_5Percent_4Years(t *testing.T) {
+	q := QuoteInput{
+		SchoolType: SchoolOnline, Students: 100, Years: 4, IsFirstYear: true,
+		Products: Products{EngagementBuilder: true},
+	}
+	r, err := Calculate(q)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// 3900 × 7.5% = 292.5 → 293; safeMul would inflate to 312 (8%)
+	want := math.Round(3900 * 0.075)
+	if r.MultiYearDiscount != want {
+		t.Errorf("4yr discount: got %v want %v (7.5%% of 3900)", r.MultiYearDiscount, want)
+	}
+}
+
+func TestMultiYearDiscountRates(t *testing.T) {
+	rates := map[int]float64{1: 0, 2: 0.025, 3: 0.05, 4: 0.075, 5: 0.10}
+	for years, want := range rates {
+		if got := multiYearDiscountRate(years); got != want {
+			t.Errorf("multiYearDiscountRate(%d) = %v, want %v", years, got, want)
+		}
+	}
+}
+
+func TestCalculate_70000Online_EB_CB_MatchesOriginal(t *testing.T) {
+	q := QuoteInput{
+		SchoolType:  SchoolOnline,
+		Students:    70000,
+		IsDistrict:  false,
+		IsFirstYear: true,
+		Years:       1,
+		Products: Products{
+			EngagementBuilder: true,
+			CommunityBuilder:  true,
+		},
+	}
+	r, err := Calculate(q)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if r.ProductSubtotal != 910000 {
+		t.Errorf("productSubtotal: got %v want 910000", r.ProductSubtotal)
+	}
+	if r.VolumeDiscount != 446600 {
+		t.Errorf("volumeDiscount: got %v want 446600", r.VolumeDiscount)
+	}
+	if r.MultiProductDiscount != 46340 {
+		t.Errorf("multiProductDiscount: got %v want 46340", r.MultiProductDiscount)
+	}
+	if r.AnnualTotal != 417060 {
+		t.Errorf("annualTotal: got %v want 417060", r.AnnualTotal)
+	}
+	if r.ImplementationFee != 2950 {
+		t.Errorf("implementationFee: got %v want 2950", r.ImplementationFee)
+	}
+}
+
+func TestCalculate_70000Traditional_EB_CB_VolumeThenMulti(t *testing.T) {
+	q := QuoteInput{
+		SchoolType:  SchoolTraditional,
+		Students:    70000,
+		IsDistrict:  true,
+		IsFirstYear: false,
+		Years:       1,
+		Products: Products{
+			EngagementBuilder: true,
+			CommunityBuilder:  true,
+		},
+	}
+	r, err := Calculate(q)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if r.ProductSubtotal != 700000 {
+		t.Errorf("productSubtotal: got %v want 700000", r.ProductSubtotal)
+	}
+	if r.VolumeDiscount != 343000 {
+		t.Errorf("volumeDiscount: got %v want 343000", r.VolumeDiscount)
+	}
+	afterVol := r.ProductSubtotal - r.VolumeDiscount
+	wantMulti := math.Round(afterVol * 0.10)
+	if r.MultiProductDiscount != wantMulti {
+		t.Errorf("multiProductDiscount: got %v want %v (10%% of post-volume)", r.MultiProductDiscount, wantMulti)
+	}
+	wantAnnual := afterVol - wantMulti
+	if r.AnnualTotal != wantAnnual {
+		t.Errorf("annualTotal: got %v want %v", r.AnnualTotal, wantAnnual)
+	}
+	if r.ImplementationFee != 0 {
+		t.Errorf("implementationFee: got %v want 0", r.ImplementationFee)
 	}
 }
 

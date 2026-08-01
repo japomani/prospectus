@@ -10,7 +10,7 @@ const SECTIONS = [
     ],
   },
   {
-    title: 'Messages, ready before a teacher ever needs them',
+    title: 'Messages, ready before teachers need them',
     lead: 'Set up message templates once, and every course has access to them.',
     items: [
       'Pre-built message templates available to teachers from day one',
@@ -24,11 +24,14 @@ export default function AdminControlsSection({ pageLabel }) {
   return (
     <section className="sheet">
       <div className="page-label screen-only">{pageLabel}</div>
-      <div className="doc-kicker">Admin controls</div>
+      <div className="ex-kicker">
+        <span className="ex-tick" />
+        Admin controls
+      </div>
       <h2 className="doc-h2" style={{ marginBottom: '8px' }}>
         Every teacher <span className="dl-accent">supported.</span> Every class <span className="dl-accent">consistent.</span>
       </h2>
-      <p className="doc-lead" style={{ marginBottom: '16px' }}>
+      <p className="doc-lead">
         From the admin panel, a school can set defaults and templates that carry into every course
         automatically. A new teacher doesn&apos;t start from a blank page, and every class reflects the same
         standard, without each teacher building it themselves. The result: a school that looks and feels like
@@ -37,12 +40,14 @@ export default function AdminControlsSection({ pageLabel }) {
         , not a hundred separate classrooms.
       </p>
 
-      <div className="keep doc-grid-2">
+      <div className="keep cover-product-columns">
         {SECTIONS.map(section => (
-          <div key={section.title} className="dCard" style={{ margin: 0 }}>
-            <div className="doc-step-title">{section.title}</div>
-            <p className="doc-step-body" style={{ marginBottom: '6px' }}>{section.lead}</p>
-            <ul className="security-list">
+          <div key={section.title} className="cover-product-block">
+            <h3 className="ex-subhead cover-product-block-title">
+              {section.title}
+            </h3>
+            <p className="ex-lead cover-product-block-lead">{section.lead}</p>
+            <ul className="cover-product-list">
               {section.items.map(item => <li key={item}>{item}</li>)}
             </ul>
           </div>

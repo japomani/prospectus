@@ -2,21 +2,38 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import QuoteList from '../components/QuoteList.jsx';
 import SaveQuoteDialog from '../components/SaveQuoteDialog.jsx';
+import HubSpotCompanySearch from '../components/HubSpotCompanySearch.jsx';
+import AdminSettings from '../components/AdminSettings.jsx';
 import { useQuote } from '../context/QuoteContext.jsx';
 import {
   createQuote,
   deleteQuote,
+  getConfig,
   getQuote,
   isApiConfigured,
   listQuotes,
   updateQuote as updateQuoteApi,
 } from '../lib/api.js';
+import { isAdminSession } from '../lib/auth.js';
 import { encodeQuoteParams } from '../lib/encoder.js';
 import { getDefaultQuote } from '../lib/fields.js';
 import { formatCustomItemLabel, PRODUCT_LABELS } from '../lib/pricingSummary.js';
 import { calculatePricing, formatCurrency, getMultiYearDiscountPercent, buildDefaultYearlyPayments, resolveYearlyPaymentSchedule } from '../lib/pricing.js';
-import { formatDate, fromMonthInputValue, toMonthInputValue } from '../lib/dates.js';
+import { formatDate, fromDateInputValue, toDateInputValue } from '../lib/dates.js';
 import { buildSuggestedQuoteName, displayQuoteLabel } from '../lib/quoteName.js';
+import {
+  DEFAULT_LICENSE_CONFIG,
+  DEFAULT_SMS_CONFIG,
+  SMS_CREDIT_FLOOR,
+  SMS_OVERAGE_AUTO,
+  SMS_OVERAGE_HARD_STOP,
+  buildSmsSnapshot,
+  clampSmsCreditsPurchased,
+  mergeLicenseConfig,
+  mergeSmsConfig,
+  overageModeLabel,
+  resolveSmsQuoteFields,
+} from '../lib/smsCredits.js';
 
 function integerInputProps(value, onChange) {
   const numeric = Number(value) || 0;
@@ -29,6 +46,29 @@ function integerInputProps(value, onChange) {
       onChange(digits === '' ? 0 : parseInt(digits, 10));
     },
   };
+}
+
+function decimalInputProps(value, onChange) {
+  return {
+    type: 'number',
+    step: 'any',
+    value: value === '' || value == null ? '' : value,
+    onChange: e => {
+      const raw = e.target.value;
+      if (raw === '') onChange('');
+      else onChange(Number(raw));
+    },
+  };
+}
+
+function formatRate(rate) {
+  if (!rate || rate <= 0) return '—';
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 5,
+  }).format(rate);
 }
 
 export default function PricingCalculator() {
@@ -49,7 +89,34 @@ export default function PricingCalculator() {
   const [scheduleStale, setScheduleStale] = useState(false);
   const scheduleBaseTotalRef = useRef(null);
   const apiConfigured = isApiConfigured();
+  const [isAdmin, setIsAdmin] = useState(() => isAdminSession());
+  const [licenseConfig, setLicenseConfig] = useState(() => mergeLicenseConfig(DEFAULT_LICENSE_CONFIG));
+  const [smsConfig, setSmsConfig] = useState(() => mergeSmsConfig(DEFAULT_SMS_CONFIG));
 
+  useEffect(() => {
+    setIsAdmin(isAdminSession());
+  }, []);
+
+  useEffect(() => {
+    if (!apiConfigured) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const cfg = await getConfig();
+        if (cancelled) return;
+        setLicenseConfig(mergeLicenseConfig(cfg?.license));
+        setSmsConfig(mergeSmsConfig(cfg?.sms));
+      } catch {
+        /* keep defaults */
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [apiConfigured]);
+
+  function handleConfigSaved(next) {
+    if (next?.license) setLicenseConfig(mergeLicenseConfig(next.license));
+    if (next?.sms) setSmsConfig(mergeSmsConfig(next.sms));
+  }
   const refreshQuoteList = useCallback(async () => {
     if (!apiConfigured) return;
     setListLoading(true);
@@ -132,9 +199,16 @@ export default function PricingCalculator() {
 
   let results = null;
   let calcError = null;
+  const smsResolved = resolveSmsQuoteFields(quote, smsConfig);
+  const smsGateError = quote.sms && !quote.clever
+    ? 'SIS integration is required when SMS texting is selected (K-12 and Higher Ed).'
+    : null;
 
   try {
-    results = calculatePricing(quote);
+    const quoteForCalc = quote.sms
+      ? { ...quote, smsFee: smsResolved.smsFee }
+      : quote;
+    results = calculatePricing(quoteForCalc, { licenseConfig });
   } catch (err) {
     calcError = err.message;
   }
@@ -150,6 +224,10 @@ export default function PricingCalculator() {
   function openSaveDialog() {
     setSaveError(null);
     setSaveSuccess(null);
+    if (smsGateError) {
+      setSaveError(smsGateError);
+      return;
+    }
     setSaveNameDraft(quote.quoteName?.trim() || suggestedQuoteName);
     setSaveDialogOpen(true);
   }
@@ -158,24 +236,109 @@ export default function PricingCalculator() {
     if (!saving) setSaveDialogOpen(false);
   }
 
-  /** Path (+ query) for the prospectus view — shared by View Prospectus and Copy Link. */
+  /** Stable customer share path — saved quotes only (`/quotes/{id}`). */
+  function shareableProspectusPath() {
+    if (quote.quoteId && apiConfigured) {
+      return `/quotes/${quote.quoteId}`;
+    }
+    return null;
+  }
+
+  /** Path (+ query) for preview — View Prospectus can use unsaved form-link style URLs. */
   function prospectusViewPath(quoteId = quote.quoteId) {
     if (quoteId && apiConfigured) {
       return `/quotes/${quoteId}`;
     }
-    return `/quotes/new?${encodeQuoteParams(quote)}`;
+    const encoded = { ...quote, ...buildSmsSaveFields() };
+    return `/quotes/new?${encodeQuoteParams(encoded)}`;
   }
 
   function handleViewProspectus(quoteId = quote.quoteId) {
+    if (smsGateError) {
+      setSaveError(smsGateError);
+      return;
+    }
     window.open(prospectusViewPath(quoteId), '_blank');
   }
 
-  function handleCopyLink() {
-    const url = `${window.location.origin}${prospectusViewPath()}`;
-    navigator.clipboard.writeText(url).then(() => {
+  function shareLinkLabel() {
+    const school = quote.schoolName?.trim() || 'Delphinium';
+    const annual = results?.annualTotal != null ? formatCurrency(results.annualTotal) : '';
+    if (annual) {
+      return `View ${school}'s Delphinium Prospectus — ${annual}/yr`;
+    }
+    return `View ${school}'s Delphinium Prospectus`;
+  }
+
+  async function copyTextWithOptionalHtml(plain, html) {
+    if (typeof ClipboardItem !== 'undefined' && navigator.clipboard?.write) {
+      try {
+        const item = new ClipboardItem({
+          'text/plain': new Blob([plain], { type: 'text/plain' }),
+          'text/html': new Blob([html], { type: 'text/html' }),
+        });
+        await navigator.clipboard.write([item]);
+        return;
+      } catch {
+        /* fall through */
+      }
+    }
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(plain);
+      return;
+    }
+    // Legacy rich-text copy (email clients), matching old delphi-me calculator.
+    const tempDiv = document.createElement('div');
+    tempDiv.contentEditable = 'true';
+    tempDiv.style.position = 'fixed';
+    tempDiv.style.left = '-9999px';
+    tempDiv.innerHTML = html;
+    document.body.appendChild(tempDiv);
+    const range = document.createRange();
+    range.selectNodeContents(tempDiv);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    document.execCommand('copy');
+    document.body.removeChild(tempDiv);
+    selection.removeAllRanges();
+  }
+
+  async function handleCopyLink() {
+    if (smsGateError) {
+      setSaveError(smsGateError);
+      return;
+    }
+    const path = shareableProspectusPath();
+    if (!path) {
+      setSaveError('Save the quote first to get a shareable customer link.');
+      return;
+    }
+    const url = `${window.location.origin}${path}`;
+    const label = shareLinkLabel();
+    const plain = `${label}\n${url}`;
+    const html = `<div style="font-family: Arial, sans-serif;"><a href="${url}" style="color: #00adef; text-decoration: none;">${label.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</a></div>`;
+    try {
+      await copyTextWithOptionalHtml(plain, html);
       setCopied(true);
+      setSaveError(null);
       setTimeout(() => setCopied(false), 2000);
-    });
+    } catch {
+      setSaveError('Could not copy link — try again or copy from the address bar after Open.');
+    }
+  }
+
+  function handleOpenShareLink() {
+    if (smsGateError) {
+      setSaveError(smsGateError);
+      return;
+    }
+    const path = shareableProspectusPath();
+    if (!path) {
+      setSaveError('Save the quote first to open the customer share link.');
+      return;
+    }
+    window.open(path, '_blank', 'noopener,noreferrer');
   }
 
   function startNewQuote() {
@@ -197,10 +360,39 @@ export default function PricingCalculator() {
     loadQuoteIntoForm(value);
   }
 
+  function buildSmsSaveFields() {
+    if (!quote.sms || !smsResolved.purchase || !smsResolved.inputs) {
+      return {
+        smsFee: 0,
+        smsSnapshot: null,
+      };
+    }
+    const snapshot = buildSmsSnapshot(
+      smsResolved.inputs,
+      smsConfig,
+      smsResolved.purchase,
+      smsResolved.estimate,
+    );
+    return {
+      smsFee: smsResolved.purchase.annualCreditCost,
+      smsFte: smsResolved.inputs.fte,
+      smsTeachersPerStudent: smsResolved.inputs.teachersPerStudent,
+      smsMsgsPerTeacherStudentMo: smsResolved.inputs.msgsPerTeacherStudentMo,
+      smsActiveMonths: smsResolved.inputs.activeMonths,
+      smsCreditsPurchased: smsResolved.purchase.creditsPurchased,
+      smsOverageMode: smsResolved.inputs.overageMode,
+      smsSnapshot: snapshot,
+    };
+  }
+
   async function handleSaveQuote(quoteName) {
     const name = quoteName.trim();
     if (!name) {
       setSaveError('Quote name is required');
+      return;
+    }
+    if (smsGateError) {
+      setSaveError(smsGateError);
       return;
     }
     setSaveError(null);
@@ -211,7 +403,7 @@ export default function PricingCalculator() {
     }
     setSaving(true);
     try {
-      const payload = { ...quote, quoteName: name };
+      const payload = { ...quote, quoteName: name, ...buildSmsSaveFields() };
       let saved;
       if (quote.quoteId) {
         saved = await updateQuoteApi(quote.quoteId, payload);
@@ -231,6 +423,41 @@ export default function PricingCalculator() {
     } finally {
       setSaving(false);
     }
+  }
+
+  function handleSmsToggle(checked) {
+    if (!checked) {
+      updateQuote({ sms: false });
+      return;
+    }
+    const fte = quote.smsFte > 0 ? quote.smsFte : (Number(quote.students) || 0);
+    const teachers = quote.smsTeachersPerStudent > 0
+      ? quote.smsTeachersPerStudent
+      : (smsConfig.defaultTeachersPerStudent ?? 7);
+    const msgs = quote.smsMsgsPerTeacherStudentMo > 0
+      ? quote.smsMsgsPerTeacherStudentMo
+      : (smsConfig.defaultMsgsPerTeacherStudentMo ?? 5);
+    const months = quote.smsActiveMonths > 0
+      ? quote.smsActiveMonths
+      : (smsConfig.defaultActiveMonths ?? 10);
+    const estimate = resolveSmsQuoteFields({
+      ...quote,
+      sms: true,
+      smsFte: fte,
+      smsTeachersPerStudent: teachers,
+      smsMsgsPerTeacherStudentMo: msgs,
+      smsActiveMonths: months,
+      smsCreditsPurchased: 0,
+    }, smsConfig);
+    updateQuote({
+      sms: true,
+      smsFte: fte,
+      smsTeachersPerStudent: teachers,
+      smsMsgsPerTeacherStudentMo: msgs,
+      smsActiveMonths: months,
+      smsOverageMode: quote.smsOverageMode || SMS_OVERAGE_AUTO,
+      smsCreditsPurchased: estimate.purchase?.creditsPurchased || 0,
+    });
   }
 
   function addCustomItem() {
@@ -347,6 +574,15 @@ export default function PricingCalculator() {
         >
           Saved quotes
         </button>
+        {isAdmin && (
+          <button
+            type="button"
+            className={`pricing-tab${activeTab === 'admin' ? ' active' : ''}`}
+            onClick={() => setActiveTab('admin')}
+          >
+            Admin
+          </button>
+        )}
       </div>
 
       {activeTab === 'saved' ? (
@@ -361,6 +597,8 @@ export default function PricingCalculator() {
           onView={quoteId => handleViewProspectus(quoteId)}
           onDelete={handleDeleteQuote}
         />
+      ) : activeTab === 'admin' && isAdmin ? (
+        <AdminSettings onConfigSaved={handleConfigSaved} />
       ) : (
         <>
           {apiConfigured && (
@@ -404,6 +642,15 @@ export default function PricingCalculator() {
         <div className="form-col">
           <div className="card">
             <div className="card-title">School Information</div>
+            <HubSpotCompanySearch
+              companyId={quote.hubspotCompanyId}
+              schoolName={quote.schoolName}
+              onSelect={company => updateQuote({
+                hubspotCompanyId: company.id,
+                schoolName: company.name || quote.schoolName,
+              })}
+              onUnlink={() => updateQuote({ hubspotCompanyId: '' })}
+            />
             <div className="form-group">
               <label>School / District Name</label>
               <input
@@ -451,7 +698,8 @@ export default function PricingCalculator() {
                   checked={quote.isUniversity}
                   onChange={e => updateQuote({
                     isUniversity: e.target.checked,
-                    ...(e.target.checked ? { clever: false } : {}),
+                    // Higher Ed still keeps SIS when SMS requires it.
+                    ...(e.target.checked && !quote.sms ? { clever: false } : {}),
                   })}
                 />
                 Higher Ed (Remove references to parents)
@@ -493,7 +741,7 @@ export default function PricingCalculator() {
                 </label>
               </div>
             ))}
-            {!quote.isUniversity && (
+            {(!quote.isUniversity || quote.sms) && (
               <>
                 <div className="form-group">
                   <label className="checkbox-label">
@@ -502,7 +750,8 @@ export default function PricingCalculator() {
                       checked={quote.clever}
                       onChange={e => updateQuote({ clever: e.target.checked })}
                     />
-                    SIS integration (custom / quote)
+                    SIS integration
+                    {quote.sms ? ' (required for SMS)' : ' (custom / quote)'}
                   </label>
                 </div>
                 {quote.clever && (
@@ -521,18 +770,144 @@ export default function PricingCalculator() {
                 <input
                   type="checkbox"
                   checked={quote.sms}
-                  onChange={e => updateQuote({ sms: e.target.checked })}
+                  onChange={e => handleSmsToggle(e.target.checked)}
                 />
-                SMS texting (custom / quote)
+                SMS texting (prepaid credits)
               </label>
             </div>
             {quote.sms && (
-              <div className="form-group form-group-nested">
-                <label>SMS fee (optional override)</label>
-                <input
-                  placeholder="0 = show as custom/quote"
-                  {...integerInputProps(quote.smsFee, smsFee => updateQuote({ smsFee }))}
-                />
+              <div className="form-group-nested sms-fields">
+                {smsGateError && <p className="pricing-error">{smsGateError}</p>}
+                <div className="form-group">
+                  <label>FTE students</label>
+                  <input
+                    {...integerInputProps(
+                      quote.smsFte > 0 ? quote.smsFte : quote.students,
+                      smsFte => updateQuote({ smsFte }),
+                    )}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Teachers per student</label>
+                  <input
+                    {...decimalInputProps(
+                      quote.smsTeachersPerStudent,
+                      smsTeachersPerStudent => updateQuote({ smsTeachersPerStudent }),
+                    )}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Msgs per teacher per student / month (incl. replies)</label>
+                  <input
+                    {...decimalInputProps(
+                      quote.smsMsgsPerTeacherStudentMo,
+                      smsMsgsPerTeacherStudentMo => updateQuote({ smsMsgsPerTeacherStudentMo }),
+                    )}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Active months / year</label>
+                  <input
+                    {...integerInputProps(
+                      quote.smsActiveMonths,
+                      smsActiveMonths => updateQuote({ smsActiveMonths }),
+                    )}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Credits to purchase (annual)</label>
+                  <input
+                    type="number"
+                    min={SMS_CREDIT_FLOOR}
+                    step={1}
+                    inputMode="numeric"
+                    value={quote.smsCreditsPurchased > 0 ? quote.smsCreditsPurchased : ''}
+                    onChange={e => {
+                      const raw = e.target.value;
+                      if (raw === '') {
+                        updateQuote({ smsCreditsPurchased: 0 });
+                        return;
+                      }
+                      const n = parseInt(raw, 10);
+                      if (!Number.isFinite(n) || n < 0) return;
+                      updateQuote({ smsCreditsPurchased: clampSmsCreditsPurchased(n) });
+                    }}
+                    onBlur={e => {
+                      const raw = e.target.value;
+                      if (raw === '') return;
+                      const n = parseInt(raw, 10);
+                      if (!Number.isFinite(n) || n <= 0) return;
+                      const clamped = clampSmsCreditsPurchased(n);
+                      if (clamped !== quote.smsCreditsPurchased) {
+                        updateQuote({ smsCreditsPurchased: clamped });
+                      }
+                    }}
+                  />
+                  {smsResolved.estimate && (
+                    <p className="pricing-hint">
+                      Estimator recommends
+                      {' '}
+                      {smsResolved.estimate.recommendedYr.toLocaleString('en-US')}
+                      {' '}
+                      credits/year
+                      {' '}
+                      (
+                      {smsResolved.estimate.recommendedMo.toLocaleString('en-US')}
+                      /mo) — guidance only.
+                      {smsResolved.estimate.floored || smsResolved.purchase?.creditsPurchasedFloored
+                        ? ' Floor: 1,000 credits minimum.'
+                        : ''}
+                    </p>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label>Overage method</label>
+                  <div className="radio-group">
+                    <label className="checkbox-label">
+                      <input
+                        type="radio"
+                        name="smsOverage"
+                        checked={(quote.smsOverageMode || SMS_OVERAGE_AUTO) === SMS_OVERAGE_AUTO}
+                        onChange={() => updateQuote({ smsOverageMode: SMS_OVERAGE_AUTO })}
+                      />
+                      Auto-bill (default)
+                    </label>
+                    <label className="checkbox-label">
+                      <input
+                        type="radio"
+                        name="smsOverage"
+                        checked={quote.smsOverageMode === SMS_OVERAGE_HARD_STOP}
+                        onChange={() => updateQuote({ smsOverageMode: SMS_OVERAGE_HARD_STOP })}
+                      />
+                      Hard stop at 105%
+                    </label>
+                  </div>
+                </div>
+                {smsResolved.purchase && (
+                  <div className="sms-preview-box">
+                    <div className="result-section-title">SMS quote preview</div>
+                    <div className="result-row">
+                      <span>Credits purchased</span>
+                      <span>{smsResolved.purchase.creditsPurchased.toLocaleString('en-US')}</span>
+                    </div>
+                    <div className="result-row">
+                      <span>Effective rate</span>
+                      <span>{formatRate(smsResolved.purchase.effectiveRate)}</span>
+                    </div>
+                    <div className="result-row">
+                      <span>Annual credit cost</span>
+                      <span>{formatCurrency(smsResolved.purchase.annualCreditCost)}</span>
+                    </div>
+                    <div className="result-row">
+                      <span>Discount over full cost</span>
+                      <span>{formatCurrency(smsResolved.purchase.discountOverFull)}</span>
+                    </div>
+                    <div className="result-row">
+                      <span>Overage</span>
+                      <span>{overageModeLabel(quote.smsOverageMode)}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -591,10 +966,20 @@ export default function PricingCalculator() {
             <div className="form-group">
               <label>Target go-live</label>
               <input
-                type="month"
-                value={toMonthInputValue(quote.targetGoLive)}
+                type="date"
+                value={toDateInputValue(quote.targetGoLive)}
                 onChange={e => updateQuote({
-                  targetGoLive: fromMonthInputValue(e.target.value),
+                  targetGoLive: fromDateInputValue(e.target.value),
+                })}
+              />
+            </div>
+            <div className="form-group">
+              <label>Pricing held until</label>
+              <input
+                type="date"
+                value={toDateInputValue(quote.validUntil)}
+                onChange={e => updateQuote({
+                  validUntil: fromDateInputValue(e.target.value),
                 })}
               />
             </div>
@@ -788,12 +1173,34 @@ export default function PricingCalculator() {
                             </div>
                           )}
                           {quote.sms && (
-                            <div className="result-row">
-                              <span>SMS Texting</span>
-                              <span>
-                                {results.smsFee > 0 ? formatCurrency(results.smsFee) : 'Custom / quote'}
-                              </span>
-                            </div>
+                            <>
+                              <div className="result-row">
+                                <span>SMS Texting (annual credits)</span>
+                                <span>
+                                  {results.smsFee > 0 ? formatCurrency(results.smsFee) : 'Custom / quote'}
+                                </span>
+                              </div>
+                              {smsResolved.purchase && (
+                                <>
+                                  <div className="result-row">
+                                    <span>Credits purchased</span>
+                                    <span>{smsResolved.purchase.creditsPurchased.toLocaleString('en-US')}</span>
+                                  </div>
+                                  <div className="result-row">
+                                    <span>Effective rate</span>
+                                    <span>{formatRate(smsResolved.purchase.effectiveRate)}</span>
+                                  </div>
+                                  <div className="result-row">
+                                    <span>Discount over full cost</span>
+                                    <span>{formatCurrency(smsResolved.purchase.discountOverFull)}</span>
+                                  </div>
+                                  <div className="result-row">
+                                    <span>Overage</span>
+                                    <span>{overageModeLabel(quote.smsOverageMode)}</span>
+                                  </div>
+                                </>
+                              )}
+                            </>
                           )}
                           {customCharges.map(item => (
                             <div className="result-row" key={item.id}>
@@ -956,13 +1363,28 @@ export default function PricingCalculator() {
               </button>
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-secondary"
                 onClick={handleCopyLink}
-                disabled={!hasProducts}
+                disabled={!hasProducts || !quote.quoteId}
+                title={quote.quoteId ? 'Copy shareable prospectus link for email' : 'Save the quote first to copy a customer link'}
               >
                 {copied ? 'Copied!' : 'Copy Link'}
               </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={handleOpenShareLink}
+                disabled={!hasProducts || !quote.quoteId}
+                title={quote.quoteId ? 'Open customer prospectus in a new tab' : 'Save the quote first to open the share link'}
+              >
+                Open
+              </button>
             </div>
+            {!quote.quoteId && hasProducts && (
+              <p className="pricing-muted" style={{ marginTop: '8px' }}>
+                Save the quote to enable Copy Link and Open (stable <code>/quotes/…</code> URL for customers).
+              </p>
+            )}
           </div>
         </div>
       </div>

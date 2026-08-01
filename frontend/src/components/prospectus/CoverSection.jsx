@@ -1,7 +1,9 @@
 import { BookOpenCheck, BrainCircuit, Zap } from 'lucide-react';
 import CoverModuleIcon from './CoverModuleIcon.jsx';
 import { Field } from './Field.jsx';
-import { selectedAddons, selectedModules } from '../../lib/productCatalog.js';
+import { docPageLabels } from '../../lib/docPages.js';
+import { PROOF_HIGHER_ED, PROOF_K12 } from '../../lib/proofStats.js';
+import { selectedModules } from '../../lib/productCatalog.js';
 
 function storyLeadForQuote(quote) {
   const isUniversity = Boolean(quote?.isUniversity);
@@ -56,24 +58,24 @@ function coverProductColor(mod) {
   return COVER_PRODUCT_COLORS[mod.key] || mod.color;
 }
 
-function ArrowRight() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M5 12h13M12 5l7 7-7 7" />
-    </svg>
-  );
-}
-
 export default function CoverSection({ fields, quote, pricing, highlightFields }) {
   const modules = selectedModules(quote);
+  const pages = docPageLabels(quote);
+  const isUniversity = Boolean(quote?.isUniversity);
 
   const years = Number(quote.years) || 1;
   const isMultiYear = years > 1;
-  const hasSavings = Boolean(pricing && pricing.totalSavings > 0);
+  // Prefer term savings for multi-year; else annual (volume / multi-product / etc.).
+  // Do not gate on totalSavings alone — one-time deal charges can zero it out.
+  const showTermSavings = Boolean(isMultiYear && pricing && pricing.totalSavings > 0);
+  const showAnnualSavings = Boolean(
+    !showTermSavings && pricing && pricing.annualSavings > 0,
+  );
+  const hasSavings = showTermSavings || showAnnualSavings;
 
-  const productPage = index => 5 + index;
-  const hasAddons = selectedAddons(quote).length > 0;
-  const pricingPage = 5 + modules.length + (hasAddons ? 1 : 0);
+  const productPage = index => pages.productSheets + index;
+  const pricingPage = pages.pricing;
+  const proof = isUniversity ? PROOF_HIGHER_ED : PROOF_K12;
 
   return (
     <>
@@ -108,15 +110,34 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
         <div className="keep cover-story">
           <div className="cover-story-grid">
             <div className="cover-stat-tower">
-              <div className="cover-stat-num">31%</div>
-              <div className="cover-stat-label">fewer failures</div>
-              <div className="cover-stat-src">6,000 students &bull; 72 classes</div>
+              <div className="cover-stat-num">
+                {proof.num}
+                {isUniversity && <sup className="cover-stat-asterisk">*</sup>}
+              </div>
+              <div className="cover-stat-label">{proof.label}</div>
+              <div className="cover-stat-src">{proof.src}</div>
             </div>
             <div className="cover-story-body">
-              <blockquote className="cover-quote-block">
-                <p className="cover-quote-tx">{COVER_QUOTE.text}</p>
-                <div className="cover-quote-by">{COVER_QUOTE.attribution}</div>
-              </blockquote>
+              {isUniversity ? (
+                <div className="cover-quote-block cover-he-proof">
+                  <ul className="cover-he-outcomes">
+                    {PROOF_HIGHER_ED.outcomes.map(row => (
+                      <li key={row.label}>
+                        <span className="cover-he-outcomes-pct">{row.pct}</span>
+                        <span>{row.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="cover-he-proof-note">
+                    <span className="cover-he-proof-note-star">*</span> See last page for research details
+                  </div>
+                </div>
+              ) : (
+                <blockquote className="cover-quote-block">
+                  <p className="cover-quote-tx">{COVER_QUOTE.text}</p>
+                  <div className="cover-quote-by">{COVER_QUOTE.attribution}</div>
+                </blockquote>
+              )}
             </div>
           </div>
         </div>
@@ -147,6 +168,7 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
           <div className="cover-index">
             {modules.map((mod, index) => {
               const productColor = coverProductColor(mod);
+              const pageNum = productPage(index);
               return (
               <div
                 key={mod.key}
@@ -168,8 +190,7 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
                   )}
                 </div>
                 <span className="cover-index-page">
-                  {`p.${productPage(index)}`}
-                  <ArrowRight />
+                  {`p.${pageNum}`}
                 </span>
               </div>
               );
@@ -190,10 +211,10 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
                 Save
                 {' '}
                 <Field
-                  value={isMultiYear ? fields.TOTAL_SAVINGS : fields.ANNUAL_SAVINGS}
+                  value={showTermSavings ? fields.TOTAL_SAVINGS : fields.ANNUAL_SAVINGS}
                   highlight={highlightFields}
                 />
-                {isMultiYear ? (
+                {showTermSavings ? (
                   <>
                     {' '}
                     over
@@ -207,8 +228,7 @@ export default function CoverSection({ fields, quote, pricing, highlightFields }
             )}
 
             <span className="cover-price-breakdown">
-              {`Full breakdown on p.${pricingPage}`}
-              <ArrowRight />
+              {`See total pricing on p.${pricingPage}`}
             </span>
           </div>
 

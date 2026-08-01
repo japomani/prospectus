@@ -1,5 +1,6 @@
 import { formatCurrency } from './pricing.js';
-import { formatDate } from './dates.js';
+import { defaultValidUntil, formatDate, formatGoLiveDisplay } from './dates.js';
+import { overageModeLabel } from './smsCredits.js';
 
 export const PILOT_FEE = 5000;
 
@@ -32,6 +33,16 @@ function possessive(name) {
   return name.endsWith('s') ? `${name}'` : `${name}'s`;
 }
 
+function formatRate(rate) {
+  if (!rate || rate <= 0) return '—';
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 5,
+  }).format(rate);
+}
+
 export function buildFields(quote, pricing) {
   const preparedDate = quote.preparedDate ? new Date(quote.preparedDate) : new Date();
   const validUntil = quote.validUntil
@@ -39,6 +50,10 @@ export function buildFields(quote, pricing) {
     : new Date(preparedDate.getTime() + 30 * 24 * 60 * 60 * 1000);
 
   const years = pricing.years || quote.years || 1;
+  const snap = quote.smsSnapshot || {};
+  const credits = Number(snap.creditsPurchased ?? quote.smsCreditsPurchased) || 0;
+  const rate = Number(snap.effectiveRate) || 0;
+  const discount = Number(snap.discountOverFull) || 0;
 
   return {
     SCHOOL_NAME: quote.schoolName || 'Your School',
@@ -62,9 +77,14 @@ export function buildFields(quote, pricing) {
     CTU_PRICE: quote.controlTowerUltra ? formatCurrency(pricing.ctuPrice) : '—',
     CLEVER_FEE: formatCleverFee(pricing, quote),
     SMS_FEE: formatSmsFee(pricing, quote),
+    SMS_CREDITS_PURCHASED: credits > 0 ? credits.toLocaleString('en-US') : '—',
+    SMS_EFFECTIVE_RATE: formatRate(rate),
+    SMS_ANNUAL_CREDIT_COST: formatSmsFee(pricing, quote),
+    SMS_DISCOUNT_OVER_FULL: discount > 0 ? formatCurrency(discount) : '—',
+    SMS_OVERAGE_MODE: quote.sms ? overageModeLabel(quote.smsOverageMode || snap.overageMode) : '—',
     IMPLEMENTATION_FEE: formatCurrency(pricing.implementationFee),
     PILOT_FEE: formatCurrency(PILOT_FEE),
-    TARGET_GO_LIVE: quote.targetGoLive || 'Next term',
+    TARGET_GO_LIVE: formatGoLiveDisplay(quote.targetGoLive) || 'Next term',
   };
 }
 
@@ -86,14 +106,23 @@ export function getDefaultQuote() {
     cleverFee: 0,
     sms: false,
     smsFee: 0,
+    smsFte: 0,
+    smsTeachersPerStudent: 7,
+    smsMsgsPerTeacherStudentMo: 5,
+    smsActiveMonths: 10,
+    smsCreditsPurchased: 0,
+    smsOverageMode: 'auto_bill',
+    smsSnapshot: null,
     notes: '',
     customItems: [],
     preparedByName: 'Jared Chapman',
     preparedByTitle: 'Chief Innovation Officer',
-    targetGoLive: 'August 2026',
+    targetGoLive: 'August 1, 2026',
+    validUntil: defaultValidUntil(),
     includeFreeTrialPage: false,
     includePilotPage: false,
     quoteName: '',
     quoteId: '',
+    hubspotCompanyId: '',
   };
 }

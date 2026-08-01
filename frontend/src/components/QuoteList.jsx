@@ -1,6 +1,21 @@
+import { useState } from 'react';
 import { formatCurrency } from '../lib/pricing.js';
 import { formatDate } from '../lib/dates.js';
 import { displayQuoteLabel } from '../lib/quoteName.js';
+
+function quoteSearchHaystack(item) {
+  const label = displayQuoteLabel(item);
+  const school = item.schoolName?.trim() || '';
+  const students = Number(item.students || 0);
+  const studentsFormatted = students.toLocaleString('en-US');
+  const total = item.pricingSnapshot?.grandTotal;
+  const totalText = total != null ? formatCurrency(total) : '';
+  const updated = formatDate(item.updatedAt) || '';
+  return [label, item.quoteName, school, String(students), studentsFormatted, totalText, updated]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+}
 
 export default function QuoteList({
   quotes,
@@ -13,6 +28,12 @@ export default function QuoteList({
   onView,
   onDelete,
 }) {
+  const [searchQuery, setSearchQuery] = useState('');
+  const query = searchQuery.trim().toLowerCase();
+  const filteredQuotes = query
+    ? quotes.filter(item => quoteSearchHaystack(item).includes(query))
+    : quotes;
+
   if (!apiConfigured) {
     return (
       <div className="card">
@@ -34,13 +55,27 @@ export default function QuoteList({
         </button>
       </div>
 
+      <div className="quote-list-search">
+        <input
+          type="search"
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          placeholder="Search by name, school, students…"
+          aria-label="Search saved quotes"
+        />
+      </div>
+
       {error && <p className="pricing-error">{error}</p>}
 
       {!loading && !error && quotes.length === 0 && (
         <p className="pricing-muted">No saved quotes yet. Create one on the Quote form tab.</p>
       )}
 
-      {quotes.length > 0 && (
+      {!loading && !error && quotes.length > 0 && filteredQuotes.length === 0 && (
+        <p className="pricing-muted">No quotes match your search.</p>
+      )}
+
+      {filteredQuotes.length > 0 && (
         <div className="quote-list-table-wrap">
           <table className="quote-list-table">
             <thead>
@@ -54,7 +89,7 @@ export default function QuoteList({
               </tr>
             </thead>
             <tbody>
-              {quotes.map(item => {
+              {filteredQuotes.map(item => {
                 const total = item.pricingSnapshot?.grandTotal;
                 const label = displayQuoteLabel(item);
                 const school = item.schoolName?.trim() || '—';

@@ -1,3 +1,5 @@
+import { defaultValidUntil } from './dates.js';
+
 /** Map between flat frontend quote state and API request/response shapes. */
 
 export function quoteToApiBody(quote) {
@@ -21,15 +23,24 @@ export function quoteToApiBody(quote) {
     customItems: quote.customItems || [],
     cleverFee: Number(quote.cleverFee) || 0,
     smsFee: Number(quote.smsFee) || 0,
+    smsFte: Number(quote.smsFte) || 0,
+    smsTeachersPerStudent: Number(quote.smsTeachersPerStudent) || 0,
+    smsMsgsPerTeacherStudentMo: Number(quote.smsMsgsPerTeacherStudentMo) || 0,
+    smsActiveMonths: Number(quote.smsActiveMonths) || 0,
+    smsCreditsPurchased: Number(quote.smsCreditsPurchased) || 0,
+    smsOverageMode: quote.smsOverageMode || 'auto_bill',
+    smsSnapshot: quote.smsSnapshot || null,
     notes: quote.notes || '',
     preparedByName: quote.preparedByName || '',
     preparedByTitle: quote.preparedByTitle || '',
     targetGoLive: quote.targetGoLive || '',
+    validUntil: quote.validUntil || '',
     includeFreeTrialPage: Boolean(quote.includeFreeTrialPage),
     includePilotPage: Boolean(quote.includePilotPage),
     slackUserId: quote.slackUserId || '',
     ref: quote.ref || '',
     quoteName: quote.quoteName || '',
+    hubspotCompanyId: quote.hubspotCompanyId || '',
   };
 }
 
@@ -55,15 +66,24 @@ export function apiQuoteToForm(source) {
     cleverFee: Number(q.cleverFee) || 0,
     sms: Boolean(products.sms ?? q.sms),
     smsFee: Number(q.smsFee) || 0,
+    smsFte: Number(q.smsFte) || 0,
+    smsTeachersPerStudent: Number(q.smsTeachersPerStudent) || 0,
+    smsMsgsPerTeacherStudentMo: Number(q.smsMsgsPerTeacherStudentMo) || 0,
+    smsActiveMonths: Number(q.smsActiveMonths) || 0,
+    smsCreditsPurchased: Number(q.smsCreditsPurchased) || 0,
+    smsOverageMode: q.smsOverageMode || 'auto_bill',
+    smsSnapshot: q.smsSnapshot || null,
     notes: q.notes || '',
     customItems: Array.isArray(q.customItems) ? q.customItems : [],
     preparedByName: q.preparedByName || '',
     preparedByTitle: q.preparedByTitle || '',
     targetGoLive: q.targetGoLive || '',
+    validUntil: q.validUntil || defaultValidUntil(),
     includeFreeTrialPage: Boolean(q.includeFreeTrialPage),
     includePilotPage: Boolean(q.includePilotPage),
     quoteName: q.quoteName || '',
     quoteId: q.quoteId || '',
+    hubspotCompanyId: q.hubspotCompanyId || '',
     slackUserId: q.slackUserId || '',
     ref: q.ref || '',
     updatedAt: q.updatedAt || null,

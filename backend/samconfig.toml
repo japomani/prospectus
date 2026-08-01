@@ -7,4 +7,5 @@ s3_prefix = "delphinium-prospectus"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
-parameter_overrides = "HubspotAccessToken=- SlackBotToken=- SlackQuotesChannel=- ApiPassword=delphinium"
+parameter_overrides = "HubspotAccessToken=- SlackBotToken=- SlackQuotesChannel=- ApiPassword=delphinium AdminPassword=delphiniumadmin"
+

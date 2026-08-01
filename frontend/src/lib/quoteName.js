@@ -28,8 +28,10 @@ export function buildSuggestedQuoteName(quote, pricing = null) {
   const years = Number(quote.years) || 1;
   parts.push(years === 1 ? '1 yr' : `${years} yr`);
 
-  if (pricing?.annualTotal > 0) {
-    parts.push(`${formatCurrency(pricing.annualTotal)}/yr`);
+  // Match Grand Total / agreement total from the pricing summary (includes
+  // one-time custom items and implementation), not annual recurring only.
+  if (pricing?.grandTotal > 0) {
+    parts.push(formatCurrency(pricing.grandTotal));
   }
 
   if (parts.length === 0) return 'New quote';

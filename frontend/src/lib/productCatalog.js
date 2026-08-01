@@ -315,7 +315,20 @@ export const ADDONS = [
       'Real two-way conversation, not just a one-way alert',
       'No app to download — works on any phone, nothing new to install',
       'Every reply lands in Delphinium-enhanced Canvas — right where you are doing all the rest of your work',
-      'Pricing tailored to your volume — quoted per agreement',
+    ],
+    legal: [
+      {
+        title: 'Credits',
+        body: 'Prepaid message credits. One credit ≈ a typical short text; longer texts and MMS use more. Message replies use credits too.',
+      },
+      {
+        title: 'Rollover',
+        body: 'Unused credits carry into your next SMS year when you renew. They remain available through the end of that renewal year, then expire. If school does not renew, unused credits are forfeited without refund at the end of agreement term.',
+      },
+      {
+        title: 'Overage',
+        body: 'By default, messaging keeps running if you use more than your purchased block; extra usage is billed at your purchased rate. You can also choose a hard stop at 105% of your block until more credits are added. Your quote shows which option you’ve selected.',
+      },
     ],
   },
 ];
@@ -324,9 +337,10 @@ function isHigherEd(quote) {
   return Boolean(quote?.isUniversity);
 }
 
-/** Drop SIS / parent-contact add-on from prospectus when Higher Ed is on. */
+/** Drop SIS / parent-contact add-on from prospectus when Higher Ed is on — unless SMS selected it. */
 function audienceAddons(addons, quote) {
   if (!isHigherEd(quote)) return addons;
+  if (quote?.sms && quote?.clever) return addons;
   return addons.filter(a => a.key !== 'clever');
 }
 

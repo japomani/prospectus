@@ -26,6 +26,8 @@ npm run dev
 - http://localhost:5173/prospectus — demo prospectus
 - http://localhost:5173/prospectus?print=true — PDF export
 
+**Print / Save PDF:** Use the floating print button (or `?print=true`). Print CSS uses `@page { margin: 0 }` for full-bleed sheet backgrounds and to leave no room for browser chrome. In Chrome’s print dialog, uncheck **Headers and footers** — CSS cannot turn that off; if left on you may still see URL, date, document title, or page numbers (e.g. 1/22).
+
 Set `VITE_API_URL` in `frontend/.env` when backend is running.
 
 ### Backend (Go tests)
@@ -77,3 +79,14 @@ Set `PROSPECTUS_API_URL` and `PROSPECTUS_WEB_URL` in Hermes environment.
 ## Environment variables
 
 See `.env.example`.
+
+### HubSpot (company sync)
+
+Quotes link to HubSpot **companies** (not deals by default).
+
+1. Private app scopes: `crm.objects.companies.read`, `crm.objects.companies.write`
+2. Create a company property with internal name `delphinium_prospectus_url` (single-line text), or set `HUBSPOT_PROSPECTUS_URL_PROPERTY` to an existing property
+3. Set `HUBSPOT_ACCESS_TOKEN` (use `-` or empty to disable; search returns 503)
+4. Optional: `HUBSPOT_SYNC_DEALS=true` to also create deals on save (off by default)
+
+On quote save/update with `hubspotCompanyId`, the API PATCHes that company with the prospectus URL. If the custom property is missing, it appends the URL to the company `description`.

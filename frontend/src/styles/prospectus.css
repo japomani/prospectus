@@ -84,7 +84,7 @@ body:has(.doc) {
   overflow: visible;
 }
 
-/* Screen-only 11in print-break guides (hidden in @media print below) */
+/* Screen: let long sheets grow past fixed 11in clip */
 @media screen {
   .sheet:not(.cover-section),
   .sheet.cover-product-sheet,
@@ -98,33 +98,6 @@ body:has(.doc) {
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
-  }
-
-  .sheet:not(.cover-section)::before,
-  .sheet.cover-product-sheet::before,
-  .sheet.other-products-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent,
-      transparent calc(11in - 1px),
-      rgba(0, 0, 0, 0.2) calc(11in - 1px),
-      rgba(0, 0, 0, 0.2) 11in
-    );
-    background-size: 100% 11in;
-    background-repeat: repeat-y;
-    background-position: 0 0;
-  }
-
-  .sheet:not(.cover-section) > *:not(.page-label),
-  .sheet.cover-product-sheet > *:not(.page-label),
-  .sheet.other-products-section > *:not(.page-label) {
-    position: relative;
-    z-index: 1;
   }
 
   .page-label.screen-only {
@@ -167,6 +140,7 @@ body:has(.doc) {
 }
 
 .cover-headline {
+  margin-top: 8px;
   font-size: 26px;
   font-weight: bold;
   color: var(--dl-text);
@@ -263,6 +237,15 @@ body:has(.doc) {
   letter-spacing: -2px;
 }
 
+.cover-stat-asterisk {
+  font-size: 0.575em;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin-left: 0.02em;
+  vertical-align: 0.55em;
+  line-height: 1;
+}
+
 .cover-stat-label {
   font-size: 11px;
   font-weight: bold;
@@ -311,8 +294,56 @@ body:has(.doc) {
   font-size: 11.5px;
   font-weight: bold;
   color: var(--dl-indigo);
-  margin-top: 8px;
+  margin-top: 10px;
+  line-height: 1.35;
   text-align: right;
+}
+
+.cover-he-proof {
+  justify-content: flex-end;
+  gap: 2px;
+  padding-bottom: 6px;
+}
+
+.cover-he-proof-note {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  font-size: 11px;
+  line-height: 1.3;
+  color: var(--dl-text-muted);
+  text-align: right;
+}
+
+.cover-he-proof-note-star {
+  font-size: 1.25em;
+  font-weight: 700;
+}
+
+.cover-he-outcomes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cover-he-outcomes li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 14.5px;
+  line-height: 1.3;
+  color: var(--dl-text);
+}
+
+.cover-he-outcomes-pct {
+  flex: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--dl-indigo);
+  letter-spacing: -0.5px;
 }
 
 .cover-trust-cards {
@@ -481,7 +512,6 @@ body:has(.doc) {
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
   font-size: 10.5px;
   font-weight: bold;
   letter-spacing: 0.4px;
@@ -489,11 +519,6 @@ body:has(.doc) {
   background: color-mix(in srgb, var(--product-color) 13%, #fff);
   border-radius: 999px;
   padding: 4px 9px;
-}
-
-.cover-index-page svg {
-  width: 11px;
-  height: 11px;
 }
 
 .cover-index-fee {
@@ -558,18 +583,14 @@ body:has(.doc) {
 .cover-price-breakdown {
   margin-left: auto;
   align-self: center;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
   font-size: 11px;
   font-weight: bold;
   color: rgba(255, 255, 255, 0.82);
   white-space: nowrap;
 }
 
-.cover-price-breakdown svg {
-  width: 11px;
-  height: 11px;
+.sheet[id^='prospectus-p-'] {
+  scroll-margin-top: 16px;
 }
 
 .cover-package .cover-package-meta {
@@ -770,12 +791,24 @@ body:has(.doc) {
   margin-top: 0 !important;
 }
 
+.cover-product-columns .cover-product-block-title {
+  text-wrap: pretty;
+}
+
 :is(
   .cover-product-quote-grid,
   .cover-product-pullquote,
   .cover-product-image-card,
-  .cover-product-block
-):has(+ .cover-product-columns) {
+  .cover-product-block,
+  .doc-lead
+):has(+ .cover-product-columns),
+:is(
+  .cover-product-quote-grid,
+  .cover-product-pullquote,
+  .cover-product-image-card,
+  .cover-product-block,
+  .doc-lead
+):has(+ .keep.cover-product-columns) {
   margin-bottom: 0 !important;
 }
 
@@ -1120,12 +1153,12 @@ body:has(.doc) {
 }
 
 .cover-logo {
-  height: 68px;
+  height: 100px;
   width: auto;
   display: block;
   flex: none;
   margin-left: auto;
-  margin-top: 3px;
+  margin-top: 0;
 }
 
 .cover-header-row {
@@ -1524,6 +1557,12 @@ body:has(.doc) {
   font-variant-numeric: tabular-nums;
 }
 
+.doc-pricing-row--nested span:first-child {
+  padding-left: 1rem;
+  font-size: 0.92em;
+  color: var(--dl-text-muted, #555);
+}
+
 .doc-pricing-pill {
   align-items: center;
   margin: 8px 0;
@@ -1537,6 +1576,11 @@ body:has(.doc) {
   background: color-mix(in srgb, var(--dl-indigo) 10%, #fff);
   border: 1px solid color-mix(in srgb, var(--dl-indigo) 20%, transparent);
   color: var(--dl-text);
+}
+
+/* Match .ex-subhead section rhythm (Products / Discounts / Add-ons). */
+.doc-pricing-pill--section-start {
+  margin-top: 22px;
 }
 
 .doc-pricing-pill--lavender-strong {
@@ -1642,7 +1686,7 @@ body:has(.doc) {
 .addon-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
+  gap: 20px;
   margin-top: 4px;
 }
 
@@ -1650,59 +1694,16 @@ body:has(.doc) {
   grid-template-columns: 1fr;
 }
 
-.addon-product-card {
+.addon-product-block {
   margin: 0;
-  padding: 18px 20px;
-}
-
-.addon-product-card--blend {
+  padding: 0;
   background: transparent;
-}
-
-.addon-product-card--surface {
-  background: var(--dl-surface);
-}
-
-.addon-card-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.addon-icon {
-  flex: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.addon-icon--sis {
-  background: color-mix(in srgb, var(--dl-indigo) 10%, var(--dl-surface));
-}
-
-.addon-icon--sms {
-  background: color-mix(in srgb, var(--dl-magenta) 10%, var(--dl-surface));
+  box-shadow: none;
+  border: none;
 }
 
 .addon-card-title.ex-subhead {
   margin: 0;
-}
-
-.addon-req-chip {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--dl-blue);
-  background: color-mix(in srgb, var(--dl-blue) 10%, var(--dl-surface));
-  border: 1px solid color-mix(in srgb, var(--dl-blue) 25%, transparent);
-  border-radius: 999px;
-  padding: 2px 10px;
-  margin-bottom: 8px;
-  white-space: nowrap;
 }
 
 .addon-card-lead {
@@ -1710,6 +1711,10 @@ body:has(.doc) {
   line-height: 1.43;
   margin: 0 0 10px;
   color: var(--dl-text);
+}
+
+.addon-legal-blocks {
+  margin-top: 14px;
 }
 
 .other-product-block-lead.ex-lead {
@@ -2011,8 +2016,27 @@ body:has(.doc) {
   width: auto;
   max-width: 168px;
   object-fit: contain;
+  object-position: center;
   filter: grayscale(25%);
   opacity: 0.88;
+}
+
+/* HE peer row: taller baseline; USU/Tampa/UVU scaled for padded assets */
+.peer-logos-row--he .peer-logo img {
+  height: 44px;
+  max-width: 200px;
+}
+.peer-logos-row--he .ex-logo--usu img {
+  transform: scale(1.72);
+  transform-origin: center;
+}
+.peer-logos-row--he .ex-logo--tampa img {
+  transform: scale(1.7) translateY(6%);
+  transform-origin: center;
+}
+.peer-logos-row--he .ex-logo--uvu img {
+  transform: scale(1.22);
+  transform-origin: center;
 }
 
 .exec-framing-peers .peer-logos-intro {
@@ -2476,20 +2500,6 @@ body:has(.doc) {
   margin-top: 22px;
 }
 
-.security-block .ex-subhead {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.security-block .ex-subhead::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: var(--dl-magenta);
-  flex: none;
-}
-
 .security-block .doc-security-list {
   margin-bottom: 0;
 }
@@ -2574,34 +2584,50 @@ body:has(.doc) {
   background: var(--dl-indigo);
 }
 
-.prospectus-toolbar {
-  position: sticky;
-  top: 0;
+.prospectus-print-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
   z-index: 100;
-  background: rgba(250, 250, 250, 0.95);
-  border-bottom: 1px solid var(--dl-border);
-  padding: 12px 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
   display: flex;
-  gap: 12px;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  background: var(--dl-blue);
+  box-shadow: 0 4px 14px rgba(24, 121, 205, 0.35);
+  transition: transform var(--dl-motion) ease, box-shadow var(--dl-motion) ease;
 }
 
-.prospectus-toolbar label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
+.prospectus-print-fab:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(24, 121, 205, 0.45);
+}
+
+.prospectus-print-fab:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(24, 121, 205, 0.35), 0 4px 14px rgba(24, 121, 205, 0.35);
+}
+
+.prospectus-error-banner {
+  margin: 12px 24px 0;
+}
+
+/* Zero @page margin: full-bleed sheet backgrounds + suppresses browser
+   header/footer chrome when Chrome “Headers and footers” is unchecked.
+   CSS cannot force that checkbox off — see README. */
+@page {
+  size: letter;
   margin: 0;
 }
 
-@page {
-  size: letter;
-  margin: 0.75in;
-}
-
 @page :blank {
-  margin: 0.75in;
+  margin: 0;
 }
 
 @media print {
@@ -2610,31 +2636,49 @@ body:has(.doc) {
     print-color-adjust: exact;
   }
 
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
   html,
   body {
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
     background: #fff;
   }
 
-  .no-print {
+  .no-print,
+  .screen-only,
+  .running-ftr,
+  .hdr-space,
+  .ftr-space {
     display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .doc {
     max-width: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    background: #fff !important;
+    background: transparent !important;
   }
 
   #root,
   .sc-host {
     height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .doc-frame,
+  .doc-frame thead,
   .doc-frame tbody,
+  .doc-frame tfoot,
   .doc-frame tr,
   .doc-frame td {
     display: block;
@@ -2642,42 +2686,59 @@ body:has(.doc) {
   }
 
   .sheet {
-    width: auto !important;
-    min-height: 0 !important;
+    width: 8.5in !important;
+    max-width: none !important;
+    /* Every sheet fills at least one letter page so tint reaches the bottom edge */
+    min-height: 11in !important;
+    height: auto !important;
+    max-height: none !important;
     box-sizing: border-box !important;
-    padding: 0 !important;
+    /* Content inset; sheet background still paints to page edge (@page margin 0).
+       Slightly tighter bottom than sides so a couple of borderline lines stay on
+       the prior page instead of orphaning onto a nearly-blank follow-on. */
+    padding: 0.75in 0.75in 0.55in !important;
     margin: 0 !important;
     border: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
+    /* Block fragments more predictably than flex across page breaks */
+    display: block !important;
+    overflow: visible !important;
     break-after: auto;
     page-break-after: auto;
+    /* Clone padding + background onto each printed fragment so continuation
+       pages keep full-bleed tint and bottom inset (not a short white stub). */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
 
-  /* One break between logical sections — avoid break-after + break-before double gap */
+  /* One break between sheets only — never break-after + break-before */
   .sheet + .sheet {
     break-before: page;
     page-break-before: always;
   }
 
+  /* Fixed one-page covers: fill letter, clip micro-overflow (avoids blank follow-on) */
   .sheet.cover-section:not(.cover-product-sheet):not(.other-products-section) {
-    min-height: 9.5in !important;
-    height: auto !important;
-    max-height: none !important;
+    min-height: 11in !important;
+    height: 11in !important;
+    max-height: 11in !important;
     overflow: hidden !important;
     display: flex !important;
     flex-direction: column !important;
+    /* Keep symmetric inset on clipped covers (tighter bottom is for paginating sheets) */
+    padding: 0.75in !important;
+    /* Fixed covers are single-fragment — slice is fine; avoid clone padding math */
+    box-decoration-break: slice;
+    -webkit-box-decoration-break: slice;
   }
 
-  .sheet:not(.cover-section):not(.cover-product-sheet):not(.other-products-section) {
-    min-height: 9.5in !important;
-  }
-
+  /* Long product sheets: paginate naturally; still at least one full letter page */
   .sheet.cover-product-sheet,
   .sheet.other-products-section {
     height: auto !important;
     max-height: none !important;
-    min-height: 0 !important;
+    min-height: 11in !important;
     overflow: visible !important;
     display: block !important;
     background-image: none !important;
@@ -2685,41 +2746,14 @@ body:has(.doc) {
     page-break-after: auto !important;
   }
 
-  .sheet:not(.cover-section)::before,
-  .sheet.cover-product-sheet::before,
-  .sheet.other-products-section::before {
-    display: none !important;
-  }
-
   .sheet-mint,
   .sheet-blue-fill,
   .sheet-indigo,
   .sheet-dark,
-  .cover-section {
+  .cover-section,
+  .sheet {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-  }
-
-  .hdr-space,
-  .ftr-space {
-    display: none !important;
-    height: 0 !important;
-  }
-
-  .running-ftr {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: baseline;
-    position: fixed !important;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0 !important;
-    padding: 0 0 0.3in !important;
-    font-size: 9.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--dl-text-muted);
   }
 
   .doc h1,
@@ -2727,23 +2761,32 @@ body:has(.doc) {
   .doc h3,
   .doc h4 {
     break-after: avoid;
+    page-break-after: avoid;
   }
 
+  /* Keep small/medium units together; large media may still split (see below) */
   blockquote,
   tr,
   .keep,
-  .cover-product-hero-grid,
   .cover-product-pullquote,
-  .cover-product-quote-grid,
   .ex-pullquote,
   .exec-framing-quote,
-  .cover-quote-block {
+  .cover-quote-block,
+  .cover-product-list,
+  .cover-product-block-lead,
+  .ex-lead {
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
-  /* Full-width bottom quotes may sit just past 11in — allow split vs orphan blank page */
-  .cover-product-quote {
+  /* Large grids/quote rows: allow split so they don't shove a few lines alone
+     onto the next page (prefer avoiding orphan pages over clipping). */
+  .cover-product-hero-grid,
+  .cover-product-quote-grid,
+  .cover-product-quote,
+  .cover-product-block,
+  .cover-product-image-card,
+  .cover-product-figure {
     break-inside: auto;
     page-break-inside: auto;
   }
@@ -2755,14 +2798,19 @@ body:has(.doc) {
     page-break-after: avoid;
   }
 
-  .doc p,
-  .doc li {
-    orphans: 3;
-    widows: 3;
+  /* Keep titles with the first lines that follow */
+  .cover-product-block-title + .cover-product-block-lead,
+  .cover-product-block-title + .cover-product-list,
+  .ex-subhead + .ex-lead,
+  .ex-subhead + p {
+    break-before: avoid;
+    page-break-before: avoid;
   }
 
-  .screen-only {
-    display: none !important;
+  .doc p,
+  .doc li {
+    orphans: 4;
+    widows: 4;
   }
 
   .exec-framing-title {
@@ -3219,6 +3267,35 @@ body:has(.doc) {
   color: #fff;
 }
 
+.ex-he-outcomes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  justify-content: center;
+}
+
+.ex-he-outcomes li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--dl-text);
+}
+
+.ex-he-outcomes-pct {
+  flex: none;
+  min-width: 2.6em;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--dl-indigo);
+  letter-spacing: -0.5px;
+}
+
 /* ── Big number ── */
 .ex-bignum {
   font-size: 50px;
@@ -3605,6 +3682,10 @@ svg + .ex-mult-roi {
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
 }
+.ex-logos--he {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
 .ex-logo-card {
   background: var(--dl-surface);
   border-radius: var(--dl-radius-sm);
@@ -3615,11 +3696,36 @@ svg + .ex-mult-roi {
   padding: 7px 10px;
   overflow: hidden;
 }
+/* HE: taller cards, flex-centered so logos sit mid-card */
+.ex-logos--he .ex-logo-card {
+  height: 92px;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .ex-logo-card img {
+  width: 100%;
+  height: 100%;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  object-position: center;
   display: block;
+}
+/* HE logos: square assets with baked-in whitespace — scale to match UVU visual weight */
+.ex-logos--he .ex-logo--usu {
+  transform: scale(1.72);
+  transform-origin: center center;
+}
+.ex-logos--he .ex-logo--tampa {
+  /* scale fills card; translateY corrects optical top-heaviness after scale */
+  transform: scale(1.78) translateY(6%);
+  transform-origin: center center;
+}
+.ex-logos--he .ex-logo--uvu {
+  transform: scale(1.28);
+  transform-origin: center;
 }
 
 /* ── Free trial page ── */
@@ -3812,7 +3918,7 @@ ol.ex-steps li::before {
 
 .admin-controls-figures {
   position: relative;
-  margin-top: 12px;
+  margin-top: 22px;
   min-height: 0;
   max-height: 420px;
 }
@@ -3917,25 +4023,31 @@ ol.ex-steps li::before {
 .support-flow {
   margin-top: 18px;
   margin-bottom: 0;
+  align-items: center;
 }
 
-.impl-flow-step--active {
-  border-color: var(--dl-indigo);
+.support-flow-arrow {
+  flex: none;
+  color: var(--dl-indigo);
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
 }
 
 /* Support options hero — baked into asset; plain on sheet */
 .support-figure {
-  margin-top: 18px;
-  background: #fafafa;
-  border-radius: var(--dl-radius);
-  box-shadow: var(--dl-elev-2);
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
   overflow: hidden;
 }
 
 .support-figure-img {
-  width: 100%;
-  height: auto;
   display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 220px;
+  height: auto;
   border: none;
   border-radius: 0;
   box-shadow: none;

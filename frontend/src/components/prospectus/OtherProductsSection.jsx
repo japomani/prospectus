@@ -21,13 +21,13 @@ export default function OtherProductsSection({ quote, startPage = 1, pad = n => 
   if (modules.length === 0 && addons.length === 0) return null;
 
   const moduleStartPage = startPage + (addons.length > 0 ? 1 : 0);
-  const sheetClass = 'sheet sheet-mint cover-section cover-product-sheet other-products-section';
+  const moduleSheetClass = 'sheet sheet-mint cover-section cover-product-sheet other-products-section';
 
   return (
     <>
       {addons.length > 0 && (
-        <section className={sheetClass}>
-          <div className="page-label screen-only page-label-mint">
+        <section className="sheet other-products-section" style={{ display: 'flex', flexDirection: 'column' }}>
+          <div className="page-label screen-only">
             {pad(startPage)}
             {' '}
             · Other products
@@ -39,7 +39,6 @@ export default function OtherProductsSection({ quote, startPage = 1, pad = n => 
                 key={addon.key}
                 addon={addon}
                 isUniversity={isUniversity}
-                onMint
               />
             ))}
           </div>
@@ -52,7 +51,7 @@ export default function OtherProductsSection({ quote, startPage = 1, pad = n => 
         return (
           <section
             key={mod.key}
-            className={`${sheetClass} cover-product-sheet--${mod.key}`}
+            className={`${moduleSheetClass} cover-product-sheet--${mod.key}`}
           >
             <div className="page-label screen-only page-label-mint">
               {pad(labelPage)}

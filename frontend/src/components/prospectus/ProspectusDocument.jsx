@@ -11,67 +11,7 @@ import ResearchFoundationSection from './ResearchFoundationSection.jsx';
 import SecuritySection from './SecuritySection.jsx';
 import SelectedAddOnsSection from './SelectedAddOnsSection.jsx';
 import { Field } from './Field.jsx';
-import { selectedAddons, selectedModules, unselectedAddons, unselectedModules } from '../../lib/productCatalog.js';
-
-function otherProductsPageCount(quote) {
-  const modules = unselectedModules(quote);
-  const addons = unselectedAddons(quote);
-  if (modules.length === 0 && addons.length === 0) return 0;
-  return (addons.length > 0 ? 1 : 0) + modules.length;
-}
-
-function docPageLabels(quote) {
-  const hasAddons = selectedAddons(quote).length > 0;
-  const moduleCount = selectedModules(quote).length;
-  let n = 2;
-  const pages = {};
-
-  pages.executiveSummary = n;
-  n += 1;
-  pages.executiveSummaryB = n;
-  n += 1;
-  pages.executiveSummaryC = n;
-  n += 1;
-
-  pages.productSheets = n;
-  n += moduleCount;
-
-  pages.adminControls = n;
-  n += 1;
-
-  if (hasAddons) {
-    pages.addons = n;
-    n += 1;
-  }
-
-  pages.pricing = n;
-  n += 1;
-  pages.security = n;
-  n += 1;
-  pages.implementation = n;
-  n += 1;
-  pages.implementationB = n;
-  n += 1;
-  pages.research = n;
-  n += 1;
-
-  if (quote.includeFreeTrialPage) {
-    pages.freeTrial = n;
-    n += 1;
-  }
-  if (quote.includePilotPage) {
-    pages.pilot = n;
-    n += 1;
-  }
-
-  const otherCount = otherProductsPageCount(quote);
-  if (otherCount > 0) {
-    pages.otherProducts = n;
-    n += otherCount;
-  }
-
-  return pages;
-}
+import { docPageLabels, prospectusPageId } from '../../lib/docPages.js';
 
 export default function ProspectusDocument({ fields, quote, pricing, highlightFields }) {
   const f = fields;
@@ -103,8 +43,6 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
                 pad={pad}
               />
 
-              <AdminControlsSection pageLabel={`${pad(pages.adminControls)} · Admin controls`} />
-
               {pages.addons && (
                 <SelectedAddOnsSection
                   quote={quote}
@@ -113,6 +51,7 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
               )}
 
               <PricingValueSection
+                id={prospectusPageId(pages.pricing)}
                 quote={quote}
                 pricing={pricing}
                 fields={f}
@@ -120,14 +59,14 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
                 pageLabel={`${pad(pages.pricing)} · Pricing & value`}
               />
 
+              <AdminControlsSection pageLabel={`${pad(pages.adminControls)} · Admin controls`} />
+
               <SecuritySection pageLabel={`${pad(pages.security)} · Security & privacy`} />
 
               <ImplementationSection
                 pageLabel={`${pad(pages.implementation)} · Implementation`}
                 pageLabelB={`${pad(pages.implementationB)} · Support`}
               />
-
-              <ResearchFoundationSection pageLabel={`${pad(pages.research)} · Research foundation`} />
 
               {quote.includeFreeTrialPage && (
                 <FreeTrialSection pageLabel={`${pad(pages.freeTrial)} · Free trial`} />
@@ -149,6 +88,8 @@ export default function ProspectusDocument({ fields, quote, pricing, highlightFi
                   pad={pad}
                 />
               )}
+
+              <ResearchFoundationSection pageLabel={`${pad(pages.research)} · Research foundation`} />
             </td>
           </tr>
         </tbody>

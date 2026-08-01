@@ -59,6 +59,7 @@ func TestUnauthorizedBasicWrongUser(t *testing.T) {
 
 func TestUnauthorizedWrongPassword(t *testing.T) {
 	t.Setenv("API_PASSWORD", "delphinium")
+	t.Setenv("ADMIN_PASSWORD", "delphiniumadmin")
 	req := events.APIGatewayV2HTTPRequest{
 		Headers: map[string]string{
 			"authorization": "Bearer wrong",
@@ -66,6 +67,38 @@ func TestUnauthorizedWrongPassword(t *testing.T) {
 	}
 	if Authorized(req) {
 		t.Fatal("expected wrong password to fail")
+	}
+}
+
+func TestAuthorizedAdminPassword(t *testing.T) {
+	t.Setenv("API_PASSWORD", "delphinium")
+	t.Setenv("ADMIN_PASSWORD", "delphiniumadmin")
+	req := events.APIGatewayV2HTTPRequest{
+		Headers: map[string]string{
+			"authorization": "Bearer delphiniumadmin",
+		},
+	}
+	if !Authorized(req) {
+		t.Fatal("expected admin password to authorize API")
+	}
+	if !AdminAuthorized(req) {
+		t.Fatal("expected admin password to pass AdminAuthorized")
+	}
+}
+
+func TestAdminAuthorizedSitePasswordFails(t *testing.T) {
+	t.Setenv("API_PASSWORD", "delphinium")
+	t.Setenv("ADMIN_PASSWORD", "delphiniumadmin")
+	req := events.APIGatewayV2HTTPRequest{
+		Headers: map[string]string{
+			"authorization": "Bearer delphinium",
+		},
+	}
+	if !Authorized(req) {
+		t.Fatal("expected site password to authorize")
+	}
+	if AdminAuthorized(req) {
+		t.Fatal("expected site password to fail AdminAuthorized")
 	}
 }
 

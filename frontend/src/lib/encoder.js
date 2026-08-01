@@ -1,3 +1,5 @@
+import { defaultValidUntil } from './dates.js';
+
 const DEFAULT_PRODUCTS = {
   engagementBuilder: true,
   communityBuilder: true,
@@ -23,10 +25,20 @@ export function encodeQuoteParams(formData) {
   params.set('cleverFee', String(formData.cleverFee || 0));
   params.set('sms', formData.sms ? '1' : '0');
   params.set('smsFee', String(formData.smsFee || 0));
+  params.set('smsFte', String(formData.smsFte || 0));
+  params.set('smsTeachersPerStudent', String(formData.smsTeachersPerStudent || 0));
+  params.set('smsMsgsPerTeacherStudentMo', String(formData.smsMsgsPerTeacherStudentMo || 0));
+  params.set('smsActiveMonths', String(formData.smsActiveMonths || 0));
+  params.set('smsCreditsPurchased', String(formData.smsCreditsPurchased || 0));
+  params.set('smsOverageMode', formData.smsOverageMode || 'auto_bill');
+  if (formData.smsSnapshot) {
+    params.set('smsSnapshot', btoa(JSON.stringify(formData.smsSnapshot)));
+  }
 
   params.set('preparedByName', formData.preparedByName || '');
   params.set('preparedByTitle', formData.preparedByTitle || '');
   params.set('targetGoLive', formData.targetGoLive || '');
+  params.set('validUntil', formData.validUntil || '');
   params.set('includeFreeTrialPage', formData.includeFreeTrialPage ? '1' : '0');
   params.set('includePilotPage', formData.includePilotPage ? '1' : '0');
 
@@ -77,6 +89,14 @@ export function decodeQuoteParams(searchString) {
     /* keep empty */
   }
 
+  let smsSnapshot = null;
+  try {
+    const raw = params.get('smsSnapshot');
+    if (raw) smsSnapshot = JSON.parse(atob(raw));
+  } catch {
+    /* keep null */
+  }
+
   const bool = key => params.get(key) === '1';
   const has = key => params.has(key);
 
@@ -98,9 +118,17 @@ export function decodeQuoteParams(searchString) {
     cleverFee: Number(params.get('cleverFee')) || 0,
     sms: bool('sms'),
     smsFee: Number(params.get('smsFee')) || 0,
+    smsFte: Number(params.get('smsFte')) || 0,
+    smsTeachersPerStudent: Number(params.get('smsTeachersPerStudent')) || 0,
+    smsMsgsPerTeacherStudentMo: Number(params.get('smsMsgsPerTeacherStudentMo')) || 0,
+    smsActiveMonths: Number(params.get('smsActiveMonths')) || 0,
+    smsCreditsPurchased: Number(params.get('smsCreditsPurchased')) || 0,
+    smsOverageMode: params.get('smsOverageMode') || 'auto_bill',
+    smsSnapshot,
     preparedByName: params.get('preparedByName') || '',
     preparedByTitle: params.get('preparedByTitle') || '',
     targetGoLive: params.get('targetGoLive') || '',
+    validUntil: params.get('validUntil') || defaultValidUntil(),
     includeFreeTrialPage: bool('includeFreeTrialPage'),
     includePilotPage: bool('includePilotPage'),
     quoteId: params.get('quoteId') || '',

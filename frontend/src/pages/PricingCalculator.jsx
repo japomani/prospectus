@@ -215,6 +215,31 @@ export default function PricingCalculator() {
     }
   }, [apiConfigured, copyingId, refreshQuoteList, searchParams, setQuote, setSearchParams]);
 
+  const handleRenameQuote = useCallback(async (item, newName) => {
+    const name = (newName || '').trim();
+    if (!item?.quoteId || !apiConfigured || !name) {
+      throw new Error('Quote name is required');
+    }
+
+    setListError(null);
+    try {
+      const source = await getQuote(item.quoteId);
+      const saved = await updateQuoteApi(item.quoteId, { ...source, quoteName: name });
+      const nextName = saved.quoteName || name;
+      setSavedQuotes(prev => prev.map(q => (
+        q.quoteId === item.quoteId
+          ? { ...q, ...saved, quoteName: nextName }
+          : q
+      )));
+      if (quote.quoteId === item.quoteId) {
+        updateQuote({ quoteName: nextName });
+      }
+    } catch (err) {
+      setListError(err.message);
+      throw err;
+    }
+  }, [apiConfigured, quote.quoteId, updateQuote]);
+
   useEffect(() => {
     const quoteId = searchParams.get('quoteId');
     if (quoteId && apiConfigured && quoteId !== quote.quoteId) {
@@ -633,6 +658,7 @@ export default function PricingCalculator() {
           onRefresh={refreshQuoteList}
           onEdit={quoteId => loadQuoteIntoForm(quoteId)}
           onCopy={handleCopyQuote}
+          onRename={handleRenameQuote}
           onView={quoteId => handleViewProspectus(quoteId)}
           onDelete={handleDeleteQuote}
         />
@@ -679,6 +705,31 @@ export default function PricingCalculator() {
 
       <div className="pricing-layout">
         <div className="form-col">
+          <div className="card">
+            <div className="card-title">Prospectus name</div>
+            <div className="form-group">
+              <label htmlFor="quote-prospectus-name">Name</label>
+              <input
+                id="quote-prospectus-name"
+                type="text"
+                value={quote.quoteName}
+                onChange={e => updateQuote({ quoteName: e.target.value })}
+                placeholder="Name shown in Saved quotes"
+              />
+            </div>
+            <div className="save-quote-suggest-row">
+              <span className="pricing-muted">Suggested:</span>
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={() => updateQuote({ quoteName: suggestedQuoteName })}
+              >
+                Use suggested
+              </button>
+              <span className="save-quote-suggested-text">{suggestedQuoteName}</span>
+            </div>
+          </div>
+
           <div className="card">
             <div className="card-title">School Information</div>
             <HubSpotCompanySearch

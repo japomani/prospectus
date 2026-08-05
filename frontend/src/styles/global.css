@@ -644,6 +644,23 @@ input::placeholder {
   flex-wrap: wrap;
 }
 
+.quote-list-rename {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 220px;
+}
+
+.quote-list-rename input {
+  width: 100%;
+}
+
+.quote-list-rename-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 768px) {
   .pricing-layout {
     grid-template-columns: 1fr;

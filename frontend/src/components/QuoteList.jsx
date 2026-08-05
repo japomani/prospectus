@@ -27,14 +27,42 @@ export default function QuoteList({
   onRefresh,
   onEdit,
   onCopy,
+  onRename,
   onView,
   onDelete,
 }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [renamingId, setRenamingId] = useState(null);
+  const [renameDraft, setRenameDraft] = useState('');
+  const [renameBusy, setRenameBusy] = useState(false);
   const query = searchQuery.trim().toLowerCase();
   const filteredQuotes = query
     ? quotes.filter(item => quoteSearchHaystack(item).includes(query))
     : quotes;
+
+  function startRename(item) {
+    setRenamingId(item.quoteId);
+    setRenameDraft(item.quoteName?.trim() || displayQuoteLabel(item));
+  }
+
+  function cancelRename() {
+    if (renameBusy) return;
+    setRenamingId(null);
+    setRenameDraft('');
+  }
+
+  async function commitRename(item) {
+    const name = renameDraft.trim();
+    if (!name || !onRename || renameBusy) return;
+    setRenameBusy(true);
+    try {
+      await onRename(item, name);
+      setRenamingId(null);
+      setRenameDraft('');
+    } finally {
+      setRenameBusy(false);
+    }
+  }
 
   if (!apiConfigured) {
     return (
@@ -97,12 +125,50 @@ export default function QuoteList({
                 const school = item.schoolName?.trim() || '—';
                 const deleting = deletingId === item.quoteId;
                 const copying = copyingId === item.quoteId;
-                const busy = deleting || copying;
+                const renaming = renamingId === item.quoteId;
+                const busy = deleting || copying || renaming || renameBusy || (Boolean(renamingId) && !renaming);
                 return (
                   <tr key={item.quoteId}>
                     <td>
-                      <div className="quote-list-school">{label}</div>
-                      <div className="quote-list-id">{item.quoteId.slice(0, 8)}…</div>
+                      {renaming ? (
+                        <div className="quote-list-rename">
+                          <input
+                            type="text"
+                            value={renameDraft}
+                            onChange={e => setRenameDraft(e.target.value)}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') commitRename(item);
+                              if (e.key === 'Escape') cancelRename();
+                            }}
+                            aria-label="Prospectus name"
+                            disabled={renameBusy}
+                            autoFocus
+                          />
+                          <div className="quote-list-rename-actions">
+                            <button
+                              type="button"
+                              className="btn btn-primary btn-sm"
+                              disabled={renameBusy || !renameDraft.trim()}
+                              onClick={() => commitRename(item)}
+                            >
+                              {renameBusy ? 'Saving…' : 'Save'}
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-secondary btn-sm"
+                              disabled={renameBusy}
+                              onClick={cancelRename}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="quote-list-school">{label}</div>
+                          <div className="quote-list-id">{item.quoteId.slice(0, 8)}…</div>
+                        </>
+                      )}
                     </td>
                     <td>{school}</td>
                     <td>{Number(item.students || 0).toLocaleString('en-US')}</td>
@@ -117,6 +183,14 @@ export default function QuoteList({
                           onClick={() => onEdit(item.quoteId)}
                         >
                           Edit
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn-sm"
+                          disabled={busy}
+                          onClick={() => startRename(item)}
+                        >
+                          Rename
                         </button>
                         <button
                           type="button"

@@ -23,8 +23,10 @@ export default function QuoteList({
   error,
   apiConfigured,
   deletingId,
+  copyingId,
   onRefresh,
   onEdit,
+  onCopy,
   onView,
   onDelete,
 }) {
@@ -94,6 +96,8 @@ export default function QuoteList({
                 const label = displayQuoteLabel(item);
                 const school = item.schoolName?.trim() || '—';
                 const deleting = deletingId === item.quoteId;
+                const copying = copyingId === item.quoteId;
+                const busy = deleting || copying;
                 return (
                   <tr key={item.quoteId}>
                     <td>
@@ -106,16 +110,34 @@ export default function QuoteList({
                     <td>{total != null ? formatCurrency(total) : '—'}</td>
                     <td>
                       <div className="quote-list-actions">
-                        <button type="button" className="btn btn-secondary btn-sm" onClick={() => onEdit(item.quoteId)}>
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn-sm"
+                          disabled={busy}
+                          onClick={() => onEdit(item.quoteId)}
+                        >
                           Edit
                         </button>
-                        <button type="button" className="btn btn-primary btn-sm" onClick={() => onView(item.quoteId)}>
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn-sm"
+                          disabled={busy}
+                          onClick={() => onCopy(item)}
+                        >
+                          {copying ? 'Copying…' : 'Copy'}
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-sm"
+                          disabled={busy}
+                          onClick={() => onView(item.quoteId)}
+                        >
                           Prospectus
                         </button>
                         <button
                           type="button"
                           className="btn btn-danger btn-sm"
-                          disabled={deleting}
+                          disabled={busy}
                           onClick={() => onDelete(item)}
                         >
                           {deleting ? 'Deleting…' : 'Delete'}

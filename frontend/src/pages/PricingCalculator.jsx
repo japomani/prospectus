@@ -84,6 +84,7 @@ export default function PricingCalculator() {
   const [listLoading, setListLoading] = useState(false);
   const [listError, setListError] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+  const [copyingId, setCopyingId] = useState(null);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [saveNameDraft, setSaveNameDraft] = useState('');
   const [scheduleStale, setScheduleStale] = useState(false);
@@ -177,6 +178,42 @@ export default function PricingCalculator() {
       setDeletingId(null);
     }
   }, [apiConfigured, quote.quoteId, searchParams, setQuote, setSearchParams]);
+
+  const handleCopyQuote = useCallback(async (item) => {
+    if (!item?.quoteId || !apiConfigured || copyingId) return;
+
+    setCopyingId(item.quoteId);
+    setListError(null);
+    setSaveError(null);
+    setSaveSuccess(null);
+    try {
+      const source = await getQuote(item.quoteId);
+      const baseLabel = displayQuoteLabel(source);
+      const copyName = baseLabel.toLowerCase().startsWith('copy of ')
+        ? baseLabel
+        : `Copy of ${baseLabel}`;
+      const { quoteId: _omitId, updatedAt: _u, createdAt: _c, pricingSnapshot: _p, ...fields } = source;
+      const saved = await createQuote({
+        ...getDefaultQuote(),
+        ...fields,
+        quoteName: copyName,
+        quoteId: '',
+      });
+      scheduleBaseTotalRef.current = null;
+      setScheduleStale(false);
+      setQuote({ ...getDefaultQuote(), ...saved, quoteId: saved.quoteId });
+      const next = new URLSearchParams(searchParams);
+      next.set('quoteId', saved.quoteId);
+      setSearchParams(next, { replace: true });
+      setActiveTab('form');
+      setSaveSuccess(`Copied as "${saved.quoteName || copyName}"`);
+      await refreshQuoteList();
+    } catch (err) {
+      setListError(err.message);
+    } finally {
+      setCopyingId(null);
+    }
+  }, [apiConfigured, copyingId, refreshQuoteList, searchParams, setQuote, setSearchParams]);
 
   useEffect(() => {
     const quoteId = searchParams.get('quoteId');
@@ -592,8 +629,10 @@ export default function PricingCalculator() {
           error={listError}
           apiConfigured={apiConfigured}
           deletingId={deletingId}
+          copyingId={copyingId}
           onRefresh={refreshQuoteList}
           onEdit={quoteId => loadQuoteIntoForm(quoteId)}
+          onCopy={handleCopyQuote}
           onView={quoteId => handleViewProspectus(quoteId)}
           onDelete={handleDeleteQuote}
         />

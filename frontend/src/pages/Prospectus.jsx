@@ -2,9 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Printer } from 'lucide-react';
 import ProspectusDocument from '../components/prospectus/ProspectusDocument.jsx';
-import { getQuote, isApiConfigured } from '../lib/api.js';
+import { getQuote, getConfig, isApiConfigured } from '../lib/api.js';
 import { decodeQuoteParams } from '../lib/encoder.js';
-import { buildFields, getDefaultQuote } from '../lib/fields.js';
+import { buildFields, getDefaultQuote, setProspectusDefaults } from '../lib/fields.js';
 import { calculatePricing } from '../lib/pricing.js';
 import { clearSheetPrintPads, padSheetsToPageMultiple } from '../lib/printSheetPad.js';
 import '../styles/prospectus.css';
@@ -61,6 +61,15 @@ export default function Prospectus() {
       setLoadError(null);
 
       try {
+        if (isApiConfigured()) {
+          try {
+            const cfg = await getConfig();
+            if (!cancelled) setProspectusDefaults(cfg?.prospectus);
+          } catch {
+            /* keep built-in defaults */
+          }
+        }
+
         const defaults = getDefaultQuote();
         const hasUrlParams =
           searchParams.has('schoolName') ||

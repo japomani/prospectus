@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { getConfig, putConfig } from '../lib/api.js';
 import {
   DEFAULT_LICENSE_CONFIG,
+  DEFAULT_PROSPECTUS_CONFIG,
   DEFAULT_SMS_CONFIG,
   DEFAULT_SMS_VOLUME_BREAKPOINTS,
   mergeLicenseConfig,
+  mergeProspectusConfig,
   mergeSmsConfig,
 } from '../lib/smsCredits.js';
 
@@ -55,12 +57,14 @@ export default function AdminSettings({ onConfigSaved }) {
         setDraft({
           license: mergeLicenseConfig(remote?.license),
           sms: mergeSmsConfig(remote?.sms),
+          prospectus: mergeProspectusConfig(remote?.prospectus),
         });
       } catch (err) {
         if (cancelled) return;
         setDraft({
           license: mergeLicenseConfig(DEFAULT_LICENSE_CONFIG),
           sms: mergeSmsConfig(DEFAULT_SMS_CONFIG),
+          prospectus: mergeProspectusConfig(DEFAULT_PROSPECTUS_CONFIG),
         });
         setError(err.message);
       } finally {
@@ -118,6 +122,13 @@ export default function AdminSettings({ onConfigSaved }) {
     }));
   }
 
+  function updateProspectus(field, value) {
+    setDraft(prev => ({
+      ...prev,
+      prospectus: { ...prev.prospectus, [field]: value },
+    }));
+  }
+
   async function handleSave() {
     if (!draft) return;
     setSaving(true);
@@ -162,11 +173,18 @@ export default function AdminSettings({ onConfigSaved }) {
             }))
             .sort((a, b) => a.creditsMo - b.creditsMo),
         },
+        prospectus: {
+          preparedByName: String(draft.prospectus.preparedByName || '').trim()
+            || DEFAULT_PROSPECTUS_CONFIG.preparedByName,
+          preparedByTitle: String(draft.prospectus.preparedByTitle || '').trim()
+            || DEFAULT_PROSPECTUS_CONFIG.preparedByTitle,
+        },
       };
       const saved = await putConfig(payload);
       const next = {
         license: mergeLicenseConfig(saved?.license || payload.license),
         sms: mergeSmsConfig(saved?.sms || payload.sms),
+        prospectus: mergeProspectusConfig(saved?.prospectus || payload.prospectus),
       };
       setDraft(next);
       setSuccess('Config saved.');
@@ -187,6 +205,47 @@ export default function AdminSettings({ onConfigSaved }) {
 
   return (
     <div className="admin-settings">
+      <div className="card">
+        <div className="card-title">Prospectus defaults</div>
+        <p className="pricing-hint">
+          Default &ldquo;Prepared by&rdquo; name and title for new quotes and the cover page when a quote leaves them blank.
+        </p>
+        <div className="admin-grid">
+          <div className="form-group">
+            <label>
+              Prepared by — Name
+              <span className="pricing-muted">
+                {' '}
+                (
+                {DEFAULT_PROSPECTUS_CONFIG.preparedByName}
+                )
+              </span>
+            </label>
+            <input
+              type="text"
+              value={draft.prospectus.preparedByName}
+              onChange={e => updateProspectus('preparedByName', e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label>
+              Prepared by — Title
+              <span className="pricing-muted">
+                {' '}
+                (
+                {DEFAULT_PROSPECTUS_CONFIG.preparedByTitle}
+                )
+              </span>
+            </label>
+            <input
+              type="text"
+              value={draft.prospectus.preparedByTitle}
+              onChange={e => updateProspectus('preparedByTitle', e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="card">
         <div className="card-title">License pricing</div>
         <p className="pricing-hint">

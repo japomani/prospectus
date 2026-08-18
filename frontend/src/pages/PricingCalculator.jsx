@@ -16,7 +16,7 @@ import {
 } from '../lib/api.js';
 import { isAdminSession } from '../lib/auth.js';
 import { encodeQuoteParams } from '../lib/encoder.js';
-import { getDefaultQuote } from '../lib/fields.js';
+import { getDefaultQuote, setProspectusDefaults } from '../lib/fields.js';
 import { formatCustomItemLabel, PRODUCT_LABELS } from '../lib/pricingSummary.js';
 import { calculatePricing, formatCurrency, getMultiYearDiscountPercent, buildDefaultYearlyPayments, resolveYearlyPaymentSchedule } from '../lib/pricing.js';
 import { formatDate, fromDateInputValue, toDateInputValue } from '../lib/dates.js';
@@ -30,6 +30,7 @@ import {
   buildSmsSnapshot,
   clampSmsCreditsPurchased,
   mergeLicenseConfig,
+  mergeProspectusConfig,
   mergeSmsConfig,
   overageModeLabel,
   resolveSmsQuoteFields,
@@ -107,6 +108,7 @@ export default function PricingCalculator() {
         if (cancelled) return;
         setLicenseConfig(mergeLicenseConfig(cfg?.license));
         setSmsConfig(mergeSmsConfig(cfg?.sms));
+        setProspectusDefaults(cfg?.prospectus);
       } catch {
         /* keep defaults */
       }
@@ -117,6 +119,7 @@ export default function PricingCalculator() {
   function handleConfigSaved(next) {
     if (next?.license) setLicenseConfig(mergeLicenseConfig(next.license));
     if (next?.sms) setSmsConfig(mergeSmsConfig(next.sms));
+    if (next?.prospectus) setProspectusDefaults(next.prospectus);
   }
   const refreshQuoteList = useCallback(async () => {
     if (!apiConfigured) return;
@@ -325,10 +328,6 @@ export default function PricingCalculator() {
 
   function shareLinkLabel() {
     const school = quote.schoolName?.trim() || 'Delphinium';
-    const annual = results?.annualTotal != null ? formatCurrency(results.annualTotal) : '';
-    if (annual) {
-      return `View ${school}'s Delphinium Prospectus — ${annual}/yr`;
-    }
     return `View ${school}'s Delphinium Prospectus`;
   }
 

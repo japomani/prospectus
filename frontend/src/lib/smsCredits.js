@@ -45,6 +45,11 @@ export const DEFAULT_LICENSE_CONFIG = {
   districtMinimum: 6000,
 };
 
+export const DEFAULT_PROSPECTUS_CONFIG = {
+  preparedByName: 'Jared Chapman',
+  preparedByTitle: 'Chief Innovation Officer',
+};
+
 /** Excel MROUND for non-negative values. */
 export function mround(value, multiple) {
   const n = Number(value) || 0;
@@ -286,5 +291,12 @@ export function mergeLicenseConfig(partial) {
       ...DEFAULT_LICENSE_CONFIG.online,
       ...(partial?.online || {}),
     },
+  };
+}
+
+export function mergeProspectusConfig(partial) {
+  return {
+    ...DEFAULT_PROSPECTUS_CONFIG,
+    ...(partial || {}),
   };
 }

@@ -51,11 +51,17 @@ type SMSConfig struct {
 	VolumeBreakpoints            []VolumeBreakpoint `json:"volumeBreakpoints" dynamodbav:"volumeBreakpoints"`
 }
 
+type ProspectusConfig struct {
+	PreparedByName  string `json:"preparedByName" dynamodbav:"preparedByName"`
+	PreparedByTitle string `json:"preparedByTitle" dynamodbav:"preparedByTitle"`
+}
+
 type Config struct {
-	PK        string        `json:"pk" dynamodbav:"pk"`
-	License   LicenseConfig `json:"license" dynamodbav:"license"`
-	SMS       SMSConfig     `json:"sms" dynamodbav:"sms"`
-	UpdatedAt time.Time     `json:"updatedAt" dynamodbav:"updatedAt"`
+	PK         string           `json:"pk" dynamodbav:"pk"`
+	License    LicenseConfig    `json:"license" dynamodbav:"license"`
+	SMS        SMSConfig        `json:"sms" dynamodbav:"sms"`
+	Prospectus ProspectusConfig `json:"prospectus" dynamodbav:"prospectus"`
+	UpdatedAt  time.Time        `json:"updatedAt" dynamodbav:"updatedAt"`
 }
 
 func DefaultLicenseConfig() LicenseConfig {
@@ -99,11 +105,19 @@ func DefaultSMSConfig() SMSConfig {
 	}
 }
 
+func DefaultProspectusConfig() ProspectusConfig {
+	return ProspectusConfig{
+		PreparedByName:  "Jared Chapman",
+		PreparedByTitle: "Chief Innovation Officer",
+	}
+}
+
 func DefaultConfig() Config {
 	return Config{
-		PK:      ConfigPK,
-		License: DefaultLicenseConfig(),
-		SMS:     DefaultSMSConfig(),
+		PK:         ConfigPK,
+		License:    DefaultLicenseConfig(),
+		SMS:        DefaultSMSConfig(),
+		Prospectus: DefaultProspectusConfig(),
 	}
 }
 
@@ -175,6 +189,12 @@ func mergeWithDefaults(c Config) Config {
 	}
 	if len(c.SMS.VolumeBreakpoints) == 0 {
 		c.SMS.VolumeBreakpoints = d.SMS.VolumeBreakpoints
+	}
+	if c.Prospectus.PreparedByName == "" {
+		c.Prospectus.PreparedByName = d.Prospectus.PreparedByName
+	}
+	if c.Prospectus.PreparedByTitle == "" {
+		c.Prospectus.PreparedByTitle = d.Prospectus.PreparedByTitle
 	}
 	return c
 }

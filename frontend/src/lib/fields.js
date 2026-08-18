@@ -1,8 +1,19 @@
 import { formatCurrency } from './pricing.js';
 import { defaultValidUntil, formatDate, formatGoLiveDisplay } from './dates.js';
-import { overageModeLabel } from './smsCredits.js';
+import { overageModeLabel, DEFAULT_PROSPECTUS_CONFIG, mergeProspectusConfig } from './smsCredits.js';
 
 export const PILOT_FEE = 5000;
+
+/** Live defaults from admin config; updated via setProspectusDefaults(). */
+let prospectusDefaults = { ...DEFAULT_PROSPECTUS_CONFIG };
+
+export function setProspectusDefaults(partial) {
+  prospectusDefaults = mergeProspectusConfig(partial);
+}
+
+export function getProspectusDefaults() {
+  return { ...prospectusDefaults };
+}
 
 function formatSchoolType(schoolType) {
   return schoolType === 'online' ? 'fully online K-12' : 'traditional K-12';
@@ -62,8 +73,8 @@ export function buildFields(quote, pricing) {
     STUDENT_COUNT: formatStudentCount(quote.students || 0),
     PREPARED_DATE: formatDate(preparedDate),
     VALID_UNTIL: formatDate(validUntil),
-    PREPARED_BY_NAME: quote.preparedByName || 'Jared Chapman',
-    PREPARED_BY_TITLE: quote.preparedByTitle || 'Chief Innovation Officer',
+    PREPARED_BY_NAME: quote.preparedByName || prospectusDefaults.preparedByName,
+    PREPARED_BY_TITLE: quote.preparedByTitle || prospectusDefaults.preparedByTitle,
     ANNUAL_PRICE: formatCurrency(pricing.annualTotal),
     TERM_YEARS: formatTermYears(years),
     TERM_TOTAL: formatCurrency(pricing.grandTotal),
@@ -115,8 +126,8 @@ export function getDefaultQuote() {
     smsSnapshot: null,
     notes: '',
     customItems: [],
-    preparedByName: 'Jared Chapman',
-    preparedByTitle: 'Chief Innovation Officer',
+    preparedByName: prospectusDefaults.preparedByName,
+    preparedByTitle: prospectusDefaults.preparedByTitle,
     targetGoLive: 'August 1, 2026',
     validUntil: defaultValidUntil(),
     includeFreeTrialPage: false,

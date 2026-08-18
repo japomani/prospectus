@@ -212,15 +212,7 @@ export default function AdminSettings({ onConfigSaved }) {
         </p>
         <div className="admin-grid">
           <div className="form-group">
-            <label>
-              Prepared by — Name
-              <span className="pricing-muted">
-                {' '}
-                (
-                {DEFAULT_PROSPECTUS_CONFIG.preparedByName}
-                )
-              </span>
-            </label>
+            <label>Prepared by — Name</label>
             <input
               type="text"
               value={draft.prospectus.preparedByName}
@@ -228,15 +220,7 @@ export default function AdminSettings({ onConfigSaved }) {
             />
           </div>
           <div className="form-group">
-            <label>
-              Prepared by — Title
-              <span className="pricing-muted">
-                {' '}
-                (
-                {DEFAULT_PROSPECTUS_CONFIG.preparedByTitle}
-                )
-              </span>
-            </label>
+            <label>Prepared by — Title</label>
             <input
               type="text"
               value={draft.prospectus.preparedByTitle}

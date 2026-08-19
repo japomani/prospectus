@@ -52,11 +52,19 @@ export default function PricingValueSection({
         </h2>
 
         <div className="doc-pricing-summary">
-          <div className="doc-pricing-row doc-pricing-meta">
-            <span className="doc-pricing-meta-label ex-subhead is-top">Number of students</span>
-            <span>
-              <Field value={fields.STUDENT_COUNT} highlight={highlightFields} />
-            </span>
+          <div className="doc-pricing-meta-grid">
+            <div className="doc-pricing-row doc-pricing-meta">
+              <span className="doc-pricing-meta-label ex-subhead is-top">Number of students</span>
+              <span>
+                <Field value={fields.STUDENT_COUNT} highlight={highlightFields} />
+              </span>
+            </div>
+            <div className="doc-pricing-row doc-pricing-meta">
+              <span className="doc-pricing-meta-label ex-subhead is-top">Agreement term</span>
+              <span>
+                <Field value={fields.TERM_YEARS} highlight={highlightFields} />
+              </span>
+            </div>
           </div>
           <hr className="doc-pricing-divider doc-pricing-divider--thin" />
 
@@ -188,7 +196,13 @@ export default function PricingValueSection({
                   <span>{formatCurrency(pricing.annualTotal)}</span>
                 </div>
                 <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--lavender-strong">
-                  <span>Total Due</span>
+                  <span>
+                    Total Due
+                    {' '}
+                    (
+                    {pricing.years}
+                    -year agreement)
+                  </span>
                   <span>{formatCurrency(pricing.grandTotal)}</span>
                 </div>
                 {pricing.totalSavings > 0 && (

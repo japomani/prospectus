@@ -1547,8 +1547,15 @@ body:has(.doc) {
   padding: 0;
 }
 
-.doc-pricing-meta {
+.doc-pricing-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 32px;
   padding: 22px 0 6px;
+}
+
+.doc-pricing-meta {
+  padding: 0;
 }
 
 .doc-pricing-meta-label {

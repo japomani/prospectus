@@ -1,47 +1,45 @@
-import CoverProductPage from './CoverProductPage.jsx';
-import { Field } from './Field.jsx';
 import { unselectedAddons, unselectedModules } from '../../lib/productCatalog.js';
-import { formatAddonPrice } from '../../lib/productPricing.js';
+import AddonProductCard from './AddonProductCard.jsx';
+import CoverProductPage from './CoverProductPage.jsx';
 
-function OtherProductsHeading() {
+function AddonsLandingHeading() {
   return (
     <>
-      <div className="doc-kicker">Explore more</div>
-      <h2 className="doc-h2 other-products-heading">Check out our other great products</h2>
-      <p className="doc-lead other-products-lead">
-        Your quote includes the selections above. These modules and add-ons are also available if you want to expand later.
-      </p>
+      <div className="ex-kicker">
+        <span className="ex-tick" />
+        <span className="other-products-kicker-label">Optional add-ons</span>
+      </div>
+      <h2 className="ex-h">Add more reach to your Delphinium</h2>
     </>
   );
 }
 
-export default function OtherProductsSection({ quote, highlightFields, startPage = 1, pad = n => String(n).padStart(2, '0') }) {
+export default function OtherProductsSection({ quote, startPage = 1, pad = n => String(n).padStart(2, '0') }) {
+  const isUniversity = Boolean(quote?.isUniversity);
   const modules = unselectedModules(quote);
   const addons = unselectedAddons(quote);
   if (modules.length === 0 && addons.length === 0) return null;
 
   const moduleStartPage = startPage + (addons.length > 0 ? 1 : 0);
+  const moduleSheetClass = 'sheet sheet-mint cover-section cover-product-sheet other-products-section';
 
   return (
     <>
       {addons.length > 0 && (
-        <section className="sheet sheet-mint other-products-section">
-          <div className="page-label screen-only page-label-mint">
+        <section className="sheet other-products-section" style={{ display: 'flex', flexDirection: 'column' }}>
+          <div className="page-label screen-only">
             {pad(startPage)}
             {' '}
             · Other products
           </div>
-          <OtherProductsHeading />
-          <div className="additional-addons-grid">
+          <AddonsLandingHeading />
+          <div className={`addon-cards-grid${addons.length === 1 ? ' addon-cards-grid--single' : ''}`}>
             {addons.map(addon => (
-              <div key={addon.key} className="dCard additional-addon-card">
-                <div className="dH4">
-                  {addon.name}
-                  {' '}
-                  <Field value={formatAddonPrice(quote, addon.quoteKey)} highlight={highlightFields} />
-                </div>
-                <div className="doc-caption" style={{ marginTop: '4px' }}>{addon.description}</div>
-              </div>
+              <AddonProductCard
+                key={addon.key}
+                addon={addon}
+                isUniversity={isUniversity}
+              />
             ))}
           </div>
         </section>
@@ -49,20 +47,18 @@ export default function OtherProductsSection({ quote, highlightFields, startPage
 
       {modules.map((mod, index) => {
         const labelPage = moduleStartPage + index;
-        const showHeading = index === 0 && addons.length === 0;
 
         return (
           <section
             key={mod.key}
-            className="sheet sheet-mint cover-section cover-product-sheet other-products-section"
+            className={`${moduleSheetClass} cover-product-sheet--${mod.key}`}
           >
             <div className="page-label screen-only page-label-mint">
               {pad(labelPage)}
               {' '}
               · Other products
             </div>
-            {showHeading && <OtherProductsHeading />}
-            <CoverProductPage mod={mod} />
+            <CoverProductPage mod={mod} isUniversity={isUniversity} />
           </section>
         );
       })}

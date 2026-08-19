@@ -1,61 +1,19 @@
 import { formatCurrency } from './pricing.js';
-import { formatDate } from './dates.js';
-
-/** Pain → solution options from migration brief §11 */
-export const PAIN_OPTIONS = [
-  {
-    id: 'absenteeism',
-    pain: 'High absenteeism / low log-ins',
-    solution: 'Countdown urgency + nudges + early-alert messaging',
-  },
-  {
-    id: 'failure-rates',
-    pain: 'Course failure & withdrawal rates',
-    solution: 'Self-regulated learning + Control Tower early intervention (31% proof)',
-  },
-  {
-    id: 'parent-visibility',
-    pain: "Parents can't tell how kids are doing",
-    solution: 'Parent view, color-coded, auto-included on messages',
-  },
-  {
-    id: 'gray-wall',
-    pain: 'Canvas is a "gray wall of death"',
-    solution: 'The 3-minute Makeover',
-  },
-  {
-    id: 'email-burden',
-    pain: 'Manual parent email burden',
-    solution: 'Message Center templates/scheduling/filter-and-send',
-  },
-  {
-    id: 'isolation',
-    pain: 'Student isolation',
-    solution: 'Social presence / Who\'s Near Me',
-  },
-  {
-    id: 'multilingual',
-    pain: 'Multilingual families excluded',
-    solution: '160-language auto-translation',
-  },
-  {
-    id: 'inconsistent-canvas',
-    pain: 'Inconsistent Canvas across teachers',
-    solution: 'School-wide layout templates',
-  },
-  {
-    id: 'late-identification',
-    pain: 'Late identification of struggling students',
-    solution: 'Red/yellow/green triage, ~40-second turnaround',
-  },
-  {
-    id: 'wasted-spend',
-    pain: 'Wasted spend on non-completing students',
-    solution: '"Multiplier" ROI framing',
-  },
-];
+import { defaultValidUntil, formatDate, formatGoLiveDisplay } from './dates.js';
+import { overageModeLabel, DEFAULT_PROSPECTUS_CONFIG, mergeProspectusConfig } from './smsCredits.js';
 
 export const PILOT_FEE = 5000;
+
+/** Live defaults from admin config; updated via setProspectusDefaults(). */
+let prospectusDefaults = { ...DEFAULT_PROSPECTUS_CONFIG };
+
+export function setProspectusDefaults(partial) {
+  prospectusDefaults = mergeProspectusConfig(partial);
+}
+
+export function getProspectusDefaults() {
+  return { ...prospectusDefaults };
+}
 
 function formatSchoolType(schoolType) {
   return schoolType === 'online' ? 'fully online K-12' : 'traditional K-12';
@@ -75,6 +33,27 @@ function formatSmsFee(pricing, quote) {
   return 'Custom / quote';
 }
 
+function formatCleverFee(pricing, quote) {
+  if (!quote.clever) return '—';
+  if (pricing.cleverFee > 0) return formatCurrency(pricing.cleverFee);
+  return 'Custom / quote';
+}
+
+function possessive(name) {
+  if (!name) return "Your School's";
+  return name.endsWith('s') ? `${name}'` : `${name}'s`;
+}
+
+function formatRate(rate) {
+  if (!rate || rate <= 0) return '—';
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 5,
+  }).format(rate);
+}
+
 export function buildFields(quote, pricing) {
   const preparedDate = quote.preparedDate ? new Date(quote.preparedDate) : new Date();
   const validUntil = quote.validUntil
@@ -82,15 +61,20 @@ export function buildFields(quote, pricing) {
     : new Date(preparedDate.getTime() + 30 * 24 * 60 * 60 * 1000);
 
   const years = pricing.years || quote.years || 1;
+  const snap = quote.smsSnapshot || {};
+  const credits = Number(snap.creditsPurchased ?? quote.smsCreditsPurchased) || 0;
+  const rate = Number(snap.effectiveRate) || 0;
+  const discount = Number(snap.discountOverFull) || 0;
 
   return {
     SCHOOL_NAME: quote.schoolName || 'Your School',
+    SCHOOL_NAME_POSSESSIVE: possessive(quote.schoolName),
     SCHOOL_TYPE: formatSchoolType(quote.schoolType),
     STUDENT_COUNT: formatStudentCount(quote.students || 0),
     PREPARED_DATE: formatDate(preparedDate),
     VALID_UNTIL: formatDate(validUntil),
-    PREPARED_BY_NAME: quote.preparedByName || 'Jared Chapman',
-    PREPARED_BY_TITLE: quote.preparedByTitle || 'Chief Innovation Officer',
+    PREPARED_BY_NAME: quote.preparedByName || prospectusDefaults.preparedByName,
+    PREPARED_BY_TITLE: quote.preparedByTitle || prospectusDefaults.preparedByTitle,
     ANNUAL_PRICE: formatCurrency(pricing.annualTotal),
     TERM_YEARS: formatTermYears(years),
     TERM_TOTAL: formatCurrency(pricing.grandTotal),
@@ -99,19 +83,19 @@ export function buildFields(quote, pricing) {
     VOLUME_DISCOUNT: formatCurrency(pricing.volumeDiscount),
     MULTI_DISCOUNT: formatCurrency(pricing.multiProductDiscount),
     LIST_TOTAL: formatCurrency(pricing.listTotal),
-    PRIMARY_PAIN: quote.primaryPain || 'rising course-failure rates',
-    PAIN_POINT_1: quote.painPoint1 || PAIN_OPTIONS[0].pain,
-    PAIN_POINT_2: quote.painPoint2 || PAIN_OPTIONS[1].pain,
-    PAIN_POINT_3: quote.painPoint3 || PAIN_OPTIONS[2].pain,
     EB_PRICE: quote.engagementBuilder ? formatCurrency(pricing.ebPrice) : '—',
     CB_PRICE: quote.communityBuilder ? formatCurrency(pricing.cbPrice) : '—',
     CTU_PRICE: quote.controlTowerUltra ? formatCurrency(pricing.ctuPrice) : '—',
-    CLEVER_FEE: quote.clever ? formatCurrency(pricing.cleverFee) : '—',
+    CLEVER_FEE: formatCleverFee(pricing, quote),
     SMS_FEE: formatSmsFee(pricing, quote),
+    SMS_CREDITS_PURCHASED: credits > 0 ? credits.toLocaleString('en-US') : '—',
+    SMS_EFFECTIVE_RATE: formatRate(rate),
+    SMS_ANNUAL_CREDIT_COST: formatSmsFee(pricing, quote),
+    SMS_DISCOUNT_OVER_FULL: discount > 0 ? formatCurrency(discount) : '—',
+    SMS_OVERAGE_MODE: quote.sms ? overageModeLabel(quote.smsOverageMode || snap.overageMode) : '—',
     IMPLEMENTATION_FEE: formatCurrency(pricing.implementationFee),
     PILOT_FEE: formatCurrency(PILOT_FEE),
-    TARGET_GO_LIVE: quote.targetGoLive || 'Next term',
-    PEER_REFERENCE: quote.peerReference || 'a comparable virtual academy',
+    TARGET_GO_LIVE: formatGoLiveDisplay(quote.targetGoLive) || 'Next term',
   };
 }
 
@@ -127,25 +111,29 @@ export function getDefaultQuote() {
     payUpfront: true,
     yearlyPayments: [],
     engagementBuilder: true,
-    communityBuilder: false,
+    communityBuilder: true,
     controlTowerUltra: false,
     clever: false,
-    cleverSchools: 1,
+    cleverFee: 0,
     sms: false,
     smsFee: 0,
+    smsFte: 0,
+    smsTeachersPerStudent: 7,
+    smsMsgsPerTeacherStudentMo: 5,
+    smsActiveMonths: 10,
+    smsCreditsPurchased: 0,
+    smsOverageMode: 'auto_bill',
+    smsSnapshot: null,
     notes: '',
     customItems: [],
-    preparedByName: 'Jared Chapman',
-    preparedByTitle: 'Chief Innovation Officer',
-    primaryPain: PAIN_OPTIONS[1].pain,
-    painPoint1: PAIN_OPTIONS[0].pain,
-    painPoint2: PAIN_OPTIONS[1].pain,
-    painPoint3: PAIN_OPTIONS[3].pain,
-    peerReference: 'a 5,000-student virtual academy',
-    targetGoLive: 'August 2026',
-    includeFreeTrialPage: true,
+    preparedByName: prospectusDefaults.preparedByName,
+    preparedByTitle: prospectusDefaults.preparedByTitle,
+    targetGoLive: 'August 1, 2026',
+    validUntil: defaultValidUntil(),
+    includeFreeTrialPage: false,
     includePilotPage: false,
     quoteName: '',
     quoteId: '',
+    hubspotCompanyId: '',
   };
 }

@@ -21,6 +21,14 @@ type Quote struct {
 	Products         pricing.Products      `json:"products" dynamodbav:"products"`
 	CustomItems      []pricing.CustomItem  `json:"customItems" dynamodbav:"customItems"`
 	SMSFee           float64               `json:"smsFee" dynamodbav:"smsFee"`
+	SMSFte                     int                    `json:"smsFte" dynamodbav:"smsFte"`
+	SMSTeachersPerStudent      float64                `json:"smsTeachersPerStudent" dynamodbav:"smsTeachersPerStudent"`
+	SMSMsgsPerTeacherStudentMo float64                `json:"smsMsgsPerTeacherStudentMo" dynamodbav:"smsMsgsPerTeacherStudentMo"`
+	SMSActiveMonths            float64                `json:"smsActiveMonths" dynamodbav:"smsActiveMonths"`
+	SMSCreditsPurchased        float64                `json:"smsCreditsPurchased" dynamodbav:"smsCreditsPurchased"`
+	SMSOverageMode             string                 `json:"smsOverageMode" dynamodbav:"smsOverageMode"`
+	SMSSnapshot                map[string]any         `json:"smsSnapshot,omitempty" dynamodbav:"smsSnapshot,omitempty"`
+	CleverFee        float64               `json:"cleverFee" dynamodbav:"cleverFee"`
 	CleverSchools    int                   `json:"cleverSchools" dynamodbav:"cleverSchools"`
 	Notes            string                `json:"notes" dynamodbav:"notes"`
 	PreparedByName   string                `json:"preparedByName" dynamodbav:"preparedByName"`
@@ -31,16 +39,18 @@ type Quote struct {
 	PainPoint3       string                `json:"painPoint3" dynamodbav:"painPoint3"`
 	PeerReference       string                `json:"peerReference" dynamodbav:"peerReference"`
 	TargetGoLive        string                `json:"targetGoLive" dynamodbav:"targetGoLive"`
+	ValidUntil          string                `json:"validUntil" dynamodbav:"validUntil"`
 	IncludeFreeTrialPage bool                 `json:"includeFreeTrialPage" dynamodbav:"includeFreeTrialPage"`
 	IncludePilotPage     bool                 `json:"includePilotPage" dynamodbav:"includePilotPage"`
 	SlackUserID         string                `json:"slackUserId" dynamodbav:"slackUserId"`
 	Ref              string                `json:"ref" dynamodbav:"ref"`
 	PricingSnapshot  pricing.Result        `json:"pricingSnapshot" dynamodbav:"pricingSnapshot"`
-	PdfS3Key         string                `json:"pdfS3Key" dynamodbav:"pdfS3Key"`
-	HubspotDealID    string                `json:"hubspotDealId" dynamodbav:"hubspotDealId"`
-	HubspotQuoteID   string                `json:"hubspotQuoteId" dynamodbav:"hubspotQuoteId"`
-	CreatedAt        time.Time             `json:"createdAt" dynamodbav:"createdAt"`
-	UpdatedAt        time.Time             `json:"updatedAt" dynamodbav:"updatedAt"`
+	PdfS3Key           string                `json:"pdfS3Key" dynamodbav:"pdfS3Key"`
+	HubspotCompanyID   string                `json:"hubspotCompanyId" dynamodbav:"hubspotCompanyId"`
+	HubspotDealID      string                `json:"hubspotDealId,omitempty" dynamodbav:"hubspotDealId,omitempty"`
+	HubspotQuoteID     string                `json:"hubspotQuoteId,omitempty" dynamodbav:"hubspotQuoteId,omitempty"`
+	CreatedAt          time.Time             `json:"createdAt" dynamodbav:"createdAt"`
+	UpdatedAt          time.Time             `json:"updatedAt" dynamodbav:"updatedAt"`
 }
 
 type CreateRequest struct {
@@ -57,6 +67,14 @@ type CreateRequest struct {
 	Products        pricing.Products     `json:"products"`
 	CustomItems     []pricing.CustomItem `json:"customItems"`
 	SMSFee          float64              `json:"smsFee"`
+	SMSFte                     int            `json:"smsFte"`
+	SMSTeachersPerStudent      float64        `json:"smsTeachersPerStudent"`
+	SMSMsgsPerTeacherStudentMo float64        `json:"smsMsgsPerTeacherStudentMo"`
+	SMSActiveMonths            float64        `json:"smsActiveMonths"`
+	SMSCreditsPurchased        float64        `json:"smsCreditsPurchased"`
+	SMSOverageMode             string         `json:"smsOverageMode"`
+	SMSSnapshot                map[string]any `json:"smsSnapshot,omitempty"`
+	CleverFee       float64              `json:"cleverFee"`
 	CleverSchools   int                  `json:"cleverSchools"`
 	Notes           string               `json:"notes"`
 	PreparedByName  string               `json:"preparedByName"`
@@ -67,10 +85,12 @@ type CreateRequest struct {
 	PainPoint3      string               `json:"painPoint3"`
 	PeerReference       string               `json:"peerReference"`
 	TargetGoLive        string               `json:"targetGoLive"`
+	ValidUntil          string               `json:"validUntil"`
 	IncludeFreeTrialPage bool                `json:"includeFreeTrialPage"`
 	IncludePilotPage     bool                `json:"includePilotPage"`
-	SlackUserID         string               `json:"slackUserId"`
-	Ref             string               `json:"ref"`
+	SlackUserID          string               `json:"slackUserId"`
+	Ref                  string               `json:"ref"`
+	HubspotCompanyID     string               `json:"hubspotCompanyId"`
 }
 
 type FormLinkRequest struct {
@@ -100,6 +120,7 @@ func (r CreateRequest) ToQuoteInput() pricing.QuoteInput {
 		Products:    r.Products,
 		CustomItems: r.CustomItems,
 		SMSFee:      r.SMSFee,
+		CleverFee:   r.CleverFee,
 		CleverSchools: r.CleverSchools,
 	}
 }
@@ -114,6 +135,7 @@ func (q Quote) ToQuoteInput() pricing.QuoteInput {
 		Products:    q.Products,
 		CustomItems: q.CustomItems,
 		SMSFee:      q.SMSFee,
+		CleverFee:   q.CleverFee,
 		CleverSchools: q.CleverSchools,
 	}
 }

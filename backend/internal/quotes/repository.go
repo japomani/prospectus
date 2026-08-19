@@ -58,6 +58,16 @@ func (r *Repository) Get(ctx context.Context, quoteID string) (Quote, error) {
 	return q, nil
 }
 
+func (r *Repository) Delete(ctx context.Context, quoteID string) error {
+	_, err := r.client.DeleteItem(ctx, &dynamodb.DeleteItemInput{
+		TableName: aws.String(r.tableName),
+		Key: map[string]types.AttributeValue{
+			"quoteId": &types.AttributeValueMemberS{Value: quoteID},
+		},
+	})
+	return err
+}
+
 func (r *Repository) ListRecent(ctx context.Context, limit int32) ([]Quote, error) {
 	if limit <= 0 {
 		limit = 50

@@ -1,6 +1,6 @@
 export const PRODUCT_LABELS = {
-  engagementBuilder: 'Engagement Builder',
   communityBuilder: 'Community Builder',
+  engagementBuilder: 'Engagement Builder',
   controlTowerUltra: 'Control Tower Ultra',
 };
 

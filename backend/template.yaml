@@ -15,14 +15,27 @@ Globals:
         WEB_BASE_URL: !Sub 'https://${CloudFrontDistribution.DomainName}'
         PROSPECTUS_BASE_URL: !Sub 'https://${CloudFrontDistribution.DomainName}'
         HUBSPOT_ACCESS_TOKEN: !Ref HubspotAccessToken
+        HUBSPOT_PROSPECTUS_URL_PROPERTY: !Ref HubspotProspectusUrlProperty
+        HUBSPOT_SYNC_DEALS: !Ref HubspotSyncDeals
         SLACK_BOT_TOKEN: !Ref SlackBotToken
         SLACK_QUOTES_CHANNEL: !Ref SlackQuotesChannel
+        API_PASSWORD: !Ref ApiPassword
+        ADMIN_PASSWORD: !Ref AdminPassword
+        CONFIG_TABLE: !Ref ConfigTable
 
 Parameters:
   HubspotAccessToken:
     Type: String
     Default: ''
     NoEcho: true
+  HubspotProspectusUrlProperty:
+    Type: String
+    Default: 'delphinium_prospectus_url'
+    Description: HubSpot company property for prospectus URL (WEB_BASE_URL/quotes/{id}; GET quote is public)
+  HubspotSyncDeals:
+    Type: String
+    Default: 'false'
+    Description: Set true to also create HubSpot deals on quote save (off by default)
   SlackBotToken:
     Type: String
     Default: ''
@@ -30,6 +43,16 @@ Parameters:
   SlackQuotesChannel:
     Type: String
     Default: ''
+  ApiPassword:
+    Type: String
+    Default: 'delphinium'
+    NoEcho: true
+    Description: Shared password for mutating/list API routes (GET /quotes/{id} is public for shared links)
+  AdminPassword:
+    Type: String
+    Default: 'delphiniumadmin'
+    NoEcho: true
+    Description: Admin password for pricing/SMS config settings
 
 Resources:
   QuotesTable:
@@ -42,6 +65,18 @@ Resources:
           AttributeType: S
       KeySchema:
         - AttributeName: quoteId
+          KeyType: HASH
+
+  ConfigTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: delphinium-config
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
           KeyType: HASH
 
   PdfBucket:
@@ -121,7 +156,7 @@ Resources:
     Properties:
       CorsConfiguration:
         AllowOrigins: ['*']
-        AllowMethods: [GET, POST, PATCH, OPTIONS]
+        AllowMethods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
         AllowHeaders: [Content-Type, Authorization, X-Api-Key]
 
   ApiFunction:
@@ -134,9 +169,29 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref QuotesTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConfigTable
         - S3CrudPolicy:
             BucketName: !Ref PdfBucket
       Events:
+        GetAuthSession:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /auth/session
+            Method: GET
+        GetConfig:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /config
+            Method: GET
+        PutConfig:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /config
+            Method: PUT
         PostQuotes:
           Type: HttpApi
           Properties:
@@ -173,6 +228,12 @@ Resources:
             ApiId: !Ref ProspectusApi
             Path: /quotes/{id}
             Method: PATCH
+        DeleteQuote:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /quotes/{id}
+            Method: DELETE
         PostPdf:
           Type: HttpApi
           Properties:
@@ -185,6 +246,18 @@ Resources:
             ApiId: !Ref ProspectusApi
             Path: /quotes/{id}/notify
             Method: POST
+        GetHubspotCompanies:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /hubspot/companies
+            Method: GET
+        GetHubspotCompanyById:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /hubspot/companies/{id}
+            Method: GET
         OptionsCatchAll:
           Type: HttpApi
           Properties:
@@ -201,5 +274,7 @@ Outputs:
     Value: !Ref FrontendBucket
   QuotesTableName:
     Value: !Ref QuotesTable
+  ConfigTableName:
+    Value: !Ref ConfigTable
   PdfBucketName:
     Value: !Ref PdfBucket

@@ -1,0 +1,6612 @@
+{
+  "file": "delphinium_sms_pricing_model.xlsx",
+  "sheets": [
+    "Cost Basis",
+    "B - Message Credits",
+    "Competitor Benchmark",
+    "Spec & Policy",
+    "Admin Mockup"
+  ],
+  "sheet_details": {
+    "Cost Basis": {
+      "max_row": 31,
+      "max_col": 6,
+      "formula_count": 18,
+      "formulas": [
+        {
+          "addr": "B9",
+          "raw": "=B6+B7",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "B10",
+          "raw": "=B9*B8",
+          "calc": 0.011479000000000001
+        },
+        {
+          "addr": "B22",
+          "raw": "=SUM(B14:B17)/B21+B18+B19*B20",
+          "calc": 66
+        },
+        {
+          "addr": "B26",
+          "raw": "=$B$22/A26",
+          "calc": 0.066
+        },
+        {
+          "addr": "C26",
+          "raw": "=$B$10+B26",
+          "calc": 0.077479
+        },
+        {
+          "addr": "B27",
+          "raw": "=$B$22/A27",
+          "calc": 0.0132
+        },
+        {
+          "addr": "C27",
+          "raw": "=$B$10+B27",
+          "calc": 0.024679
+        },
+        {
+          "addr": "F27",
+          "raw": "=0.03*40000*12",
+          "calc": 14400
+        },
+        {
+          "addr": "B28",
+          "raw": "=$B$22/A28",
+          "calc": 0.0066
+        },
+        {
+          "addr": "C28",
+          "raw": "=$B$10+B28",
+          "calc": 0.018079
+        },
+        {
+          "addr": "F28",
+          "raw": "=F27/10000",
+          "calc": 1.44
+        },
+        {
+          "addr": "B29",
+          "raw": "=$B$22/A29",
+          "calc": 0.00264
+        },
+        {
+          "addr": "C29",
+          "raw": "=$B$10+B29",
+          "calc": 0.014119000000000001
+        },
+        {
+          "addr": "B30",
+          "raw": "=$B$22/A30",
+          "calc": 0.00132
+        },
+        {
+          "addr": "C30",
+          "raw": "=$B$10+B30",
+          "calc": 0.012799000000000001
+        },
+        {
+          "addr": "F30",
+          "raw": "=2000*3",
+          "calc": 6000
+        },
+        {
+          "addr": "B31",
+          "raw": "=$B$22/A31",
+          "calc": 0.00066
+        },
+        {
+          "addr": "C31",
+          "raw": "=$B$10+B31",
+          "calc": 0.012139
+        }
+      ],
+      "rows": [
+        [
+          {
+            "addr": "A1",
+            "raw": "Delphinium Community Builder \u2014 SMS Cost Basis",
+            "calc": "Delphinium Community Builder \u2014 SMS Cost Basis"
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A2",
+            "raw": "AWS rates researched from AWS published pricing (End User Messaging, SNS SMS, Connect appendix), Jul 2026. Yellow cells are inputs \u2014 confirm against your actual AWS invoice.",
+            "calc": "AWS rates researched from AWS published pricing (End User Messaging, SNS SMS, Connect appendix), Jul 2026. Yellow cells are inputs \u2014 confirm against your actual AWS invoice."
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A4",
+            "raw": "CARRIER & PLATFORM COSTS (per message)",
+            "calc": "CARRIER & PLATFORM COSTS (per message)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A5",
+            "raw": "Input",
+            "calc": "Input"
+          },
+          {
+            "addr": "B5",
+            "raw": "Value",
+            "calc": "Value"
+          },
+          {
+            "addr": "C5",
+            "raw": "Unit",
+            "calc": "Unit"
+          },
+          {
+            "addr": "D5",
+            "raw": "Notes / Source",
+            "calc": "Notes / Source"
+          },
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A6",
+            "raw": "Blended carrier fee per segment",
+            "calc": "Blended carrier fee per segment"
+          },
+          {
+            "addr": "B6",
+            "raw": 0.00302,
+            "calc": 0.00302
+          },
+          {
+            "addr": "C6",
+            "raw": "$/segment",
+            "calc": "$/segment"
+          },
+          {
+            "addr": "D6",
+            "raw": "PLACEHOLDER \u2014 avg of AT&T/Verizon/T-Mobile A2P 10DLC per-segment fees. Replace with actual AWS EUM invoice rate.",
+            "calc": "PLACEHOLDER \u2014 avg of AT&T/Verizon/T-Mobile A2P 10DLC per-segment fees. Replace with actual AWS EUM invoice rate."
+          },
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A7",
+            "raw": "AWS End User Messaging fee per segment",
+            "calc": "AWS End User Messaging fee per segment"
+          },
+          {
+            "addr": "B7",
+            "raw": 0.00581,
+            "calc": 0.00581
+          },
+          {
+            "addr": "C7",
+            "raw": "$/segment",
+            "calc": "$/segment"
+          },
+          {
+            "addr": "D7",
+            "raw": "PLACEHOLDER \u2014 AWS per-message send fee on top of carrier pass-through.",
+            "calc": "PLACEHOLDER \u2014 AWS per-message send fee on top of carrier pass-through."
+          },
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A8",
+            "raw": "Average segments per message",
+            "calc": "Average segments per message"
+          },
+          {
+            "addr": "B8",
+            "raw": 1.3,
+            "calc": 1.3
+          },
+          {
+            "addr": "C8",
+            "raw": "segments",
+            "calc": "segments"
+          },
+          {
+            "addr": "D8",
+            "raw": "Accounts for messages >160 chars splitting into multiple segments (attendance/engagement texts often run long).",
+            "calc": "Accounts for messages >160 chars splitting into multiple segments (attendance/engagement texts often run long)."
+          },
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A9",
+            "raw": "Direct cost per segment",
+            "calc": "Direct cost per segment"
+          },
+          {
+            "addr": "B9",
+            "raw": "=B6+B7",
+            "calc": 0.008830000000000001
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A10",
+            "raw": "Direct cost per message (blended)",
+            "calc": "Direct cost per message (blended)"
+          },
+          {
+            "addr": "B10",
+            "raw": "=B9*B8",
+            "calc": 0.011479000000000001
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A12",
+            "raw": "10DLC REGISTRATION & COMPLIANCE OVERHEAD (amortized)",
+            "calc": "10DLC REGISTRATION & COMPLIANCE OVERHEAD (amortized)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A13",
+            "raw": "Input",
+            "calc": "Input"
+          },
+          {
+            "addr": "B13",
+            "raw": "Value",
+            "calc": "Value"
+          },
+          {
+            "addr": "C13",
+            "raw": "Unit",
+            "calc": "Unit"
+          },
+          {
+            "addr": "D13",
+            "raw": "Notes / Source",
+            "calc": "Notes / Source"
+          },
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A14",
+            "raw": "Brand registration (one-time)",
+            "calc": "Brand registration (one-time)"
+          },
+          {
+            "addr": "B14",
+            "raw": 4.5,
+            "calc": 4.5
+          },
+          {
+            "addr": "C14",
+            "raw": "$ one-time",
+            "calc": "$ one-time"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A15",
+            "raw": "Public-profit brand authentication (one-time)",
+            "calc": "Public-profit brand authentication (one-time)"
+          },
+          {
+            "addr": "B15",
+            "raw": 12.5,
+            "calc": 12.5
+          },
+          {
+            "addr": "C15",
+            "raw": "$ one-time",
+            "calc": "$ one-time"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A16",
+            "raw": "Campaign vetting fee (one-time)",
+            "calc": "Campaign vetting fee (one-time)"
+          },
+          {
+            "addr": "B16",
+            "raw": 15,
+            "calc": 15
+          },
+          {
+            "addr": "C16",
+            "raw": "$ one-time",
+            "calc": "$ one-time"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A17",
+            "raw": "Brand vetting \u2014 optional, higher throughput (one-time)",
+            "calc": "Brand vetting \u2014 optional, higher throughput (one-time)"
+          },
+          {
+            "addr": "B17",
+            "raw": 40,
+            "calc": 40
+          },
+          {
+            "addr": "C17",
+            "raw": "$ one-time",
+            "calc": "$ one-time"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A18",
+            "raw": "Monthly campaign fee",
+            "calc": "Monthly campaign fee"
+          },
+          {
+            "addr": "B18",
+            "raw": 10,
+            "calc": 10
+          },
+          {
+            "addr": "C18",
+            "raw": "$/month",
+            "calc": "$/month"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A19",
+            "raw": "10DLC number monthly lease (per number)",
+            "calc": "10DLC number monthly lease (per number)"
+          },
+          {
+            "addr": "B19",
+            "raw": 1,
+            "calc": 1
+          },
+          {
+            "addr": "C19",
+            "raw": "$/month",
+            "calc": "$/month"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A20",
+            "raw": "Number of 10DLC numbers leased",
+            "calc": "Number of 10DLC numbers leased"
+          },
+          {
+            "addr": "B20",
+            "raw": 50,
+            "calc": 50
+          },
+          {
+            "addr": "C20",
+            "raw": "numbers",
+            "calc": "numbers"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A21",
+            "raw": "Amortization period for one-time fees",
+            "calc": "Amortization period for one-time fees"
+          },
+          {
+            "addr": "B21",
+            "raw": 12,
+            "calc": 12
+          },
+          {
+            "addr": "C21",
+            "raw": "months",
+            "calc": "months"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A22",
+            "raw": "Total monthly overhead",
+            "calc": "Total monthly overhead"
+          },
+          {
+            "addr": "B22",
+            "raw": "=SUM(B14:B17)/B21+B18+B19*B20",
+            "calc": 66
+          },
+          {
+            "addr": "C22",
+            "raw": "$/month",
+            "calc": "$/month"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A24",
+            "raw": "FULLY-LOADED COST PER MESSAGE (at sample volumes)",
+            "calc": "FULLY-LOADED COST PER MESSAGE (at sample volumes)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A25",
+            "raw": "Monthly message volume",
+            "calc": "Monthly message volume"
+          },
+          {
+            "addr": "B25",
+            "raw": "Overhead / message",
+            "calc": "Overhead / message"
+          },
+          {
+            "addr": "C25",
+            "raw": "Fully-loaded cost / message",
+            "calc": "Fully-loaded cost / message"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A26",
+            "raw": 1000,
+            "calc": 1000
+          },
+          {
+            "addr": "B26",
+            "raw": "=$B$22/A26",
+            "calc": 0.066
+          },
+          {
+            "addr": "C26",
+            "raw": "=$B$10+B26",
+            "calc": 0.077479
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A27",
+            "raw": 5000,
+            "calc": 5000
+          },
+          {
+            "addr": "B27",
+            "raw": "=$B$22/A27",
+            "calc": 0.0132
+          },
+          {
+            "addr": "C27",
+            "raw": "=$B$10+B27",
+            "calc": 0.024679
+          },
+          null,
+          null,
+          {
+            "addr": "F27",
+            "raw": "=0.03*40000*12",
+            "calc": 14400
+          }
+        ],
+        [
+          {
+            "addr": "A28",
+            "raw": 10000,
+            "calc": 10000
+          },
+          {
+            "addr": "B28",
+            "raw": "=$B$22/A28",
+            "calc": 0.0066
+          },
+          {
+            "addr": "C28",
+            "raw": "=$B$10+B28",
+            "calc": 0.018079
+          },
+          null,
+          null,
+          {
+            "addr": "F28",
+            "raw": "=F27/10000",
+            "calc": 1.44
+          }
+        ],
+        [
+          {
+            "addr": "A29",
+            "raw": 25000,
+            "calc": 25000
+          },
+          {
+            "addr": "B29",
+            "raw": "=$B$22/A29",
+            "calc": 0.00264
+          },
+          {
+            "addr": "C29",
+            "raw": "=$B$10+B29",
+            "calc": 0.014119000000000001
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A30",
+            "raw": 50000,
+            "calc": 50000
+          },
+          {
+            "addr": "B30",
+            "raw": "=$B$22/A30",
+            "calc": 0.00132
+          },
+          {
+            "addr": "C30",
+            "raw": "=$B$10+B30",
+            "calc": 0.012799000000000001
+          },
+          null,
+          null,
+          {
+            "addr": "F30",
+            "raw": "=2000*3",
+            "calc": 6000
+          }
+        ],
+        [
+          {
+            "addr": "A31",
+            "raw": 100000,
+            "calc": 100000
+          },
+          {
+            "addr": "B31",
+            "raw": "=$B$22/A31",
+            "calc": 0.00066
+          },
+          {
+            "addr": "C31",
+            "raw": "=$B$10+B31",
+            "calc": 0.012139
+          },
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "B - Message Credits": {
+      "max_row": 86,
+      "max_col": 10,
+      "formula_count": 243,
+      "formulas": [
+        {
+          "addr": "B5",
+          "raw": "='Cost Basis'!B9",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "B7",
+          "raw": "=B5*B18*B6",
+          "calc": 0.03845465000000001
+        },
+        {
+          "addr": "B8",
+          "raw": "=1-1/B6",
+          "calc": 0.7014925373134329
+        },
+        {
+          "addr": "B11",
+          "raw": "=('Cost Basis'!$B$22*12)/$B$13",
+          "calc": 158.4
+        },
+        {
+          "addr": "B12",
+          "raw": "=B5",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "B14",
+          "raw": "=B7",
+          "calc": 0.03845465000000001
+        },
+        {
+          "addr": "B18",
+          "raw": "='Cost Basis'!B8",
+          "calc": 1.3
+        },
+        {
+          "addr": "B21",
+          "raw": "=B15*B16*B17",
+          "calc": 70000
+        },
+        {
+          "addr": "B22",
+          "raw": "=B21*B20",
+          "calc": 700000
+        },
+        {
+          "addr": "B23",
+          "raw": "=MROUND(B21,$B$19)",
+          "calc": 70000
+        },
+        {
+          "addr": "B24",
+          "raw": "=B23*B20",
+          "calc": 700000
+        },
+        {
+          "addr": "B25",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(B23,$C$5:$C$13,1)),1)",
+          "calc": 0.57
+        },
+        {
+          "addr": "B26",
+          "raw": "=B14*B25",
+          "calc": 0.0219191505
+        },
+        {
+          "addr": "B27",
+          "raw": "=B23*B14*B25",
+          "calc": 1534.340535
+        },
+        {
+          "addr": "B28",
+          "raw": "=B24*B14*B25",
+          "calc": 15343.40535
+        },
+        {
+          "addr": "B29",
+          "raw": "=B28/B15",
+          "calc": 7.671702675000001
+        },
+        {
+          "addr": "B30",
+          "raw": "=B24*B5*B18+B11",
+          "calc": 8193.7
+        },
+        {
+          "addr": "B31",
+          "raw": "=B28-B30",
+          "calc": 7149.70535
+        },
+        {
+          "addr": "B32",
+          "raw": "=(B28-(B24*B5*B18+B11))/B28",
+          "calc": 0.4659790435634942
+        },
+        {
+          "addr": "B39",
+          "raw": "=A39*$B$16*$B$17",
+          "calc": 0
+        },
+        {
+          "addr": "C39",
+          "raw": "=MROUND(B39,$B$19)",
+          "calc": 0
+        },
+        {
+          "addr": "D39",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C39,$C$5:$C$13,1)),1)",
+          "calc": 1
+        },
+        {
+          "addr": "E39",
+          "raw": "=C39*$B$20",
+          "calc": 0
+        },
+        {
+          "addr": "F39",
+          "raw": "=E39*$B$14*D39",
+          "calc": 0
+        },
+        {
+          "addr": "G39",
+          "raw": "=E39*$B$5*$B$18+$B$11",
+          "calc": 158.4
+        },
+        {
+          "addr": "H39",
+          "raw": "=IF(F39=0,\"\",(F39-G39)/F39)",
+          "calc": null
+        },
+        {
+          "addr": "I39",
+          "raw": "=IF(E39=0,\"\",F39/E39)",
+          "calc": null
+        },
+        {
+          "addr": "J39",
+          "raw": "=IF(E39=0,\"\",G39/E39)",
+          "calc": null
+        },
+        {
+          "addr": "B40",
+          "raw": "=A40*$B$16*$B$17",
+          "calc": 17500
+        },
+        {
+          "addr": "C40",
+          "raw": "=MROUND(B40,$B$19)",
+          "calc": 17500
+        },
+        {
+          "addr": "D40",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C40,$C$5:$C$13,1)),1)",
+          "calc": 0.86
+        },
+        {
+          "addr": "E40",
+          "raw": "=C40*$B$20",
+          "calc": 175000
+        },
+        {
+          "addr": "F40",
+          "raw": "=E40*$B$14*D40",
+          "calc": 5787.424825000001
+        },
+        {
+          "addr": "G40",
+          "raw": "=E40*$B$5*$B$18+$B$11",
+          "calc": 2167.2250000000004
+        },
+        {
+          "addr": "H40",
+          "raw": "=IF(F40=0,\"\",(F40-G40)/F40)",
+          "calc": 0.6255286132377538
+        },
+        {
+          "addr": "I40",
+          "raw": "=IF(E40=0,\"\",F40/E40)",
+          "calc": 0.033070999000000004
+        },
+        {
+          "addr": "J40",
+          "raw": "=IF(E40=0,\"\",G40/E40)",
+          "calc": 0.01238414285714286
+        },
+        {
+          "addr": "B41",
+          "raw": "=A41*$B$16*$B$17",
+          "calc": 35000
+        },
+        {
+          "addr": "C41",
+          "raw": "=MROUND(B41,$B$19)",
+          "calc": 35000
+        },
+        {
+          "addr": "D41",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C41,$C$5:$C$13,1)),1)",
+          "calc": 0.74
+        },
+        {
+          "addr": "E41",
+          "raw": "=C41*$B$20",
+          "calc": 350000
+        },
+        {
+          "addr": "F41",
+          "raw": "=E41*$B$14*D41",
+          "calc": 9959.754350000001
+        },
+        {
+          "addr": "G41",
+          "raw": "=E41*$B$5*$B$18+$B$11",
+          "calc": 4176.05
+        },
+        {
+          "addr": "H41",
+          "raw": "=IF(F41=0,\"\",(F41-G41)/F41)",
+          "calc": 0.5807075302012845
+        },
+        {
+          "addr": "I41",
+          "raw": "=IF(E41=0,\"\",F41/E41)",
+          "calc": 0.028456441000000002
+        },
+        {
+          "addr": "J41",
+          "raw": "=IF(E41=0,\"\",G41/E41)",
+          "calc": 0.011931571428571429
+        },
+        {
+          "addr": "B42",
+          "raw": "=A42*$B$16*$B$17",
+          "calc": 70000
+        },
+        {
+          "addr": "C42",
+          "raw": "=MROUND(B42,$B$19)",
+          "calc": 70000
+        },
+        {
+          "addr": "D42",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C42,$C$5:$C$13,1)),1)",
+          "calc": 0.57
+        },
+        {
+          "addr": "E42",
+          "raw": "=C42*$B$20",
+          "calc": 700000
+        },
+        {
+          "addr": "F42",
+          "raw": "=E42*$B$14*D42",
+          "calc": 15343.40535
+        },
+        {
+          "addr": "G42",
+          "raw": "=E42*$B$5*$B$18+$B$11",
+          "calc": 8193.7
+        },
+        {
+          "addr": "H42",
+          "raw": "=IF(F42=0,\"\",(F42-G42)/F42)",
+          "calc": 0.4659790435634942
+        },
+        {
+          "addr": "I42",
+          "raw": "=IF(E42=0,\"\",F42/E42)",
+          "calc": 0.0219191505
+        },
+        {
+          "addr": "J42",
+          "raw": "=IF(E42=0,\"\",G42/E42)",
+          "calc": 0.011705285714285715
+        },
+        {
+          "addr": "B43",
+          "raw": "=A43*$B$16*$B$17",
+          "calc": 105000
+        },
+        {
+          "addr": "C43",
+          "raw": "=MROUND(B43,$B$19)",
+          "calc": 105000
+        },
+        {
+          "addr": "D43",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C43,$C$5:$C$13,1)),1)",
+          "calc": 0.49
+        },
+        {
+          "addr": "E43",
+          "raw": "=C43*$B$20",
+          "calc": 1050000
+        },
+        {
+          "addr": "F43",
+          "raw": "=E43*$B$14*D43",
+          "calc": 19784.917425000003
+        },
+        {
+          "addr": "G43",
+          "raw": "=E43*$B$5*$B$18+$B$11",
+          "calc": 12211.350000000002
+        },
+        {
+          "addr": "H43",
+          "raw": "=IF(F43=0,\"\",(F43-G43)/F43)",
+          "calc": 0.38279499794273214
+        },
+        {
+          "addr": "I43",
+          "raw": "=IF(E43=0,\"\",F43/E43)",
+          "calc": 0.018842778500000004
+        },
+        {
+          "addr": "J43",
+          "raw": "=IF(E43=0,\"\",G43/E43)",
+          "calc": 0.011629857142857145
+        },
+        {
+          "addr": "B44",
+          "raw": "=A44*$B$16*$B$17",
+          "calc": 175000
+        },
+        {
+          "addr": "C44",
+          "raw": "=MROUND(B44,$B$19)",
+          "calc": 175000
+        },
+        {
+          "addr": "D44",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C44,$C$5:$C$13,1)),1)",
+          "calc": 0.49
+        },
+        {
+          "addr": "E44",
+          "raw": "=C44*$B$20",
+          "calc": 1750000
+        },
+        {
+          "addr": "F44",
+          "raw": "=E44*$B$14*D44",
+          "calc": 32974.862375000004
+        },
+        {
+          "addr": "G44",
+          "raw": "=E44*$B$5*$B$18+$B$11",
+          "calc": 20246.650000000005
+        },
+        {
+          "addr": "H44",
+          "raw": "=IF(F44=0,\"\",(F44-G44)/F44)",
+          "calc": 0.3859974373888497
+        },
+        {
+          "addr": "I44",
+          "raw": "=IF(E44=0,\"\",F44/E44)",
+          "calc": 0.0188427785
+        },
+        {
+          "addr": "J44",
+          "raw": "=IF(E44=0,\"\",G44/E44)",
+          "calc": 0.011569514285714289
+        },
+        {
+          "addr": "B45",
+          "raw": "=A45*$B$16*$B$17",
+          "calc": 262500
+        },
+        {
+          "addr": "C45",
+          "raw": "=MROUND(B45,$B$19)",
+          "calc": 262500
+        },
+        {
+          "addr": "D45",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C45,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E45",
+          "raw": "=C45*$B$20",
+          "calc": 2625000
+        },
+        {
+          "addr": "F45",
+          "raw": "=E45*$B$14*D45",
+          "calc": 43405.68618750001
+        },
+        {
+          "addr": "G45",
+          "raw": "=E45*$B$5*$B$18+$B$11",
+          "calc": 30290.77500000001
+        },
+        {
+          "addr": "H45",
+          "raw": "=IF(F45=0,\"\",(F45-G45)/F45)",
+          "calc": 0.3021473069414772
+        },
+        {
+          "addr": "I45",
+          "raw": "=IF(E45=0,\"\",F45/E45)",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "J45",
+          "raw": "=IF(E45=0,\"\",G45/E45)",
+          "calc": 0.011539342857142861
+        },
+        {
+          "addr": "B46",
+          "raw": "=A46*$B$16*$B$17",
+          "calc": 350000
+        },
+        {
+          "addr": "C46",
+          "raw": "=MROUND(B46,$B$19)",
+          "calc": 350000
+        },
+        {
+          "addr": "D46",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C46,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E46",
+          "raw": "=C46*$B$20",
+          "calc": 3500000
+        },
+        {
+          "addr": "F46",
+          "raw": "=E46*$B$14*D46",
+          "calc": 57874.24825000001
+        },
+        {
+          "addr": "G46",
+          "raw": "=E46*$B$5*$B$18+$B$11",
+          "calc": 40334.90000000001
+        },
+        {
+          "addr": "H46",
+          "raw": "=IF(F46=0,\"\",(F46-G46)/F46)",
+          "calc": 0.30305962980694096
+        },
+        {
+          "addr": "I46",
+          "raw": "=IF(E46=0,\"\",F46/E46)",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "J46",
+          "raw": "=IF(E46=0,\"\",G46/E46)",
+          "calc": 0.011524257142857146
+        },
+        {
+          "addr": "B47",
+          "raw": "=A47*$B$16*$B$17",
+          "calc": 700000
+        },
+        {
+          "addr": "C47",
+          "raw": "=MROUND(B47,$B$19)",
+          "calc": 700000
+        },
+        {
+          "addr": "D47",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C47,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E47",
+          "raw": "=C47*$B$20",
+          "calc": 7000000
+        },
+        {
+          "addr": "F47",
+          "raw": "=E47*$B$14*D47",
+          "calc": 115748.49650000002
+        },
+        {
+          "addr": "G47",
+          "raw": "=E47*$B$5*$B$18+$B$11",
+          "calc": 80511.40000000001
+        },
+        {
+          "addr": "H47",
+          "raw": "=IF(F47=0,\"\",(F47-G47)/F47)",
+          "calc": 0.30442811410513665
+        },
+        {
+          "addr": "I47",
+          "raw": "=IF(E47=0,\"\",F47/E47)",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "J47",
+          "raw": "=IF(E47=0,\"\",G47/E47)",
+          "calc": 0.011501628571428573
+        },
+        {
+          "addr": "B48",
+          "raw": "=A48*$B$16*$B$17",
+          "calc": 1050000
+        },
+        {
+          "addr": "C48",
+          "raw": "=MROUND(B48,$B$19)",
+          "calc": 1050000
+        },
+        {
+          "addr": "D48",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C48,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E48",
+          "raw": "=C48*$B$20",
+          "calc": 10500000
+        },
+        {
+          "addr": "F48",
+          "raw": "=E48*$B$14*D48",
+          "calc": 173622.74475000004
+        },
+        {
+          "addr": "G48",
+          "raw": "=E48*$B$5*$B$18+$B$11",
+          "calc": 120687.90000000002
+        },
+        {
+          "addr": "H48",
+          "raw": "=IF(F48=0,\"\",(F48-G48)/F48)",
+          "calc": 0.30488427553786845
+        },
+        {
+          "addr": "I48",
+          "raw": "=IF(E48=0,\"\",F48/E48)",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "J48",
+          "raw": "=IF(E48=0,\"\",G48/E48)",
+          "calc": 0.011494085714285717
+        },
+        {
+          "addr": "B49",
+          "raw": "=A49*$B$16*$B$17",
+          "calc": 1400000
+        },
+        {
+          "addr": "C49",
+          "raw": "=MROUND(B49,$B$19)",
+          "calc": 1400000
+        },
+        {
+          "addr": "D49",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C49,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E49",
+          "raw": "=C49*$B$20",
+          "calc": 14000000
+        },
+        {
+          "addr": "F49",
+          "raw": "=E49*$B$14*D49",
+          "calc": 231496.99300000005
+        },
+        {
+          "addr": "G49",
+          "raw": "=E49*$B$5*$B$18+$B$11",
+          "calc": 160864.40000000002
+        },
+        {
+          "addr": "H49",
+          "raw": "=IF(F49=0,\"\",(F49-G49)/F49)",
+          "calc": 0.3051123562542344
+        },
+        {
+          "addr": "I49",
+          "raw": "=IF(E49=0,\"\",F49/E49)",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "J49",
+          "raw": "=IF(E49=0,\"\",G49/E49)",
+          "calc": 0.011490314285714287
+        },
+        {
+          "addr": "B50",
+          "raw": "=A50*$B$16*$B$17",
+          "calc": 1750000
+        },
+        {
+          "addr": "C50",
+          "raw": "=MROUND(B50,$B$19)",
+          "calc": 1750000
+        },
+        {
+          "addr": "D50",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C50,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E50",
+          "raw": "=C50*$B$20",
+          "calc": 17500000
+        },
+        {
+          "addr": "F50",
+          "raw": "=E50*$B$14*D50",
+          "calc": 289371.24125
+        },
+        {
+          "addr": "G50",
+          "raw": "=E50*$B$5*$B$18+$B$11",
+          "calc": 201040.90000000005
+        },
+        {
+          "addr": "H50",
+          "raw": "=IF(F50=0,\"\",(F50-G50)/F50)",
+          "calc": 0.3052492046840538
+        },
+        {
+          "addr": "I50",
+          "raw": "=IF(E50=0,\"\",F50/E50)",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "J50",
+          "raw": "=IF(E50=0,\"\",G50/E50)",
+          "calc": 0.011488051428571431
+        },
+        {
+          "addr": "B51",
+          "raw": "=A51*$B$16*$B$17",
+          "calc": 2100000
+        },
+        {
+          "addr": "C51",
+          "raw": "=MROUND(B51,$B$19)",
+          "calc": 2100000
+        },
+        {
+          "addr": "D51",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C51,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E51",
+          "raw": "=C51*$B$20",
+          "calc": 21000000
+        },
+        {
+          "addr": "F51",
+          "raw": "=E51*$B$14*D51",
+          "calc": 347245.4895000001
+        },
+        {
+          "addr": "G51",
+          "raw": "=E51*$B$5*$B$18+$B$11",
+          "calc": 241217.40000000005
+        },
+        {
+          "addr": "H51",
+          "raw": "=IF(F51=0,\"\",(F51-G51)/F51)",
+          "calc": 0.3053404369706003
+        },
+        {
+          "addr": "I51",
+          "raw": "=IF(E51=0,\"\",F51/E51)",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "J51",
+          "raw": "=IF(E51=0,\"\",G51/E51)",
+          "calc": 0.011486542857142859
+        },
+        {
+          "addr": "B52",
+          "raw": "=A52*$B$16*$B$17",
+          "calc": 2450000
+        },
+        {
+          "addr": "C52",
+          "raw": "=MROUND(B52,$B$19)",
+          "calc": 2450000
+        },
+        {
+          "addr": "D52",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C52,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E52",
+          "raw": "=C52*$B$20",
+          "calc": 24500000
+        },
+        {
+          "addr": "F52",
+          "raw": "=E52*$B$14*D52",
+          "calc": 405119.7377500001
+        },
+        {
+          "addr": "G52",
+          "raw": "=E52*$B$5*$B$18+$B$11",
+          "calc": 281393.9000000001
+        },
+        {
+          "addr": "H52",
+          "raw": "=IF(F52=0,\"\",(F52-G52)/F52)",
+          "calc": 0.3054056028895619
+        },
+        {
+          "addr": "I52",
+          "raw": "=IF(E52=0,\"\",F52/E52)",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "J52",
+          "raw": "=IF(E52=0,\"\",G52/E52)",
+          "calc": 0.011485465306122452
+        },
+        {
+          "addr": "A56",
+          "raw": "=TEXT(A39,\"#,##0\")&\" stu / \"&TEXT(B39,\"#,##0\")&\" msg\"",
+          "calc": "0 stu / 0 msg"
+        },
+        {
+          "addr": "B56",
+          "raw": "=F39",
+          "calc": 0
+        },
+        {
+          "addr": "C56",
+          "raw": "=G39",
+          "calc": 158.4
+        },
+        {
+          "addr": "D56",
+          "raw": "=H39",
+          "calc": null
+        },
+        {
+          "addr": "A57",
+          "raw": "=TEXT(A40,\"#,##0\")&\" stu / \"&TEXT(B40,\"#,##0\")&\" msg\"",
+          "calc": "500 stu / 17,500 msg"
+        },
+        {
+          "addr": "B57",
+          "raw": "=F40",
+          "calc": 5787.424825000001
+        },
+        {
+          "addr": "C57",
+          "raw": "=G40",
+          "calc": 2167.2250000000004
+        },
+        {
+          "addr": "D57",
+          "raw": "=H40",
+          "calc": 0.6255286132377538
+        },
+        {
+          "addr": "A58",
+          "raw": "=TEXT(A41,\"#,##0\")&\" stu / \"&TEXT(B41,\"#,##0\")&\" msg\"",
+          "calc": "1,000 stu / 35,000 msg"
+        },
+        {
+          "addr": "B58",
+          "raw": "=F41",
+          "calc": 9959.754350000001
+        },
+        {
+          "addr": "C58",
+          "raw": "=G41",
+          "calc": 4176.05
+        },
+        {
+          "addr": "D58",
+          "raw": "=H41",
+          "calc": 0.5807075302012845
+        },
+        {
+          "addr": "A59",
+          "raw": "=TEXT(A42,\"#,##0\")&\" stu / \"&TEXT(B42,\"#,##0\")&\" msg\"",
+          "calc": "2,000 stu / 70,000 msg"
+        },
+        {
+          "addr": "B59",
+          "raw": "=F42",
+          "calc": 15343.40535
+        },
+        {
+          "addr": "C59",
+          "raw": "=G42",
+          "calc": 8193.7
+        },
+        {
+          "addr": "D59",
+          "raw": "=H42",
+          "calc": 0.4659790435634942
+        },
+        {
+          "addr": "A60",
+          "raw": "=TEXT(A43,\"#,##0\")&\" stu / \"&TEXT(B43,\"#,##0\")&\" msg\"",
+          "calc": "3,000 stu / 105,000 msg"
+        },
+        {
+          "addr": "B60",
+          "raw": "=F43",
+          "calc": 19784.917425000003
+        },
+        {
+          "addr": "C60",
+          "raw": "=G43",
+          "calc": 12211.350000000002
+        },
+        {
+          "addr": "D60",
+          "raw": "=H43",
+          "calc": 0.38279499794273214
+        },
+        {
+          "addr": "A61",
+          "raw": "=TEXT(A44,\"#,##0\")&\" stu / \"&TEXT(B44,\"#,##0\")&\" msg\"",
+          "calc": "5,000 stu / 175,000 msg"
+        },
+        {
+          "addr": "B61",
+          "raw": "=F44",
+          "calc": 32974.862375000004
+        },
+        {
+          "addr": "C61",
+          "raw": "=G44",
+          "calc": 20246.650000000005
+        },
+        {
+          "addr": "D61",
+          "raw": "=H44",
+          "calc": 0.3859974373888497
+        },
+        {
+          "addr": "A62",
+          "raw": "=TEXT(A45,\"#,##0\")&\" stu / \"&TEXT(B45,\"#,##0\")&\" msg\"",
+          "calc": "7,500 stu / 262,500 msg"
+        },
+        {
+          "addr": "B62",
+          "raw": "=F45",
+          "calc": 43405.68618750001
+        },
+        {
+          "addr": "C62",
+          "raw": "=G45",
+          "calc": 30290.77500000001
+        },
+        {
+          "addr": "D62",
+          "raw": "=H45",
+          "calc": 0.3021473069414772
+        },
+        {
+          "addr": "A63",
+          "raw": "=TEXT(A46,\"#,##0\")&\" stu / \"&TEXT(B46,\"#,##0\")&\" msg\"",
+          "calc": "10,000 stu / 350,000 msg"
+        },
+        {
+          "addr": "B63",
+          "raw": "=F46",
+          "calc": 57874.24825000001
+        },
+        {
+          "addr": "C63",
+          "raw": "=G46",
+          "calc": 40334.90000000001
+        },
+        {
+          "addr": "D63",
+          "raw": "=H46",
+          "calc": 0.30305962980694096
+        },
+        {
+          "addr": "A64",
+          "raw": "=TEXT(A47,\"#,##0\")&\" stu / \"&TEXT(B47,\"#,##0\")&\" msg\"",
+          "calc": "20,000 stu / 700,000 msg"
+        },
+        {
+          "addr": "B64",
+          "raw": "=F47",
+          "calc": 115748.49650000002
+        },
+        {
+          "addr": "C64",
+          "raw": "=G47",
+          "calc": 80511.40000000001
+        },
+        {
+          "addr": "D64",
+          "raw": "=H47",
+          "calc": 0.30442811410513665
+        },
+        {
+          "addr": "A65",
+          "raw": "=TEXT(A48,\"#,##0\")&\" stu / \"&TEXT(B48,\"#,##0\")&\" msg\"",
+          "calc": "30,000 stu / 1,050,000 msg"
+        },
+        {
+          "addr": "B65",
+          "raw": "=F48",
+          "calc": 173622.74475000004
+        },
+        {
+          "addr": "C65",
+          "raw": "=G48",
+          "calc": 120687.90000000002
+        },
+        {
+          "addr": "D65",
+          "raw": "=H48",
+          "calc": 0.30488427553786845
+        },
+        {
+          "addr": "A66",
+          "raw": "=TEXT(A49,\"#,##0\")&\" stu / \"&TEXT(B49,\"#,##0\")&\" msg\"",
+          "calc": "40,000 stu / 1,400,000 msg"
+        },
+        {
+          "addr": "B66",
+          "raw": "=F49",
+          "calc": 231496.99300000005
+        },
+        {
+          "addr": "C66",
+          "raw": "=G49",
+          "calc": 160864.40000000002
+        },
+        {
+          "addr": "D66",
+          "raw": "=H49",
+          "calc": 0.3051123562542344
+        },
+        {
+          "addr": "A67",
+          "raw": "=TEXT(A50,\"#,##0\")&\" stu / \"&TEXT(B50,\"#,##0\")&\" msg\"",
+          "calc": "50,000 stu / 1,750,000 msg"
+        },
+        {
+          "addr": "B67",
+          "raw": "=F50",
+          "calc": 289371.24125
+        },
+        {
+          "addr": "C67",
+          "raw": "=G50",
+          "calc": 201040.90000000005
+        },
+        {
+          "addr": "D67",
+          "raw": "=H50",
+          "calc": 0.3052492046840538
+        },
+        {
+          "addr": "A68",
+          "raw": "=TEXT(A51,\"#,##0\")&\" stu / \"&TEXT(B51,\"#,##0\")&\" msg\"",
+          "calc": "60,000 stu / 2,100,000 msg"
+        },
+        {
+          "addr": "B68",
+          "raw": "=F51",
+          "calc": 347245.4895000001
+        },
+        {
+          "addr": "C68",
+          "raw": "=G51",
+          "calc": 241217.40000000005
+        },
+        {
+          "addr": "D68",
+          "raw": "=H51",
+          "calc": 0.3053404369706003
+        },
+        {
+          "addr": "A69",
+          "raw": "=TEXT(A52,\"#,##0\")&\" stu / \"&TEXT(B52,\"#,##0\")&\" msg\"",
+          "calc": "70,000 stu / 2,450,000 msg"
+        },
+        {
+          "addr": "B69",
+          "raw": "=F52",
+          "calc": 405119.7377500001
+        },
+        {
+          "addr": "C69",
+          "raw": "=G52",
+          "calc": 281393.9000000001
+        },
+        {
+          "addr": "D69",
+          "raw": "=H52",
+          "calc": 0.3054056028895619
+        },
+        {
+          "addr": "A73",
+          "raw": "=TEXT(A39,\"#,##0\")&\" stu / \"&TEXT(B39,\"#,##0\")&\" msg\"",
+          "calc": "0 stu / 0 msg"
+        },
+        {
+          "addr": "B73",
+          "raw": "=I39",
+          "calc": null
+        },
+        {
+          "addr": "C73",
+          "raw": "=J39",
+          "calc": null
+        },
+        {
+          "addr": "A74",
+          "raw": "=TEXT(A40,\"#,##0\")&\" stu / \"&TEXT(B40,\"#,##0\")&\" msg\"",
+          "calc": "500 stu / 17,500 msg"
+        },
+        {
+          "addr": "B74",
+          "raw": "=I40",
+          "calc": 0.033070999000000004
+        },
+        {
+          "addr": "C74",
+          "raw": "=J40",
+          "calc": 0.01238414285714286
+        },
+        {
+          "addr": "A75",
+          "raw": "=TEXT(A41,\"#,##0\")&\" stu / \"&TEXT(B41,\"#,##0\")&\" msg\"",
+          "calc": "1,000 stu / 35,000 msg"
+        },
+        {
+          "addr": "B75",
+          "raw": "=I41",
+          "calc": 0.028456441000000002
+        },
+        {
+          "addr": "C75",
+          "raw": "=J41",
+          "calc": 0.011931571428571429
+        },
+        {
+          "addr": "A76",
+          "raw": "=TEXT(A42,\"#,##0\")&\" stu / \"&TEXT(B42,\"#,##0\")&\" msg\"",
+          "calc": "2,000 stu / 70,000 msg"
+        },
+        {
+          "addr": "B76",
+          "raw": "=I42",
+          "calc": 0.0219191505
+        },
+        {
+          "addr": "C76",
+          "raw": "=J42",
+          "calc": 0.011705285714285715
+        },
+        {
+          "addr": "A77",
+          "raw": "=TEXT(A43,\"#,##0\")&\" stu / \"&TEXT(B43,\"#,##0\")&\" msg\"",
+          "calc": "3,000 stu / 105,000 msg"
+        },
+        {
+          "addr": "B77",
+          "raw": "=I43",
+          "calc": 0.018842778500000004
+        },
+        {
+          "addr": "C77",
+          "raw": "=J43",
+          "calc": 0.011629857142857145
+        },
+        {
+          "addr": "A78",
+          "raw": "=TEXT(A44,\"#,##0\")&\" stu / \"&TEXT(B44,\"#,##0\")&\" msg\"",
+          "calc": "5,000 stu / 175,000 msg"
+        },
+        {
+          "addr": "B78",
+          "raw": "=I44",
+          "calc": 0.0188427785
+        },
+        {
+          "addr": "C78",
+          "raw": "=J44",
+          "calc": 0.011569514285714289
+        },
+        {
+          "addr": "A79",
+          "raw": "=TEXT(A45,\"#,##0\")&\" stu / \"&TEXT(B45,\"#,##0\")&\" msg\"",
+          "calc": "7,500 stu / 262,500 msg"
+        },
+        {
+          "addr": "B79",
+          "raw": "=I45",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "C79",
+          "raw": "=J45",
+          "calc": 0.011539342857142861
+        },
+        {
+          "addr": "A80",
+          "raw": "=TEXT(A46,\"#,##0\")&\" stu / \"&TEXT(B46,\"#,##0\")&\" msg\"",
+          "calc": "10,000 stu / 350,000 msg"
+        },
+        {
+          "addr": "B80",
+          "raw": "=I46",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C80",
+          "raw": "=J46",
+          "calc": 0.011524257142857146
+        },
+        {
+          "addr": "A81",
+          "raw": "=TEXT(A47,\"#,##0\")&\" stu / \"&TEXT(B47,\"#,##0\")&\" msg\"",
+          "calc": "20,000 stu / 700,000 msg"
+        },
+        {
+          "addr": "B81",
+          "raw": "=I47",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C81",
+          "raw": "=J47",
+          "calc": 0.011501628571428573
+        },
+        {
+          "addr": "A82",
+          "raw": "=TEXT(A48,\"#,##0\")&\" stu / \"&TEXT(B48,\"#,##0\")&\" msg\"",
+          "calc": "30,000 stu / 1,050,000 msg"
+        },
+        {
+          "addr": "B82",
+          "raw": "=I48",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "C82",
+          "raw": "=J48",
+          "calc": 0.011494085714285717
+        },
+        {
+          "addr": "A83",
+          "raw": "=TEXT(A49,\"#,##0\")&\" stu / \"&TEXT(B49,\"#,##0\")&\" msg\"",
+          "calc": "40,000 stu / 1,400,000 msg"
+        },
+        {
+          "addr": "B83",
+          "raw": "=I49",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C83",
+          "raw": "=J49",
+          "calc": 0.011490314285714287
+        },
+        {
+          "addr": "A84",
+          "raw": "=TEXT(A50,\"#,##0\")&\" stu / \"&TEXT(B50,\"#,##0\")&\" msg\"",
+          "calc": "50,000 stu / 1,750,000 msg"
+        },
+        {
+          "addr": "B84",
+          "raw": "=I50",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C84",
+          "raw": "=J50",
+          "calc": 0.011488051428571431
+        },
+        {
+          "addr": "A85",
+          "raw": "=TEXT(A51,\"#,##0\")&\" stu / \"&TEXT(B51,\"#,##0\")&\" msg\"",
+          "calc": "60,000 stu / 2,100,000 msg"
+        },
+        {
+          "addr": "B85",
+          "raw": "=I51",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "C85",
+          "raw": "=J51",
+          "calc": 0.011486542857142859
+        },
+        {
+          "addr": "A86",
+          "raw": "=TEXT(A52,\"#,##0\")&\" stu / \"&TEXT(B52,\"#,##0\")&\" msg\"",
+          "calc": "70,000 stu / 2,450,000 msg"
+        },
+        {
+          "addr": "B86",
+          "raw": "=I52",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C86",
+          "raw": "=J52",
+          "calc": 0.011485465306122452
+        }
+      ],
+      "rows": [
+        [
+          {
+            "addr": "A1",
+            "raw": "Scenario B (Message Credits): Cost-Metered Prepaid Credits",
+            "calc": "Scenario B (Message Credits): Cost-Metered Prepaid Credits"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A2",
+            "raw": "Buy prepaid credits; discounted by block size. 1 credit = the cost of one TYPICAL message (avg segments), so buyers think in whole messages. Each message burns credits by its ACTUAL AWS cost x multiple \u2014 long messages and MMS burn more than 1 credit.",
+            "calc": "Buy prepaid credits; discounted by block size. 1 credit = the cost of one TYPICAL message (avg segments), so buyers think in whole messages. Each message burns credits by its ACTUAL AWS cost x multiple \u2014 long messages and MMS burn more than 1 credit."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          {
+            "addr": "C3",
+            "raw": "DISCOUNT SCHEDULE (by prepaid block size)",
+            "calc": "DISCOUNT SCHEDULE (by prepaid block size)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A4",
+            "raw": "PRICING MODEL LEVERS",
+            "calc": "PRICING MODEL LEVERS"
+          },
+          null,
+          {
+            "addr": "C4",
+            "raw": "Breakpoint (credits/mo \u2265)",
+            "calc": "Breakpoint (credits/mo \u2265)"
+          },
+          {
+            "addr": "D4",
+            "raw": "% of List",
+            "calc": "% of List"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A5",
+            "raw": "Cost per segment (from Cost Basis)",
+            "calc": "Cost per segment (from Cost Basis)"
+          },
+          {
+            "addr": "B5",
+            "raw": "='Cost Basis'!B9",
+            "calc": 0.008830000000000001
+          },
+          {
+            "addr": "C5",
+            "raw": 0,
+            "calc": 0
+          },
+          {
+            "addr": "D5",
+            "raw": 1,
+            "calc": 1
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A6",
+            "raw": "Markup multiple (margin dial)",
+            "calc": "Markup multiple (margin dial)"
+          },
+          {
+            "addr": "B6",
+            "raw": 3.35,
+            "calc": 3.35
+          },
+          {
+            "addr": "C6",
+            "raw": 5000,
+            "calc": 5000
+          },
+          {
+            "addr": "D6",
+            "raw": 0.86,
+            "calc": 0.86
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A7",
+            "raw": "List price per credit (= 1 typical message)",
+            "calc": "List price per credit (= 1 typical message)"
+          },
+          {
+            "addr": "B7",
+            "raw": "=B5*B18*B6",
+            "calc": 0.03845465000000001
+          },
+          {
+            "addr": "C7",
+            "raw": 10000,
+            "calc": 10000
+          },
+          {
+            "addr": "D7",
+            "raw": 0.86,
+            "calc": 0.86
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A8",
+            "raw": "Implied gross margin at list",
+            "calc": "Implied gross margin at list"
+          },
+          {
+            "addr": "B8",
+            "raw": "=1-1/B6",
+            "calc": 0.7014925373134329
+          },
+          {
+            "addr": "C8",
+            "raw": 25000,
+            "calc": 25000
+          },
+          {
+            "addr": "D8",
+            "raw": 0.74,
+            "calc": 0.74
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          {
+            "addr": "C9",
+            "raw": 50000,
+            "calc": 50000
+          },
+          {
+            "addr": "D9",
+            "raw": 0.57,
+            "calc": 0.57
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A10",
+            "raw": "CREDIT VOLUME CALCULATOR (standalone)",
+            "calc": "CREDIT VOLUME CALCULATOR (standalone)"
+          },
+          null,
+          {
+            "addr": "C10",
+            "raw": 100000,
+            "calc": 100000
+          },
+          {
+            "addr": "D10",
+            "raw": 0.49,
+            "calc": 0.49
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A11",
+            "raw": "Fixed costs/yr (from Cost Basis)",
+            "calc": "Fixed costs/yr (from Cost Basis)"
+          },
+          {
+            "addr": "B11",
+            "raw": "=('Cost Basis'!$B$22*12)/$B$13",
+            "calc": 158.4
+          },
+          {
+            "addr": "C11",
+            "raw": 250000,
+            "calc": 250000
+          },
+          {
+            "addr": "D11",
+            "raw": 0.43,
+            "calc": 0.43
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A12",
+            "raw": "Cost per segment (from Cost Basis)",
+            "calc": "Cost per segment (from Cost Basis)"
+          },
+          {
+            "addr": "B12",
+            "raw": "=B5",
+            "calc": 0.008830000000000001
+          },
+          {
+            "addr": "C12",
+            "raw": 500000,
+            "calc": 500000
+          },
+          {
+            "addr": "D12",
+            "raw": 0.43,
+            "calc": 0.43
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A13",
+            "raw": "Number of accounts served (overhead allocation)",
+            "calc": "Number of accounts served (overhead allocation)"
+          },
+          {
+            "addr": "B13",
+            "raw": 5,
+            "calc": 5
+          },
+          {
+            "addr": "C13",
+            "raw": 1000000,
+            "calc": 1000000
+          },
+          {
+            "addr": "D13",
+            "raw": 0.43,
+            "calc": 0.43
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A14",
+            "raw": "List price per credit",
+            "calc": "List price per credit"
+          },
+          {
+            "addr": "B14",
+            "raw": "=B7",
+            "calc": 0.03845465000000001
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A15",
+            "raw": "# of FTE students",
+            "calc": "# of FTE students"
+          },
+          {
+            "addr": "B15",
+            "raw": 2000,
+            "calc": 2000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A16",
+            "raw": "# of teachers per student",
+            "calc": "# of teachers per student"
+          },
+          {
+            "addr": "B16",
+            "raw": 7,
+            "calc": 7
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A17",
+            "raw": "# of messages per teacher per student / month (incl. replies)",
+            "calc": "# of messages per teacher per student / month (incl. replies)"
+          },
+          {
+            "addr": "B17",
+            "raw": 5,
+            "calc": 5
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A18",
+            "raw": "Avg segments per typical message (defines 1 credit)",
+            "calc": "Avg segments per typical message (defines 1 credit)"
+          },
+          {
+            "addr": "B18",
+            "raw": "='Cost Basis'!B8",
+            "calc": 1.3
+          },
+          {
+            "addr": "C18",
+            "raw": "Can't go less than 1000 messages a month",
+            "calc": "Can't go less than 1000 messages a month"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A19",
+            "raw": "Round to nearest (credits/mo)",
+            "calc": "Round to nearest (credits/mo)"
+          },
+          {
+            "addr": "B19",
+            "raw": 100,
+            "calc": 100
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A20",
+            "raw": "# of Active months in a year",
+            "calc": "# of Active months in a year"
+          },
+          {
+            "addr": "B20",
+            "raw": 10,
+            "calc": 10
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A21",
+            "raw": "Expected messages / month",
+            "calc": "Expected messages / month"
+          },
+          {
+            "addr": "B21",
+            "raw": "=B15*B16*B17",
+            "calc": 70000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A22",
+            "raw": "Expected credits / year",
+            "calc": "Expected credits / year"
+          },
+          {
+            "addr": "B22",
+            "raw": "=B21*B20",
+            "calc": 700000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A23",
+            "raw": "Recommended credits to buy (mo)",
+            "calc": "Recommended credits to buy (mo)"
+          },
+          {
+            "addr": "B23",
+            "raw": "=MROUND(B21,$B$19)",
+            "calc": 70000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A24",
+            "raw": "Recommended credits to buy (yr)",
+            "calc": "Recommended credits to buy (yr)"
+          },
+          {
+            "addr": "B24",
+            "raw": "=B23*B20",
+            "calc": 700000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A25",
+            "raw": "Discount for this volume (% of list)",
+            "calc": "Discount for this volume (% of list)"
+          },
+          {
+            "addr": "B25",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(B23,$C$5:$C$13,1)),1)",
+            "calc": 0.57
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A26",
+            "raw": "Discount price per credit",
+            "calc": "Discount price per credit"
+          },
+          {
+            "addr": "B26",
+            "raw": "=B14*B25",
+            "calc": 0.0219191505
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A27",
+            "raw": "Recommended monthly price",
+            "calc": "Recommended monthly price"
+          },
+          {
+            "addr": "B27",
+            "raw": "=B23*B14*B25",
+            "calc": 1534.340535
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A28",
+            "raw": "Recommended annual price",
+            "calc": "Recommended annual price"
+          },
+          {
+            "addr": "B28",
+            "raw": "=B24*B14*B25",
+            "calc": 15343.40535
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A29",
+            "raw": "Price per student",
+            "calc": "Price per student"
+          },
+          {
+            "addr": "B29",
+            "raw": "=B28/B15",
+            "calc": 7.671702675000001
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A30",
+            "raw": "Cost / yr",
+            "calc": "Cost / yr"
+          },
+          {
+            "addr": "B30",
+            "raw": "=B24*B5*B18+B11",
+            "calc": 8193.7
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A31",
+            "raw": "Margin",
+            "calc": "Margin"
+          },
+          {
+            "addr": "B31",
+            "raw": "=B28-B30",
+            "calc": 7149.70535
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A32",
+            "raw": "Margin",
+            "calc": "Margin"
+          },
+          {
+            "addr": "B32",
+            "raw": "=(B28-(B24*B5*B18+B11))/B28",
+            "calc": 0.4659790435634942
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A37",
+            "raw": "TIER TABLE \u2014 Credits by student cohort",
+            "calc": "TIER TABLE \u2014 Credits by student cohort"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A38",
+            "raw": "FTE students",
+            "calc": "FTE students"
+          },
+          {
+            "addr": "B38",
+            "raw": "Msgs = Credits/mo",
+            "calc": "Msgs = Credits/mo"
+          },
+          {
+            "addr": "C38",
+            "raw": "Rec credits/mo",
+            "calc": "Rec credits/mo"
+          },
+          {
+            "addr": "D38",
+            "raw": "Discount",
+            "calc": "Discount"
+          },
+          {
+            "addr": "E38",
+            "raw": "Credits/yr",
+            "calc": "Credits/yr"
+          },
+          {
+            "addr": "F38",
+            "raw": "Annual price",
+            "calc": "Annual price"
+          },
+          {
+            "addr": "G38",
+            "raw": "Annual cost",
+            "calc": "Annual cost"
+          },
+          {
+            "addr": "H38",
+            "raw": "Margin",
+            "calc": "Margin"
+          },
+          {
+            "addr": "I38",
+            "raw": "Price/credit",
+            "calc": "Price/credit"
+          },
+          {
+            "addr": "J38",
+            "raw": "Cost/credit",
+            "calc": "Cost/credit"
+          }
+        ],
+        [
+          {
+            "addr": "A39",
+            "raw": 0,
+            "calc": 0
+          },
+          {
+            "addr": "B39",
+            "raw": "=A39*$B$16*$B$17",
+            "calc": 0
+          },
+          {
+            "addr": "C39",
+            "raw": "=MROUND(B39,$B$19)",
+            "calc": 0
+          },
+          {
+            "addr": "D39",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C39,$C$5:$C$13,1)),1)",
+            "calc": 1
+          },
+          {
+            "addr": "E39",
+            "raw": "=C39*$B$20",
+            "calc": 0
+          },
+          {
+            "addr": "F39",
+            "raw": "=E39*$B$14*D39",
+            "calc": 0
+          },
+          {
+            "addr": "G39",
+            "raw": "=E39*$B$5*$B$18+$B$11",
+            "calc": 158.4
+          },
+          {
+            "addr": "H39",
+            "raw": "=IF(F39=0,\"\",(F39-G39)/F39)",
+            "calc": null
+          },
+          {
+            "addr": "I39",
+            "raw": "=IF(E39=0,\"\",F39/E39)",
+            "calc": null
+          },
+          {
+            "addr": "J39",
+            "raw": "=IF(E39=0,\"\",G39/E39)",
+            "calc": null
+          }
+        ],
+        [
+          {
+            "addr": "A40",
+            "raw": 500,
+            "calc": 500
+          },
+          {
+            "addr": "B40",
+            "raw": "=A40*$B$16*$B$17",
+            "calc": 17500
+          },
+          {
+            "addr": "C40",
+            "raw": "=MROUND(B40,$B$19)",
+            "calc": 17500
+          },
+          {
+            "addr": "D40",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C40,$C$5:$C$13,1)),1)",
+            "calc": 0.86
+          },
+          {
+            "addr": "E40",
+            "raw": "=C40*$B$20",
+            "calc": 175000
+          },
+          {
+            "addr": "F40",
+            "raw": "=E40*$B$14*D40",
+            "calc": 5787.424825000001
+          },
+          {
+            "addr": "G40",
+            "raw": "=E40*$B$5*$B$18+$B$11",
+            "calc": 2167.2250000000004
+          },
+          {
+            "addr": "H40",
+            "raw": "=IF(F40=0,\"\",(F40-G40)/F40)",
+            "calc": 0.6255286132377538
+          },
+          {
+            "addr": "I40",
+            "raw": "=IF(E40=0,\"\",F40/E40)",
+            "calc": 0.033070999000000004
+          },
+          {
+            "addr": "J40",
+            "raw": "=IF(E40=0,\"\",G40/E40)",
+            "calc": 0.01238414285714286
+          }
+        ],
+        [
+          {
+            "addr": "A41",
+            "raw": 1000,
+            "calc": 1000
+          },
+          {
+            "addr": "B41",
+            "raw": "=A41*$B$16*$B$17",
+            "calc": 35000
+          },
+          {
+            "addr": "C41",
+            "raw": "=MROUND(B41,$B$19)",
+            "calc": 35000
+          },
+          {
+            "addr": "D41",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C41,$C$5:$C$13,1)),1)",
+            "calc": 0.74
+          },
+          {
+            "addr": "E41",
+            "raw": "=C41*$B$20",
+            "calc": 350000
+          },
+          {
+            "addr": "F41",
+            "raw": "=E41*$B$14*D41",
+            "calc": 9959.754350000001
+          },
+          {
+            "addr": "G41",
+            "raw": "=E41*$B$5*$B$18+$B$11",
+            "calc": 4176.05
+          },
+          {
+            "addr": "H41",
+            "raw": "=IF(F41=0,\"\",(F41-G41)/F41)",
+            "calc": 0.5807075302012845
+          },
+          {
+            "addr": "I41",
+            "raw": "=IF(E41=0,\"\",F41/E41)",
+            "calc": 0.028456441000000002
+          },
+          {
+            "addr": "J41",
+            "raw": "=IF(E41=0,\"\",G41/E41)",
+            "calc": 0.011931571428571429
+          }
+        ],
+        [
+          {
+            "addr": "A42",
+            "raw": 2000,
+            "calc": 2000
+          },
+          {
+            "addr": "B42",
+            "raw": "=A42*$B$16*$B$17",
+            "calc": 70000
+          },
+          {
+            "addr": "C42",
+            "raw": "=MROUND(B42,$B$19)",
+            "calc": 70000
+          },
+          {
+            "addr": "D42",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C42,$C$5:$C$13,1)),1)",
+            "calc": 0.57
+          },
+          {
+            "addr": "E42",
+            "raw": "=C42*$B$20",
+            "calc": 700000
+          },
+          {
+            "addr": "F42",
+            "raw": "=E42*$B$14*D42",
+            "calc": 15343.40535
+          },
+          {
+            "addr": "G42",
+            "raw": "=E42*$B$5*$B$18+$B$11",
+            "calc": 8193.7
+          },
+          {
+            "addr": "H42",
+            "raw": "=IF(F42=0,\"\",(F42-G42)/F42)",
+            "calc": 0.4659790435634942
+          },
+          {
+            "addr": "I42",
+            "raw": "=IF(E42=0,\"\",F42/E42)",
+            "calc": 0.0219191505
+          },
+          {
+            "addr": "J42",
+            "raw": "=IF(E42=0,\"\",G42/E42)",
+            "calc": 0.011705285714285715
+          }
+        ],
+        [
+          {
+            "addr": "A43",
+            "raw": 3000,
+            "calc": 3000
+          },
+          {
+            "addr": "B43",
+            "raw": "=A43*$B$16*$B$17",
+            "calc": 105000
+          },
+          {
+            "addr": "C43",
+            "raw": "=MROUND(B43,$B$19)",
+            "calc": 105000
+          },
+          {
+            "addr": "D43",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C43,$C$5:$C$13,1)),1)",
+            "calc": 0.49
+          },
+          {
+            "addr": "E43",
+            "raw": "=C43*$B$20",
+            "calc": 1050000
+          },
+          {
+            "addr": "F43",
+            "raw": "=E43*$B$14*D43",
+            "calc": 19784.917425000003
+          },
+          {
+            "addr": "G43",
+            "raw": "=E43*$B$5*$B$18+$B$11",
+            "calc": 12211.350000000002
+          },
+          {
+            "addr": "H43",
+            "raw": "=IF(F43=0,\"\",(F43-G43)/F43)",
+            "calc": 0.38279499794273214
+          },
+          {
+            "addr": "I43",
+            "raw": "=IF(E43=0,\"\",F43/E43)",
+            "calc": 0.018842778500000004
+          },
+          {
+            "addr": "J43",
+            "raw": "=IF(E43=0,\"\",G43/E43)",
+            "calc": 0.011629857142857145
+          }
+        ],
+        [
+          {
+            "addr": "A44",
+            "raw": 5000,
+            "calc": 5000
+          },
+          {
+            "addr": "B44",
+            "raw": "=A44*$B$16*$B$17",
+            "calc": 175000
+          },
+          {
+            "addr": "C44",
+            "raw": "=MROUND(B44,$B$19)",
+            "calc": 175000
+          },
+          {
+            "addr": "D44",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C44,$C$5:$C$13,1)),1)",
+            "calc": 0.49
+          },
+          {
+            "addr": "E44",
+            "raw": "=C44*$B$20",
+            "calc": 1750000
+          },
+          {
+            "addr": "F44",
+            "raw": "=E44*$B$14*D44",
+            "calc": 32974.862375000004
+          },
+          {
+            "addr": "G44",
+            "raw": "=E44*$B$5*$B$18+$B$11",
+            "calc": 20246.650000000005
+          },
+          {
+            "addr": "H44",
+            "raw": "=IF(F44=0,\"\",(F44-G44)/F44)",
+            "calc": 0.3859974373888497
+          },
+          {
+            "addr": "I44",
+            "raw": "=IF(E44=0,\"\",F44/E44)",
+            "calc": 0.0188427785
+          },
+          {
+            "addr": "J44",
+            "raw": "=IF(E44=0,\"\",G44/E44)",
+            "calc": 0.011569514285714289
+          }
+        ],
+        [
+          {
+            "addr": "A45",
+            "raw": 7500,
+            "calc": 7500
+          },
+          {
+            "addr": "B45",
+            "raw": "=A45*$B$16*$B$17",
+            "calc": 262500
+          },
+          {
+            "addr": "C45",
+            "raw": "=MROUND(B45,$B$19)",
+            "calc": 262500
+          },
+          {
+            "addr": "D45",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C45,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E45",
+            "raw": "=C45*$B$20",
+            "calc": 2625000
+          },
+          {
+            "addr": "F45",
+            "raw": "=E45*$B$14*D45",
+            "calc": 43405.68618750001
+          },
+          {
+            "addr": "G45",
+            "raw": "=E45*$B$5*$B$18+$B$11",
+            "calc": 30290.77500000001
+          },
+          {
+            "addr": "H45",
+            "raw": "=IF(F45=0,\"\",(F45-G45)/F45)",
+            "calc": 0.3021473069414772
+          },
+          {
+            "addr": "I45",
+            "raw": "=IF(E45=0,\"\",F45/E45)",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "J45",
+            "raw": "=IF(E45=0,\"\",G45/E45)",
+            "calc": 0.011539342857142861
+          }
+        ],
+        [
+          {
+            "addr": "A46",
+            "raw": 10000,
+            "calc": 10000
+          },
+          {
+            "addr": "B46",
+            "raw": "=A46*$B$16*$B$17",
+            "calc": 350000
+          },
+          {
+            "addr": "C46",
+            "raw": "=MROUND(B46,$B$19)",
+            "calc": 350000
+          },
+          {
+            "addr": "D46",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C46,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E46",
+            "raw": "=C46*$B$20",
+            "calc": 3500000
+          },
+          {
+            "addr": "F46",
+            "raw": "=E46*$B$14*D46",
+            "calc": 57874.24825000001
+          },
+          {
+            "addr": "G46",
+            "raw": "=E46*$B$5*$B$18+$B$11",
+            "calc": 40334.90000000001
+          },
+          {
+            "addr": "H46",
+            "raw": "=IF(F46=0,\"\",(F46-G46)/F46)",
+            "calc": 0.30305962980694096
+          },
+          {
+            "addr": "I46",
+            "raw": "=IF(E46=0,\"\",F46/E46)",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "J46",
+            "raw": "=IF(E46=0,\"\",G46/E46)",
+            "calc": 0.011524257142857146
+          }
+        ],
+        [
+          {
+            "addr": "A47",
+            "raw": 20000,
+            "calc": 20000
+          },
+          {
+            "addr": "B47",
+            "raw": "=A47*$B$16*$B$17",
+            "calc": 700000
+          },
+          {
+            "addr": "C47",
+            "raw": "=MROUND(B47,$B$19)",
+            "calc": 700000
+          },
+          {
+            "addr": "D47",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C47,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E47",
+            "raw": "=C47*$B$20",
+            "calc": 7000000
+          },
+          {
+            "addr": "F47",
+            "raw": "=E47*$B$14*D47",
+            "calc": 115748.49650000002
+          },
+          {
+            "addr": "G47",
+            "raw": "=E47*$B$5*$B$18+$B$11",
+            "calc": 80511.40000000001
+          },
+          {
+            "addr": "H47",
+            "raw": "=IF(F47=0,\"\",(F47-G47)/F47)",
+            "calc": 0.30442811410513665
+          },
+          {
+            "addr": "I47",
+            "raw": "=IF(E47=0,\"\",F47/E47)",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "J47",
+            "raw": "=IF(E47=0,\"\",G47/E47)",
+            "calc": 0.011501628571428573
+          }
+        ],
+        [
+          {
+            "addr": "A48",
+            "raw": 30000,
+            "calc": 30000
+          },
+          {
+            "addr": "B48",
+            "raw": "=A48*$B$16*$B$17",
+            "calc": 1050000
+          },
+          {
+            "addr": "C48",
+            "raw": "=MROUND(B48,$B$19)",
+            "calc": 1050000
+          },
+          {
+            "addr": "D48",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C48,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E48",
+            "raw": "=C48*$B$20",
+            "calc": 10500000
+          },
+          {
+            "addr": "F48",
+            "raw": "=E48*$B$14*D48",
+            "calc": 173622.74475000004
+          },
+          {
+            "addr": "G48",
+            "raw": "=E48*$B$5*$B$18+$B$11",
+            "calc": 120687.90000000002
+          },
+          {
+            "addr": "H48",
+            "raw": "=IF(F48=0,\"\",(F48-G48)/F48)",
+            "calc": 0.30488427553786845
+          },
+          {
+            "addr": "I48",
+            "raw": "=IF(E48=0,\"\",F48/E48)",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "J48",
+            "raw": "=IF(E48=0,\"\",G48/E48)",
+            "calc": 0.011494085714285717
+          }
+        ],
+        [
+          {
+            "addr": "A49",
+            "raw": 40000,
+            "calc": 40000
+          },
+          {
+            "addr": "B49",
+            "raw": "=A49*$B$16*$B$17",
+            "calc": 1400000
+          },
+          {
+            "addr": "C49",
+            "raw": "=MROUND(B49,$B$19)",
+            "calc": 1400000
+          },
+          {
+            "addr": "D49",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C49,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E49",
+            "raw": "=C49*$B$20",
+            "calc": 14000000
+          },
+          {
+            "addr": "F49",
+            "raw": "=E49*$B$14*D49",
+            "calc": 231496.99300000005
+          },
+          {
+            "addr": "G49",
+            "raw": "=E49*$B$5*$B$18+$B$11",
+            "calc": 160864.40000000002
+          },
+          {
+            "addr": "H49",
+            "raw": "=IF(F49=0,\"\",(F49-G49)/F49)",
+            "calc": 0.3051123562542344
+          },
+          {
+            "addr": "I49",
+            "raw": "=IF(E49=0,\"\",F49/E49)",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "J49",
+            "raw": "=IF(E49=0,\"\",G49/E49)",
+            "calc": 0.011490314285714287
+          }
+        ],
+        [
+          {
+            "addr": "A50",
+            "raw": 50000,
+            "calc": 50000
+          },
+          {
+            "addr": "B50",
+            "raw": "=A50*$B$16*$B$17",
+            "calc": 1750000
+          },
+          {
+            "addr": "C50",
+            "raw": "=MROUND(B50,$B$19)",
+            "calc": 1750000
+          },
+          {
+            "addr": "D50",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C50,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E50",
+            "raw": "=C50*$B$20",
+            "calc": 17500000
+          },
+          {
+            "addr": "F50",
+            "raw": "=E50*$B$14*D50",
+            "calc": 289371.24125
+          },
+          {
+            "addr": "G50",
+            "raw": "=E50*$B$5*$B$18+$B$11",
+            "calc": 201040.90000000005
+          },
+          {
+            "addr": "H50",
+            "raw": "=IF(F50=0,\"\",(F50-G50)/F50)",
+            "calc": 0.3052492046840538
+          },
+          {
+            "addr": "I50",
+            "raw": "=IF(E50=0,\"\",F50/E50)",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "J50",
+            "raw": "=IF(E50=0,\"\",G50/E50)",
+            "calc": 0.011488051428571431
+          }
+        ],
+        [
+          {
+            "addr": "A51",
+            "raw": 60000,
+            "calc": 60000
+          },
+          {
+            "addr": "B51",
+            "raw": "=A51*$B$16*$B$17",
+            "calc": 2100000
+          },
+          {
+            "addr": "C51",
+            "raw": "=MROUND(B51,$B$19)",
+            "calc": 2100000
+          },
+          {
+            "addr": "D51",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C51,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E51",
+            "raw": "=C51*$B$20",
+            "calc": 21000000
+          },
+          {
+            "addr": "F51",
+            "raw": "=E51*$B$14*D51",
+            "calc": 347245.4895000001
+          },
+          {
+            "addr": "G51",
+            "raw": "=E51*$B$5*$B$18+$B$11",
+            "calc": 241217.40000000005
+          },
+          {
+            "addr": "H51",
+            "raw": "=IF(F51=0,\"\",(F51-G51)/F51)",
+            "calc": 0.3053404369706003
+          },
+          {
+            "addr": "I51",
+            "raw": "=IF(E51=0,\"\",F51/E51)",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "J51",
+            "raw": "=IF(E51=0,\"\",G51/E51)",
+            "calc": 0.011486542857142859
+          }
+        ],
+        [
+          {
+            "addr": "A52",
+            "raw": 70000,
+            "calc": 70000
+          },
+          {
+            "addr": "B52",
+            "raw": "=A52*$B$16*$B$17",
+            "calc": 2450000
+          },
+          {
+            "addr": "C52",
+            "raw": "=MROUND(B52,$B$19)",
+            "calc": 2450000
+          },
+          {
+            "addr": "D52",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C52,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E52",
+            "raw": "=C52*$B$20",
+            "calc": 24500000
+          },
+          {
+            "addr": "F52",
+            "raw": "=E52*$B$14*D52",
+            "calc": 405119.7377500001
+          },
+          {
+            "addr": "G52",
+            "raw": "=E52*$B$5*$B$18+$B$11",
+            "calc": 281393.9000000001
+          },
+          {
+            "addr": "H52",
+            "raw": "=IF(F52=0,\"\",(F52-G52)/F52)",
+            "calc": 0.3054056028895619
+          },
+          {
+            "addr": "I52",
+            "raw": "=IF(E52=0,\"\",F52/E52)",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "J52",
+            "raw": "=IF(E52=0,\"\",G52/E52)",
+            "calc": 0.011485465306122452
+          }
+        ],
+        [
+          {
+            "addr": "A54",
+            "raw": "CHART SOURCE (students + message volume) \u2014 helper for axis labels",
+            "calc": "CHART SOURCE (students + message volume) \u2014 helper for axis labels"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B55",
+            "raw": "Annual price",
+            "calc": "Annual price"
+          },
+          {
+            "addr": "C55",
+            "raw": "Annual cost",
+            "calc": "Annual cost"
+          },
+          {
+            "addr": "D55",
+            "raw": "Margin",
+            "calc": "Margin"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A56",
+            "raw": "=TEXT(A39,\"#,##0\")&\" stu / \"&TEXT(B39,\"#,##0\")&\" msg\"",
+            "calc": "0 stu / 0 msg"
+          },
+          {
+            "addr": "B56",
+            "raw": "=F39",
+            "calc": 0
+          },
+          {
+            "addr": "C56",
+            "raw": "=G39",
+            "calc": 158.4
+          },
+          {
+            "addr": "D56",
+            "raw": "=H39",
+            "calc": null
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A57",
+            "raw": "=TEXT(A40,\"#,##0\")&\" stu / \"&TEXT(B40,\"#,##0\")&\" msg\"",
+            "calc": "500 stu / 17,500 msg"
+          },
+          {
+            "addr": "B57",
+            "raw": "=F40",
+            "calc": 5787.424825000001
+          },
+          {
+            "addr": "C57",
+            "raw": "=G40",
+            "calc": 2167.2250000000004
+          },
+          {
+            "addr": "D57",
+            "raw": "=H40",
+            "calc": 0.6255286132377538
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A58",
+            "raw": "=TEXT(A41,\"#,##0\")&\" stu / \"&TEXT(B41,\"#,##0\")&\" msg\"",
+            "calc": "1,000 stu / 35,000 msg"
+          },
+          {
+            "addr": "B58",
+            "raw": "=F41",
+            "calc": 9959.754350000001
+          },
+          {
+            "addr": "C58",
+            "raw": "=G41",
+            "calc": 4176.05
+          },
+          {
+            "addr": "D58",
+            "raw": "=H41",
+            "calc": 0.5807075302012845
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A59",
+            "raw": "=TEXT(A42,\"#,##0\")&\" stu / \"&TEXT(B42,\"#,##0\")&\" msg\"",
+            "calc": "2,000 stu / 70,000 msg"
+          },
+          {
+            "addr": "B59",
+            "raw": "=F42",
+            "calc": 15343.40535
+          },
+          {
+            "addr": "C59",
+            "raw": "=G42",
+            "calc": 8193.7
+          },
+          {
+            "addr": "D59",
+            "raw": "=H42",
+            "calc": 0.4659790435634942
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A60",
+            "raw": "=TEXT(A43,\"#,##0\")&\" stu / \"&TEXT(B43,\"#,##0\")&\" msg\"",
+            "calc": "3,000 stu / 105,000 msg"
+          },
+          {
+            "addr": "B60",
+            "raw": "=F43",
+            "calc": 19784.917425000003
+          },
+          {
+            "addr": "C60",
+            "raw": "=G43",
+            "calc": 12211.350000000002
+          },
+          {
+            "addr": "D60",
+            "raw": "=H43",
+            "calc": 0.38279499794273214
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A61",
+            "raw": "=TEXT(A44,\"#,##0\")&\" stu / \"&TEXT(B44,\"#,##0\")&\" msg\"",
+            "calc": "5,000 stu / 175,000 msg"
+          },
+          {
+            "addr": "B61",
+            "raw": "=F44",
+            "calc": 32974.862375000004
+          },
+          {
+            "addr": "C61",
+            "raw": "=G44",
+            "calc": 20246.650000000005
+          },
+          {
+            "addr": "D61",
+            "raw": "=H44",
+            "calc": 0.3859974373888497
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A62",
+            "raw": "=TEXT(A45,\"#,##0\")&\" stu / \"&TEXT(B45,\"#,##0\")&\" msg\"",
+            "calc": "7,500 stu / 262,500 msg"
+          },
+          {
+            "addr": "B62",
+            "raw": "=F45",
+            "calc": 43405.68618750001
+          },
+          {
+            "addr": "C62",
+            "raw": "=G45",
+            "calc": 30290.77500000001
+          },
+          {
+            "addr": "D62",
+            "raw": "=H45",
+            "calc": 0.3021473069414772
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A63",
+            "raw": "=TEXT(A46,\"#,##0\")&\" stu / \"&TEXT(B46,\"#,##0\")&\" msg\"",
+            "calc": "10,000 stu / 350,000 msg"
+          },
+          {
+            "addr": "B63",
+            "raw": "=F46",
+            "calc": 57874.24825000001
+          },
+          {
+            "addr": "C63",
+            "raw": "=G46",
+            "calc": 40334.90000000001
+          },
+          {
+            "addr": "D63",
+            "raw": "=H46",
+            "calc": 0.30305962980694096
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A64",
+            "raw": "=TEXT(A47,\"#,##0\")&\" stu / \"&TEXT(B47,\"#,##0\")&\" msg\"",
+            "calc": "20,000 stu / 700,000 msg"
+          },
+          {
+            "addr": "B64",
+            "raw": "=F47",
+            "calc": 115748.49650000002
+          },
+          {
+            "addr": "C64",
+            "raw": "=G47",
+            "calc": 80511.40000000001
+          },
+          {
+            "addr": "D64",
+            "raw": "=H47",
+            "calc": 0.30442811410513665
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A65",
+            "raw": "=TEXT(A48,\"#,##0\")&\" stu / \"&TEXT(B48,\"#,##0\")&\" msg\"",
+            "calc": "30,000 stu / 1,050,000 msg"
+          },
+          {
+            "addr": "B65",
+            "raw": "=F48",
+            "calc": 173622.74475000004
+          },
+          {
+            "addr": "C65",
+            "raw": "=G48",
+            "calc": 120687.90000000002
+          },
+          {
+            "addr": "D65",
+            "raw": "=H48",
+            "calc": 0.30488427553786845
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A66",
+            "raw": "=TEXT(A49,\"#,##0\")&\" stu / \"&TEXT(B49,\"#,##0\")&\" msg\"",
+            "calc": "40,000 stu / 1,400,000 msg"
+          },
+          {
+            "addr": "B66",
+            "raw": "=F49",
+            "calc": 231496.99300000005
+          },
+          {
+            "addr": "C66",
+            "raw": "=G49",
+            "calc": 160864.40000000002
+          },
+          {
+            "addr": "D66",
+            "raw": "=H49",
+            "calc": 0.3051123562542344
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A67",
+            "raw": "=TEXT(A50,\"#,##0\")&\" stu / \"&TEXT(B50,\"#,##0\")&\" msg\"",
+            "calc": "50,000 stu / 1,750,000 msg"
+          },
+          {
+            "addr": "B67",
+            "raw": "=F50",
+            "calc": 289371.24125
+          },
+          {
+            "addr": "C67",
+            "raw": "=G50",
+            "calc": 201040.90000000005
+          },
+          {
+            "addr": "D67",
+            "raw": "=H50",
+            "calc": 0.3052492046840538
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A68",
+            "raw": "=TEXT(A51,\"#,##0\")&\" stu / \"&TEXT(B51,\"#,##0\")&\" msg\"",
+            "calc": "60,000 stu / 2,100,000 msg"
+          },
+          {
+            "addr": "B68",
+            "raw": "=F51",
+            "calc": 347245.4895000001
+          },
+          {
+            "addr": "C68",
+            "raw": "=G51",
+            "calc": 241217.40000000005
+          },
+          {
+            "addr": "D68",
+            "raw": "=H51",
+            "calc": 0.3053404369706003
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A69",
+            "raw": "=TEXT(A52,\"#,##0\")&\" stu / \"&TEXT(B52,\"#,##0\")&\" msg\"",
+            "calc": "70,000 stu / 2,450,000 msg"
+          },
+          {
+            "addr": "B69",
+            "raw": "=F52",
+            "calc": 405119.7377500001
+          },
+          {
+            "addr": "C69",
+            "raw": "=G52",
+            "calc": 281393.9000000001
+          },
+          {
+            "addr": "D69",
+            "raw": "=H52",
+            "calc": 0.3054056028895619
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A71",
+            "raw": "CHART SOURCE (per-message chart) \u2014 helper",
+            "calc": "CHART SOURCE (per-message chart) \u2014 helper"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B72",
+            "raw": "Price / msg",
+            "calc": "Price / msg"
+          },
+          {
+            "addr": "C72",
+            "raw": "Cost / msg (loaded)",
+            "calc": "Cost / msg (loaded)"
+          },
+          {
+            "addr": "D72",
+            "raw": "Cost / msg (loaded)",
+            "calc": "Cost / msg (loaded)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A73",
+            "raw": "=TEXT(A39,\"#,##0\")&\" stu / \"&TEXT(B39,\"#,##0\")&\" msg\"",
+            "calc": "0 stu / 0 msg"
+          },
+          {
+            "addr": "B73",
+            "raw": "=I39",
+            "calc": null
+          },
+          {
+            "addr": "C73",
+            "raw": "=J39",
+            "calc": null
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A74",
+            "raw": "=TEXT(A40,\"#,##0\")&\" stu / \"&TEXT(B40,\"#,##0\")&\" msg\"",
+            "calc": "500 stu / 17,500 msg"
+          },
+          {
+            "addr": "B74",
+            "raw": "=I40",
+            "calc": 0.033070999000000004
+          },
+          {
+            "addr": "C74",
+            "raw": "=J40",
+            "calc": 0.01238414285714286
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A75",
+            "raw": "=TEXT(A41,\"#,##0\")&\" stu / \"&TEXT(B41,\"#,##0\")&\" msg\"",
+            "calc": "1,000 stu / 35,000 msg"
+          },
+          {
+            "addr": "B75",
+            "raw": "=I41",
+            "calc": 0.028456441000000002
+          },
+          {
+            "addr": "C75",
+            "raw": "=J41",
+            "calc": 0.011931571428571429
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A76",
+            "raw": "=TEXT(A42,\"#,##0\")&\" stu / \"&TEXT(B42,\"#,##0\")&\" msg\"",
+            "calc": "2,000 stu / 70,000 msg"
+          },
+          {
+            "addr": "B76",
+            "raw": "=I42",
+            "calc": 0.0219191505
+          },
+          {
+            "addr": "C76",
+            "raw": "=J42",
+            "calc": 0.011705285714285715
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A77",
+            "raw": "=TEXT(A43,\"#,##0\")&\" stu / \"&TEXT(B43,\"#,##0\")&\" msg\"",
+            "calc": "3,000 stu / 105,000 msg"
+          },
+          {
+            "addr": "B77",
+            "raw": "=I43",
+            "calc": 0.018842778500000004
+          },
+          {
+            "addr": "C77",
+            "raw": "=J43",
+            "calc": 0.011629857142857145
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A78",
+            "raw": "=TEXT(A44,\"#,##0\")&\" stu / \"&TEXT(B44,\"#,##0\")&\" msg\"",
+            "calc": "5,000 stu / 175,000 msg"
+          },
+          {
+            "addr": "B78",
+            "raw": "=I44",
+            "calc": 0.0188427785
+          },
+          {
+            "addr": "C78",
+            "raw": "=J44",
+            "calc": 0.011569514285714289
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A79",
+            "raw": "=TEXT(A45,\"#,##0\")&\" stu / \"&TEXT(B45,\"#,##0\")&\" msg\"",
+            "calc": "7,500 stu / 262,500 msg"
+          },
+          {
+            "addr": "B79",
+            "raw": "=I45",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "C79",
+            "raw": "=J45",
+            "calc": 0.011539342857142861
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A80",
+            "raw": "=TEXT(A46,\"#,##0\")&\" stu / \"&TEXT(B46,\"#,##0\")&\" msg\"",
+            "calc": "10,000 stu / 350,000 msg"
+          },
+          {
+            "addr": "B80",
+            "raw": "=I46",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "C80",
+            "raw": "=J46",
+            "calc": 0.011524257142857146
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A81",
+            "raw": "=TEXT(A47,\"#,##0\")&\" stu / \"&TEXT(B47,\"#,##0\")&\" msg\"",
+            "calc": "20,000 stu / 700,000 msg"
+          },
+          {
+            "addr": "B81",
+            "raw": "=I47",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "C81",
+            "raw": "=J47",
+            "calc": 0.011501628571428573
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A82",
+            "raw": "=TEXT(A48,\"#,##0\")&\" stu / \"&TEXT(B48,\"#,##0\")&\" msg\"",
+            "calc": "30,000 stu / 1,050,000 msg"
+          },
+          {
+            "addr": "B82",
+            "raw": "=I48",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "C82",
+            "raw": "=J48",
+            "calc": 0.011494085714285717
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A83",
+            "raw": "=TEXT(A49,\"#,##0\")&\" stu / \"&TEXT(B49,\"#,##0\")&\" msg\"",
+            "calc": "40,000 stu / 1,400,000 msg"
+          },
+          {
+            "addr": "B83",
+            "raw": "=I49",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "C83",
+            "raw": "=J49",
+            "calc": 0.011490314285714287
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A84",
+            "raw": "=TEXT(A50,\"#,##0\")&\" stu / \"&TEXT(B50,\"#,##0\")&\" msg\"",
+            "calc": "50,000 stu / 1,750,000 msg"
+          },
+          {
+            "addr": "B84",
+            "raw": "=I50",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "C84",
+            "raw": "=J50",
+            "calc": 0.011488051428571431
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A85",
+            "raw": "=TEXT(A51,\"#,##0\")&\" stu / \"&TEXT(B51,\"#,##0\")&\" msg\"",
+            "calc": "60,000 stu / 2,100,000 msg"
+          },
+          {
+            "addr": "B85",
+            "raw": "=I51",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "C85",
+            "raw": "=J51",
+            "calc": 0.011486542857142859
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A86",
+            "raw": "=TEXT(A52,\"#,##0\")&\" stu / \"&TEXT(B52,\"#,##0\")&\" msg\"",
+            "calc": "70,000 stu / 2,450,000 msg"
+          },
+          {
+            "addr": "B86",
+            "raw": "=I52",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "C86",
+            "raw": "=J52",
+            "calc": 0.011485465306122452
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "Competitor Benchmark": {
+      "max_row": 34,
+      "max_col": 8,
+      "formula_count": 11,
+      "formulas": [
+        {
+          "addr": "C5",
+          "raw": "='Cost Basis'!B9",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "C6",
+          "raw": "='Cost Basis'!B10",
+          "calc": 0.011479000000000001
+        },
+        {
+          "addr": "C7",
+          "raw": "='B - Message Credits'!B7",
+          "calc": 0.03845465000000001
+        },
+        {
+          "addr": "C8",
+          "raw": "='B - Message Credits'!B7/'Cost Basis'!B8",
+          "calc": 0.029580500000000003
+        },
+        {
+          "addr": "C9",
+          "raw": "='B - Message Credits'!I52",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C10",
+          "raw": "='B - Message Credits'!B7*3",
+          "calc": 0.11536395000000002
+        },
+        {
+          "addr": "C23",
+          "raw": "='Cost Basis'!B9",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "D23",
+          "raw": "='Cost Basis'!B9",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "C25",
+          "raw": "='B - Message Credits'!B7",
+          "calc": 0.03845465000000001
+        },
+        {
+          "addr": "D25",
+          "raw": "='B - Message Credits'!I52",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "E25",
+          "raw": "='B - Message Credits'!B7*3",
+          "calc": 0.11536395000000002
+        }
+      ],
+      "rows": [
+        [
+          {
+            "addr": "A1",
+            "raw": "Competitor Pricing Benchmark \u2014 SMS/MMS-Only Providers",
+            "calc": "Competitor Pricing Benchmark \u2014 SMS/MMS-Only Providers"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A2",
+            "raw": "Delphinium Community Builder vs. direct SMS/MMS competitors. Normalized to $ per standard US text (1 segment \u2264160 chars) where possible. Competitor rates researched from provider pricing pages, Jul 2026 \u2014 see cell notes for sources. Delphinium figures link live to the model.",
+            "calc": "Delphinium Community Builder vs. direct SMS/MMS competitors. Normalized to $ per standard US text (1 segment \u2264160 chars) where possible. Competitor rates researched from provider pricing pages, Jul 2026 \u2014 see cell notes for sources. Delphinium figures link live to the model."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A4",
+            "raw": "DELPHINIUM \u2014 YOUR MODEL (linked)",
+            "calc": "DELPHINIUM \u2014 YOUR MODEL (linked)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A5",
+            "raw": "Loaded cost per segment",
+            "calc": "Loaded cost per segment"
+          },
+          null,
+          {
+            "addr": "C5",
+            "raw": "='Cost Basis'!B9",
+            "calc": 0.008830000000000001
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A6",
+            "raw": "Loaded cost per typical message (1.3 seg)",
+            "calc": "Loaded cost per typical message (1.3 seg)"
+          },
+          null,
+          {
+            "addr": "C6",
+            "raw": "='Cost Basis'!B10",
+            "calc": 0.011479000000000001
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A7",
+            "raw": "List price per credit (= 1 typical message)",
+            "calc": "List price per credit (= 1 typical message)"
+          },
+          null,
+          {
+            "addr": "C7",
+            "raw": "='B - Message Credits'!B7",
+            "calc": 0.03845465000000001
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A8",
+            "raw": "List price per segment (list \u00f7 1.3)",
+            "calc": "List price per segment (list \u00f7 1.3)"
+          },
+          null,
+          {
+            "addr": "C8",
+            "raw": "='B - Message Credits'!B7/'Cost Basis'!B8",
+            "calc": 0.029580500000000003
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A9",
+            "raw": "High-volume price per credit (43% of list)",
+            "calc": "High-volume price per credit (43% of list)"
+          },
+          null,
+          {
+            "addr": "C9",
+            "raw": "='B - Message Credits'!I52",
+            "calc": 0.016535499500000002
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A10",
+            "raw": "MMS = 3 credits \u2192 effective per MMS",
+            "calc": "MMS = 3 credits \u2192 effective per MMS"
+          },
+          null,
+          {
+            "addr": "C10",
+            "raw": "='B - Message Credits'!B7*3",
+            "calc": 0.11536395000000002
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A12",
+            "raw": "GROUP 1 \u2014 Business SMS/MMS platforms (managed apps, credit-based \u2014 your direct peers)",
+            "calc": "GROUP 1 \u2014 Business SMS/MMS platforms (managed apps, credit-based \u2014 your direct peers)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A13",
+            "raw": "Provider",
+            "calc": "Provider"
+          },
+          {
+            "addr": "B13",
+            "raw": "Pricing model",
+            "calc": "Pricing model"
+          },
+          {
+            "addr": "C13",
+            "raw": "Low-volume $/msg",
+            "calc": "Low-volume $/msg"
+          },
+          {
+            "addr": "D13",
+            "raw": "High-volume $/msg",
+            "calc": "High-volume $/msg"
+          },
+          {
+            "addr": "E13",
+            "raw": "MMS",
+            "calc": "MMS"
+          },
+          {
+            "addr": "F13",
+            "raw": "Inbound",
+            "calc": "Inbound"
+          },
+          {
+            "addr": "G13",
+            "raw": "1 credit =",
+            "calc": "1 credit ="
+          },
+          {
+            "addr": "H13",
+            "raw": "Notes",
+            "calc": "Notes"
+          }
+        ],
+        [
+          {
+            "addr": "A14",
+            "raw": "SimpleTexting (Sinch)",
+            "calc": "SimpleTexting (Sinch)"
+          },
+          {
+            "addr": "B14",
+            "raw": "Credit subscription",
+            "calc": "Credit subscription"
+          },
+          {
+            "addr": "C14",
+            "raw": 0.078,
+            "calc": 0.078
+          },
+          {
+            "addr": "D14",
+            "raw": 0.018,
+            "calc": 0.018
+          },
+          {
+            "addr": "E14",
+            "raw": "3 credits",
+            "calc": "3 credits"
+          },
+          {
+            "addr": "F14",
+            "raw": "Free",
+            "calc": "Free"
+          },
+          {
+            "addr": "G14",
+            "raw": "1 SMS segment",
+            "calc": "1 SMS segment"
+          },
+          {
+            "addr": "H14",
+            "raw": "15% nonprofit [501(c)(3)] discount; 20% annual; credits roll over. Longer text = 2 credits.",
+            "calc": "15% nonprofit [501(c)(3)] discount; 20% annual; credits roll over. Longer text = 2 credits."
+          }
+        ],
+        [
+          {
+            "addr": "A15",
+            "raw": "SlickText",
+            "calc": "SlickText"
+          },
+          {
+            "addr": "B15",
+            "raw": "Credit subscription",
+            "calc": "Credit subscription"
+          },
+          {
+            "addr": "C15",
+            "raw": 0.05,
+            "calc": 0.05
+          },
+          {
+            "addr": "D15",
+            "raw": 0.0188,
+            "calc": 0.0188
+          },
+          {
+            "addr": "E15",
+            "raw": "Higher",
+            "calc": "Higher"
+          },
+          {
+            "addr": "F15",
+            "raw": "Free",
+            "calc": "Free"
+          },
+          {
+            "addr": "G15",
+            "raw": "1 SMS segment",
+            "calc": "1 SMS segment"
+          },
+          {
+            "addr": "H15",
+            "raw": "2 free months on annual; will price-match SimpleTexting.",
+            "calc": "2 free months on annual; will price-match SimpleTexting."
+          }
+        ],
+        [
+          {
+            "addr": "A16",
+            "raw": "TextMagic",
+            "calc": "TextMagic"
+          },
+          {
+            "addr": "B16",
+            "raw": "Pay-as-you-go credits",
+            "calc": "Pay-as-you-go credits"
+          },
+          {
+            "addr": "C16",
+            "raw": 0.049,
+            "calc": 0.049
+          },
+          {
+            "addr": "D16",
+            "raw": 0.04,
+            "calc": 0.04
+          },
+          {
+            "addr": "E16",
+            "raw": 0.08,
+            "calc": 0.08
+          },
+          {
+            "addr": "F16",
+            "raw": "Free",
+            "calc": "Free"
+          },
+          {
+            "addr": "G16",
+            "raw": "1 SMS segment",
+            "calc": "1 SMS segment"
+          },
+          {
+            "addr": "H16",
+            "raw": "Flat rate, no volume discount on PAYG. Number $10/mo. 155-char segment.",
+            "calc": "Flat rate, no volume discount on PAYG. Number $10/mo. 155-char segment."
+          }
+        ],
+        [
+          {
+            "addr": "A17",
+            "raw": "Industry average",
+            "calc": "Industry average"
+          },
+          {
+            "addr": "B17",
+            "raw": "\u2014",
+            "calc": "\u2014"
+          },
+          {
+            "addr": "C17",
+            "raw": 0.04,
+            "calc": 0.04
+          },
+          {
+            "addr": "D17",
+            "raw": 0.01,
+            "calc": 0.01
+          },
+          {
+            "addr": "E17",
+            "raw": "\u2014",
+            "calc": "\u2014"
+          },
+          {
+            "addr": "F17",
+            "raw": "\u2014",
+            "calc": "\u2014"
+          },
+          {
+            "addr": "G17",
+            "raw": "1 SMS segment",
+            "calc": "1 SMS segment"
+          },
+          {
+            "addr": "H17",
+            "raw": "Blended market reference band, not a specific vendor.",
+            "calc": "Blended market reference band, not a specific vendor."
+          }
+        ],
+        [
+          {
+            "addr": "A19",
+            "raw": "GROUP 2 \u2014 CPaaS / raw SMS APIs (wholesale pipe, developer-billed per segment)",
+            "calc": "GROUP 2 \u2014 CPaaS / raw SMS APIs (wholesale pipe, developer-billed per segment)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A20",
+            "raw": "Twilio",
+            "calc": "Twilio"
+          },
+          {
+            "addr": "B20",
+            "raw": "PAYG API / segment",
+            "calc": "PAYG API / segment"
+          },
+          {
+            "addr": "C20",
+            "raw": 0.0115,
+            "calc": 0.0115
+          },
+          {
+            "addr": "D20",
+            "raw": 0.0073,
+            "calc": 0.0073
+          },
+          {
+            "addr": "E20",
+            "raw": 0.02,
+            "calc": 0.02
+          },
+          {
+            "addr": "F20",
+            "raw": 0.0083,
+            "calc": 0.0083
+          },
+          {
+            "addr": "G20",
+            "raw": "n/a (per segment)",
+            "calc": "n/a (per segment)"
+          },
+          {
+            "addr": "H20",
+            "raw": "Raw API only \u2014 no UI, contacts, compliance UX. You'd build the app on top.",
+            "calc": "Raw API only \u2014 no UI, contacts, compliance UX. You'd build the app on top."
+          }
+        ],
+        [
+          {
+            "addr": "A21",
+            "raw": "Telnyx",
+            "calc": "Telnyx"
+          },
+          {
+            "addr": "B21",
+            "raw": "PAYG API / part",
+            "calc": "PAYG API / part"
+          },
+          {
+            "addr": "C21",
+            "raw": 0.008,
+            "calc": 0.008
+          },
+          {
+            "addr": "D21",
+            "raw": 0.0035,
+            "calc": 0.0035
+          },
+          {
+            "addr": "E21",
+            "raw": "Higher",
+            "calc": "Higher"
+          },
+          {
+            "addr": "F21",
+            "raw": 0.004,
+            "calc": 0.004
+          },
+          {
+            "addr": "G21",
+            "raw": "n/a (per part)",
+            "calc": "n/a (per part)"
+          },
+          {
+            "addr": "H21",
+            "raw": "No markup on 10DLC fees; developer-first. Same build-it-yourself caveat.",
+            "calc": "No markup on 10DLC fees; developer-first. Same build-it-yourself caveat."
+          }
+        ],
+        [
+          {
+            "addr": "A22",
+            "raw": "Plivo",
+            "calc": "Plivo"
+          },
+          {
+            "addr": "B22",
+            "raw": "PAYG API / segment",
+            "calc": "PAYG API / segment"
+          },
+          {
+            "addr": "C22",
+            "raw": 0.0085,
+            "calc": 0.0085
+          },
+          {
+            "addr": "D22",
+            "raw": 0.0077,
+            "calc": 0.0077
+          },
+          {
+            "addr": "E22",
+            "raw": 0.018,
+            "calc": 0.018
+          },
+          {
+            "addr": "F22",
+            "raw": "Free",
+            "calc": "Free"
+          },
+          {
+            "addr": "G22",
+            "raw": "n/a (per segment)",
+            "calc": "n/a (per segment)"
+          },
+          {
+            "addr": "H22",
+            "raw": "Inbound local SMS free. Cheapest mainstream API for high volume.",
+            "calc": "Inbound local SMS free. Cheapest mainstream API for high volume."
+          }
+        ],
+        [
+          {
+            "addr": "A23",
+            "raw": "AWS End User Messaging",
+            "calc": "AWS End User Messaging"
+          },
+          {
+            "addr": "B23",
+            "raw": "PAYG (your cost basis)",
+            "calc": "PAYG (your cost basis)"
+          },
+          {
+            "addr": "C23",
+            "raw": "='Cost Basis'!B9",
+            "calc": 0.008830000000000001
+          },
+          {
+            "addr": "D23",
+            "raw": "='Cost Basis'!B9",
+            "calc": 0.008830000000000001
+          },
+          {
+            "addr": "E23",
+            "raw": "3x seg",
+            "calc": "3x seg"
+          },
+          {
+            "addr": "F23",
+            "raw": "Metered",
+            "calc": "Metered"
+          },
+          {
+            "addr": "G23",
+            "raw": "n/a (per segment)",
+            "calc": "n/a (per segment)"
+          },
+          {
+            "addr": "H23",
+            "raw": "This is what Delphinium runs on \u2014 the cost floor, not a retail competitor.",
+            "calc": "This is what Delphinium runs on \u2014 the cost floor, not a retail competitor."
+          }
+        ],
+        [
+          {
+            "addr": "A25",
+            "raw": "\u25ba DELPHINIUM (per typical message)",
+            "calc": "\u25ba DELPHINIUM (per typical message)"
+          },
+          {
+            "addr": "B25",
+            "raw": "Credit (cost-metered)",
+            "calc": "Credit (cost-metered)"
+          },
+          {
+            "addr": "C25",
+            "raw": "='B - Message Credits'!B7",
+            "calc": 0.03845465000000001
+          },
+          {
+            "addr": "D25",
+            "raw": "='B - Message Credits'!I52",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "E25",
+            "raw": "='B - Message Credits'!B7*3",
+            "calc": 0.11536395000000002
+          },
+          {
+            "addr": "F25",
+            "raw": "1 credit",
+            "calc": "1 credit"
+          },
+          {
+            "addr": "G25",
+            "raw": "1 typical msg (1.3 seg)",
+            "calc": "1 typical msg (1.3 seg)"
+          },
+          {
+            "addr": "H25",
+            "raw": "Your credit bundles 1.3 segments vs. competitors' 1 segment \u2014 slightly more generous per credit.",
+            "calc": "Your credit bundles 1.3 segments vs. competitors' 1 segment \u2014 slightly more generous per credit."
+          }
+        ],
+        [
+          {
+            "addr": "A28",
+            "raw": "TAKEAWAYS",
+            "calc": "TAKEAWAYS"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A29",
+            "raw": "1. vs. business SMS platforms (your real peers): Your ~$0.038 list sits in the low-middle of the $0.018\u2013$0.078 band. Still below every named entry rate (TextMagic $0.049, SlickText ~$0.05, SimpleTexting $0.078) and right around the ~$0.04 industry average \u2014 but now slightly ABOVE SimpleTexting's mid-tier (~$0.032). Fairly/competitively priced; no longer underpriced at list.",
+            "calc": "1. vs. business SMS platforms (your real peers): Your ~$0.038 list sits in the low-middle of the $0.018\u2013$0.078 band. Still below every named entry rate (TextMagic $0.049, SlickText ~$0.05, SimpleTexting $0.078) and right around the ~$0.04 industry average \u2014 but now slightly ABOVE SimpleTexting's mid-tier (~$0.032). Fairly/competitively priced; no longer underpriced at list."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A30",
+            "raw": "2. At high volume your ~$0.0165/credit still undercuts the 50K tiers (~$0.018\u2013$0.019), and margin there now holds ~30% (up from ~24% at the old 3.05 markup). Better balance of price leadership and retained margin.",
+            "calc": "2. At high volume your ~$0.0165/credit still undercuts the 50K tiers (~$0.018\u2013$0.019), and margin there now holds ~30% (up from ~24% at the old 3.05 markup). Better balance of price leadership and retained margin."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A31",
+            "raw": "3. vs. CPaaS (Twilio/Telnyx/Plivo): Your list (~$0.030/segment) is still ~3\u20134x their all-in wholesale rate ($0.008\u2013$0.015/seg). That gap is the managed-application markup \u2014 expected, and the same premium SimpleTexting/SlickText charge over the same pipe.",
+            "calc": "3. vs. CPaaS (Twilio/Telnyx/Plivo): Your list (~$0.030/segment) is still ~3\u20134x their all-in wholesale rate ($0.008\u2013$0.015/seg). That gap is the managed-application markup \u2014 expected, and the same premium SimpleTexting/SlickText charge over the same pipe."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A32",
+            "raw": "4. Structure matches the market: credit model + MMS = 3 credits mirrors SimpleTexting/SlickText exactly, so buyers can compare apples-to-apples. Your credit = 1.3 segments is slightly more generous than their 1-segment credit.",
+            "calc": "4. Structure matches the market: credit model + MMS = 3 credits mirrors SimpleTexting/SlickText exactly, so buyers can compare apples-to-apples. Your credit = 1.3 segments is slightly more generous than their 1-segment credit."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A33",
+            "raw": "5. Nonprofit angle: SimpleTexting gives 501(c)(3)s 15% off. If you sell to schools/nonprofits, consider matching a nonprofit discount so your effective price stays below theirs.",
+            "calc": "5. Nonprofit angle: SimpleTexting gives 501(c)(3)s 15% off. If you sell to schools/nonprofits, consider matching a nonprofit discount so your effective price stays below theirs."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A34",
+            "raw": "Caveat: competitor figures are list prices from public pages (Jul 2026); enterprise/custom deals go lower. CPaaS rates exclude the app layer (UI, contacts, compliance, support) that you and the Group 1 platforms provide.",
+            "calc": "Caveat: competitor figures are list prices from public pages (Jul 2026); enterprise/custom deals go lower. CPaaS rates exclude the app layer (UI, contacts, compliance, support) that you and the Group 1 platforms provide."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "Spec & Policy": {
+      "max_row": 53,
+      "max_col": 2,
+      "formula_count": 2,
+      "formulas": [
+        {
+          "addr": "B8",
+          "raw": "='B - Message Credits'!B6",
+          "calc": 3.35
+        },
+        {
+          "addr": "B9",
+          "raw": "='B - Message Credits'!B7",
+          "calc": 0.03845465000000001
+        }
+      ],
+      "rows": [
+        [
+          {
+            "addr": "A1",
+            "raw": "Message Credits \u2014 Spec & Overage Policy (authoritative reference)",
+            "calc": "Message Credits \u2014 Spec & Overage Policy (authoritative reference)"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A2",
+            "raw": "Source of truth for the developer. The pricing model lives on 'B - Message Credits'. Where anything here conflicts with a note elsewhere, this sheet wins.",
+            "calc": "Source of truth for the developer. The pricing model lives on 'B - Message Credits'. Where anything here conflicts with a note elsewhere, this sheet wins."
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A4",
+            "raw": "1. CREDIT MODEL (SOURCE OF TRUTH)",
+            "calc": "1. CREDIT MODEL (SOURCE OF TRUTH)"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A5",
+            "raw": "Customer-facing definition",
+            "calc": "Customer-facing definition"
+          },
+          {
+            "addr": "B5",
+            "raw": "1 credit = the cost of one \"typical\" message (a standard short text). Buyers think in whole messages, not segments.",
+            "calc": "1 credit = the cost of one \"typical\" message (a standard short text). Buyers think in whole messages, not segments."
+          }
+        ],
+        [
+          {
+            "addr": "A6",
+            "raw": "Billing basis",
+            "calc": "Billing basis"
+          },
+          {
+            "addr": "B6",
+            "raw": "Clients prepurchase a block of credits = the estimated number of typical messages they'll need for the year. The balance draws down by ACTUAL usage.",
+            "calc": "Clients prepurchase a block of credits = the estimated number of typical messages they'll need for the year. The balance draws down by ACTUAL usage."
+          }
+        ],
+        [
+          {
+            "addr": "A7",
+            "raw": "Draw-down (burn) rule",
+            "calc": "Draw-down (burn) rule"
+          },
+          {
+            "addr": "B7",
+            "raw": "Credits burned per message = actual AWS cost \u00d7 markup multiple \u00f7 cost-per-credit. NO fixed per-type table \u2014 burn is metered from real cost. A typical message \u2248 1 credit by definition.",
+            "calc": "Credits burned per message = actual AWS cost \u00d7 markup multiple \u00f7 cost-per-credit. NO fixed per-type table \u2014 burn is metered from real cost. A typical message \u2248 1 credit by definition."
+          }
+        ],
+        [
+          {
+            "addr": "A8",
+            "raw": "Markup multiple",
+            "calc": "Markup multiple"
+          },
+          {
+            "addr": "B8",
+            "raw": "='B - Message Credits'!B6",
+            "calc": 3.35
+          }
+        ],
+        [
+          {
+            "addr": "A9",
+            "raw": "List price per credit",
+            "calc": "List price per credit"
+          },
+          {
+            "addr": "B9",
+            "raw": "='B - Message Credits'!B7",
+            "calc": 0.03845465000000001
+          }
+        ],
+        [
+          {
+            "addr": "A10",
+            "raw": "Longer messages",
+            "calc": "Longer messages"
+          },
+          {
+            "addr": "B10",
+            "raw": "Multi-segment texts cost more to send, so they draw down proportionally more credits \u2014 automatically, via actual cost. Nothing to configure.",
+            "calc": "Multi-segment texts cost more to send, so they draw down proportionally more credits \u2014 automatically, via actual cost. Nothing to configure."
+          }
+        ],
+        [
+          {
+            "addr": "A11",
+            "raw": "MMS / media",
+            "calc": "MMS / media"
+          },
+          {
+            "addr": "B11",
+            "raw": "Picture/file messages cost more per send and draw down proportionally more credits. No fixed number \u2014 it floats with actual carrier cost. Enable only after MMS ships and cost is confirmed.",
+            "calc": "Picture/file messages cost more per send and draw down proportionally more credits. No fixed number \u2014 it floats with actual carrier cost. Enable only after MMS ships and cost is confirmed."
+          }
+        ],
+        [
+          {
+            "addr": "A12",
+            "raw": "Inbound messages",
+            "calc": "Inbound messages"
+          },
+          {
+            "addr": "B12",
+            "raw": "Replies from parents/students ARE part of the burn \u2014 they consume credits too. Must be disclosed to customers and tracked as a separate metric in reporting.",
+            "calc": "Replies from parents/students ARE part of the burn \u2014 they consume credits too. Must be disclosed to customers and tracked as a separate metric in reporting."
+          }
+        ],
+        [
+          {
+            "addr": "A14",
+            "raw": "2. ACCOUNTS & ENFORCEMENT",
+            "calc": "2. ACCOUNTS & ENFORCEMENT"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A15",
+            "raw": "Credit pool ownership",
+            "calc": "Credit pool ownership"
+          },
+          {
+            "addr": "B15",
+            "raw": "The credit pool sits at the paying account (root or parent). Most clients pay from one account.",
+            "calc": "The credit pool sits at the paying account (root or parent). Most clients pay from one account."
+          }
+        ],
+        [
+          {
+            "addr": "A16",
+            "raw": "Sub-accounts",
+            "calc": "Sub-accounts"
+          },
+          {
+            "addr": "B16",
+            "raw": "Per sub-account billing mode: SHARED (draws from the parent pool) or INDEPENDENT (its own separate pool/balance). Support both \u2014 districts fund centrally; individual schools may buy their own.",
+            "calc": "Per sub-account billing mode: SHARED (draws from the parent pool) or INDEPENDENT (its own separate pool/balance). Support both \u2014 districts fund centrally; individual schools may buy their own."
+          }
+        ],
+        [
+          {
+            "addr": "A17",
+            "raw": "Enforcement unit",
+            "calc": "Enforcement unit"
+          },
+          {
+            "addr": "B17",
+            "raw": "The ANNUAL pool. Monthly figures are pacing/reporting only \u2014 never a monthly hard cap. Usage is seasonal (exam spikes, summer lulls); a monthly cap would falsely trip.",
+            "calc": "The ANNUAL pool. Monthly figures are pacing/reporting only \u2014 never a monthly hard cap. Usage is seasonal (exam spikes, summer lulls); a monthly cap would falsely trip."
+          }
+        ],
+        [
+          {
+            "addr": "A19",
+            "raw": "3. PRICING, TOP-UPS & ROLLOVER",
+            "calc": "3. PRICING, TOP-UPS & ROLLOVER"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A20",
+            "raw": "Volume discount",
+            "calc": "Volume discount"
+          },
+          {
+            "addr": "B20",
+            "raw": "By the size of the block purchased in a single order (bigger block = deeper discount). See the discount schedule on 'B - Message Credits'. Discounts do not stack across separate purchases.",
+            "calc": "By the size of the block purchased in a single order (bigger block = deeper discount). See the discount schedule on 'B - Message Credits'. Discounts do not stack across separate purchases."
+          }
+        ],
+        [
+          {
+            "addr": "A21",
+            "raw": "Top-ups",
+            "calc": "Top-ups"
+          },
+          {
+            "addr": "B21",
+            "raw": "Priced at the client's CURRENT discount tier (the tier their existing block qualifies for) \u2014 NOT cumulative. Topping up never unlocks a deeper discount; deeper discounts come only from a bigger UP-FRONT block. Over-buying is safe \u2014 unused credits carry to next year \u2014 so clients are steered to commit more up front.",
+            "calc": "Priced at the client's CURRENT discount tier (the tier their existing block qualifies for) \u2014 NOT cumulative. Topping up never unlocks a deeper discount; deeper discounts come only from a bigger UP-FRONT block. Over-buying is safe \u2014 unused credits carry to next year \u2014 so clients are steered to commit more up front."
+          }
+        ],
+        [
+          {
+            "addr": "A22",
+            "raw": "Rollover / expiry",
+            "calc": "Rollover / expiry"
+          },
+          {
+            "addr": "B22",
+            "raw": "Unused credits carry over on renewal but EXPIRE 12 months after purchase. If a client does NOT renew, remaining credits are forfeited \u2014 no refund or reimbursement.",
+            "calc": "Unused credits carry over on renewal but EXPIRE 12 months after purchase. If a client does NOT renew, remaining credits are forfeited \u2014 no refund or reimbursement."
+          }
+        ],
+        [
+          {
+            "addr": "A24",
+            "raw": "4. ADMIN UI",
+            "calc": "4. ADMIN UI"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A25",
+            "raw": "Fuel gauge",
+            "calc": "Fuel gauge"
+          },
+          {
+            "addr": "B25",
+            "raw": "Remaining balance (credits + % of annual block); projected run-out date; annual pacing badge (On track / Ahead / Behind). Include a MONTHLY view too (this month's usage vs. pace).",
+            "calc": "Remaining balance (credits + % of annual block); projected run-out date; annual pacing badge (On track / Ahead / Behind). Include a MONTHLY view too (this month's usage vs. pace)."
+          }
+        ],
+        [
+          {
+            "addr": "A26",
+            "raw": "Burn rate",
+            "calc": "Burn rate"
+          },
+          {
+            "addr": "B26",
+            "raw": "Overall credits/month (rolling average) AND a separate reply/inbound burn metric \u2014 track replies distinctly.",
+            "calc": "Overall credits/month (rolling average) AND a separate reply/inbound burn metric \u2014 track replies distinctly."
+          }
+        ],
+        [
+          {
+            "addr": "A27",
+            "raw": "Usage breakdown",
+            "calc": "Usage breakdown"
+          },
+          {
+            "addr": "B27",
+            "raw": "By teacher and sub-account; by message type (short / long / MMS / inbound); plus a 'most expensive messages' list with the reason (length / media / destination).",
+            "calc": "By teacher and sub-account; by message type (short / long / MMS / inbound); plus a 'most expensive messages' list with the reason (length / media / destination)."
+          }
+        ],
+        [
+          {
+            "addr": "A28",
+            "raw": "Alerts",
+            "calc": "Alerts"
+          },
+          {
+            "addr": "B28",
+            "raw": "Configurable thresholds (default 80 / 90 / 100%); recipient list.",
+            "calc": "Configurable thresholds (default 80 / 90 / 100%); recipient list."
+          }
+        ],
+        [
+          {
+            "addr": "A29",
+            "raw": "Purchase / top-up",
+            "calc": "Purchase / top-up"
+          },
+          {
+            "addr": "B29",
+            "raw": "Buy-more / top-up button showing the client's current discount tier. (Top-ups price at the current tier; a deeper discount requires a bigger up-front block.)",
+            "calc": "Buy-more / top-up button showing the client's current discount tier. (Top-ups price at the current tier; a deeper discount requires a bigger up-front block.)"
+          }
+        ],
+        [
+          {
+            "addr": "A30",
+            "raw": "Overage control",
+            "calc": "Overage control"
+          },
+          {
+            "addr": "B30",
+            "raw": "Admin selects overage behavior IN ADVANCE (auto-bill / auto-purchase / hard-stop) \u2014 see section 5.",
+            "calc": "Admin selects overage behavior IN ADVANCE (auto-bill / auto-purchase / hard-stop) \u2014 see section 5."
+          }
+        ],
+        [
+          {
+            "addr": "A31",
+            "raw": "Monthly report (email)",
+            "calc": "Monthly report (email)"
+          },
+          {
+            "addr": "B31",
+            "raw": "Balance, burn rate, projected run-out, avg credits per message, top consumers, and reply burn.",
+            "calc": "Balance, burn rate, projected run-out, avg credits per message, top consumers, and reply burn."
+          }
+        ],
+        [
+          {
+            "addr": "A33",
+            "raw": "5. OVERAGE POLICY",
+            "calc": "5. OVERAGE POLICY"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A34",
+            "raw": "Notify ladder",
+            "calc": "Notify ladder"
+          },
+          {
+            "addr": "B34",
+            "raw": "CLIENT admin: 80% \u2192 email; 90% \u2192 email + in-app banner + Buy-more CTA; 100% \u2192 prominent banner + CTA + email all admins. INTERNAL (our team): alert sales/success at 80% and 90% so we can proactively follow up and tee up the next block.",
+            "calc": "CLIENT admin: 80% \u2192 email; 90% \u2192 email + in-app banner + Buy-more CTA; 100% \u2192 prominent banner + CTA + email all admins. INTERNAL (our team): alert sales/success at 80% and 90% so we can proactively follow up and tee up the next block."
+          }
+        ],
+        [
+          {
+            "addr": "A35",
+            "raw": "At 100% \u2014 Auto-bill (DEFAULT)",
+            "calc": "At 100% \u2014 Auto-bill (DEFAULT)"
+          },
+          {
+            "addr": "B35",
+            "raw": "Keep sending; bill overage at the CURRENT discounted price per credit. Notify each time another block-size of overage accrues. No disruption to teachers/parents.",
+            "calc": "Keep sending; bill overage at the CURRENT discounted price per credit. Notify each time another block-size of overage accrues. No disruption to teachers/parents."
+          }
+        ],
+        [
+          {
+            "addr": "A36",
+            "raw": "At 100% \u2014 Auto-purchase",
+            "calc": "At 100% \u2014 Auto-purchase"
+          },
+          {
+            "addr": "B36",
+            "raw": "Automatically buy the next recommended block at the cumulative-volume tier.",
+            "calc": "Automatically buy the next recommended block at the cumulative-volume tier."
+          }
+        ],
+        [
+          {
+            "addr": "A37",
+            "raw": "At 100% \u2014 Hard-stop (opt-in)",
+            "calc": "At 100% \u2014 Hard-stop (opt-in)"
+          },
+          {
+            "addr": "B37",
+            "raw": "Stop sending at 105% of the annual block (\u2248 a week+ of runway) \u2014 NOT 1%. Warn admin that parent comms will cease. Only if the admin explicitly chooses this mode.",
+            "calc": "Stop sending at 105% of the annual block (\u2248 a week+ of runway) \u2014 NOT 1%. Warn admin that parent comms will cease. Only if the admin explicitly chooses this mode."
+          }
+        ],
+        [
+          {
+            "addr": "A38",
+            "raw": "Overage rate",
+            "calc": "Overage rate"
+          },
+          {
+            "addr": "B38",
+            "raw": "The client's CURRENT discounted price per credit (same tier they're on). Renegotiable at renewal.",
+            "calc": "The client's CURRENT discounted price per credit (same tier they're on). Renegotiable at renewal."
+          }
+        ],
+        [
+          {
+            "addr": "A39",
+            "raw": "Reconciliation",
+            "calc": "Reconciliation"
+          },
+          {
+            "addr": "B39",
+            "raw": "Annual settlement only \u2014 no quarterly true-up (the overage policy handles it in real time). Within-year under-use months net against over-use months before any settlement.",
+            "calc": "Annual settlement only \u2014 no quarterly true-up (the overage policy handles it in real time). Within-year under-use months net against over-use months before any settlement."
+          }
+        ],
+        [
+          {
+            "addr": "A41",
+            "raw": "6. DEVELOPER BUILD CHECKLIST",
+            "calc": "6. DEVELOPER BUILD CHECKLIST"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A42",
+            "raw": "Credit ledger",
+            "calc": "Credit ledger"
+          },
+          {
+            "addr": "B42",
+            "raw": "One row per message: actual AWS cost, country/carrier, segments, direction (out/in), type (SMS/MMS), credits debited = cost \u00d7 multiple \u00f7 cost-per-credit. Balance = purchased \u2212 debited.",
+            "calc": "One row per message: actual AWS cost, country/carrier, segments, direction (out/in), type (SMS/MMS), credits debited = cost \u00d7 multiple \u00f7 cost-per-credit. Balance = purchased \u2212 debited."
+          }
+        ],
+        [
+          {
+            "addr": "A43",
+            "raw": "Account model",
+            "calc": "Account model"
+          },
+          {
+            "addr": "B43",
+            "raw": "Account entity with optional parent link + billing mode (shared | independent). Balance and limits attach to the pool owner.",
+            "calc": "Account entity with optional parent link + billing mode (shared | independent). Balance and limits attach to the pool owner."
+          }
+        ],
+        [
+          {
+            "addr": "A44",
+            "raw": "Enforcement",
+            "calc": "Enforcement"
+          },
+          {
+            "addr": "B44",
+            "raw": "Enforce on the annual pool; compute monthly pacing for display only.",
+            "calc": "Enforce on the annual pool; compute monthly pacing for display only."
+          }
+        ],
+        [
+          {
+            "addr": "A45",
+            "raw": "Notifications",
+            "calc": "Notifications"
+          },
+          {
+            "addr": "B45",
+            "raw": "Threshold engine: 80 / 90 / 100% and per-block overage increments. Sends to BOTH the client admins AND our internal team (separate recipient lists).",
+            "calc": "Threshold engine: 80 / 90 / 100% and per-block overage increments. Sends to BOTH the client admins AND our internal team (separate recipient lists)."
+          }
+        ],
+        [
+          {
+            "addr": "A46",
+            "raw": "Overage state machine",
+            "calc": "Overage state machine"
+          },
+          {
+            "addr": "B46",
+            "raw": "Implements section 5; behavior driven by the admin's pre-set mode (auto-bill / auto-purchase / hard-stop @105%).",
+            "calc": "Implements section 5; behavior driven by the admin's pre-set mode (auto-bill / auto-purchase / hard-stop @105%)."
+          }
+        ],
+        [
+          {
+            "addr": "A47",
+            "raw": "Monthly report job",
+            "calc": "Monthly report job"
+          },
+          {
+            "addr": "B47",
+            "raw": "Scheduled email with the stats in section 4, including reply burn.",
+            "calc": "Scheduled email with the stats in section 4, including reply burn."
+          }
+        ],
+        [
+          {
+            "addr": "A48",
+            "raw": "MMS accounting",
+            "calc": "MMS accounting"
+          },
+          {
+            "addr": "B48",
+            "raw": "Cost \u00d7 multiplier (no fixed credit count). Enable after MMS ships and AWS MMS cost is confirmed.",
+            "calc": "Cost \u00d7 multiplier (no fixed credit count). Enable after MMS ships and AWS MMS cost is confirmed."
+          }
+        ],
+        [
+          {
+            "addr": "A50",
+            "raw": "7. CUSTOMER-FACING COPY (DRAFT / PLACEHOLDER)",
+            "calc": "7. CUSTOMER-FACING COPY (DRAFT / PLACEHOLDER)"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A51",
+            "raw": "How credits work (draft)",
+            "calc": "How credits work (draft)"
+          },
+          {
+            "addr": "B51",
+            "raw": "Your plan includes a balance of message credits. One credit is the cost of a typical text message. Every message you send draws from your balance based on what it actually costs to deliver \u2014 most short texts use about one credit. Replies you receive countas messages too.",
+            "calc": "Your plan includes a balance of message credits. One credit is the cost of a typical text message. Every message you send draws from your balance based on what it actually costs to deliver \u2014 most short texts use about one credit. Replies you receive countas messages too."
+          }
+        ],
+        [
+          {
+            "addr": "A52",
+            "raw": "Longer messages (draft)",
+            "calc": "Longer messages (draft)"
+          },
+          {
+            "addr": "B52",
+            "raw": "A long message uses more than one credit, because that message is sent in multiple parts  \u2014 you're only ever charged for what it actually costs to send.",
+            "calc": "A long message uses more than one credit, because that message is sent in multiple parts  \u2014 you're only ever charged for what it actually costs to send."
+          }
+        ],
+        [
+          {
+            "addr": "A53",
+            "raw": "MMS / media (PLACEHOLDER)",
+            "calc": "MMS / media (PLACEHOLDER)"
+          },
+          {
+            "addr": "B53",
+            "raw": "[PLACEHOLDER \u2014 finalize when MMS ships and AWS cost is confirmed] Picture, file, and video (MMS) messages cost more to deliver than a plain text, so they use more credits \u2014 roughly [N]\u00d7 a typical message. The exact amount depends on the file and the recipient's carrier.",
+            "calc": "[PLACEHOLDER \u2014 finalize when MMS ships and AWS cost is confirmed] Picture, file, and video (MMS) messages cost more to deliver than a plain text, so they use more credits \u2014 roughly [N]\u00d7 a typical message. The exact amount depends on the file and the recipient's carrier."
+          }
+        ]
+      ]
+    },
+    "Admin Mockup": {
+      "max_row": 40,
+      "max_col": 12,
+      "formula_count": 26,
+      "formulas": [
+        {
+          "addr": "B7",
+          "raw": "=L6-L7",
+          "calc": 308000
+        },
+        {
+          "addr": "D7",
+          "raw": "=L7",
+          "calc": 392000
+        },
+        {
+          "addr": "F7",
+          "raw": "=L7/L11*L10",
+          "calc": 653333.3333333334
+        },
+        {
+          "addr": "H7",
+          "raw": "=L8",
+          "calc": 68000
+        },
+        {
+          "addr": "B9",
+          "raw": "=TEXT((L6-L7)/L6,\"0%\")&\" of plan remaining\"",
+          "calc": "44% of plan remaining"
+        },
+        {
+          "addr": "D9",
+          "raw": "=TEXT(L7/L6,\"0%\")&\" of annual block\"",
+          "calc": "56% of annual block"
+        },
+        {
+          "addr": "F9",
+          "raw": "=IF(F7<=L6,\"On track \u2014 finishes under plan\",\"Over pace \u2014 will exceed plan\")",
+          "calc": "On track \u2014 finishes under plan"
+        },
+        {
+          "addr": "H9",
+          "raw": "=TEXT(L9,\"#,##0\")&\" from replies (inbound)\"",
+          "calc": "12,000 from replies (inbound)"
+        },
+        {
+          "addr": "C12",
+          "raw": "=L7/L6",
+          "calc": 0.56
+        },
+        {
+          "addr": "L12",
+          "raw": "='B - Message Credits'!B7",
+          "calc": 0.03845465000000001
+        },
+        {
+          "addr": "B13",
+          "raw": "=\"Plan: \"&TEXT(L6,\"#,##0\")&\" credits     \u00b7     Remaining: \"&TEXT(L6-L7,\"#,##0\")&\" credits\"",
+          "calc": "Plan: 700,000 credits     \u00b7     Remaining: 308,000 credits"
+        },
+        {
+          "addr": "C16",
+          "raw": "=L7/L11",
+          "calc": 65333.333333333336
+        },
+        {
+          "addr": "F16",
+          "raw": "=F7",
+          "calc": 653333.3333333334
+        },
+        {
+          "addr": "C17",
+          "raw": "=L8",
+          "calc": 68000
+        },
+        {
+          "addr": "F17",
+          "raw": "=L6",
+          "calc": 700000
+        },
+        {
+          "addr": "C18",
+          "raw": "=L9",
+          "calc": 12000
+        },
+        {
+          "addr": "D18",
+          "raw": "=TEXT(L9/L8,\"0%\")&\" of this month\"",
+          "calc": "18% of this month"
+        },
+        {
+          "addr": "F18",
+          "raw": "=IF(F7<=L6,TEXT(L6-F7,\"#,##0\")&\" to spare\",TEXT(F7-L6,\"#,##0\")&\" over\")",
+          "calc": "46,667 to spare"
+        },
+        {
+          "addr": "D22",
+          "raw": "=C22/$C$26",
+          "calc": 0.6632653061224489
+        },
+        {
+          "addr": "D23",
+          "raw": "=C23/$C$26",
+          "calc": 0.1989795918367347
+        },
+        {
+          "addr": "D24",
+          "raw": "=C24/$C$26",
+          "calc": 0.07653061224489796
+        },
+        {
+          "addr": "D25",
+          "raw": "=C25/$C$26",
+          "calc": 0.061224489795918366
+        },
+        {
+          "addr": "C26",
+          "raw": "=SUM(C22:C25)",
+          "calc": 392000
+        },
+        {
+          "addr": "D26",
+          "raw": "=SUM(D22:D25)",
+          "calc": 1
+        },
+        {
+          "addr": "C36",
+          "raw": "=TEXT(L13,\"0%\")&\" of list\"",
+          "calc": "57% of list"
+        },
+        {
+          "addr": "C37",
+          "raw": "=L12*L13",
+          "calc": 0.0219191505
+        }
+      ],
+      "rows": [
+        [
+          {
+            "addr": "A1",
+            "raw": "Admin Dashboard \u2014 Message Credits",
+            "calc": "Admin Dashboard \u2014 Message Credits"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A2",
+            "raw": "MOCKUP \u2014 illustrative sample data for one client (Davis). All panels are driven by the 'Sample data' block at right; edit those to see the dashboard react.",
+            "calc": "MOCKUP \u2014 illustrative sample data for one client (Davis). All panels are driven by the 'Sample data' block at right; edit those to see the dashboard react."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B4",
+            "raw": "Davis School District   \u00b7   Annual plan: 700,000 credits   \u00b7   10 active months   \u00b7   Term expires Jun 30, 2026",
+            "calc": "Davis School District   \u00b7   Annual plan: 700,000 credits   \u00b7   10 active months   \u00b7   Term expires Jun 30, 2026"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K5",
+            "raw": "SAMPLE DATA (editable)",
+            "calc": "SAMPLE DATA (editable)"
+          },
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B6",
+            "raw": "CREDITS REMAINING",
+            "calc": "CREDITS REMAINING"
+          },
+          null,
+          {
+            "addr": "D6",
+            "raw": "USED TO DATE",
+            "calc": "USED TO DATE"
+          },
+          null,
+          {
+            "addr": "F6",
+            "raw": "PROJECTED YEAR-END USE",
+            "calc": "PROJECTED YEAR-END USE"
+          },
+          null,
+          {
+            "addr": "H6",
+            "raw": "THIS MONTH",
+            "calc": "THIS MONTH"
+          },
+          null,
+          null,
+          {
+            "addr": "K6",
+            "raw": "Annual block (credits)",
+            "calc": "Annual block (credits)"
+          },
+          {
+            "addr": "L6",
+            "raw": 700000,
+            "calc": 700000
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B7",
+            "raw": "=L6-L7",
+            "calc": 308000
+          },
+          null,
+          {
+            "addr": "D7",
+            "raw": "=L7",
+            "calc": 392000
+          },
+          null,
+          {
+            "addr": "F7",
+            "raw": "=L7/L11*L10",
+            "calc": 653333.3333333334
+          },
+          null,
+          {
+            "addr": "H7",
+            "raw": "=L8",
+            "calc": 68000
+          },
+          null,
+          null,
+          {
+            "addr": "K7",
+            "raw": "Used to date",
+            "calc": "Used to date"
+          },
+          {
+            "addr": "L7",
+            "raw": 392000,
+            "calc": 392000
+          }
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K8",
+            "raw": "This month used",
+            "calc": "This month used"
+          },
+          {
+            "addr": "L8",
+            "raw": 68000,
+            "calc": 68000
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B9",
+            "raw": "=TEXT((L6-L7)/L6,\"0%\")&\" of plan remaining\"",
+            "calc": "44% of plan remaining"
+          },
+          null,
+          {
+            "addr": "D9",
+            "raw": "=TEXT(L7/L6,\"0%\")&\" of annual block\"",
+            "calc": "56% of annual block"
+          },
+          null,
+          {
+            "addr": "F9",
+            "raw": "=IF(F7<=L6,\"On track \u2014 finishes under plan\",\"Over pace \u2014 will exceed plan\")",
+            "calc": "On track \u2014 finishes under plan"
+          },
+          null,
+          {
+            "addr": "H9",
+            "raw": "=TEXT(L9,\"#,##0\")&\" from replies (inbound)\"",
+            "calc": "12,000 from replies (inbound)"
+          },
+          null,
+          null,
+          {
+            "addr": "K9",
+            "raw": "  of which replies (inbound)",
+            "calc": "  of which replies (inbound)"
+          },
+          {
+            "addr": "L9",
+            "raw": 12000,
+            "calc": 12000
+          }
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K10",
+            "raw": "Active months (plan)",
+            "calc": "Active months (plan)"
+          },
+          {
+            "addr": "L10",
+            "raw": 10,
+            "calc": 10
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B11",
+            "raw": "CREDIT BALANCE",
+            "calc": "CREDIT BALANCE"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K11",
+            "raw": "Months elapsed",
+            "calc": "Months elapsed"
+          },
+          {
+            "addr": "L11",
+            "raw": 6,
+            "calc": 6
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B12",
+            "raw": "% of plan used",
+            "calc": "% of plan used"
+          },
+          {
+            "addr": "C12",
+            "raw": "=L7/L6",
+            "calc": 0.56
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K12",
+            "raw": "List price / credit",
+            "calc": "List price / credit"
+          },
+          {
+            "addr": "L12",
+            "raw": "='B - Message Credits'!B7",
+            "calc": 0.03845465000000001
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B13",
+            "raw": "=\"Plan: \"&TEXT(L6,\"#,##0\")&\" credits     \u00b7     Remaining: \"&TEXT(L6-L7,\"#,##0\")&\" credits\"",
+            "calc": "Plan: 700,000 credits     \u00b7     Remaining: 308,000 credits"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K13",
+            "raw": "Current discount tier",
+            "calc": "Current discount tier"
+          },
+          {
+            "addr": "L13",
+            "raw": 0.57,
+            "calc": 0.57
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B15",
+            "raw": "BURN RATE",
+            "calc": "BURN RATE"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B16",
+            "raw": "Avg per active month",
+            "calc": "Avg per active month"
+          },
+          {
+            "addr": "C16",
+            "raw": "=L7/L11",
+            "calc": 65333.333333333336
+          },
+          null,
+          {
+            "addr": "E16",
+            "raw": "Projected year-end use",
+            "calc": "Projected year-end use"
+          },
+          {
+            "addr": "F16",
+            "raw": "=F7",
+            "calc": 653333.3333333334
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B17",
+            "raw": "This month",
+            "calc": "This month"
+          },
+          {
+            "addr": "C17",
+            "raw": "=L8",
+            "calc": 68000
+          },
+          null,
+          {
+            "addr": "E17",
+            "raw": "Annual plan",
+            "calc": "Annual plan"
+          },
+          {
+            "addr": "F17",
+            "raw": "=L6",
+            "calc": 700000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B18",
+            "raw": "From replies (inbound)",
+            "calc": "From replies (inbound)"
+          },
+          {
+            "addr": "C18",
+            "raw": "=L9",
+            "calc": 12000
+          },
+          {
+            "addr": "D18",
+            "raw": "=TEXT(L9/L8,\"0%\")&\" of this month\"",
+            "calc": "18% of this month"
+          },
+          {
+            "addr": "E18",
+            "raw": "Cushion vs plan",
+            "calc": "Cushion vs plan"
+          },
+          {
+            "addr": "F18",
+            "raw": "=IF(F7<=L6,TEXT(L6-F7,\"#,##0\")&\" to spare\",TEXT(F7-L6,\"#,##0\")&\" over\")",
+            "calc": "46,667 to spare"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B20",
+            "raw": "USAGE BY MESSAGE TYPE",
+            "calc": "USAGE BY MESSAGE TYPE"
+          },
+          null,
+          null,
+          {
+            "addr": "E20",
+            "raw": "TOP CONSUMERS (TEACHERS)",
+            "calc": "TOP CONSUMERS (TEACHERS)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B21",
+            "raw": "Type",
+            "calc": "Type"
+          },
+          {
+            "addr": "C21",
+            "raw": "Credits",
+            "calc": "Credits"
+          },
+          {
+            "addr": "D21",
+            "raw": "Share",
+            "calc": "Share"
+          },
+          {
+            "addr": "E21",
+            "raw": "Teacher",
+            "calc": "Teacher"
+          },
+          {
+            "addr": "F21",
+            "raw": "Grade",
+            "calc": "Grade"
+          },
+          {
+            "addr": "G21",
+            "raw": "Credits",
+            "calc": "Credits"
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B22",
+            "raw": "Short SMS",
+            "calc": "Short SMS"
+          },
+          {
+            "addr": "C22",
+            "raw": 260000,
+            "calc": 260000
+          },
+          {
+            "addr": "D22",
+            "raw": "=C22/$C$26",
+            "calc": 0.6632653061224489
+          },
+          {
+            "addr": "E22",
+            "raw": "M. Rivera",
+            "calc": "M. Rivera"
+          },
+          {
+            "addr": "F22",
+            "raw": 9,
+            "calc": 9
+          },
+          {
+            "addr": "G22",
+            "raw": 52000,
+            "calc": 52000
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B23",
+            "raw": "Long (multi-part)",
+            "calc": "Long (multi-part)"
+          },
+          {
+            "addr": "C23",
+            "raw": 78000,
+            "calc": 78000
+          },
+          {
+            "addr": "D23",
+            "raw": "=C23/$C$26",
+            "calc": 0.1989795918367347
+          },
+          {
+            "addr": "E23",
+            "raw": "J. Chen",
+            "calc": "J. Chen"
+          },
+          {
+            "addr": "F23",
+            "raw": 11,
+            "calc": 11
+          },
+          {
+            "addr": "G23",
+            "raw": 44000,
+            "calc": 44000
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B24",
+            "raw": "MMS / media",
+            "calc": "MMS / media"
+          },
+          {
+            "addr": "C24",
+            "raw": 30000,
+            "calc": 30000
+          },
+          {
+            "addr": "D24",
+            "raw": "=C24/$C$26",
+            "calc": 0.07653061224489796
+          },
+          {
+            "addr": "E24",
+            "raw": "A. Patel",
+            "calc": "A. Patel"
+          },
+          {
+            "addr": "F24",
+            "raw": 7,
+            "calc": 7
+          },
+          {
+            "addr": "G24",
+            "raw": 39000,
+            "calc": 39000
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B25",
+            "raw": "Replies (inbound)",
+            "calc": "Replies (inbound)"
+          },
+          {
+            "addr": "C25",
+            "raw": 24000,
+            "calc": 24000
+          },
+          {
+            "addr": "D25",
+            "raw": "=C25/$C$26",
+            "calc": 0.061224489795918366
+          },
+          {
+            "addr": "E25",
+            "raw": "L. Gomez",
+            "calc": "L. Gomez"
+          },
+          {
+            "addr": "F25",
+            "raw": 10,
+            "calc": 10
+          },
+          {
+            "addr": "G25",
+            "raw": 33000,
+            "calc": 33000
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B26",
+            "raw": "Total",
+            "calc": "Total"
+          },
+          {
+            "addr": "C26",
+            "raw": "=SUM(C22:C25)",
+            "calc": 392000
+          },
+          {
+            "addr": "D26",
+            "raw": "=SUM(D22:D25)",
+            "calc": 1
+          },
+          {
+            "addr": "E26",
+            "raw": "K. Osei",
+            "calc": "K. Osei"
+          },
+          {
+            "addr": "F26",
+            "raw": 8,
+            "calc": 8
+          },
+          {
+            "addr": "G26",
+            "raw": 28000,
+            "calc": 28000
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B28",
+            "raw": "MOST EXPENSIVE MESSAGES",
+            "calc": "MOST EXPENSIVE MESSAGES"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B29",
+            "raw": "Sent by",
+            "calc": "Sent by"
+          },
+          {
+            "addr": "C29",
+            "raw": "Type",
+            "calc": "Type"
+          },
+          {
+            "addr": "D29",
+            "raw": "Credits",
+            "calc": "Credits"
+          },
+          {
+            "addr": "E29",
+            "raw": "Why",
+            "calc": "Why"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B30",
+            "raw": "M. Rivera",
+            "calc": "M. Rivera"
+          },
+          {
+            "addr": "C30",
+            "raw": "MMS",
+            "calc": "MMS"
+          },
+          {
+            "addr": "D30",
+            "raw": 5,
+            "calc": 5
+          },
+          {
+            "addr": "E30",
+            "raw": "2 MB image attachment",
+            "calc": "2 MB image attachment"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B31",
+            "raw": "Newsletter blast",
+            "calc": "Newsletter blast"
+          },
+          {
+            "addr": "C31",
+            "raw": "Long SMS",
+            "calc": "Long SMS"
+          },
+          {
+            "addr": "D31",
+            "raw": 4,
+            "calc": 4
+          },
+          {
+            "addr": "E31",
+            "raw": "640 chars \u2192 4 segments",
+            "calc": "640 chars \u2192 4 segments"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B32",
+            "raw": "J. Chen",
+            "calc": "J. Chen"
+          },
+          {
+            "addr": "C32",
+            "raw": "MMS",
+            "calc": "MMS"
+          },
+          {
+            "addr": "D32",
+            "raw": 4,
+            "calc": 4
+          },
+          {
+            "addr": "E32",
+            "raw": "PDF permission slip",
+            "calc": "PDF permission slip"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B33",
+            "raw": "Exam reminder (intl)",
+            "calc": "Exam reminder (intl)"
+          },
+          {
+            "addr": "C33",
+            "raw": "SMS",
+            "calc": "SMS"
+          },
+          {
+            "addr": "D33",
+            "raw": 3,
+            "calc": 3
+          },
+          {
+            "addr": "E33",
+            "raw": "International carrier rate",
+            "calc": "International carrier rate"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B35",
+            "raw": "BUY MORE / TOP-UP",
+            "calc": "BUY MORE / TOP-UP"
+          },
+          null,
+          null,
+          {
+            "addr": "E35",
+            "raw": "ALERTS & OVERAGE",
+            "calc": "ALERTS & OVERAGE"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B36",
+            "raw": "Current tier",
+            "calc": "Current tier"
+          },
+          {
+            "addr": "C36",
+            "raw": "=TEXT(L13,\"0%\")&\" of list\"",
+            "calc": "57% of list"
+          },
+          null,
+          {
+            "addr": "E36",
+            "raw": "Alert thresholds",
+            "calc": "Alert thresholds"
+          },
+          {
+            "addr": "F36",
+            "raw": "80%  \u00b7  90%  \u00b7  100%",
+            "calc": "80%  \u00b7  90%  \u00b7  100%"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B37",
+            "raw": "Your price / credit",
+            "calc": "Your price / credit"
+          },
+          {
+            "addr": "C37",
+            "raw": "=L12*L13",
+            "calc": 0.0219191505
+          },
+          null,
+          {
+            "addr": "E37",
+            "raw": "Recipients",
+            "calc": "Recipients"
+          },
+          {
+            "addr": "F37",
+            "raw": "Client admins + our team",
+            "calc": "Client admins + our team"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B38",
+            "raw": "\uff0b  Buy more credits",
+            "calc": "\uff0b  Buy more credits"
+          },
+          null,
+          null,
+          {
+            "addr": "E38",
+            "raw": "Overage behavior",
+            "calc": "Overage behavior"
+          },
+          {
+            "addr": "F38",
+            "raw": "Auto-bill at current rate",
+            "calc": "Auto-bill at current rate"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B39",
+            "raw": "Top-ups price at your current tier. A bigger up-front block earns a deeper discount.",
+            "calc": "Top-ups price at your current tier. A bigger up-front block earns a deeper discount."
+          },
+          null,
+          null,
+          {
+            "addr": "E39",
+            "raw": "  (options)",
+            "calc": "  (options)"
+          },
+          {
+            "addr": "F39",
+            "raw": "Auto-bill \u00b7 Auto-purchase \u00b7 Hard-stop @105%",
+            "calc": "Auto-bill \u00b7 Auto-purchase \u00b7 Hard-stop @105%"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "E40",
+            "raw": "Rollover",
+            "calc": "Rollover"
+          },
+          {
+            "addr": "F40",
+            "raw": "Carries over \u00b7 expires 12 mo \u00b7 no refund if not renewed",
+            "calc": "Carries over \u00b7 expires 12 mo \u00b7 no refund if not renewed"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    }
+  },
+  "defined_names": {}
+}

@@ -192,6 +192,43 @@ func TestCalculate_70000Traditional_EB_CB_VolumeThenMulti(t *testing.T) {
 	}
 }
 
+func TestDistrictOnlyAffectsImplementationFeeNotLicenseMinimum(t *testing.T) {
+	base := QuoteInput{
+		SchoolType:  SchoolTraditional,
+		Students:    100,
+		IsDistrict:  false,
+		IsFirstYear: true,
+		Years:       1,
+		Products: Products{
+			EngagementBuilder: true,
+		},
+	}
+	district := base
+	district.IsDistrict = true
+
+	withoutDistrict, err := Calculate(base)
+	if err != nil {
+		t.Fatal(err)
+	}
+	withDistrict, err := Calculate(district)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if withoutDistrict.ProductSubtotal != 3000 {
+		t.Fatalf("baseline subtotal: got %v want 3000", withoutDistrict.ProductSubtotal)
+	}
+	if withDistrict.ProductSubtotal != withoutDistrict.ProductSubtotal {
+		t.Errorf("district should not change product subtotal: got %v want %v", withDistrict.ProductSubtotal, withoutDistrict.ProductSubtotal)
+	}
+	if withoutDistrict.ImplementationFee != 1450 {
+		t.Fatalf("baseline implementation fee: got %v want 1450", withoutDistrict.ImplementationFee)
+	}
+	if withDistrict.ImplementationFee != 1950 {
+		t.Errorf("district implementation fee: got %v want 1950", withDistrict.ImplementationFee)
+	}
+}
+
 func TestMultiYearDiscount_5Years(t *testing.T) {
 	q3 := QuoteInput{
 		SchoolType: SchoolOnline, Students: 1000, Years: 3, IsFirstYear: true,

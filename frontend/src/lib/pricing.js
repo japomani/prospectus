@@ -44,17 +44,16 @@ function getBasePrice(schoolType, licenseConfig) {
   return cfg[schoolType]?.perStudent ?? cfg.online?.perStudent ?? PRICING_CONFIG.online.perStudent;
 }
 
-function getMinimumCost(schoolType, isDistrict, licenseConfig) {
+function getMinimumCost(schoolType, licenseConfig) {
   const cfg = licenseConfig || PRICING_CONFIG;
   const baseMinimum =
     cfg[schoolType]?.minimum ?? cfg.online?.minimum ?? PRICING_CONFIG.online.minimum;
-  const districtMinimum = cfg.districtMinimum ?? PRICING_CONFIG.districtMinimum;
-  return isDistrict ? Math.max(baseMinimum, districtMinimum) : baseMinimum;
+  return baseMinimum;
 }
 
-function calculateLicenseForProduct(students, schoolType, isDistrict, licenseConfig) {
+function calculateLicenseForProduct(students, schoolType, licenseConfig) {
   const raw = Math.ceil(safeMultiply(students, getBasePrice(schoolType, licenseConfig)));
-  return Math.max(raw, getMinimumCost(schoolType, isDistrict, licenseConfig));
+  return Math.max(raw, getMinimumCost(schoolType, licenseConfig));
 }
 
 /** Volume discount for one product — ceil(students × discountPerStudent), matching original. */
@@ -148,7 +147,7 @@ export function calculatePricing(quote, options = {}) {
   const productCount = activeProducts.length;
 
   const licensePerProduct = productCount > 0
-    ? calculateLicenseForProduct(students, schoolType, isDistrict, licenseConfig)
+    ? calculateLicenseForProduct(students, schoolType, licenseConfig)
     : 0;
 
   const productLicenses = {};
@@ -173,7 +172,11 @@ export function calculatePricing(quote, options = {}) {
   const subtotalAfterMultiYear = round2(subtotalAfterVolume - multiProductDiscount - multiYearDiscount);
 
   const normalizedSubtotal = productCount > 0 ? subtotalAfterVolume / productCount : 0;
-  const implementationFee = isFirstYear ? calculateImplementationFee(normalizedSubtotal) : 0;
+  const districtImplementationFloor = licenseConfig.districtMinimum ?? PRICING_CONFIG.districtMinimum;
+  const implementationBase = isDistrict
+    ? Math.max(normalizedSubtotal, districtImplementationFloor)
+    : normalizedSubtotal;
+  const implementationFee = isFirstYear ? calculateImplementationFee(implementationBase) : 0;
 
   const cleverFee = quote.clever ? (Number(quote.cleverFee) || 0) : 0;
   const smsFee = quote.sms ? (Number(quote.smsFee) || 0) : 0;

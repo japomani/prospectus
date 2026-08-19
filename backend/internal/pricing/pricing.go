@@ -137,9 +137,6 @@ func (q QuoteInput) minimumCost() float64 {
 	if !ok {
 		cfg = PricingConfig[SchoolOnline]
 	}
-	if q.IsDistrict {
-		return math.Max(cfg.Minimum, DistrictMinimum)
-	}
 	return cfg.Minimum
 }
 
@@ -245,9 +242,13 @@ func Calculate(q QuoteInput) (Result, error) {
 	if count > 0 {
 		normalized = afterVolume / float64(count)
 	}
+	implementationBase := normalized
+	if q.IsDistrict {
+		implementationBase = math.Max(normalized, DistrictMinimum)
+	}
 	implFee := 0.0
 	if q.IsFirstYear {
-		implFee = implementationFee(normalized)
+		implFee = implementationFee(implementationBase)
 	}
 
 	customTotal := 0.0

@@ -1,4 +1,5 @@
-/** Customer logos sourced from delphi-me.com homepage logo slider. */
+/** Customer logos sourced from delphi-me.com homepage logo slider (K-12)
+ *  and Higher Ed peer institutions provided for university prospectuses. */
 
 export const PEER_SCHOOLS = [
   {
@@ -18,3 +19,27 @@ export const PEER_SCHOOLS = [
     logo: '/logos/virtual-prince-william.webp',
   },
 ];
+
+export const PEER_UNIVERSITIES = [
+  {
+    name: 'Utah State University',
+    logo: '/logos/utah-state-university.png',
+    logoClass: 'ex-logo--usu',
+  },
+  {
+    name: 'University of Tampa',
+    logo: '/logos/university-of-tampa.png',
+    /** Square asset with heavy internal whitespace — scale up in HE row. */
+    logoClass: 'ex-logo--tampa',
+  },
+  {
+    name: 'Utah Valley University',
+    logo: '/logos/utah-valley-university.png',
+    /** PNG has a baked-in black background (not transparent); padded — scale up. */
+    logoClass: 'ex-logo--uvu',
+  },
+];
+
+export function getPeerLogos(isUniversity) {
+  return isUniversity ? PEER_UNIVERSITIES : PEER_SCHOOLS;
+}

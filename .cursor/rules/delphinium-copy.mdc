@@ -11,7 +11,7 @@ alwaysApply: false
 
 # Delphinium copy & messaging
 
-When writing or editing user-facing copy (prospectus pages, pain options, CTAs, Hermes messages, docs), **read and follow**:
+When writing or editing user-facing copy (prospectus pages, CTAs, Hermes messages, docs), **read and follow**:
 
 `docs/delphinium-marketing-synthesis.md`
 
@@ -32,7 +32,6 @@ That file is the single source of truth for positioning, proof points, pain→an
 | Area | File |
 |------|------|
 | Prospectus layout & body | `frontend/src/components/prospectus/` |
-| Pain dropdown options | `frontend/src/lib/fields.js` → `PAIN_OPTIONS` |
 | Default demo values | `frontend/src/lib/fields.js` → `getDefaultQuote()` |
 | Hermes / Slack | `hermes/skills/delphinium-quotes/SKILL.md` |
 

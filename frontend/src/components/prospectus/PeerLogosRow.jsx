@@ -1,18 +1,42 @@
 import { Field } from './Field.jsx';
-import { PEER_SCHOOLS } from '../../lib/peerLogos.js';
+import { getPeerLogos } from '../../lib/peerLogos.js';
 
-export default function PeerLogosRow({ peerReference, highlight, className = 'doc-peers' }) {
+export default function PeerLogosRow({
+  highlight,
+  className = 'doc-peers',
+  isUniversity = false,
+}) {
+  const peers = getPeerLogos(isUniversity);
+
   return (
     <div className={className}>
       <p className="peer-logos-intro">
-        Schools already using Delphinium, including peers like
-        {' '}
-        <Field value={peerReference} highlight={highlight} />
-        :
+        {isUniversity ? (
+          <>
+            Universities already using Delphinium, including peers like
+            {' '}
+            <Field value="a comparable institution" highlight={highlight} />
+            :
+          </>
+        ) : (
+          <>
+            Schools already using Delphinium, including peers like
+            {' '}
+            <Field value="a comparable virtual academy" highlight={highlight} />
+            :
+          </>
+        )}
       </p>
-      <div className="peer-logos-row" role="list">
-        {PEER_SCHOOLS.map(({ name, logo }) => (
-          <figure key={name} className="peer-logo" role="listitem">
+      <div
+        className={`peer-logos-row${isUniversity ? ' peer-logos-row--he' : ''}`}
+        role="list"
+      >
+        {peers.map(({ name, logo, logoClass }) => (
+          <figure
+            key={name}
+            className={`peer-logo${logoClass ? ` ${logoClass}` : ''}`}
+            role="listitem"
+          >
             <img src={logo} alt={name} loading="lazy" />
           </figure>
         ))}

@@ -1,0 +1,777 @@
+{
+  "file": "Book3.xlsx",
+  "sheets": [
+    "Competitor Benchmark",
+    "Sheet1"
+  ],
+  "sheet_details": {
+    "Competitor Benchmark": {
+      "max_row": 34,
+      "max_col": 8,
+      "formula_count": 11,
+      "formulas": [
+        {
+          "addr": "C5",
+          "raw": "='[2]Cost Basis'!B9",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "C6",
+          "raw": "='[2]Cost Basis'!B10",
+          "calc": 0.011479000000000001
+        },
+        {
+          "addr": "C7",
+          "raw": "='[1]B - Message Credits'!B7",
+          "calc": 0.03845465000000001
+        },
+        {
+          "addr": "C8",
+          "raw": "='[1]B - Message Credits'!B7/'[2]Cost Basis'!B8",
+          "calc": 0.029580500000000003
+        },
+        {
+          "addr": "C9",
+          "raw": "='[1]B - Message Credits'!I52",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C10",
+          "raw": "='[1]B - Message Credits'!B7*3",
+          "calc": 0.11536395000000002
+        },
+        {
+          "addr": "C23",
+          "raw": "='[2]Cost Basis'!B9",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "D23",
+          "raw": "='[2]Cost Basis'!B9",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "C25",
+          "raw": "='[1]B - Message Credits'!B7",
+          "calc": 0.03845465000000001
+        },
+        {
+          "addr": "D25",
+          "raw": "='[1]B - Message Credits'!I52",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "E25",
+          "raw": "='[1]B - Message Credits'!B7*3",
+          "calc": 0.11536395000000002
+        }
+      ],
+      "rows": [
+        [
+          {
+            "addr": "A1",
+            "raw": "Competitor Pricing Benchmark \u2014 SMS/MMS-Only Providers",
+            "calc": "Competitor Pricing Benchmark \u2014 SMS/MMS-Only Providers"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A2",
+            "raw": "Delphinium Community Builder vs. direct SMS/MMS competitors. Normalized to $ per standard US text (1 segment \u2264160 chars) where possible. Competitor rates researched from provider pricing pages, Jul 2026 \u2014 see cell notes for sources. Delphinium figures link live to the model.",
+            "calc": "Delphinium Community Builder vs. direct SMS/MMS competitors. Normalized to $ per standard US text (1 segment \u2264160 chars) where possible. Competitor rates researched from provider pricing pages, Jul 2026 \u2014 see cell notes for sources. Delphinium figures link live to the model."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A4",
+            "raw": "DELPHINIUM \u2014 YOUR MODEL (linked)",
+            "calc": "DELPHINIUM \u2014 YOUR MODEL (linked)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A5",
+            "raw": "Loaded cost per segment",
+            "calc": "Loaded cost per segment"
+          },
+          null,
+          {
+            "addr": "C5",
+            "raw": "='[2]Cost Basis'!B9",
+            "calc": 0.008830000000000001
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A6",
+            "raw": "Loaded cost per typical message (1.3 seg)",
+            "calc": "Loaded cost per typical message (1.3 seg)"
+          },
+          null,
+          {
+            "addr": "C6",
+            "raw": "='[2]Cost Basis'!B10",
+            "calc": 0.011479000000000001
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A7",
+            "raw": "List price per credit (= 1 typical message)",
+            "calc": "List price per credit (= 1 typical message)"
+          },
+          null,
+          {
+            "addr": "C7",
+            "raw": "='[1]B - Message Credits'!B7",
+            "calc": 0.03845465000000001
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A8",
+            "raw": "List price per segment (list \u00f7 1.3)",
+            "calc": "List price per segment (list \u00f7 1.3)"
+          },
+          null,
+          {
+            "addr": "C8",
+            "raw": "='[1]B - Message Credits'!B7/'[2]Cost Basis'!B8",
+            "calc": 0.029580500000000003
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A9",
+            "raw": "High-volume price per credit (43% of list)",
+            "calc": "High-volume price per credit (43% of list)"
+          },
+          null,
+          {
+            "addr": "C9",
+            "raw": "='[1]B - Message Credits'!I52",
+            "calc": 0.016535499500000002
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A10",
+            "raw": "MMS = 3 credits \u2192 effective per MMS",
+            "calc": "MMS = 3 credits \u2192 effective per MMS"
+          },
+          null,
+          {
+            "addr": "C10",
+            "raw": "='[1]B - Message Credits'!B7*3",
+            "calc": 0.11536395000000002
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A12",
+            "raw": "GROUP 1 \u2014 Business SMS/MMS platforms (managed apps, credit-based \u2014 your direct peers)",
+            "calc": "GROUP 1 \u2014 Business SMS/MMS platforms (managed apps, credit-based \u2014 your direct peers)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A13",
+            "raw": "Provider",
+            "calc": "Provider"
+          },
+          {
+            "addr": "B13",
+            "raw": "Pricing model",
+            "calc": "Pricing model"
+          },
+          {
+            "addr": "C13",
+            "raw": "Low-volume $/msg",
+            "calc": "Low-volume $/msg"
+          },
+          {
+            "addr": "D13",
+            "raw": "High-volume $/msg",
+            "calc": "High-volume $/msg"
+          },
+          {
+            "addr": "E13",
+            "raw": "MMS",
+            "calc": "MMS"
+          },
+          {
+            "addr": "F13",
+            "raw": "Inbound",
+            "calc": "Inbound"
+          },
+          {
+            "addr": "G13",
+            "raw": "1 credit =",
+            "calc": "1 credit ="
+          },
+          {
+            "addr": "H13",
+            "raw": "Notes",
+            "calc": "Notes"
+          }
+        ],
+        [
+          {
+            "addr": "A14",
+            "raw": "SimpleTexting (Sinch)",
+            "calc": "SimpleTexting (Sinch)"
+          },
+          {
+            "addr": "B14",
+            "raw": "Credit subscription",
+            "calc": "Credit subscription"
+          },
+          {
+            "addr": "C14",
+            "raw": 0.078,
+            "calc": 0.078
+          },
+          {
+            "addr": "D14",
+            "raw": 0.018,
+            "calc": 0.018
+          },
+          {
+            "addr": "E14",
+            "raw": "3 credits",
+            "calc": "3 credits"
+          },
+          {
+            "addr": "F14",
+            "raw": "Free",
+            "calc": "Free"
+          },
+          {
+            "addr": "G14",
+            "raw": "1 SMS segment",
+            "calc": "1 SMS segment"
+          },
+          {
+            "addr": "H14",
+            "raw": "15% nonprofit [501(c)(3)] discount; 20% annual; credits roll over. Longer text = 2 credits.",
+            "calc": "15% nonprofit [501(c)(3)] discount; 20% annual; credits roll over. Longer text = 2 credits."
+          }
+        ],
+        [
+          {
+            "addr": "A15",
+            "raw": "SlickText",
+            "calc": "SlickText"
+          },
+          {
+            "addr": "B15",
+            "raw": "Credit subscription",
+            "calc": "Credit subscription"
+          },
+          {
+            "addr": "C15",
+            "raw": 0.05,
+            "calc": 0.05
+          },
+          {
+            "addr": "D15",
+            "raw": 0.0188,
+            "calc": 0.0188
+          },
+          {
+            "addr": "E15",
+            "raw": "Higher",
+            "calc": "Higher"
+          },
+          {
+            "addr": "F15",
+            "raw": "Free",
+            "calc": "Free"
+          },
+          {
+            "addr": "G15",
+            "raw": "1 SMS segment",
+            "calc": "1 SMS segment"
+          },
+          {
+            "addr": "H15",
+            "raw": "2 free months on annual; will price-match SimpleTexting.",
+            "calc": "2 free months on annual; will price-match SimpleTexting."
+          }
+        ],
+        [
+          {
+            "addr": "A16",
+            "raw": "TextMagic",
+            "calc": "TextMagic"
+          },
+          {
+            "addr": "B16",
+            "raw": "Pay-as-you-go credits",
+            "calc": "Pay-as-you-go credits"
+          },
+          {
+            "addr": "C16",
+            "raw": 0.049,
+            "calc": 0.049
+          },
+          {
+            "addr": "D16",
+            "raw": 0.04,
+            "calc": 0.04
+          },
+          {
+            "addr": "E16",
+            "raw": 0.08,
+            "calc": 0.08
+          },
+          {
+            "addr": "F16",
+            "raw": "Free",
+            "calc": "Free"
+          },
+          {
+            "addr": "G16",
+            "raw": "1 SMS segment",
+            "calc": "1 SMS segment"
+          },
+          {
+            "addr": "H16",
+            "raw": "Flat rate, no volume discount on PAYG. Number $10/mo. 155-char segment.",
+            "calc": "Flat rate, no volume discount on PAYG. Number $10/mo. 155-char segment."
+          }
+        ],
+        [
+          {
+            "addr": "A17",
+            "raw": "Industry average",
+            "calc": "Industry average"
+          },
+          {
+            "addr": "B17",
+            "raw": "\u2014",
+            "calc": "\u2014"
+          },
+          {
+            "addr": "C17",
+            "raw": 0.04,
+            "calc": 0.04
+          },
+          {
+            "addr": "D17",
+            "raw": 0.01,
+            "calc": 0.01
+          },
+          {
+            "addr": "E17",
+            "raw": "\u2014",
+            "calc": "\u2014"
+          },
+          {
+            "addr": "F17",
+            "raw": "\u2014",
+            "calc": "\u2014"
+          },
+          {
+            "addr": "G17",
+            "raw": "1 SMS segment",
+            "calc": "1 SMS segment"
+          },
+          {
+            "addr": "H17",
+            "raw": "Blended market reference band, not a specific vendor.",
+            "calc": "Blended market reference band, not a specific vendor."
+          }
+        ],
+        [
+          {
+            "addr": "A19",
+            "raw": "GROUP 2 \u2014 CPaaS / raw SMS APIs (wholesale pipe, developer-billed per segment)",
+            "calc": "GROUP 2 \u2014 CPaaS / raw SMS APIs (wholesale pipe, developer-billed per segment)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A20",
+            "raw": "Twilio",
+            "calc": "Twilio"
+          },
+          {
+            "addr": "B20",
+            "raw": "PAYG API / segment",
+            "calc": "PAYG API / segment"
+          },
+          {
+            "addr": "C20",
+            "raw": 0.0115,
+            "calc": 0.0115
+          },
+          {
+            "addr": "D20",
+            "raw": 0.0073,
+            "calc": 0.0073
+          },
+          {
+            "addr": "E20",
+            "raw": 0.02,
+            "calc": 0.02
+          },
+          {
+            "addr": "F20",
+            "raw": 0.0083,
+            "calc": 0.0083
+          },
+          {
+            "addr": "G20",
+            "raw": "n/a (per segment)",
+            "calc": "n/a (per segment)"
+          },
+          {
+            "addr": "H20",
+            "raw": "Raw API only \u2014 no UI, contacts, compliance UX. You'd build the app on top.",
+            "calc": "Raw API only \u2014 no UI, contacts, compliance UX. You'd build the app on top."
+          }
+        ],
+        [
+          {
+            "addr": "A21",
+            "raw": "Telnyx",
+            "calc": "Telnyx"
+          },
+          {
+            "addr": "B21",
+            "raw": "PAYG API / part",
+            "calc": "PAYG API / part"
+          },
+          {
+            "addr": "C21",
+            "raw": 0.008,
+            "calc": 0.008
+          },
+          {
+            "addr": "D21",
+            "raw": 0.0035,
+            "calc": 0.0035
+          },
+          {
+            "addr": "E21",
+            "raw": "Higher",
+            "calc": "Higher"
+          },
+          {
+            "addr": "F21",
+            "raw": 0.004,
+            "calc": 0.004
+          },
+          {
+            "addr": "G21",
+            "raw": "n/a (per part)",
+            "calc": "n/a (per part)"
+          },
+          {
+            "addr": "H21",
+            "raw": "No markup on 10DLC fees; developer-first. Same build-it-yourself caveat.",
+            "calc": "No markup on 10DLC fees; developer-first. Same build-it-yourself caveat."
+          }
+        ],
+        [
+          {
+            "addr": "A22",
+            "raw": "Plivo",
+            "calc": "Plivo"
+          },
+          {
+            "addr": "B22",
+            "raw": "PAYG API / segment",
+            "calc": "PAYG API / segment"
+          },
+          {
+            "addr": "C22",
+            "raw": 0.0085,
+            "calc": 0.0085
+          },
+          {
+            "addr": "D22",
+            "raw": 0.0077,
+            "calc": 0.0077
+          },
+          {
+            "addr": "E22",
+            "raw": 0.018,
+            "calc": 0.018
+          },
+          {
+            "addr": "F22",
+            "raw": "Free",
+            "calc": "Free"
+          },
+          {
+            "addr": "G22",
+            "raw": "n/a (per segment)",
+            "calc": "n/a (per segment)"
+          },
+          {
+            "addr": "H22",
+            "raw": "Inbound local SMS free. Cheapest mainstream API for high volume.",
+            "calc": "Inbound local SMS free. Cheapest mainstream API for high volume."
+          }
+        ],
+        [
+          {
+            "addr": "A23",
+            "raw": "AWS End User Messaging",
+            "calc": "AWS End User Messaging"
+          },
+          {
+            "addr": "B23",
+            "raw": "PAYG (your cost basis)",
+            "calc": "PAYG (your cost basis)"
+          },
+          {
+            "addr": "C23",
+            "raw": "='[2]Cost Basis'!B9",
+            "calc": 0.008830000000000001
+          },
+          {
+            "addr": "D23",
+            "raw": "='[2]Cost Basis'!B9",
+            "calc": 0.008830000000000001
+          },
+          {
+            "addr": "E23",
+            "raw": "3x seg",
+            "calc": "3x seg"
+          },
+          {
+            "addr": "F23",
+            "raw": "Metered",
+            "calc": "Metered"
+          },
+          {
+            "addr": "G23",
+            "raw": "n/a (per segment)",
+            "calc": "n/a (per segment)"
+          },
+          {
+            "addr": "H23",
+            "raw": "This is what Delphinium runs on \u2014 the cost floor, not a retail competitor.",
+            "calc": "This is what Delphinium runs on \u2014 the cost floor, not a retail competitor."
+          }
+        ],
+        [
+          {
+            "addr": "A25",
+            "raw": "\u25ba DELPHINIUM (per typical message)",
+            "calc": "\u25ba DELPHINIUM (per typical message)"
+          },
+          {
+            "addr": "B25",
+            "raw": "Credit (cost-metered)",
+            "calc": "Credit (cost-metered)"
+          },
+          {
+            "addr": "C25",
+            "raw": "='[1]B - Message Credits'!B7",
+            "calc": 0.03845465000000001
+          },
+          {
+            "addr": "D25",
+            "raw": "='[1]B - Message Credits'!I52",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "E25",
+            "raw": "='[1]B - Message Credits'!B7*3",
+            "calc": 0.11536395000000002
+          },
+          {
+            "addr": "F25",
+            "raw": "1 credit",
+            "calc": "1 credit"
+          },
+          {
+            "addr": "G25",
+            "raw": "1 typical msg (1.3 seg)",
+            "calc": "1 typical msg (1.3 seg)"
+          },
+          {
+            "addr": "H25",
+            "raw": "Your credit bundles 1.3 segments vs. competitors' 1 segment \u2014 slightly more generous per credit.",
+            "calc": "Your credit bundles 1.3 segments vs. competitors' 1 segment \u2014 slightly more generous per credit."
+          }
+        ],
+        [
+          {
+            "addr": "A28",
+            "raw": "TAKEAWAYS",
+            "calc": "TAKEAWAYS"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A29",
+            "raw": "1. vs. business SMS platforms (your real peers): Your ~$0.038 list sits in the low-middle of the $0.018\u2013$0.078 band. Still below every named entry rate (TextMagic $0.049, SlickText ~$0.05, SimpleTexting $0.078) and right around the ~$0.04 industry average \u2014 but now slightly ABOVE SimpleTexting's mid-tier (~$0.032). Fairly/competitively priced; no longer underpriced at list.",
+            "calc": "1. vs. business SMS platforms (your real peers): Your ~$0.038 list sits in the low-middle of the $0.018\u2013$0.078 band. Still below every named entry rate (TextMagic $0.049, SlickText ~$0.05, SimpleTexting $0.078) and right around the ~$0.04 industry average \u2014 but now slightly ABOVE SimpleTexting's mid-tier (~$0.032). Fairly/competitively priced; no longer underpriced at list."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A30",
+            "raw": "2. At high volume your ~$0.0165/credit still undercuts the 50K tiers (~$0.018\u2013$0.019), and margin there now holds ~30% (up from ~24% at the old 3.05 markup). Better balance of price leadership and retained margin.",
+            "calc": "2. At high volume your ~$0.0165/credit still undercuts the 50K tiers (~$0.018\u2013$0.019), and margin there now holds ~30% (up from ~24% at the old 3.05 markup). Better balance of price leadership and retained margin."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A31",
+            "raw": "3. vs. CPaaS (Twilio/Telnyx/Plivo): Your list (~$0.030/segment) is still ~3\u20134x their all-in wholesale rate ($0.008\u2013$0.015/seg). That gap is the managed-application markup \u2014 expected, and the same premium SimpleTexting/SlickText charge over the same pipe.",
+            "calc": "3. vs. CPaaS (Twilio/Telnyx/Plivo): Your list (~$0.030/segment) is still ~3\u20134x their all-in wholesale rate ($0.008\u2013$0.015/seg). That gap is the managed-application markup \u2014 expected, and the same premium SimpleTexting/SlickText charge over the same pipe."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A32",
+            "raw": "4. Structure matches the market: credit model + MMS = 3 credits mirrors SimpleTexting/SlickText exactly, so buyers can compare apples-to-apples. Your credit = 1.3 segments is slightly more generous than their 1-segment credit.",
+            "calc": "4. Structure matches the market: credit model + MMS = 3 credits mirrors SimpleTexting/SlickText exactly, so buyers can compare apples-to-apples. Your credit = 1.3 segments is slightly more generous than their 1-segment credit."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A33",
+            "raw": "5. Nonprofit angle: SimpleTexting gives 501(c)(3)s 15% off. If you sell to schools/nonprofits, consider matching a nonprofit discount so your effective price stays below theirs.",
+            "calc": "5. Nonprofit angle: SimpleTexting gives 501(c)(3)s 15% off. If you sell to schools/nonprofits, consider matching a nonprofit discount so your effective price stays below theirs."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A34",
+            "raw": "Caveat: competitor figures are list prices from public pages (Jul 2026); enterprise/custom deals go lower. CPaaS rates exclude the app layer (UI, contacts, compliance, support) that you and the Group 1 platforms provide.",
+            "calc": "Caveat: competitor figures are list prices from public pages (Jul 2026); enterprise/custom deals go lower. CPaaS rates exclude the app layer (UI, contacts, compliance, support) that you and the Group 1 platforms provide."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "Sheet1": {
+      "max_row": 1,
+      "max_col": 1,
+      "formula_count": 0,
+      "formulas": [],
+      "rows": []
+    }
+  },
+  "defined_names": {}
+}

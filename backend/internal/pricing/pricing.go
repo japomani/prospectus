@@ -11,7 +11,6 @@ const (
 	SchoolOnline       SchoolType = "online"
 	SchoolTraditional  SchoolType = "traditional"
 	DistrictMinimum    float64    = 6000
-	CleverFlatFee      float64    = 500
 )
 
 type Config struct {
@@ -69,7 +68,8 @@ type QuoteInput struct {
 	Products    Products     `json:"products"`
 	CustomItems []CustomItem `json:"customItems"`
 	SMSFee      float64      `json:"smsFee"`
-	CleverSchools int        `json:"cleverSchools"`
+	CleverFee   float64      `json:"cleverFee"`
+	CleverSchools int        `json:"cleverSchools"` // legacy; ignored when CleverFee is used
 }
 
 type ModulePrices struct {
@@ -108,8 +108,10 @@ func round2(v float64) float64 {
 	return math.Round(v*100) / 100
 }
 
+// safeMul multiplies in integer cents (matches delphi-me.com calculator).
 func safeMul(a, b float64) float64 {
-	return round2(a * b)
+	const factor = 100.0
+	return (math.Round(a*factor) * math.Round(b*factor)) / (factor * factor)
 }
 
 func (q QuoteInput) Validate() error {
@@ -131,9 +133,6 @@ func (q QuoteInput) basePrice() float64 {
 }
 
 func (q QuoteInput) minimumCost() float64 {
-	if q.IsDistrict {
-		return DistrictMinimum
-	}
 	cfg, ok := PricingConfig[q.SchoolType]
 	if !ok {
 		cfg = PricingConfig[SchoolOnline]
@@ -142,11 +141,12 @@ func (q QuoteInput) minimumCost() float64 {
 }
 
 func (q QuoteInput) licensePerProduct() float64 {
-	raw := safeMul(float64(q.Students), q.basePrice())
+	raw := math.Ceil(safeMul(float64(q.Students), q.basePrice()))
 	return math.Max(raw, q.minimumCost())
 }
 
-func volumeDiscount(students int, subtotal float64) float64 {
+// volumeDiscountPerProduct: ceil(students × discountPerStudent), matching original calculator.
+func volumeDiscountPerProduct(students int, basePrice float64) float64 {
 	if students < 500 {
 		return 0
 	}
@@ -159,8 +159,9 @@ func volumeDiscount(students int, subtotal float64) float64 {
 				progress := float64(students-tier.Min) / float64(tier.Max-tier.Min)
 				ratio = tier.Start + progress*(tier.EndRatio-tier.Start)
 			}
-			discounted := safeMul(subtotal, ratio)
-			return round2(subtotal - discounted)
+			pricePerStudent := safeMul(basePrice, ratio)
+			discountPerStudent := basePrice - pricePerStudent
+			return math.Ceil(safeMul(float64(students), discountPerStudent))
 		}
 	}
 	return 0
@@ -182,6 +183,8 @@ func multiYearDiscountRate(years int) float64 {
 		return 0.025
 	case 3:
 		return 0.05
+	case 4:
+		return 0.075
 	case 5:
 		return 0.10
 	default:
@@ -221,12 +224,17 @@ func Calculate(q QuoteInput) (Result, error) {
 	}
 
 	productSubtotal := safeMul(licenseEach, float64(count))
-	volDisc := volumeDiscount(q.Students, productSubtotal)
+	volPerProduct := 0.0
+	if count > 0 {
+		volPerProduct = volumeDiscountPerProduct(q.Students, q.basePrice())
+	}
+	volDisc := volPerProduct * float64(count)
 	afterVolume := round2(productSubtotal - volDisc)
 
+	// Multi-product and multi-year both apply to post-volume subtotal (original order).
 	multiDisc := 0.0
 	if count >= 2 {
-		multiDisc = safeMul(productSubtotal, 0.10)
+		multiDisc = math.Round(afterVolume * 0.10)
 	}
 	afterMulti := round2(afterVolume - multiDisc)
 
@@ -234,20 +242,20 @@ func Calculate(q QuoteInput) (Result, error) {
 	if count > 0 {
 		normalized = afterVolume / float64(count)
 	}
+	implementationBase := normalized
+	if q.IsDistrict {
+		implementationBase = math.Max(normalized, DistrictMinimum)
+	}
 	implFee := 0.0
 	if q.IsFirstYear {
-		implFee = implementationFee(normalized)
+		implFee = implementationFee(implementationBase)
 	}
 
 	customTotal := 0.0
 	dealCustomTotal := 0.0
 	cleverFee := 0.0
 	if q.Products.Clever {
-		schools := q.CleverSchools
-		if schools < 1 {
-			schools = 1
-		}
-		cleverFee = CleverFlatFee * float64(schools)
+		cleverFee = q.CleverFee
 	}
 	smsFee := 0.0
 	if q.Products.SMS {
@@ -256,8 +264,10 @@ func Calculate(q QuoteInput) (Result, error) {
 	addOnTotal := round2(cleverFee + smsFee)
 
 	myRate := multiYearDiscountRate(q.Years)
-	myDisc := safeMul(productSubtotal, myRate)
-	afterMultiYear := round2(afterMulti - myDisc)
+	// Do not use safeMul: rates like 2.5%/7.5% round half-up in cents
+	// (0.025 → 0.03), inflating the discount (e.g. 7800×2.5% → 234 instead of 195).
+	myDisc := math.Round(afterVolume * myRate)
+	afterMultiYear := round2(afterVolume - multiDisc - myDisc)
 
 	oneTimePercentBase := round2((afterMultiYear+addOnTotal)*float64(q.Years) + implFee)
 	for _, item := range q.CustomItems {

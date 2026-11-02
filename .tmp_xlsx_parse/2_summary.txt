@@ -1,0 +1,60 @@
+FILE: 2.xlsx
+SHEETS: ['Spec & Policy', 'Sheet1']
+DEFINED NAMES: {}
+
+======================================================================
+SHEET: Spec & Policy  rows=53 cols=2 formulas=2
+======================================================================
+  A1=Message Credits — Spec & Overage Policy (authoritative reference)
+  A2=Source of truth for the developer. The pricing model lives on 'B - Message Credits'. Where anything here conflicts with a note elsewhere, this sheet wins.
+  A4=1. CREDIT MODEL (SOURCE OF TRUTH)
+  A5=Customer-facing definition | B5=1 credit = the cost of one "typical" message (a standard short text). Buyers think in whole messages, not segments.
+  A6=Billing basis | B6=Clients prepurchase a block of credits = the estimated number of typical messages they'll need for the year. The balance draws down by ACTUAL usage.
+  A7=Draw-down (burn) rule | B7=Credits burned per message = actual AWS cost × markup multiple ÷ cost-per-credit. NO fixed per-type table — burn is metered from real cost. A typical message ≈ 1 credit by definition.
+  A8=Markup multiple | B8=='[1]B - Message Credits'!B6 => 3.35
+  A9=List price per credit | B9=='[1]B - Message Credits'!B7 => 0.03845465000000001
+  A10=Longer messages | B10=Multi-segment texts cost more to send, so they draw down proportionally more credits — automatically, via actual cost. Nothing to configure.
+  A11=MMS / media | B11=Picture/file messages cost more per send and draw down proportionally more credits. No fixed number — it floats with actual carrier cost. Enable only after MMS ships and cost is confirmed.
+  A12=Inbound messages | B12=Replies from parents/students ARE part of the burn — they consume credits too. Must be disclosed to customers and tracked as a separate metric in reporting.
+  A14=2. ACCOUNTS & ENFORCEMENT
+  A15=Credit pool ownership | B15=The credit pool sits at the paying account (root or parent). Most clients pay from one account.
+  A16=Sub-accounts | B16=Per sub-account billing mode: SHARED (draws from the parent pool) or INDEPENDENT (its own separate pool/balance). Support both — districts fund centrally; individual schools may buy their own.
+  A17=Enforcement unit | B17=The ANNUAL pool. Monthly figures are pacing/reporting only — never a monthly hard cap. Usage is seasonal (exam spikes, summer lulls); a monthly cap would falsely trip.
+  A19=3. PRICING, TOP-UPS & ROLLOVER
+  A20=Volume discount | B20=By the size of the block purchased in a single order (bigger block = deeper discount). See the discount schedule on 'B - Message Credits'. Discounts do not stack across separate purchases.
+  A21=Top-ups | B21=Priced at the client's CURRENT discount tier (the tier their existing block qualifies for) — NOT cumulative. Topping up never unlocks a deeper discount; deeper discounts come only from a bigger UP-FRONT block. Over-buying is safe — unused credits carry to next year — so clients are steered to commit more up front.
+  A22=Rollover / expiry | B22=Unused credits carry over on renewal but EXPIRE 12 months after purchase. If a client does NOT renew, remaining credits are forfeited — no refund or reimbursement.
+  A24=4. ADMIN UI
+  A25=Fuel gauge | B25=Remaining balance (credits + % of annual block); projected run-out date; annual pacing badge (On track / Ahead / Behind). Include a MONTHLY view too (this month's usage vs. pace).
+  A26=Burn rate | B26=Overall credits/month (rolling average) AND a separate reply/inbound burn metric — track replies distinctly.
+  A27=Usage breakdown | B27=By teacher and sub-account; by message type (short / long / MMS / inbound); plus a 'most expensive messages' list with the reason (length / media / destination).
+  A28=Alerts | B28=Configurable thresholds (default 80 / 90 / 100%); recipient list.
+  A29=Purchase / top-up | B29=Buy-more / top-up button showing the client's current discount tier. (Top-ups price at the current tier; a deeper discount requires a bigger up-front block.)
+  A30=Overage control | B30=Admin selects overage behavior IN ADVANCE (auto-bill / auto-purchase / hard-stop) — see section 5.
+  A31=Monthly report (email) | B31=Balance, burn rate, projected run-out, avg credits per message, top consumers, and reply burn.
+  A33=5. OVERAGE POLICY
+  A34=Notify ladder | B34=CLIENT admin: 80% → email; 90% → email + in-app banner + Buy-more CTA; 100% → prominent banner + CTA + email all admins. INTERNAL (our team): alert sales/success at 80% and 90% so we can proactively follow up and tee up the next block.
+  A35=At 100% — Auto-bill (DEFAULT) | B35=Keep sending; bill overage at the CURRENT discounted price per credit. Notify each time another block-size of overage accrues. No disruption to teachers/parents.
+  A36=At 100% — Auto-purchase | B36=Automatically buy the next recommended block at the cumulative-volume tier.
+  A37=At 100% — Hard-stop (opt-in) | B37=Stop sending at 105% of the annual block (≈ a week+ of runway) — NOT 1%. Warn admin that parent comms will cease. Only if the admin explicitly chooses this mode.
+  A38=Overage rate | B38=The client's CURRENT discounted price per credit (same tier they're on). Renegotiable at renewal.
+  A39=Reconciliation | B39=Annual settlement only — no quarterly true-up (the overage policy handles it in real time). Within-year under-use months net against over-use months before any settlement.
+  A41=6. DEVELOPER BUILD CHECKLIST
+  A42=Credit ledger | B42=One row per message: actual AWS cost, country/carrier, segments, direction (out/in), type (SMS/MMS), credits debited = cost × multiple ÷ cost-per-credit. Balance = purchased − debited.
+  A43=Account model | B43=Account entity with optional parent link + billing mode (shared | independent). Balance and limits attach to the pool owner.
+  A44=Enforcement | B44=Enforce on the annual pool; compute monthly pacing for display only.
+  A45=Notifications | B45=Threshold engine: 80 / 90 / 100% and per-block overage increments. Sends to BOTH the client admins AND our internal team (separate recipient lists).
+  A46=Overage state machine | B46=Implements section 5; behavior driven by the admin's pre-set mode (auto-bill / auto-purchase / hard-stop @105%).
+  A47=Monthly report job | B47=Scheduled email with the stats in section 4, including reply burn.
+  A48=MMS accounting | B48=Cost × multiplier (no fixed credit count). Enable after MMS ships and AWS MMS cost is confirmed.
+  A50=7. CUSTOMER-FACING COPY (DRAFT / PLACEHOLDER)
+  A51=How credits work (draft) | B51=Your plan includes a balance of message credits. One credit is the cost of a typical text message. Every message you send draws from your balance based on what it actually costs to deliver — most short texts use about one credit. Replies you receive countas messages too.
+  A52=Longer messages (draft) | B52=A long message uses more than one credit, because that message is sent in multiple parts  — you're only ever charged for what it actually costs to send.
+  A53=MMS / media (PLACEHOLDER) | B53=[PLACEHOLDER — finalize when MMS ships and AWS cost is confirmed] Picture, file, and video (MMS) messages cost more to deliver than a plain text, so they use more credits — roughly [N]× a typical message. The exact amount depends on the file and the recipient's carrier.
+--- FORMULAS ---
+  B8: ='[1]B - Message Credits'!B6 => 3.35
+  B9: ='[1]B - Message Credits'!B7 => 0.03845465000000001
+
+======================================================================
+SHEET: Sheet1  rows=1 cols=1 formulas=0
+======================================================================

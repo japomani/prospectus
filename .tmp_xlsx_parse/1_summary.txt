@@ -1,0 +1,73 @@
+FILE: 1.xlsx
+SHEETS: ['Admin Mockup', 'Sheet1']
+DEFINED NAMES: {}
+
+======================================================================
+SHEET: Admin Mockup  rows=40 cols=12 formulas=26
+======================================================================
+  A1=Admin Dashboard — Message Credits
+  A2=MOCKUP — illustrative sample data for one client (Davis). All panels are driven by the 'Sample data' block at right; edit those to see the dashboard react.
+  B4=Davis School District   ·   Annual plan: 700,000 credits   ·   10 active months   ·   Term expires Jun 30, 2026
+  K5=SAMPLE DATA (editable)
+  B6=CREDITS REMAINING | D6=USED TO DATE | F6=PROJECTED YEAR-END USE | H6=THIS MONTH | K6=Annual block (credits) | L6=700000
+  B7==L6-L7 => 308000 | D7==L7 => 392000 | F7==L7/L11*L10 => 653333.3333333334 | H7==L8 => 68000 | K7=Used to date | L7=392000
+  K8=This month used | L8=68000
+  B9==TEXT((L6-L7)/L6,"0%")&" of plan remaining" => 44% of plan remaining | D9==TEXT(L7/L6,"0%")&" of annual block" => 56% of annual block | F9==IF(F7<=L6,"On track — finishes under plan","Over pace — will exceed plan") => On track — finishes under plan | H9==TEXT(L9,"#,##0")&" from replies (inbound)" => 12,000 from replies (inbound) | K9=  of which replies (inbound) | L9=12000
+  K10=Active months (plan) | L10=10
+  B11=CREDIT BALANCE | K11=Months elapsed | L11=6
+  B12=% of plan used | C12==L7/L6 => 0.56 | K12=List price / credit | L12=='[1]B - Message Credits'!B7 => 0.03845465000000001
+  B13=="Plan: "&TEXT(L6,"#,##0")&" credits     ·     Remaining: "&TEXT(L6-L7,"#,##0")&" credits" => Plan: 700,000 credits     ·     Remaining: 308,000 credits | K13=Current discount tier | L13=0.57
+  B15=BURN RATE
+  B16=Avg per active month | C16==L7/L11 => 65333.333333333336 | E16=Projected year-end use | F16==F7 => 653333.3333333334
+  B17=This month | C17==L8 => 68000 | E17=Annual plan | F17==L6 => 700000
+  B18=From replies (inbound) | C18==L9 => 12000 | D18==TEXT(L9/L8,"0%")&" of this month" => 18% of this month | E18=Cushion vs plan | F18==IF(F7<=L6,TEXT(L6-F7,"#,##0")&" to spare",TEXT(F7-L6,"#,##0")&" over") => 46,667 to spare
+  B20=USAGE BY MESSAGE TYPE | E20=TOP CONSUMERS (TEACHERS)
+  B21=Type | C21=Credits | D21=Share | E21=Teacher | F21=Grade | G21=Credits
+  B22=Short SMS | C22=260000 | D22==C22/$C$26 => 0.6632653061224489 | E22=M. Rivera | F22=9 | G22=52000
+  B23=Long (multi-part) | C23=78000 | D23==C23/$C$26 => 0.1989795918367347 | E23=J. Chen | F23=11 | G23=44000
+  B24=MMS / media | C24=30000 | D24==C24/$C$26 => 0.07653061224489796 | E24=A. Patel | F24=7 | G24=39000
+  B25=Replies (inbound) | C25=24000 | D25==C25/$C$26 => 0.061224489795918366 | E25=L. Gomez | F25=10 | G25=33000
+  B26=Total | C26==SUM(C22:C25) => 392000 | D26==SUM(D22:D25) => 1 | E26=K. Osei | F26=8 | G26=28000
+  B28=MOST EXPENSIVE MESSAGES
+  B29=Sent by | C29=Type | D29=Credits | E29=Why
+  B30=M. Rivera | C30=MMS | D30=5 | E30=2 MB image attachment
+  B31=Newsletter blast | C31=Long SMS | D31=4 | E31=640 chars → 4 segments
+  B32=J. Chen | C32=MMS | D32=4 | E32=PDF permission slip
+  B33=Exam reminder (intl) | C33=SMS | D33=3 | E33=International carrier rate
+  B35=BUY MORE / TOP-UP | E35=ALERTS & OVERAGE
+  B36=Current tier | C36==TEXT(L13,"0%")&" of list" => 57% of list | E36=Alert thresholds | F36=80%  ·  90%  ·  100%
+  B37=Your price / credit | C37==L12*L13 => 0.0219191505 | E37=Recipients | F37=Client admins + our team
+  B38=＋  Buy more credits | E38=Overage behavior | F38=Auto-bill at current rate
+  B39=Top-ups price at your current tier. A bigger up-front block earns a deeper discount. | E39=  (options) | F39=Auto-bill · Auto-purchase · Hard-stop @105%
+  E40=Rollover | F40=Carries over · expires 12 mo · no refund if not renewed
+--- FORMULAS ---
+  B7: =L6-L7 => 308000
+  D7: =L7 => 392000
+  F7: =L7/L11*L10 => 653333.3333333334
+  H7: =L8 => 68000
+  B9: =TEXT((L6-L7)/L6,"0%")&" of plan remaining" => 44% of plan remaining
+  D9: =TEXT(L7/L6,"0%")&" of annual block" => 56% of annual block
+  F9: =IF(F7<=L6,"On track — finishes under plan","Over pace — will exceed plan") => On track — finishes under plan
+  H9: =TEXT(L9,"#,##0")&" from replies (inbound)" => 12,000 from replies (inbound)
+  C12: =L7/L6 => 0.56
+  L12: ='[1]B - Message Credits'!B7 => 0.03845465000000001
+  B13: ="Plan: "&TEXT(L6,"#,##0")&" credits     ·     Remaining: "&TEXT(L6-L7,"#,##0")&" credits" => Plan: 700,000 credits     ·     Remaining: 308,000 credits
+  C16: =L7/L11 => 65333.333333333336
+  F16: =F7 => 653333.3333333334
+  C17: =L8 => 68000
+  F17: =L6 => 700000
+  C18: =L9 => 12000
+  D18: =TEXT(L9/L8,"0%")&" of this month" => 18% of this month
+  F18: =IF(F7<=L6,TEXT(L6-F7,"#,##0")&" to spare",TEXT(F7-L6,"#,##0")&" over") => 46,667 to spare
+  D22: =C22/$C$26 => 0.6632653061224489
+  D23: =C23/$C$26 => 0.1989795918367347
+  D24: =C24/$C$26 => 0.07653061224489796
+  D25: =C25/$C$26 => 0.061224489795918366
+  C26: =SUM(C22:C25) => 392000
+  D26: =SUM(D22:D25) => 1
+  C36: =TEXT(L13,"0%")&" of list" => 57% of list
+  C37: =L12*L13 => 0.0219191505
+
+======================================================================
+SHEET: Sheet1  rows=1 cols=1 formulas=0
+======================================================================

@@ -15,19 +15,21 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/japomani/prospectus/backend/internal/apigw"
-	"github.com/japomani/prospectus/backend/internal/hubspot"
+	"github.com/japomani/prospectus/backend/internal/appcfg"
 	"github.com/japomani/prospectus/backend/internal/pdf"
 	"github.com/japomani/prospectus/backend/internal/pricing"
 	"github.com/japomani/prospectus/backend/internal/quotes"
 	"github.com/japomani/prospectus/backend/internal/slack"
+	"github.com/japomani/prospectus/backend/internal/zoho"
 )
 
 type API struct {
-	repo      *quotes.Repository
-	hubspot   *hubspot.Client
-	slack     *slack.Notifier
-	pdf       *pdf.Renderer
-	webBase   string
+	repo    *quotes.Repository
+	config  *appcfg.Repository
+	zoho    *zoho.Client
+	slack   *slack.Notifier
+	pdf     *pdf.Renderer
+	webBase string
 }
 
 func NewAPI() (*API, error) {
@@ -43,7 +45,8 @@ func NewAPI() (*API, error) {
 	}
 	return &API{
 		repo:    quotes.NewRepository(ddb),
-		hubspot: hubspot.NewClient(),
+		config:  appcfg.NewRepository(ddb),
+		zoho:    zoho.NewClient(),
 		slack:   slack.NewNotifier(),
 		pdf:     pdf.NewRenderer(s3c),
 		webBase: web,
@@ -59,24 +62,42 @@ func (a *API) Handle(ctx context.Context, req events.APIGatewayV2HTTPRequest) (e
 	id := req.PathParameters["id"]
 	if id == "" {
 		parts := strings.Split(strings.Trim(path, "/"), "/")
-		if len(parts) >= 2 && parts[0] == "quotes" && parts[1] != "preview" && parts[1] != "form-link" {
+		if len(parts) >= 2 && parts[0] == "quotes" && !isReservedQuoteSegment(parts[1]) {
 			id = parts[1]
 		}
 	}
 
+	if status, msg := authorizeAPIRequest(method, path, id, req); status != 0 {
+		return apigw.Error(status, msg), nil
+	}
+
 	switch {
+	case method == "GET" && path == "/auth/session":
+		return a.authSession(req)
+	case method == "GET" && path == "/config":
+		return a.getConfig(ctx, req)
+	case method == "PUT" && path == "/config":
+		return a.putConfig(ctx, req)
 	case method == "POST" && path == "/quotes":
 		return a.createQuote(ctx, req)
+	case method == "GET" && path == "/quotes/search":
+		return a.searchQuotes(ctx, req)
 	case method == "GET" && path == "/quotes":
 		return a.listQuotes(ctx, req)
 	case method == "POST" && path == "/quotes/preview":
 		return a.previewPricing(ctx, req)
 	case method == "POST" && path == "/quotes/form-link":
 		return a.formLink(ctx, req)
-	case method == "GET" && id != "" && !strings.HasSuffix(path, "/pdf") && !strings.HasSuffix(path, "/notify"):
+	case method == "GET" && path == "/zoho/accounts":
+		return a.searchZohoAccounts(ctx, req)
+	case method == "GET" && strings.HasPrefix(path, "/zoho/accounts/") && path != "/zoho/accounts/":
+		return a.getZohoAccount(ctx, strings.TrimPrefix(path, "/zoho/accounts/"))
+	case method == "GET" && id != "" && !strings.HasPrefix(path, "/zoho/") && !strings.HasSuffix(path, "/pdf") && !strings.HasSuffix(path, "/notify"):
 		return a.getQuote(ctx, id)
 	case method == "PATCH" && id != "":
 		return a.updateQuote(ctx, req)
+	case method == "DELETE" && id != "" && !strings.HasSuffix(path, "/pdf") && !strings.HasSuffix(path, "/notify"):
+		return a.deleteQuote(ctx, id)
 	case method == "POST" && id != "" && strings.HasSuffix(path, "/pdf"):
 		return a.generatePdf(ctx, id)
 	case method == "POST" && id != "" && strings.HasSuffix(path, "/notify"):
@@ -86,11 +107,147 @@ func (a *API) Handle(ctx context.Context, req events.APIGatewayV2HTTPRequest) (e
 	}
 }
 
+func isReservedQuoteSegment(seg string) bool {
+	switch strings.ToLower(seg) {
+	case "preview", "form-link", "search":
+		return true
+	default:
+		return false
+	}
+}
+
+// authorizeAPIRequest returns (0, "") when the request may proceed, else HTTP status + message.
+func authorizeAPIRequest(method, path, id string, req events.APIGatewayV2HTTPRequest) (int, string) {
+	if isPublicQuoteGet(method, path, id) {
+		return 0, ""
+	}
+	switch apigw.ClassifyCredential(req) {
+	case apigw.CredNone:
+		return 401, "unauthorized"
+	case apigw.CredMachineRead:
+		if !apigw.IsMachineReadPath(method, path) {
+			return 403, "sales token is read-only"
+		}
+		return 0, ""
+	case apigw.CredSite, apigw.CredAdmin:
+		return 0, ""
+	default:
+		return 401, "unauthorized"
+	}
+}
+
+// isPublicQuoteGet reports whether this request is an unauthenticated single-quote read
+// used by shared prospectus URLs (Copy Link, Zoho Delphinium_Prospectus_URL).
+func isPublicQuoteGet(method, path, id string) bool {
+	if !strings.EqualFold(method, "GET") || id == "" {
+		return false
+	}
+	if isReservedQuoteSegment(id) {
+		return false
+	}
+	if strings.Contains(path, "/zoho/") {
+		return false
+	}
+	trimmed := strings.TrimSuffix(path, "/")
+	if strings.HasSuffix(trimmed, "/pdf") || strings.HasSuffix(trimmed, "/notify") {
+		return false
+	}
+	// /quotes/{id}, optional trailing slash, optional API Gateway stage prefix.
+	suffix := "/quotes/" + id
+	return trimmed == suffix || strings.HasSuffix(trimmed, suffix) || trimmed == "quotes/"+id
+}
+
+func (a *API) quoteWebURL(id string) string {
+	return quotes.PublicQuoteURL(a.webBase, id)
+}
+
+func (a *API) quoteEmailLine(q quotes.Quote) string {
+	return quotes.EmailLine(q.SchoolName, a.webBase, q.QuoteID)
+}
+
+func (a *API) persistContactIfNeeded(ctx context.Context, q *quotes.Quote) {
+	if q == nil {
+		return
+	}
+	if !quotes.EnsureContactEmail(q) {
+		return
+	}
+	_ = a.repo.Put(ctx, *q)
+}
+
+func (a *API) authSession(req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	return apigw.JSON(200, map[string]any{
+		"ok":    true,
+		"admin": apigw.AdminAuthorized(req),
+	}), nil
+}
+
+func (a *API) getConfig(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	// Any authenticated session can read live config for quote calc; writes require admin.
+	_ = req
+	c, err := a.config.Get(ctx)
+	if err != nil {
+		return apigw.Error(500, err.Error()), nil
+	}
+	return apigw.JSON(200, c), nil
+}
+
+func (a *API) putConfig(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	if !apigw.AdminAuthorized(req) {
+		return apigw.Error(403, "admin required"), nil
+	}
+	var body appcfg.Config
+	if err := apigw.ParseJSON(req.Body, &body); err != nil {
+		return apigw.Error(400, "invalid json"), nil
+	}
+	if err := appcfg.ValidatePut(body); err != nil {
+		return apigw.Error(400, err.Error()), nil
+	}
+	if err := a.config.Put(ctx, body); err != nil {
+		return apigw.Error(500, err.Error()), nil
+	}
+	c, err := a.config.Get(ctx)
+	if err != nil {
+		return apigw.Error(500, err.Error()), nil
+	}
+	return apigw.JSON(200, c), nil
+}
+
+func smsRequiredSIS(body quotes.CreateRequest) string {
+	if body.Products.SMS && !body.Products.Clever {
+		return "SIS integration is required when SMS texting is selected"
+	}
+	return ""
+}
+
+// normalizeSMSCredits enforces the 1000-credit purchase floor when SMS is on.
+func normalizeSMSCredits(body *quotes.CreateRequest) {
+	if body == nil || !body.Products.SMS {
+		return
+	}
+	body.SMSCreditsPurchased = pricing.ClampSMSCreditsPurchased(body.SMSCreditsPurchased)
+	if body.SMSSnapshot == nil {
+		return
+	}
+	if v, ok := body.SMSSnapshot["creditsPurchased"]; ok {
+		switch n := v.(type) {
+		case float64:
+			body.SMSSnapshot["creditsPurchased"] = pricing.ClampSMSCreditsPurchased(n)
+		case int:
+			body.SMSSnapshot["creditsPurchased"] = pricing.ClampSMSCreditsPurchased(float64(n))
+		}
+	}
+}
+
 func (a *API) createQuote(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
 	var body quotes.CreateRequest
 	if err := apigw.ParseJSON(req.Body, &body); err != nil {
 		return apigw.Error(400, "invalid json"), nil
 	}
+	if msg := smsRequiredSIS(body); msg != "" {
+		return apigw.Error(400, msg), nil
+	}
+	normalizeSMSCredits(&body)
 	pr, err := pricing.Calculate(body.ToQuoteInput())
 	if err != nil {
 		return apigw.Error(400, err.Error()), nil
@@ -101,30 +258,31 @@ func (a *API) createQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 		QuoteID: id, QuoteName: body.QuoteName, SchoolName: body.SchoolName, SchoolType: body.SchoolType,
 		Students: body.Students, IsDistrict: body.IsDistrict, IsUniversity: body.IsUniversity, IsFirstYear: body.IsFirstYear,
 		Years: body.Years, PayUpfront: body.PayUpfront, YearlyPayments: body.YearlyPayments, Products: body.Products, CustomItems: body.CustomItems,
-		SMSFee: body.SMSFee, CleverSchools: body.CleverSchools, Notes: body.Notes, PreparedByName: body.PreparedByName,
+		SMSFee: body.SMSFee,
+		SMSFte: body.SMSFte, SMSTeachersPerStudent: body.SMSTeachersPerStudent,
+		SMSMsgsPerTeacherStudentMo: body.SMSMsgsPerTeacherStudentMo, SMSActiveMonths: body.SMSActiveMonths,
+		SMSCreditsPurchased: body.SMSCreditsPurchased, SMSOverageMode: body.SMSOverageMode, SMSSnapshot: body.SMSSnapshot,
+		CleverFee: body.CleverFee, CleverSchools: body.CleverSchools, Notes: body.Notes, PreparedByName: body.PreparedByName,
 		PreparedByTitle: body.PreparedByTitle, PrimaryPain: body.PrimaryPain,
 		PainPoint1: body.PainPoint1, PainPoint2: body.PainPoint2, PainPoint3: body.PainPoint3,
-		PeerReference: body.PeerReference, TargetGoLive: body.TargetGoLive,
+		PeerReference: body.PeerReference, TargetGoLive: body.TargetGoLive, ValidUntil: body.ValidUntil,
 		IncludeFreeTrialPage: body.IncludeFreeTrialPage, IncludePilotPage: body.IncludePilotPage,
 		SlackUserID: body.SlackUserID, Ref: body.Ref,
+		ContactName: strings.TrimSpace(body.ContactName), ContactEmail: strings.TrimSpace(body.ContactEmail),
+		ZohoAccountID:   body.ZohoAccountID,
 		PricingSnapshot: pr, CreatedAt: now, UpdatedAt: now,
 	}
+	quotes.EnsureContactEmail(&q)
 	if err := a.repo.Put(ctx, q); err != nil {
 		return apigw.Error(500, err.Error()), nil
 	}
 
-	hsNotes := fmt.Sprintf("Prospectus: %s/quotes/%s", a.webBase, id)
-	hs, _ := a.hubspot.SyncDeal(ctx, body.SchoolName, pr.GrandTotal, hsNotes)
-	if hs.DealID != "" {
-		q.HubspotDealID = hs.DealID
-		_ = a.repo.Put(ctx, q)
-	}
-
-	webURL := fmt.Sprintf("%s/quotes/%s", a.webBase, id)
-	_ = a.slack.QuoteReady(ctx, body.SchoolName, webURL, "", hs.DealURL)
+	webURL := a.quoteWebURL(id)
+	a.syncZohoAccount(ctx, q.ZohoAccountID, webURL)
+	_ = a.slack.QuoteReady(ctx, body.SchoolName, webURL, "")
 
 	return apigw.JSON(201, quotes.QuoteResponse{
-		Quote: q, Pricing: pr, WebURL: webURL,
+		Quote: q, Pricing: pr, WebURL: webURL, EmailLine: a.quoteEmailLine(q),
 	}), nil
 }
 
@@ -133,10 +291,12 @@ func (a *API) getQuote(ctx context.Context, id string) (events.APIGatewayV2HTTPR
 	if err != nil {
 		return apigw.Error(404, err.Error()), nil
 	}
+	a.persistContactIfNeeded(ctx, &q)
 	pr, _ := pricing.Calculate(q.ToQuoteInput())
 	resp := quotes.QuoteResponse{
 		Quote: q, Pricing: pr,
-		WebURL: fmt.Sprintf("%s/quotes/%s", a.webBase, id),
+		WebURL:    a.quoteWebURL(id),
+		EmailLine: a.quoteEmailLine(q),
 	}
 	if q.PdfS3Key != "" {
 		if u, err := a.pdf.SignedURL(ctx, q.PdfS3Key); err == nil {
@@ -160,7 +320,51 @@ func (a *API) listQuotes(ctx context.Context, req events.APIGatewayV2HTTPRequest
 	if err != nil {
 		return apigw.Error(500, err.Error()), nil
 	}
-	return apigw.JSON(200, items), nil
+	out := make([]quotes.QuoteListItem, 0, len(items))
+	for i := range items {
+		q := items[i]
+		a.persistContactIfNeeded(ctx, &q)
+		out = append(out, quotes.QuoteListItem{
+			Quote:     q,
+			EmailLine: a.quoteEmailLine(q),
+			WebURL:    a.quoteWebURL(q.QuoteID),
+		})
+	}
+	return apigw.JSON(200, out), nil
+}
+
+func (a *API) searchQuotes(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	createdAfter, err := quotes.ParseSearchTime(apigw.Query(req, "createdAfter"))
+	if err != nil {
+		return apigw.Error(400, err.Error()), nil
+	}
+	createdBefore, err := quotes.ParseSearchTime(apigw.Query(req, "createdBefore"))
+	if err != nil {
+		return apigw.Error(400, err.Error()), nil
+	}
+	params := quotes.SearchParams{
+		Q:             apigw.Query(req, "q"),
+		Email:         apigw.Query(req, "email"),
+		Rep:           apigw.Query(req, "rep"),
+		CreatedAfter:  createdAfter,
+		CreatedBefore: createdBefore,
+		Limit:         quotes.ParseSearchLimit(apigw.Query(req, "limit")),
+		Cursor:        apigw.Query(req, "cursor"),
+	}
+	page, next, err := a.repo.Search(ctx, params)
+	if err != nil {
+		if strings.Contains(err.Error(), "cursor") {
+			return apigw.Error(400, err.Error()), nil
+		}
+		return apigw.Error(500, err.Error()), nil
+	}
+	results := make([]quotes.SearchResult, 0, len(page))
+	for i := range page {
+		q := page[i]
+		a.persistContactIfNeeded(ctx, &q)
+		results = append(results, quotes.ToSearchResult(q, a.webBase))
+	}
+	return apigw.JSON(200, quotes.SearchResponse{Results: results, NextCursor: next}), nil
 }
 
 func (a *API) previewPricing(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
@@ -210,6 +414,10 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	if err := apigw.ParseJSON(req.Body, &body); err != nil {
 		return apigw.Error(400, "invalid json"), nil
 	}
+	if msg := smsRequiredSIS(body); msg != "" {
+		return apigw.Error(400, msg), nil
+	}
+	normalizeSMSCredits(&body)
 	q.SchoolName = body.SchoolName
 	q.QuoteName = body.QuoteName
 	q.SchoolType = body.SchoolType
@@ -223,6 +431,14 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	q.Products = body.Products
 	q.CustomItems = body.CustomItems
 	q.SMSFee = body.SMSFee
+	q.SMSFte = body.SMSFte
+	q.SMSTeachersPerStudent = body.SMSTeachersPerStudent
+	q.SMSMsgsPerTeacherStudentMo = body.SMSMsgsPerTeacherStudentMo
+	q.SMSActiveMonths = body.SMSActiveMonths
+	q.SMSCreditsPurchased = body.SMSCreditsPurchased
+	q.SMSOverageMode = body.SMSOverageMode
+	q.SMSSnapshot = body.SMSSnapshot
+	q.CleverFee = body.CleverFee
 	q.CleverSchools = body.CleverSchools
 	q.Notes = body.Notes
 	q.PreparedByName = body.PreparedByName
@@ -233,8 +449,11 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	q.PainPoint3 = body.PainPoint3
 	q.PeerReference = body.PeerReference
 	q.TargetGoLive = body.TargetGoLive
+	q.ValidUntil = body.ValidUntil
 	q.IncludeFreeTrialPage = body.IncludeFreeTrialPage
 	q.IncludePilotPage = body.IncludePilotPage
+	q.ZohoAccountID = body.ZohoAccountID
+	quotes.ApplyContactFromRequest(&q, body)
 	pr, err := pricing.Calculate(q.ToQuoteInput())
 	if err != nil {
 		return apigw.Error(400, err.Error()), nil
@@ -244,9 +463,24 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	if err := a.repo.Put(ctx, q); err != nil {
 		return apigw.Error(500, err.Error()), nil
 	}
+	webURL := a.quoteWebURL(id)
+	a.syncZohoAccount(ctx, q.ZohoAccountID, webURL)
 	return apigw.JSON(200, quotes.QuoteResponse{
-		Quote: q, Pricing: pr, WebURL: fmt.Sprintf("%s/quotes/%s", a.webBase, id),
+		Quote: q, Pricing: pr, WebURL: webURL, EmailLine: a.quoteEmailLine(q),
 	}), nil
+}
+
+func (a *API) deleteQuote(ctx context.Context, id string) (events.APIGatewayV2HTTPResponse, error) {
+	if id == "" {
+		return apigw.Error(400, "quote id required"), nil
+	}
+	if _, err := a.repo.Get(ctx, id); err != nil {
+		return apigw.Error(404, err.Error()), nil
+	}
+	if err := a.repo.Delete(ctx, id); err != nil {
+		return apigw.Error(500, err.Error()), nil
+	}
+	return apigw.JSON(200, map[string]string{"status": "deleted", "quoteId": id}), nil
 }
 
 func (a *API) generatePdf(ctx context.Context, id string) (events.APIGatewayV2HTTPResponse, error) {
@@ -273,17 +507,50 @@ func (a *API) notifyQuote(ctx context.Context, id string) (events.APIGatewayV2HT
 	if err != nil {
 		return apigw.Error(404, err.Error()), nil
 	}
-	webURL := fmt.Sprintf("%s/quotes/%s", a.webBase, id)
+	webURL := a.quoteWebURL(id)
 	pdfURL := ""
 	if q.PdfS3Key != "" {
 		pdfURL, _ = a.pdf.SignedURL(ctx, q.PdfS3Key)
 	}
-	hsURL := ""
-	if q.HubspotDealID != "" {
-		hsURL = fmt.Sprintf("https://app.hubspot.com/contacts/deal/%s", q.HubspotDealID)
-	}
-	if err := a.slack.QuoteReady(ctx, q.SchoolName, webURL, pdfURL, hsURL); err != nil {
+	if err := a.slack.QuoteReady(ctx, q.SchoolName, webURL, pdfURL); err != nil {
 		return apigw.Error(500, err.Error()), nil
 	}
 	return apigw.JSON(200, map[string]string{"status": "notified"}), nil
+}
+
+func (a *API) syncZohoAccount(ctx context.Context, accountID, prospectusURL string) {
+	if accountID == "" || !a.zoho.Enabled() {
+		return
+	}
+	_, _ = a.zoho.UpdateProspectusURL(ctx, accountID, prospectusURL)
+}
+
+func (a *API) searchZohoAccounts(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	if !a.zoho.Enabled() {
+		return apigw.Error(503, "zoho not configured"), nil
+	}
+	q := strings.TrimSpace(apigw.Query(req, "q"))
+	if q == "" {
+		return apigw.JSON(200, map[string]any{"results": []zoho.Account{}}), nil
+	}
+	results, err := a.zoho.SearchAccounts(ctx, q)
+	if err != nil {
+		return apigw.Error(502, err.Error()), nil
+	}
+	return apigw.JSON(200, map[string]any{"results": results}), nil
+}
+
+func (a *API) getZohoAccount(ctx context.Context, id string) (events.APIGatewayV2HTTPResponse, error) {
+	if !a.zoho.Enabled() {
+		return apigw.Error(503, "zoho not configured"), nil
+	}
+	id = strings.Trim(strings.TrimSpace(id), "/")
+	if id == "" {
+		return apigw.Error(400, "account id required"), nil
+	}
+	account, err := a.zoho.GetAccount(ctx, id)
+	if err != nil {
+		return apigw.Error(502, err.Error()), nil
+	}
+	return apigw.JSON(200, account), nil
 }

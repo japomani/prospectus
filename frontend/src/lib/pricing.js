@@ -1,10 +1,6 @@
-export const PRICING_CONFIG = {
-  traditional: { perStudent: 5, minimum: 3000 },
-  online: { perStudent: 6.5, minimum: 3900 },
-  districtMinimum: 6000,
-};
+import { DEFAULT_LICENSE_CONFIG, mergeLicenseConfig } from './smsCredits.js';
 
-export const CLEVER_FEE_FLAT = 500;
+export const PRICING_CONFIG = { ...DEFAULT_LICENSE_CONFIG };
 
 const PRICING_TIERS = [
   { min: 120000, max: Infinity, startRatio: 0.484375, endRatio: 0.484375 },
@@ -20,16 +16,16 @@ const PRICING_TIERS = [
   { min: 600, max: 749, startRatio: 1.0, endRatio: 0.914063 },
 ];
 
-const PRODUCT_KEYS = ['engagementBuilder', 'communityBuilder', 'controlTowerUltra'];
+const PRODUCT_KEYS = ['communityBuilder', 'engagementBuilder', 'controlTowerUltra'];
 
 export function formatCurrency(amount) {
   if (amount === undefined || amount === null) return '$0';
-  const rounded = Math.round(amount * 100) / 100;
+  const rounded = Math.round(amount);
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: rounded % 1 === 0 ? 0 : 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(rounded);
 }
 
@@ -37,25 +33,31 @@ function round2(n) {
   return Math.round(n * 100) / 100;
 }
 
+/** Match delphi-me.com calculator: multiply in integer cents. */
 function safeMultiply(a, b) {
-  return round2(a * b);
+  const factor = 100;
+  return (Math.round(a * factor) * Math.round(b * factor)) / (factor * factor);
 }
 
-function getBasePrice(schoolType) {
-  return PRICING_CONFIG[schoolType]?.perStudent ?? PRICING_CONFIG.online.perStudent;
+function getBasePrice(schoolType, licenseConfig) {
+  const cfg = licenseConfig || PRICING_CONFIG;
+  return cfg[schoolType]?.perStudent ?? cfg.online?.perStudent ?? PRICING_CONFIG.online.perStudent;
 }
 
-function getMinimumCost(schoolType, isDistrict) {
-  if (isDistrict) return PRICING_CONFIG.districtMinimum;
-  return PRICING_CONFIG[schoolType]?.minimum ?? PRICING_CONFIG.online.minimum;
+function getMinimumCost(schoolType, licenseConfig) {
+  const cfg = licenseConfig || PRICING_CONFIG;
+  const baseMinimum =
+    cfg[schoolType]?.minimum ?? cfg.online?.minimum ?? PRICING_CONFIG.online.minimum;
+  return baseMinimum;
 }
 
-function calculateLicenseForProduct(students, schoolType, isDistrict) {
-  const raw = safeMultiply(students, getBasePrice(schoolType));
-  return Math.max(raw, getMinimumCost(schoolType, isDistrict));
+function calculateLicenseForProduct(students, schoolType, licenseConfig) {
+  const raw = Math.ceil(safeMultiply(students, getBasePrice(schoolType, licenseConfig)));
+  return Math.max(raw, getMinimumCost(schoolType, licenseConfig));
 }
 
-function calculateVolumeDiscount(students, subtotal) {
+/** Volume discount for one product — ceil(students × discountPerStudent), matching original. */
+function calculateVolumeDiscountPerProduct(students, basePrice) {
   if (students < 500) return 0;
   const tier = PRICING_TIERS.find(t => students >= t.min && students <= t.max);
   if (!tier) return 0;
@@ -66,8 +68,9 @@ function calculateVolumeDiscount(students, subtotal) {
     const progress = (students - tier.min) / (tier.max - tier.min);
     ratio = tier.startRatio + progress * (tier.endRatio - tier.startRatio);
   }
-  const discounted = safeMultiply(subtotal, ratio);
-  return round2(subtotal - discounted);
+  const pricePerStudent = safeMultiply(basePrice, ratio);
+  const discountPerStudent = basePrice - pricePerStudent;
+  return Math.ceil(safeMultiply(students, discountPerStudent));
 }
 
 function calculateImplementationFee(normalizedSubtotal) {
@@ -76,17 +79,23 @@ function calculateImplementationFee(normalizedSubtotal) {
   return 2950;
 }
 
+/** Multi-year license discount: yr1 0%, yr2 2.5%, yr3 5%, yr4 7.5%, yr5 10%. */
 export function getMultiYearDiscountPercent(years) {
-  if (years === 2) return 2.5;
-  if (years === 3) return 5;
-  if (years === 5) return 10;
-  return 0;
+  switch (years) {
+    case 2: return 2.5;
+    case 3: return 5;
+    case 4: return 7.5;
+    case 5: return 10;
+    default: return 0;
+  }
 }
 
 function calculateMultiYearDiscount(subtotal, years) {
   const rate = getMultiYearDiscountPercent(years) / 100;
   if (!rate) return 0;
-  return safeMultiply(subtotal, rate);
+  // Do not use safeMultiply: rates like 2.5%/7.5% round half-up in cents
+  // (0.025 → 0.03), inflating the discount (e.g. 7800×2.5% → 234 instead of 195).
+  return Math.round(subtotal * rate);
 }
 
 function getActiveProducts(quote) {
@@ -116,14 +125,20 @@ function processCustomItems(customItems, annualPercentBase, oneTimePercentBase) 
   });
 }
 
-/** @param {object} quote Full quote state from QuoteContext */
-export function calculatePricing(quote) {
+/**
+ * @param {object} quote Full quote state from QuoteContext
+ * @param {{ licenseConfig?: object }} [options]
+ */
+export function calculatePricing(quote, options = {}) {
   const students = Number(quote.students) || 0;
   const years = Number(quote.years) || 1;
   const schoolType = quote.schoolType || 'online';
   const isDistrict = Boolean(quote.isDistrict);
   const isFirstYear = quote.isFirstYear !== false;
   const customItems = quote.customItems || [];
+  const licenseConfig = options.licenseConfig
+    ? mergeLicenseConfig(options.licenseConfig)
+    : PRICING_CONFIG;
 
   if (students < 0) throw new Error('Students cannot be negative');
   if (years < 1 || years > 5) throw new Error('Years must be between 1 and 5');
@@ -132,7 +147,7 @@ export function calculatePricing(quote) {
   const productCount = activeProducts.length;
 
   const licensePerProduct = productCount > 0
-    ? calculateLicenseForProduct(students, schoolType, isDistrict)
+    ? calculateLicenseForProduct(students, schoolType, licenseConfig)
     : 0;
 
   const productLicenses = {};
@@ -141,25 +156,31 @@ export function calculatePricing(quote) {
   });
 
   const productSubtotal = round2(licensePerProduct * productCount);
-  const volumeDiscount = calculateVolumeDiscount(students, productSubtotal);
+  const basePrice = getBasePrice(schoolType, licenseConfig);
+  const volumePerProduct =
+    productCount > 0 ? calculateVolumeDiscountPerProduct(students, basePrice) : 0;
+  const volumeDiscount = volumePerProduct * productCount;
   const volumeDiscountPercent =
     productSubtotal > 0 ? Math.round((volumeDiscount / productSubtotal) * 100) : 0;
   const subtotalAfterVolume = round2(productSubtotal - volumeDiscount);
 
+  // Multi-product and multi-year both apply to post-volume subtotal (original order).
   const multiProductDiscount =
-    productCount >= 2 ? safeMultiply(productSubtotal, 0.1) : 0;
+    productCount >= 2 ? Math.round(subtotalAfterVolume * 0.1) : 0;
+  const multiYearDiscount = calculateMultiYearDiscount(subtotalAfterVolume, years);
   const subtotalAfterMultiProduct = round2(subtotalAfterVolume - multiProductDiscount);
+  const subtotalAfterMultiYear = round2(subtotalAfterVolume - multiProductDiscount - multiYearDiscount);
 
   const normalizedSubtotal = productCount > 0 ? subtotalAfterVolume / productCount : 0;
-  const implementationFee = isFirstYear ? calculateImplementationFee(normalizedSubtotal) : 0;
+  const districtImplementationFloor = licenseConfig.districtMinimum ?? PRICING_CONFIG.districtMinimum;
+  const implementationBase = isDistrict
+    ? Math.max(normalizedSubtotal, districtImplementationFloor)
+    : normalizedSubtotal;
+  const implementationFee = isFirstYear ? calculateImplementationFee(implementationBase) : 0;
 
-  const cleverSchools = quote.clever ? Math.max(1, Number(quote.cleverSchools) || 1) : 0;
-  const cleverFee = quote.clever ? CLEVER_FEE_FLAT * cleverSchools : 0;
+  const cleverFee = quote.clever ? (Number(quote.cleverFee) || 0) : 0;
   const smsFee = quote.sms ? (Number(quote.smsFee) || 0) : 0;
   const addOnTotal = round2(cleverFee + smsFee);
-
-  const multiYearDiscount = calculateMultiYearDiscount(productSubtotal, years);
-  const subtotalAfterMultiYear = round2(subtotalAfterMultiProduct - multiYearDiscount);
 
   const oneTimePercentBase = round2(
     (subtotalAfterMultiYear + addOnTotal) * years + implementationFee,
@@ -222,7 +243,6 @@ export function calculatePricing(quote) {
     totalSavings,
     annualSavings,
     cleverFee,
-    cleverSchools,
     smsFee,
     addOnTotal,
     yearBreakdowns,
@@ -288,7 +308,7 @@ export function resolveYearlyPaymentSchedule(quote, results) {
 
 /** @deprecated Use calculatePricing(quote) instead */
 export class ProductPricingCalculator {
-  constructor({ schoolType, students, isDistrict, isFirstYear, years, products, customItems, clever, sms, smsFee }) {
+  constructor({ schoolType, students, isDistrict, isFirstYear, years, products, customItems, clever, cleverFee, sms, smsFee }) {
     this.schoolType = schoolType || 'online';
     this.students = Number(students) || 0;
     this.isDistrict = Boolean(isDistrict);
@@ -297,6 +317,7 @@ export class ProductPricingCalculator {
     this.products = products || {};
     this.customItems = customItems || [];
     this.clever = Boolean(clever);
+    this.cleverFee = cleverFee;
     this.sms = Boolean(sms);
     this.smsFee = smsFee;
   }
@@ -316,6 +337,7 @@ export class ProductPricingCalculator {
       years: this.years,
       customItems: this.customItems,
       clever: this.clever,
+      cleverFee: this.cleverFee,
       sms: this.sms,
       smsFee: this.smsFee,
       engagementBuilder: this.products.engagementBuilder,

@@ -4,6 +4,10 @@
 node_modules/
 frontend/node_modules/
 frontend/dist/
+frontend/.vite/
+frontend/tmp-*.js
+frontend/tmp-*.mjs
+frontend/tmp-*.cjs
 backend/bootstrap
 backend/.aws-sam/
 dist/

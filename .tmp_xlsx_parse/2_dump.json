@@ -1,0 +1,552 @@
+{
+  "file": "2.xlsx",
+  "sheets": [
+    "Spec & Policy",
+    "Sheet1"
+  ],
+  "sheet_details": {
+    "Spec & Policy": {
+      "max_row": 53,
+      "max_col": 2,
+      "formula_count": 2,
+      "formulas": [
+        {
+          "addr": "B8",
+          "raw": "='[1]B - Message Credits'!B6",
+          "calc": 3.35
+        },
+        {
+          "addr": "B9",
+          "raw": "='[1]B - Message Credits'!B7",
+          "calc": 0.03845465000000001
+        }
+      ],
+      "rows": [
+        [
+          {
+            "addr": "A1",
+            "raw": "Message Credits \u2014 Spec & Overage Policy (authoritative reference)",
+            "calc": "Message Credits \u2014 Spec & Overage Policy (authoritative reference)"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A2",
+            "raw": "Source of truth for the developer. The pricing model lives on 'B - Message Credits'. Where anything here conflicts with a note elsewhere, this sheet wins.",
+            "calc": "Source of truth for the developer. The pricing model lives on 'B - Message Credits'. Where anything here conflicts with a note elsewhere, this sheet wins."
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A4",
+            "raw": "1. CREDIT MODEL (SOURCE OF TRUTH)",
+            "calc": "1. CREDIT MODEL (SOURCE OF TRUTH)"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A5",
+            "raw": "Customer-facing definition",
+            "calc": "Customer-facing definition"
+          },
+          {
+            "addr": "B5",
+            "raw": "1 credit = the cost of one \"typical\" message (a standard short text). Buyers think in whole messages, not segments.",
+            "calc": "1 credit = the cost of one \"typical\" message (a standard short text). Buyers think in whole messages, not segments."
+          }
+        ],
+        [
+          {
+            "addr": "A6",
+            "raw": "Billing basis",
+            "calc": "Billing basis"
+          },
+          {
+            "addr": "B6",
+            "raw": "Clients prepurchase a block of credits = the estimated number of typical messages they'll need for the year. The balance draws down by ACTUAL usage.",
+            "calc": "Clients prepurchase a block of credits = the estimated number of typical messages they'll need for the year. The balance draws down by ACTUAL usage."
+          }
+        ],
+        [
+          {
+            "addr": "A7",
+            "raw": "Draw-down (burn) rule",
+            "calc": "Draw-down (burn) rule"
+          },
+          {
+            "addr": "B7",
+            "raw": "Credits burned per message = actual AWS cost \u00d7 markup multiple \u00f7 cost-per-credit. NO fixed per-type table \u2014 burn is metered from real cost. A typical message \u2248 1 credit by definition.",
+            "calc": "Credits burned per message = actual AWS cost \u00d7 markup multiple \u00f7 cost-per-credit. NO fixed per-type table \u2014 burn is metered from real cost. A typical message \u2248 1 credit by definition."
+          }
+        ],
+        [
+          {
+            "addr": "A8",
+            "raw": "Markup multiple",
+            "calc": "Markup multiple"
+          },
+          {
+            "addr": "B8",
+            "raw": "='[1]B - Message Credits'!B6",
+            "calc": 3.35
+          }
+        ],
+        [
+          {
+            "addr": "A9",
+            "raw": "List price per credit",
+            "calc": "List price per credit"
+          },
+          {
+            "addr": "B9",
+            "raw": "='[1]B - Message Credits'!B7",
+            "calc": 0.03845465000000001
+          }
+        ],
+        [
+          {
+            "addr": "A10",
+            "raw": "Longer messages",
+            "calc": "Longer messages"
+          },
+          {
+            "addr": "B10",
+            "raw": "Multi-segment texts cost more to send, so they draw down proportionally more credits \u2014 automatically, via actual cost. Nothing to configure.",
+            "calc": "Multi-segment texts cost more to send, so they draw down proportionally more credits \u2014 automatically, via actual cost. Nothing to configure."
+          }
+        ],
+        [
+          {
+            "addr": "A11",
+            "raw": "MMS / media",
+            "calc": "MMS / media"
+          },
+          {
+            "addr": "B11",
+            "raw": "Picture/file messages cost more per send and draw down proportionally more credits. No fixed number \u2014 it floats with actual carrier cost. Enable only after MMS ships and cost is confirmed.",
+            "calc": "Picture/file messages cost more per send and draw down proportionally more credits. No fixed number \u2014 it floats with actual carrier cost. Enable only after MMS ships and cost is confirmed."
+          }
+        ],
+        [
+          {
+            "addr": "A12",
+            "raw": "Inbound messages",
+            "calc": "Inbound messages"
+          },
+          {
+            "addr": "B12",
+            "raw": "Replies from parents/students ARE part of the burn \u2014 they consume credits too. Must be disclosed to customers and tracked as a separate metric in reporting.",
+            "calc": "Replies from parents/students ARE part of the burn \u2014 they consume credits too. Must be disclosed to customers and tracked as a separate metric in reporting."
+          }
+        ],
+        [
+          {
+            "addr": "A14",
+            "raw": "2. ACCOUNTS & ENFORCEMENT",
+            "calc": "2. ACCOUNTS & ENFORCEMENT"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A15",
+            "raw": "Credit pool ownership",
+            "calc": "Credit pool ownership"
+          },
+          {
+            "addr": "B15",
+            "raw": "The credit pool sits at the paying account (root or parent). Most clients pay from one account.",
+            "calc": "The credit pool sits at the paying account (root or parent). Most clients pay from one account."
+          }
+        ],
+        [
+          {
+            "addr": "A16",
+            "raw": "Sub-accounts",
+            "calc": "Sub-accounts"
+          },
+          {
+            "addr": "B16",
+            "raw": "Per sub-account billing mode: SHARED (draws from the parent pool) or INDEPENDENT (its own separate pool/balance). Support both \u2014 districts fund centrally; individual schools may buy their own.",
+            "calc": "Per sub-account billing mode: SHARED (draws from the parent pool) or INDEPENDENT (its own separate pool/balance). Support both \u2014 districts fund centrally; individual schools may buy their own."
+          }
+        ],
+        [
+          {
+            "addr": "A17",
+            "raw": "Enforcement unit",
+            "calc": "Enforcement unit"
+          },
+          {
+            "addr": "B17",
+            "raw": "The ANNUAL pool. Monthly figures are pacing/reporting only \u2014 never a monthly hard cap. Usage is seasonal (exam spikes, summer lulls); a monthly cap would falsely trip.",
+            "calc": "The ANNUAL pool. Monthly figures are pacing/reporting only \u2014 never a monthly hard cap. Usage is seasonal (exam spikes, summer lulls); a monthly cap would falsely trip."
+          }
+        ],
+        [
+          {
+            "addr": "A19",
+            "raw": "3. PRICING, TOP-UPS & ROLLOVER",
+            "calc": "3. PRICING, TOP-UPS & ROLLOVER"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A20",
+            "raw": "Volume discount",
+            "calc": "Volume discount"
+          },
+          {
+            "addr": "B20",
+            "raw": "By the size of the block purchased in a single order (bigger block = deeper discount). See the discount schedule on 'B - Message Credits'. Discounts do not stack across separate purchases.",
+            "calc": "By the size of the block purchased in a single order (bigger block = deeper discount). See the discount schedule on 'B - Message Credits'. Discounts do not stack across separate purchases."
+          }
+        ],
+        [
+          {
+            "addr": "A21",
+            "raw": "Top-ups",
+            "calc": "Top-ups"
+          },
+          {
+            "addr": "B21",
+            "raw": "Priced at the client's CURRENT discount tier (the tier their existing block qualifies for) \u2014 NOT cumulative. Topping up never unlocks a deeper discount; deeper discounts come only from a bigger UP-FRONT block. Over-buying is safe \u2014 unused credits carry to next year \u2014 so clients are steered to commit more up front.",
+            "calc": "Priced at the client's CURRENT discount tier (the tier their existing block qualifies for) \u2014 NOT cumulative. Topping up never unlocks a deeper discount; deeper discounts come only from a bigger UP-FRONT block. Over-buying is safe \u2014 unused credits carry to next year \u2014 so clients are steered to commit more up front."
+          }
+        ],
+        [
+          {
+            "addr": "A22",
+            "raw": "Rollover / expiry",
+            "calc": "Rollover / expiry"
+          },
+          {
+            "addr": "B22",
+            "raw": "Unused credits carry over on renewal but EXPIRE 12 months after purchase. If a client does NOT renew, remaining credits are forfeited \u2014 no refund or reimbursement.",
+            "calc": "Unused credits carry over on renewal but EXPIRE 12 months after purchase. If a client does NOT renew, remaining credits are forfeited \u2014 no refund or reimbursement."
+          }
+        ],
+        [
+          {
+            "addr": "A24",
+            "raw": "4. ADMIN UI",
+            "calc": "4. ADMIN UI"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A25",
+            "raw": "Fuel gauge",
+            "calc": "Fuel gauge"
+          },
+          {
+            "addr": "B25",
+            "raw": "Remaining balance (credits + % of annual block); projected run-out date; annual pacing badge (On track / Ahead / Behind). Include a MONTHLY view too (this month's usage vs. pace).",
+            "calc": "Remaining balance (credits + % of annual block); projected run-out date; annual pacing badge (On track / Ahead / Behind). Include a MONTHLY view too (this month's usage vs. pace)."
+          }
+        ],
+        [
+          {
+            "addr": "A26",
+            "raw": "Burn rate",
+            "calc": "Burn rate"
+          },
+          {
+            "addr": "B26",
+            "raw": "Overall credits/month (rolling average) AND a separate reply/inbound burn metric \u2014 track replies distinctly.",
+            "calc": "Overall credits/month (rolling average) AND a separate reply/inbound burn metric \u2014 track replies distinctly."
+          }
+        ],
+        [
+          {
+            "addr": "A27",
+            "raw": "Usage breakdown",
+            "calc": "Usage breakdown"
+          },
+          {
+            "addr": "B27",
+            "raw": "By teacher and sub-account; by message type (short / long / MMS / inbound); plus a 'most expensive messages' list with the reason (length / media / destination).",
+            "calc": "By teacher and sub-account; by message type (short / long / MMS / inbound); plus a 'most expensive messages' list with the reason (length / media / destination)."
+          }
+        ],
+        [
+          {
+            "addr": "A28",
+            "raw": "Alerts",
+            "calc": "Alerts"
+          },
+          {
+            "addr": "B28",
+            "raw": "Configurable thresholds (default 80 / 90 / 100%); recipient list.",
+            "calc": "Configurable thresholds (default 80 / 90 / 100%); recipient list."
+          }
+        ],
+        [
+          {
+            "addr": "A29",
+            "raw": "Purchase / top-up",
+            "calc": "Purchase / top-up"
+          },
+          {
+            "addr": "B29",
+            "raw": "Buy-more / top-up button showing the client's current discount tier. (Top-ups price at the current tier; a deeper discount requires a bigger up-front block.)",
+            "calc": "Buy-more / top-up button showing the client's current discount tier. (Top-ups price at the current tier; a deeper discount requires a bigger up-front block.)"
+          }
+        ],
+        [
+          {
+            "addr": "A30",
+            "raw": "Overage control",
+            "calc": "Overage control"
+          },
+          {
+            "addr": "B30",
+            "raw": "Admin selects overage behavior IN ADVANCE (auto-bill / auto-purchase / hard-stop) \u2014 see section 5.",
+            "calc": "Admin selects overage behavior IN ADVANCE (auto-bill / auto-purchase / hard-stop) \u2014 see section 5."
+          }
+        ],
+        [
+          {
+            "addr": "A31",
+            "raw": "Monthly report (email)",
+            "calc": "Monthly report (email)"
+          },
+          {
+            "addr": "B31",
+            "raw": "Balance, burn rate, projected run-out, avg credits per message, top consumers, and reply burn.",
+            "calc": "Balance, burn rate, projected run-out, avg credits per message, top consumers, and reply burn."
+          }
+        ],
+        [
+          {
+            "addr": "A33",
+            "raw": "5. OVERAGE POLICY",
+            "calc": "5. OVERAGE POLICY"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A34",
+            "raw": "Notify ladder",
+            "calc": "Notify ladder"
+          },
+          {
+            "addr": "B34",
+            "raw": "CLIENT admin: 80% \u2192 email; 90% \u2192 email + in-app banner + Buy-more CTA; 100% \u2192 prominent banner + CTA + email all admins. INTERNAL (our team): alert sales/success at 80% and 90% so we can proactively follow up and tee up the next block.",
+            "calc": "CLIENT admin: 80% \u2192 email; 90% \u2192 email + in-app banner + Buy-more CTA; 100% \u2192 prominent banner + CTA + email all admins. INTERNAL (our team): alert sales/success at 80% and 90% so we can proactively follow up and tee up the next block."
+          }
+        ],
+        [
+          {
+            "addr": "A35",
+            "raw": "At 100% \u2014 Auto-bill (DEFAULT)",
+            "calc": "At 100% \u2014 Auto-bill (DEFAULT)"
+          },
+          {
+            "addr": "B35",
+            "raw": "Keep sending; bill overage at the CURRENT discounted price per credit. Notify each time another block-size of overage accrues. No disruption to teachers/parents.",
+            "calc": "Keep sending; bill overage at the CURRENT discounted price per credit. Notify each time another block-size of overage accrues. No disruption to teachers/parents."
+          }
+        ],
+        [
+          {
+            "addr": "A36",
+            "raw": "At 100% \u2014 Auto-purchase",
+            "calc": "At 100% \u2014 Auto-purchase"
+          },
+          {
+            "addr": "B36",
+            "raw": "Automatically buy the next recommended block at the cumulative-volume tier.",
+            "calc": "Automatically buy the next recommended block at the cumulative-volume tier."
+          }
+        ],
+        [
+          {
+            "addr": "A37",
+            "raw": "At 100% \u2014 Hard-stop (opt-in)",
+            "calc": "At 100% \u2014 Hard-stop (opt-in)"
+          },
+          {
+            "addr": "B37",
+            "raw": "Stop sending at 105% of the annual block (\u2248 a week+ of runway) \u2014 NOT 1%. Warn admin that parent comms will cease. Only if the admin explicitly chooses this mode.",
+            "calc": "Stop sending at 105% of the annual block (\u2248 a week+ of runway) \u2014 NOT 1%. Warn admin that parent comms will cease. Only if the admin explicitly chooses this mode."
+          }
+        ],
+        [
+          {
+            "addr": "A38",
+            "raw": "Overage rate",
+            "calc": "Overage rate"
+          },
+          {
+            "addr": "B38",
+            "raw": "The client's CURRENT discounted price per credit (same tier they're on). Renegotiable at renewal.",
+            "calc": "The client's CURRENT discounted price per credit (same tier they're on). Renegotiable at renewal."
+          }
+        ],
+        [
+          {
+            "addr": "A39",
+            "raw": "Reconciliation",
+            "calc": "Reconciliation"
+          },
+          {
+            "addr": "B39",
+            "raw": "Annual settlement only \u2014 no quarterly true-up (the overage policy handles it in real time). Within-year under-use months net against over-use months before any settlement.",
+            "calc": "Annual settlement only \u2014 no quarterly true-up (the overage policy handles it in real time). Within-year under-use months net against over-use months before any settlement."
+          }
+        ],
+        [
+          {
+            "addr": "A41",
+            "raw": "6. DEVELOPER BUILD CHECKLIST",
+            "calc": "6. DEVELOPER BUILD CHECKLIST"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A42",
+            "raw": "Credit ledger",
+            "calc": "Credit ledger"
+          },
+          {
+            "addr": "B42",
+            "raw": "One row per message: actual AWS cost, country/carrier, segments, direction (out/in), type (SMS/MMS), credits debited = cost \u00d7 multiple \u00f7 cost-per-credit. Balance = purchased \u2212 debited.",
+            "calc": "One row per message: actual AWS cost, country/carrier, segments, direction (out/in), type (SMS/MMS), credits debited = cost \u00d7 multiple \u00f7 cost-per-credit. Balance = purchased \u2212 debited."
+          }
+        ],
+        [
+          {
+            "addr": "A43",
+            "raw": "Account model",
+            "calc": "Account model"
+          },
+          {
+            "addr": "B43",
+            "raw": "Account entity with optional parent link + billing mode (shared | independent). Balance and limits attach to the pool owner.",
+            "calc": "Account entity with optional parent link + billing mode (shared | independent). Balance and limits attach to the pool owner."
+          }
+        ],
+        [
+          {
+            "addr": "A44",
+            "raw": "Enforcement",
+            "calc": "Enforcement"
+          },
+          {
+            "addr": "B44",
+            "raw": "Enforce on the annual pool; compute monthly pacing for display only.",
+            "calc": "Enforce on the annual pool; compute monthly pacing for display only."
+          }
+        ],
+        [
+          {
+            "addr": "A45",
+            "raw": "Notifications",
+            "calc": "Notifications"
+          },
+          {
+            "addr": "B45",
+            "raw": "Threshold engine: 80 / 90 / 100% and per-block overage increments. Sends to BOTH the client admins AND our internal team (separate recipient lists).",
+            "calc": "Threshold engine: 80 / 90 / 100% and per-block overage increments. Sends to BOTH the client admins AND our internal team (separate recipient lists)."
+          }
+        ],
+        [
+          {
+            "addr": "A46",
+            "raw": "Overage state machine",
+            "calc": "Overage state machine"
+          },
+          {
+            "addr": "B46",
+            "raw": "Implements section 5; behavior driven by the admin's pre-set mode (auto-bill / auto-purchase / hard-stop @105%).",
+            "calc": "Implements section 5; behavior driven by the admin's pre-set mode (auto-bill / auto-purchase / hard-stop @105%)."
+          }
+        ],
+        [
+          {
+            "addr": "A47",
+            "raw": "Monthly report job",
+            "calc": "Monthly report job"
+          },
+          {
+            "addr": "B47",
+            "raw": "Scheduled email with the stats in section 4, including reply burn.",
+            "calc": "Scheduled email with the stats in section 4, including reply burn."
+          }
+        ],
+        [
+          {
+            "addr": "A48",
+            "raw": "MMS accounting",
+            "calc": "MMS accounting"
+          },
+          {
+            "addr": "B48",
+            "raw": "Cost \u00d7 multiplier (no fixed credit count). Enable after MMS ships and AWS MMS cost is confirmed.",
+            "calc": "Cost \u00d7 multiplier (no fixed credit count). Enable after MMS ships and AWS MMS cost is confirmed."
+          }
+        ],
+        [
+          {
+            "addr": "A50",
+            "raw": "7. CUSTOMER-FACING COPY (DRAFT / PLACEHOLDER)",
+            "calc": "7. CUSTOMER-FACING COPY (DRAFT / PLACEHOLDER)"
+          },
+          null
+        ],
+        [
+          {
+            "addr": "A51",
+            "raw": "How credits work (draft)",
+            "calc": "How credits work (draft)"
+          },
+          {
+            "addr": "B51",
+            "raw": "Your plan includes a balance of message credits. One credit is the cost of a typical text message. Every message you send draws from your balance based on what it actually costs to deliver \u2014 most short texts use about one credit. Replies you receive countas messages too.",
+            "calc": "Your plan includes a balance of message credits. One credit is the cost of a typical text message. Every message you send draws from your balance based on what it actually costs to deliver \u2014 most short texts use about one credit. Replies you receive countas messages too."
+          }
+        ],
+        [
+          {
+            "addr": "A52",
+            "raw": "Longer messages (draft)",
+            "calc": "Longer messages (draft)"
+          },
+          {
+            "addr": "B52",
+            "raw": "A long message uses more than one credit, because that message is sent in multiple parts  \u2014 you're only ever charged for what it actually costs to send.",
+            "calc": "A long message uses more than one credit, because that message is sent in multiple parts  \u2014 you're only ever charged for what it actually costs to send."
+          }
+        ],
+        [
+          {
+            "addr": "A53",
+            "raw": "MMS / media (PLACEHOLDER)",
+            "calc": "MMS / media (PLACEHOLDER)"
+          },
+          {
+            "addr": "B53",
+            "raw": "[PLACEHOLDER \u2014 finalize when MMS ships and AWS cost is confirmed] Picture, file, and video (MMS) messages cost more to deliver than a plain text, so they use more credits \u2014 roughly [N]\u00d7 a typical message. The exact amount depends on the file and the recipient's carrier.",
+            "calc": "[PLACEHOLDER \u2014 finalize when MMS ships and AWS cost is confirmed] Picture, file, and video (MMS) messages cost more to deliver than a plain text, so they use more credits \u2014 roughly [N]\u00d7 a typical message. The exact amount depends on the file and the recipient's carrier."
+          }
+        ]
+      ]
+    },
+    "Sheet1": {
+      "max_row": 1,
+      "max_col": 1,
+      "formula_count": 0,
+      "formulas": [],
+      "rows": []
+    }
+  },
+  "defined_names": {}
+}

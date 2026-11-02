@@ -14,6 +14,16 @@ const (
 	basicAuthUsername    = "delphinium"
 )
 
+// Credential is the kind of API credential presented on a request.
+type Credential int
+
+const (
+	CredNone Credential = iota
+	CredSite
+	CredAdmin
+	CredMachineRead
+)
+
 // ExpectedPassword returns the shared site gatekeeper password.
 func ExpectedPassword() string {
 	if p := strings.TrimSpace(os.Getenv("API_PASSWORD")); p != "" {
@@ -28,6 +38,12 @@ func ExpectedAdminPassword() string {
 		return p
 	}
 	return defaultAdminPassword
+}
+
+// ExpectedSalesReadToken returns the optional machine read-only token for Sales assistants.
+// Empty means the machine credential is disabled.
+func ExpectedSalesReadToken() string {
+	return strings.TrimSpace(os.Getenv("SALES_READ_TOKEN"))
 }
 
 // ExtractPassword reads the shared password from Authorization Bearer,
@@ -51,25 +67,84 @@ func ExtractPassword(req events.APIGatewayV2HTTPRequest) string {
 	return ""
 }
 
-// Authorized reports whether the request presents the site or admin password.
-func Authorized(req events.APIGatewayV2HTTPRequest) bool {
+// ClassifyCredential identifies which credential the request presents.
+// Machine read token is checked before site/admin so a dedicated token stays scoped.
+func ClassifyCredential(req events.APIGatewayV2HTTPRequest) Credential {
 	got := ExtractPassword(req)
 	if got == "" {
-		return false
+		return CredNone
 	}
-	return got == ExpectedPassword() || got == ExpectedAdminPassword()
+	if tok := ExpectedSalesReadToken(); tok != "" && got == tok {
+		return CredMachineRead
+	}
+	if got == ExpectedAdminPassword() {
+		return CredAdmin
+	}
+	if got == ExpectedPassword() {
+		return CredSite
+	}
+	return CredNone
+}
+
+// Authorized reports whether the request presents the site or admin password.
+// Machine read tokens are not full Authorized — use ReadAuthorized or ClassifyCredential.
+func Authorized(req events.APIGatewayV2HTTPRequest) bool {
+	c := ClassifyCredential(req)
+	return c == CredSite || c == CredAdmin
+}
+
+// ReadAuthorized reports whether the request may call read-only quote endpoints
+// (site password, admin password, or Sales machine read token).
+func ReadAuthorized(req events.APIGatewayV2HTTPRequest) bool {
+	c := ClassifyCredential(req)
+	return c == CredSite || c == CredAdmin || c == CredMachineRead
+}
+
+// MachineReadAuthorized reports whether the request presents the Sales read-only token.
+func MachineReadAuthorized(req events.APIGatewayV2HTTPRequest) bool {
+	return ClassifyCredential(req) == CredMachineRead
 }
 
 // AdminAuthorized reports whether the request presents the admin password.
 func AdminAuthorized(req events.APIGatewayV2HTTPRequest) bool {
-	got := ExtractPassword(req)
-	return got != "" && got == ExpectedAdminPassword()
+	return ClassifyCredential(req) == CredAdmin
 }
 
 // IsAdminPassword reports whether the given password is the admin password.
 func IsAdminPassword(password string) bool {
 	p := strings.TrimSpace(password)
 	return p != "" && p == ExpectedAdminPassword()
+}
+
+// IsMachineReadPath reports whether method+path is allowed for the Sales read-only token.
+func IsMachineReadPath(method, path string) bool {
+	if !strings.EqualFold(method, "GET") {
+		return false
+	}
+	trimmed := strings.TrimSuffix(path, "/")
+	if trimmed == "/quotes" || strings.HasSuffix(trimmed, "/quotes") {
+		return true
+	}
+	if trimmed == "/quotes/search" || strings.HasSuffix(trimmed, "/quotes/search") {
+		return true
+	}
+	// GET /quotes/{id} — not preview/form-link/search/pdf/notify.
+	suffix := trimmed
+	if i := strings.LastIndex(trimmed, "/quotes/"); i >= 0 {
+		suffix = trimmed[i:]
+	}
+	if !strings.HasPrefix(suffix, "/quotes/") {
+		return false
+	}
+	id := strings.TrimPrefix(suffix, "/quotes/")
+	if id == "" || strings.Contains(id, "/") {
+		return false
+	}
+	switch id {
+	case "preview", "form-link", "search":
+		return false
+	}
+	return true
 }
 
 func passwordFromBasic(encoded string) string {

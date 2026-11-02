@@ -317,12 +317,30 @@ if ($deployBackend) {
       if ($env:ZOHO_REFRESH_TOKEN) { $overrides += "ZohoRefreshToken=$($env:ZOHO_REFRESH_TOKEN)" }
       if ($env:ZOHO_ACCOUNTS_URL)  { $overrides += "ZohoAccountsUrl=$($env:ZOHO_ACCOUNTS_URL)" }
       if ($env:ZOHO_API_DOMAIN)    { $overrides += "ZohoApiDomain=$($env:ZOHO_API_DOMAIN)" }
+      # Sales read-only machine token: prefer env, else SSM SecureString.
+      $salesTok = $env:SALES_READ_TOKEN
+      if (-not $salesTok) {
+        $prevEapSsm = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+        $ssmOut = & aws ssm get-parameter --name '/delphinium/prospectus/sales-read-token' --with-decryption --region $AwsRegion --query 'Parameter.Value' --output text 2>&1
+        $ssmCode = $LASTEXITCODE
+        $ErrorActionPreference = $prevEapSsm
+        if ($ssmCode -eq 0 -and $ssmOut -and ("$ssmOut" -notmatch 'ParameterNotFound')) {
+          $salesTok = ("$ssmOut").Trim()
+        }
+      }
+      if ($salesTok) {
+        $overrides += "SalesReadToken=$salesTok"
+        Write-Ok 'Passing SalesReadToken from env/SSM (value not logged)'
+      } else {
+        Write-Warn 'No SALES_READ_TOKEN / SSM /delphinium/prospectus/sales-read-token; SalesReadToken unchanged or empty.'
+      }
       if ($overrides.Count -gt 0) {
-        Write-Ok ("Passing Zoho parameter-overrides (" + $overrides.Count + " keys; values not logged)")
+        Write-Ok ("Passing parameter-overrides (" + $overrides.Count + " keys; values not logged)")
         $samArgs += '--parameter-overrides'
         $samArgs += $overrides
       } else {
-        Write-Warn 'No ZOHO_* env vars set; Zoho params will use previous stack values or empty defaults.'
+        Write-Warn 'No ZOHO_* / SalesReadToken overrides; params will use previous stack values or empty defaults.'
       }
       & sam @samArgs
     } finally {

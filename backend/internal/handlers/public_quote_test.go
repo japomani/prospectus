@@ -17,6 +17,7 @@ func TestIsPublicQuoteGet(t *testing.T) {
 		{"GET", "/quotes/", "", false},
 		{"GET", "/quotes/preview", "preview", false},
 		{"GET", "/quotes/form-link", "form-link", false},
+		{"GET", "/quotes/search", "search", false},
 		{"GET", "/quotes/abc/pdf", "abc", false},
 		{"GET", "/quotes/abc/notify", "abc", false},
 		{"GET", "/zoho/accounts/1", "1", false},

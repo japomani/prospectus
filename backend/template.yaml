@@ -23,6 +23,7 @@ Globals:
         SLACK_QUOTES_CHANNEL: !Ref SlackQuotesChannel
         API_PASSWORD: !Ref ApiPassword
         ADMIN_PASSWORD: !Ref AdminPassword
+        SALES_READ_TOKEN: !Ref SalesReadToken
         CONFIG_TABLE: !Ref ConfigTable
 
 Parameters:
@@ -63,6 +64,11 @@ Parameters:
     Default: 'delphiniumadmin'
     NoEcho: true
     Description: Admin password for pricing/SMS config settings
+  SalesReadToken:
+    Type: String
+    Default: ''
+    NoEcho: true
+    Description: Revocable machine read-only token for Sales assistants (GET /quotes, /quotes/search, /quotes/{id} only). Prefer SSM /delphinium/prospectus/sales-read-token as source of truth.
 
 Resources:
   QuotesTable:
@@ -213,6 +219,12 @@ Resources:
           Properties:
             ApiId: !Ref ProspectusApi
             Path: /quotes
+            Method: GET
+        GetQuotesSearch:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /quotes/search
             Method: GET
         PostPreview:
           Type: HttpApi

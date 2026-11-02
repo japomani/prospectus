@@ -41,6 +41,8 @@ export function quoteToApiBody(quote) {
     ref: quote.ref || '',
     quoteName: quote.quoteName || '',
     zohoAccountId: quote.zohoAccountId || '',
+    contactName: quote.contactName || '',
+    contactEmail: quote.contactEmail || '',
   };
 }
 
@@ -86,6 +88,9 @@ export function apiQuoteToForm(source) {
     zohoAccountId: q.zohoAccountId || '',
     slackUserId: q.slackUserId || '',
     ref: q.ref || '',
+    contactName: q.contactName || '',
+    contactEmail: q.contactEmail || '',
+    emailLine: source.emailLine || q.emailLine || '',
     updatedAt: q.updatedAt || null,
     createdAt: q.createdAt || null,
     pricingSnapshot: q.pricingSnapshot || source.pricing || null,

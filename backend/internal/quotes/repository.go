@@ -122,3 +122,37 @@ func (r *Repository) ListByRep(ctx context.Context, slackUserID string, limit in
 	sortQuotesByUpdated(items)
 	return items, nil
 }
+
+// ListAll scans the full quotes table (prospectus volumes are small).
+func (r *Repository) ListAll(ctx context.Context) ([]Quote, error) {
+	var items []Quote
+	var startKey map[string]types.AttributeValue
+	for {
+		out, err := r.client.Scan(ctx, &dynamodb.ScanInput{
+			TableName:         aws.String(r.tableName),
+			ExclusiveStartKey: startKey,
+		})
+		if err != nil {
+			return nil, err
+		}
+		var page []Quote
+		if err := attributevalue.UnmarshalListOfMaps(out.Items, &page); err != nil {
+			return nil, err
+		}
+		items = append(items, page...)
+		if len(out.LastEvaluatedKey) == 0 {
+			break
+		}
+		startKey = out.LastEvaluatedKey
+	}
+	return items, nil
+}
+
+// Search loads quotes, applies filters/paging, and returns the page.
+func (r *Repository) Search(ctx context.Context, p SearchParams) ([]Quote, string, error) {
+	items, err := r.ListAll(ctx)
+	if err != nil {
+		return nil, "", err
+	}
+	return ApplySearch(items, p)
+}

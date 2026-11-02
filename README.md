@@ -89,3 +89,7 @@ Quotes link to a Zoho CRM **Account**. There is no Prospectus module.
 3. `ZOHO_ACCOUNTS_URL` defaults to `https://accounts.zoho.com`. `ZOHO_API_DOMAIN` defaults to `https://www.zohoapis.com`
 
 On quote save/update with `zohoAccountId`, the API PUTs `{WEB_BASE_URL}/quotes/{id}` into `Accounts.Delphinium_Prospectus_URL`. Pass `ApiPassword` and `AdminPassword` at deploy time; they are not stored in `samconfig.toml`.
+
+### Pricing API docs
+
+See [`docs/pricing-api.md`](docs/pricing-api.md) for quote search (`GET /quotes/search`), `emailLine`, and the Sales read-only machine token (`SALES_READ_TOKEN` / SSM `/delphinium/prospectus/sales-read-token`).

@@ -44,6 +44,8 @@ type Quote struct {
 	IncludePilotPage     bool                 `json:"includePilotPage" dynamodbav:"includePilotPage"`
 	SlackUserID         string                `json:"slackUserId" dynamodbav:"slackUserId"`
 	Ref              string                `json:"ref" dynamodbav:"ref"`
+	ContactName      string                `json:"contactName" dynamodbav:"contactName"`
+	ContactEmail     string                `json:"contactEmail" dynamodbav:"contactEmail"`
 	PricingSnapshot  pricing.Result        `json:"pricingSnapshot" dynamodbav:"pricingSnapshot"`
 	PdfS3Key           string                `json:"pdfS3Key" dynamodbav:"pdfS3Key"`
 	ZohoAccountID      string                `json:"zohoAccountId" dynamodbav:"zohoAccountId"`
@@ -88,6 +90,8 @@ type CreateRequest struct {
 	IncludePilotPage     bool                `json:"includePilotPage"`
 	SlackUserID          string               `json:"slackUserId"`
 	Ref                  string               `json:"ref"`
+	ContactName          string               `json:"contactName"`
+	ContactEmail         string               `json:"contactEmail"`
 	ZohoAccountID        string               `json:"zohoAccountId"`
 }
 
@@ -102,10 +106,18 @@ type FormLinkResponse struct {
 }
 
 type QuoteResponse struct {
-	Quote   Quote          `json:"quote"`
-	Pricing pricing.Result `json:"pricing"`
-	WebURL  string         `json:"webUrl"`
-	PdfURL  string         `json:"pdfUrl,omitempty"`
+	Quote     Quote          `json:"quote"`
+	Pricing   pricing.Result `json:"pricing"`
+	WebURL    string         `json:"webUrl"`
+	PdfURL    string         `json:"pdfUrl,omitempty"`
+	EmailLine string         `json:"emailLine"`
+}
+
+// QuoteListItem is a quote row with shareable email-line copy for list endpoints.
+type QuoteListItem struct {
+	Quote
+	EmailLine string `json:"emailLine"`
+	WebURL    string `json:"webUrl"`
 }
 
 func (r CreateRequest) ToQuoteInput() pricing.QuoteInput {

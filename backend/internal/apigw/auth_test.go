@@ -109,3 +109,50 @@ func TestUnauthorizedMissing(t *testing.T) {
 		t.Fatal("expected missing password to fail")
 	}
 }
+
+func TestMachineReadTokenAuthorizesReadsOnly(t *testing.T) {
+	t.Setenv("API_PASSWORD", "delphinium")
+	t.Setenv("ADMIN_PASSWORD", "delphiniumadmin")
+	t.Setenv("SALES_READ_TOKEN", "sales-machine-token-test")
+	req := events.APIGatewayV2HTTPRequest{
+		Headers: map[string]string{"authorization": "Bearer sales-machine-token-test"},
+	}
+	if Authorized(req) {
+		t.Fatal("machine token must not count as full Authorized")
+	}
+	if !ReadAuthorized(req) {
+		t.Fatal("machine token should ReadAuthorized")
+	}
+	if !MachineReadAuthorized(req) {
+		t.Fatal("expected MachineReadAuthorized")
+	}
+	if ClassifyCredential(req) != CredMachineRead {
+		t.Fatal("expected CredMachineRead")
+	}
+}
+
+func TestIsMachineReadPath(t *testing.T) {
+	cases := []struct {
+		method, path string
+		want         bool
+	}{
+		{"GET", "/quotes", true},
+		{"GET", "/quotes/search", true},
+		{"GET", "/quotes/abc-123", true},
+		{"GET", "/quotes/preview", false},
+		{"GET", "/quotes/form-link", false},
+		{"GET", "/quotes/search/extra", false},
+		{"POST", "/quotes", false},
+		{"PATCH", "/quotes/abc", false},
+		{"DELETE", "/quotes/abc", false},
+		{"POST", "/quotes/abc/pdf", false},
+		{"POST", "/quotes/abc/notify", false},
+		{"GET", "/config", false},
+		{"GET", "/auth/session", false},
+	}
+	for _, tc := range cases {
+		if got := IsMachineReadPath(tc.method, tc.path); got != tc.want {
+			t.Errorf("IsMachineReadPath(%q,%q)=%v want %v", tc.method, tc.path, got, tc.want)
+		}
+	}
+}

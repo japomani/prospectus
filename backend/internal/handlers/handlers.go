@@ -62,15 +62,13 @@ func (a *API) Handle(ctx context.Context, req events.APIGatewayV2HTTPRequest) (e
 	id := req.PathParameters["id"]
 	if id == "" {
 		parts := strings.Split(strings.Trim(path, "/"), "/")
-		if len(parts) >= 2 && parts[0] == "quotes" && parts[1] != "preview" && parts[1] != "form-link" {
+		if len(parts) >= 2 && parts[0] == "quotes" && !isReservedQuoteSegment(parts[1]) {
 			id = parts[1]
 		}
 	}
 
-	// Shared prospectus / Copy Link / PDF render: GET one quote by id is public.
-	// List, mutate, preview, Zoho search, and config stay behind the site password.
-	if !isPublicQuoteGet(method, path, id) && !apigw.Authorized(req) {
-		return apigw.Error(401, "unauthorized"), nil
+	if status, msg := authorizeAPIRequest(method, path, id, req); status != 0 {
+		return apigw.Error(status, msg), nil
 	}
 
 	switch {
@@ -82,6 +80,8 @@ func (a *API) Handle(ctx context.Context, req events.APIGatewayV2HTTPRequest) (e
 		return a.putConfig(ctx, req)
 	case method == "POST" && path == "/quotes":
 		return a.createQuote(ctx, req)
+	case method == "GET" && path == "/quotes/search":
+		return a.searchQuotes(ctx, req)
 	case method == "GET" && path == "/quotes":
 		return a.listQuotes(ctx, req)
 	case method == "POST" && path == "/quotes/preview":
@@ -107,13 +107,42 @@ func (a *API) Handle(ctx context.Context, req events.APIGatewayV2HTTPRequest) (e
 	}
 }
 
+func isReservedQuoteSegment(seg string) bool {
+	switch strings.ToLower(seg) {
+	case "preview", "form-link", "search":
+		return true
+	default:
+		return false
+	}
+}
+
+// authorizeAPIRequest returns (0, "") when the request may proceed, else HTTP status + message.
+func authorizeAPIRequest(method, path, id string, req events.APIGatewayV2HTTPRequest) (int, string) {
+	if isPublicQuoteGet(method, path, id) {
+		return 0, ""
+	}
+	switch apigw.ClassifyCredential(req) {
+	case apigw.CredNone:
+		return 401, "unauthorized"
+	case apigw.CredMachineRead:
+		if !apigw.IsMachineReadPath(method, path) {
+			return 403, "sales token is read-only"
+		}
+		return 0, ""
+	case apigw.CredSite, apigw.CredAdmin:
+		return 0, ""
+	default:
+		return 401, "unauthorized"
+	}
+}
+
 // isPublicQuoteGet reports whether this request is an unauthenticated single-quote read
 // used by shared prospectus URLs (Copy Link, Zoho Delphinium_Prospectus_URL).
 func isPublicQuoteGet(method, path, id string) bool {
 	if !strings.EqualFold(method, "GET") || id == "" {
 		return false
 	}
-	if id == "preview" || id == "form-link" {
+	if isReservedQuoteSegment(id) {
 		return false
 	}
 	if strings.Contains(path, "/zoho/") {
@@ -126,6 +155,24 @@ func isPublicQuoteGet(method, path, id string) bool {
 	// /quotes/{id}, optional trailing slash, optional API Gateway stage prefix.
 	suffix := "/quotes/" + id
 	return trimmed == suffix || strings.HasSuffix(trimmed, suffix) || trimmed == "quotes/"+id
+}
+
+func (a *API) quoteWebURL(id string) string {
+	return quotes.PublicQuoteURL(a.webBase, id)
+}
+
+func (a *API) quoteEmailLine(q quotes.Quote) string {
+	return quotes.EmailLine(q.SchoolName, a.webBase, q.QuoteID)
+}
+
+func (a *API) persistContactIfNeeded(ctx context.Context, q *quotes.Quote) {
+	if q == nil {
+		return
+	}
+	if !quotes.EnsureContactEmail(q) {
+		return
+	}
+	_ = a.repo.Put(ctx, *q)
 }
 
 func (a *API) authSession(req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
@@ -221,19 +268,21 @@ func (a *API) createQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 		PeerReference: body.PeerReference, TargetGoLive: body.TargetGoLive, ValidUntil: body.ValidUntil,
 		IncludeFreeTrialPage: body.IncludeFreeTrialPage, IncludePilotPage: body.IncludePilotPage,
 		SlackUserID: body.SlackUserID, Ref: body.Ref,
+		ContactName: strings.TrimSpace(body.ContactName), ContactEmail: strings.TrimSpace(body.ContactEmail),
 		ZohoAccountID:   body.ZohoAccountID,
 		PricingSnapshot: pr, CreatedAt: now, UpdatedAt: now,
 	}
+	quotes.EnsureContactEmail(&q)
 	if err := a.repo.Put(ctx, q); err != nil {
 		return apigw.Error(500, err.Error()), nil
 	}
 
-	webURL := fmt.Sprintf("%s/quotes/%s", a.webBase, id)
+	webURL := a.quoteWebURL(id)
 	a.syncZohoAccount(ctx, q.ZohoAccountID, webURL)
 	_ = a.slack.QuoteReady(ctx, body.SchoolName, webURL, "")
 
 	return apigw.JSON(201, quotes.QuoteResponse{
-		Quote: q, Pricing: pr, WebURL: webURL,
+		Quote: q, Pricing: pr, WebURL: webURL, EmailLine: a.quoteEmailLine(q),
 	}), nil
 }
 
@@ -242,10 +291,12 @@ func (a *API) getQuote(ctx context.Context, id string) (events.APIGatewayV2HTTPR
 	if err != nil {
 		return apigw.Error(404, err.Error()), nil
 	}
+	a.persistContactIfNeeded(ctx, &q)
 	pr, _ := pricing.Calculate(q.ToQuoteInput())
 	resp := quotes.QuoteResponse{
 		Quote: q, Pricing: pr,
-		WebURL: fmt.Sprintf("%s/quotes/%s", a.webBase, id),
+		WebURL:    a.quoteWebURL(id),
+		EmailLine: a.quoteEmailLine(q),
 	}
 	if q.PdfS3Key != "" {
 		if u, err := a.pdf.SignedURL(ctx, q.PdfS3Key); err == nil {
@@ -269,7 +320,51 @@ func (a *API) listQuotes(ctx context.Context, req events.APIGatewayV2HTTPRequest
 	if err != nil {
 		return apigw.Error(500, err.Error()), nil
 	}
-	return apigw.JSON(200, items), nil
+	out := make([]quotes.QuoteListItem, 0, len(items))
+	for i := range items {
+		q := items[i]
+		a.persistContactIfNeeded(ctx, &q)
+		out = append(out, quotes.QuoteListItem{
+			Quote:     q,
+			EmailLine: a.quoteEmailLine(q),
+			WebURL:    a.quoteWebURL(q.QuoteID),
+		})
+	}
+	return apigw.JSON(200, out), nil
+}
+
+func (a *API) searchQuotes(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	createdAfter, err := quotes.ParseSearchTime(apigw.Query(req, "createdAfter"))
+	if err != nil {
+		return apigw.Error(400, err.Error()), nil
+	}
+	createdBefore, err := quotes.ParseSearchTime(apigw.Query(req, "createdBefore"))
+	if err != nil {
+		return apigw.Error(400, err.Error()), nil
+	}
+	params := quotes.SearchParams{
+		Q:             apigw.Query(req, "q"),
+		Email:         apigw.Query(req, "email"),
+		Rep:           apigw.Query(req, "rep"),
+		CreatedAfter:  createdAfter,
+		CreatedBefore: createdBefore,
+		Limit:         quotes.ParseSearchLimit(apigw.Query(req, "limit")),
+		Cursor:        apigw.Query(req, "cursor"),
+	}
+	page, next, err := a.repo.Search(ctx, params)
+	if err != nil {
+		if strings.Contains(err.Error(), "cursor") {
+			return apigw.Error(400, err.Error()), nil
+		}
+		return apigw.Error(500, err.Error()), nil
+	}
+	results := make([]quotes.SearchResult, 0, len(page))
+	for i := range page {
+		q := page[i]
+		a.persistContactIfNeeded(ctx, &q)
+		results = append(results, quotes.ToSearchResult(q, a.webBase))
+	}
+	return apigw.JSON(200, quotes.SearchResponse{Results: results, NextCursor: next}), nil
 }
 
 func (a *API) previewPricing(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
@@ -358,6 +453,7 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	q.IncludeFreeTrialPage = body.IncludeFreeTrialPage
 	q.IncludePilotPage = body.IncludePilotPage
 	q.ZohoAccountID = body.ZohoAccountID
+	quotes.ApplyContactFromRequest(&q, body)
 	pr, err := pricing.Calculate(q.ToQuoteInput())
 	if err != nil {
 		return apigw.Error(400, err.Error()), nil
@@ -367,10 +463,10 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	if err := a.repo.Put(ctx, q); err != nil {
 		return apigw.Error(500, err.Error()), nil
 	}
-	webURL := fmt.Sprintf("%s/quotes/%s", a.webBase, id)
+	webURL := a.quoteWebURL(id)
 	a.syncZohoAccount(ctx, q.ZohoAccountID, webURL)
 	return apigw.JSON(200, quotes.QuoteResponse{
-		Quote: q, Pricing: pr, WebURL: webURL,
+		Quote: q, Pricing: pr, WebURL: webURL, EmailLine: a.quoteEmailLine(q),
 	}), nil
 }
 
@@ -411,7 +507,7 @@ func (a *API) notifyQuote(ctx context.Context, id string) (events.APIGatewayV2HT
 	if err != nil {
 		return apigw.Error(404, err.Error()), nil
 	}
-	webURL := fmt.Sprintf("%s/quotes/%s", a.webBase, id)
+	webURL := a.quoteWebURL(id)
 	pdfURL := ""
 	if q.PdfS3Key != "" {
 		pdfURL, _ = a.pdf.SignedURL(ctx, q.PdfS3Key)

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import QuoteList from '../components/QuoteList.jsx';
 import SaveQuoteDialog from '../components/SaveQuoteDialog.jsx';
-import HubSpotCompanySearch from '../components/HubSpotCompanySearch.jsx';
+import ZohoAccountSearch from '../components/ZohoAccountSearch.jsx';
 import AdminSettings from '../components/AdminSettings.jsx';
 import { useQuote } from '../context/QuoteContext.jsx';
 import {
@@ -731,14 +731,14 @@ export default function PricingCalculator() {
 
           <div className="card">
             <div className="card-title">School Information</div>
-            <HubSpotCompanySearch
-              companyId={quote.hubspotCompanyId}
+            <ZohoAccountSearch
+              accountId={quote.zohoAccountId}
               schoolName={quote.schoolName}
-              onSelect={company => updateQuote({
-                hubspotCompanyId: company.id,
-                schoolName: company.name || quote.schoolName,
+              onSelect={account => updateQuote({
+                zohoAccountId: account.id,
+                schoolName: account.name || quote.schoolName,
               })}
-              onUnlink={() => updateQuote({ hubspotCompanyId: '' })}
+              onUnlink={() => updateQuote({ zohoAccountId: '' })}
             />
             <div className="form-group">
               <label>School / District Name</label>

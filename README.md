@@ -7,7 +7,7 @@ Personalized sales prospectus generator for Delphinium.
 ```
 prospectus/
 ├── frontend/     React+Vite SPA (pricing calculator + 11-page prospectus)
-├── backend/      Go Lambda API (quotes, pricing, HubSpot, Slack, PDF)
+├── backend/      Go Lambda API (quotes, pricing, Zoho, Slack, PDF)
 ├── hermes/       Nous Hermes Agent skill for Slack quote workflows
 └── scripts/      deploy helpers
 ```
@@ -80,13 +80,12 @@ Set `PROSPECTUS_API_URL` and `PROSPECTUS_WEB_URL` in Hermes environment.
 
 See `.env.example`.
 
-### HubSpot (company sync)
+### Zoho (account sync)
 
-Quotes link to HubSpot **companies** (not deals by default).
+Quotes link to a Zoho CRM **Account**. There is no Prospectus module.
 
-1. Private app scopes: `crm.objects.companies.read`, `crm.objects.companies.write`
-2. Create a company property with internal name `delphinium_prospectus_url` (single-line text), or set `HUBSPOT_PROSPECTUS_URL_PROPERTY` to an existing property
-3. Set `HUBSPOT_ACCESS_TOKEN` (use `-` or empty to disable; search returns 503)
-4. Optional: `HUBSPOT_SYNC_DEALS=true` to also create deals on save (off by default)
+1. OAuth scopes: `ZohoCRM.modules.accounts.READ`, `ZohoCRM.modules.accounts.UPDATE`
+2. Set `ZOHO_CLIENT_ID`, `ZOHO_CLIENT_SECRET`, and `ZOHO_REFRESH_TOKEN` (use `-` or empty to disable; search returns 503 and save does not call Zoho)
+3. `ZOHO_ACCOUNTS_URL` defaults to `https://accounts.zoho.com`. `ZOHO_API_DOMAIN` defaults to `https://www.zohoapis.com`
 
-On quote save/update with `hubspotCompanyId`, the API PATCHes that company with the prospectus URL. If the custom property is missing, it appends the URL to the company `description`.
+On quote save/update with `zohoAccountId`, the API PUTs `{WEB_BASE_URL}/quotes/{id}` into `Accounts.Delphinium_Prospectus_URL`. Pass `ApiPassword` and `AdminPassword` at deploy time; they are not stored in `samconfig.toml`.

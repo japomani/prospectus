@@ -98,16 +98,16 @@ export async function listQuotes({ rep } = {}) {
   return data.map(item => apiQuoteToForm(item));
 }
 
-export async function searchHubspotCompanies(query) {
+export async function searchZohoAccounts(query) {
   const q = (query || '').trim();
   if (!q) return [];
-  const data = await request(`/hubspot/companies?q=${encodeURIComponent(q)}`);
+  const data = await request(`/zoho/accounts?q=${encodeURIComponent(q)}`);
   return Array.isArray(data?.results) ? data.results : [];
 }
 
-export async function getHubspotCompany(id) {
+export async function getZohoAccount(id) {
   if (!id) return null;
-  return request(`/hubspot/companies/${encodeURIComponent(id)}`);
+  return request(`/zoho/accounts/${encodeURIComponent(id)}`);
 }
 
 /** Verify password against API and detect admin session. */

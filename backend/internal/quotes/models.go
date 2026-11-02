@@ -46,9 +46,7 @@ type Quote struct {
 	Ref              string                `json:"ref" dynamodbav:"ref"`
 	PricingSnapshot  pricing.Result        `json:"pricingSnapshot" dynamodbav:"pricingSnapshot"`
 	PdfS3Key           string                `json:"pdfS3Key" dynamodbav:"pdfS3Key"`
-	HubspotCompanyID   string                `json:"hubspotCompanyId" dynamodbav:"hubspotCompanyId"`
-	HubspotDealID      string                `json:"hubspotDealId,omitempty" dynamodbav:"hubspotDealId,omitempty"`
-	HubspotQuoteID     string                `json:"hubspotQuoteId,omitempty" dynamodbav:"hubspotQuoteId,omitempty"`
+	ZohoAccountID      string                `json:"zohoAccountId" dynamodbav:"zohoAccountId"`
 	CreatedAt          time.Time             `json:"createdAt" dynamodbav:"createdAt"`
 	UpdatedAt          time.Time             `json:"updatedAt" dynamodbav:"updatedAt"`
 }
@@ -90,7 +88,7 @@ type CreateRequest struct {
 	IncludePilotPage     bool                `json:"includePilotPage"`
 	SlackUserID          string               `json:"slackUserId"`
 	Ref                  string               `json:"ref"`
-	HubspotCompanyID     string               `json:"hubspotCompanyId"`
+	ZohoAccountID        string               `json:"zohoAccountId"`
 }
 
 type FormLinkRequest struct {

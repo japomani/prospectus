@@ -14,9 +14,11 @@ Globals:
         PDF_BUCKET: !Ref PdfBucket
         WEB_BASE_URL: !Sub 'https://${CloudFrontDistribution.DomainName}'
         PROSPECTUS_BASE_URL: !Sub 'https://${CloudFrontDistribution.DomainName}'
-        HUBSPOT_ACCESS_TOKEN: !Ref HubspotAccessToken
-        HUBSPOT_PROSPECTUS_URL_PROPERTY: !Ref HubspotProspectusUrlProperty
-        HUBSPOT_SYNC_DEALS: !Ref HubspotSyncDeals
+        ZOHO_CLIENT_ID: !Ref ZohoClientId
+        ZOHO_CLIENT_SECRET: !Ref ZohoClientSecret
+        ZOHO_REFRESH_TOKEN: !Ref ZohoRefreshToken
+        ZOHO_ACCOUNTS_URL: !Ref ZohoAccountsUrl
+        ZOHO_API_DOMAIN: !Ref ZohoApiDomain
         SLACK_BOT_TOKEN: !Ref SlackBotToken
         SLACK_QUOTES_CHANNEL: !Ref SlackQuotesChannel
         API_PASSWORD: !Ref ApiPassword
@@ -24,18 +26,26 @@ Globals:
         CONFIG_TABLE: !Ref ConfigTable
 
 Parameters:
-  HubspotAccessToken:
+  ZohoClientId:
     Type: String
     Default: ''
     NoEcho: true
-  HubspotProspectusUrlProperty:
+    Description: Zoho OAuth client id. Scopes ZohoCRM.modules.accounts.READ and ZohoCRM.modules.accounts.UPDATE.
+  ZohoClientSecret:
     Type: String
-    Default: 'delphinium_prospectus_url'
-    Description: HubSpot company property for prospectus URL (WEB_BASE_URL/quotes/{id}; GET quote is public)
-  HubspotSyncDeals:
+    Default: ''
+    NoEcho: true
+  ZohoRefreshToken:
     Type: String
-    Default: 'false'
-    Description: Set true to also create HubSpot deals on quote save (off by default)
+    Default: ''
+    NoEcho: true
+    Description: Zoho refresh token. Leave empty until provided; the API does not call Zoho without it.
+  ZohoAccountsUrl:
+    Type: String
+    Default: 'https://accounts.zoho.com'
+  ZohoApiDomain:
+    Type: String
+    Default: 'https://www.zohoapis.com'
   SlackBotToken:
     Type: String
     Default: ''
@@ -246,17 +256,17 @@ Resources:
             ApiId: !Ref ProspectusApi
             Path: /quotes/{id}/notify
             Method: POST
-        GetHubspotCompanies:
+        GetZohoAccounts:
           Type: HttpApi
           Properties:
             ApiId: !Ref ProspectusApi
-            Path: /hubspot/companies
+            Path: /zoho/accounts
             Method: GET
-        GetHubspotCompanyById:
+        GetZohoAccountById:
           Type: HttpApi
           Properties:
             ApiId: !Ref ProspectusApi
-            Path: /hubspot/companies/{id}
+            Path: /zoho/accounts/{id}
             Method: GET
         OptionsCatchAll:
           Type: HttpApi

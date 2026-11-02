@@ -302,7 +302,8 @@ if ($deployBackend) {
   Invoke-Checked 'Backend: sam deploy' {
     Push-Location (Join-Path $Root 'backend')
     try {
-      # Non-interactive; uses backend/samconfig.toml (includes ApiPassword=delphinium)
+      # Non-interactive. Pass ApiPassword, AdminPassword, and Zoho parameters at deploy time.
+      # Those values are not stored in backend/samconfig.toml.
       sam deploy `
         --no-confirm-changeset `
         --no-fail-on-empty-changeset `

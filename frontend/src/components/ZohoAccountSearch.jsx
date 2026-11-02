@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import { isApiConfigured, searchHubspotCompanies } from '../lib/api.js';
+import { isApiConfigured, searchZohoAccounts } from '../lib/api.js';
 
-function companySubtitle(company) {
-  const parts = [company.domain, company.city, company.state].filter(Boolean);
-  return parts.join(' · ');
+function accountSubtitle(account) {
+  return account.website || '';
 }
 
 /**
- * HubSpot company typeahead for School Information.
- * Selecting a company sets hubspotCompanyId and schoolName from company.name.
+ * Zoho Account typeahead for School Information.
+ * Selecting an account sets zohoAccountId and schoolName from account.name.
+ * Save writes the prospectus URL to Accounts.Delphinium_Prospectus_URL.
  */
-export default function HubSpotCompanySearch({ companyId, schoolName, onSelect, onUnlink }) {
+export default function ZohoAccountSearch({ accountId, schoolName, onSelect, onUnlink }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [open, setOpen] = useState(false);
@@ -44,12 +44,12 @@ export default function HubSpotCompanySearch({ companyId, schoolName, onSelect, 
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
       try {
-        const items = await searchHubspotCompanies(q);
+        const items = await searchZohoAccounts(q);
         setResults(items);
         setOpen(true);
       } catch (err) {
         setResults([]);
-        setError(err.message || 'HubSpot search unavailable');
+        setError(err.message || 'Zoho search unavailable');
         setOpen(true);
       } finally {
         setLoading(false);
@@ -60,18 +60,18 @@ export default function HubSpotCompanySearch({ companyId, schoolName, onSelect, 
 
   if (!apiConfigured) return null;
 
-  if (companyId) {
+  if (accountId) {
     return (
-      <div className="form-group hubspot-company-link">
-        <label>HubSpot company</label>
-        <div className="hubspot-linked">
-          <div className="hubspot-linked-meta">
-            <span className="hubspot-linked-name">{schoolName || 'Linked company'}</span>
-            <span className="hubspot-linked-id">ID {companyId}</span>
+      <div className="form-group zoho-account-link">
+        <label>Zoho account</label>
+        <div className="zoho-linked">
+          <div className="zoho-linked-meta">
+            <span className="zoho-linked-name">{schoolName || 'Linked account'}</span>
+            <span className="zoho-linked-id">ID {accountId}</span>
           </div>
           <button
             type="button"
-            className="btn-secondary hubspot-unlink"
+            className="btn-secondary zoho-unlink"
             onClick={() => {
               onUnlink?.();
               setQuery('');
@@ -81,16 +81,16 @@ export default function HubSpotCompanySearch({ companyId, schoolName, onSelect, 
             Unlink
           </button>
         </div>
-        <p className="pricing-muted">Prospectus URL will sync to this company on save.</p>
+        <p className="pricing-muted">Prospectus URL will sync to this account on save.</p>
       </div>
     );
   }
 
   return (
-    <div className="form-group hubspot-company-search" ref={wrapRef}>
-      <label htmlFor="hubspot-company-q">Find HubSpot company</label>
+    <div className="form-group zoho-account-search" ref={wrapRef}>
+      <label htmlFor="zoho-account-q">Find Zoho account</label>
       <input
-        id="hubspot-company-q"
+        id="zoho-account-q"
         type="search"
         autoComplete="off"
         value={query}
@@ -98,29 +98,29 @@ export default function HubSpotCompanySearch({ companyId, schoolName, onSelect, 
         onFocus={() => {
           if (results.length || error) setOpen(true);
         }}
-        placeholder="Search companies by name…"
+        placeholder="Search accounts by name…"
       />
-      {loading && <p className="pricing-muted">Searching HubSpot…</p>}
+      {loading && <p className="pricing-muted">Searching Zoho…</p>}
       {open && (results.length > 0 || error) && (
-        <ul className="hubspot-results" role="listbox">
+        <ul className="zoho-results" role="listbox">
           {error && (
-            <li className="hubspot-results-empty">{error}</li>
+            <li className="zoho-results-empty">{error}</li>
           )}
-          {!error && results.map(company => (
-            <li key={company.id}>
+          {!error && results.map(account => (
+            <li key={account.id}>
               <button
                 type="button"
-                className="hubspot-result"
+                className="zoho-result"
                 onClick={() => {
-                  onSelect?.(company);
+                  onSelect?.(account);
                   setQuery('');
                   setResults([]);
                   setOpen(false);
                 }}
               >
-                <span className="hubspot-result-name">{company.name || 'Untitled'}</span>
-                {companySubtitle(company) && (
-                  <span className="hubspot-result-sub">{companySubtitle(company)}</span>
+                <span className="zoho-result-name">{account.name || 'Untitled'}</span>
+                {accountSubtitle(account) && (
+                  <span className="zoho-result-sub">{accountSubtitle(account)}</span>
                 )}
               </button>
             </li>
@@ -128,7 +128,7 @@ export default function HubSpotCompanySearch({ companyId, schoolName, onSelect, 
         </ul>
       )}
       {!loading && !error && query.trim().length >= 2 && open && results.length === 0 && (
-        <p className="pricing-muted">No companies matched.</p>
+        <p className="pricing-muted">No accounts matched.</p>
       )}
     </div>
   );

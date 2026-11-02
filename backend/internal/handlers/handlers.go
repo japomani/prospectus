@@ -16,20 +16,20 @@ import (
 
 	"github.com/japomani/prospectus/backend/internal/apigw"
 	"github.com/japomani/prospectus/backend/internal/appcfg"
-	"github.com/japomani/prospectus/backend/internal/hubspot"
 	"github.com/japomani/prospectus/backend/internal/pdf"
 	"github.com/japomani/prospectus/backend/internal/pricing"
 	"github.com/japomani/prospectus/backend/internal/quotes"
 	"github.com/japomani/prospectus/backend/internal/slack"
+	"github.com/japomani/prospectus/backend/internal/zoho"
 )
 
 type API struct {
-	repo      *quotes.Repository
-	config    *appcfg.Repository
-	hubspot   *hubspot.Client
-	slack     *slack.Notifier
-	pdf       *pdf.Renderer
-	webBase   string
+	repo    *quotes.Repository
+	config  *appcfg.Repository
+	zoho    *zoho.Client
+	slack   *slack.Notifier
+	pdf     *pdf.Renderer
+	webBase string
 }
 
 func NewAPI() (*API, error) {
@@ -46,7 +46,7 @@ func NewAPI() (*API, error) {
 	return &API{
 		repo:    quotes.NewRepository(ddb),
 		config:  appcfg.NewRepository(ddb),
-		hubspot: hubspot.NewClient(),
+		zoho:    zoho.NewClient(),
 		slack:   slack.NewNotifier(),
 		pdf:     pdf.NewRenderer(s3c),
 		webBase: web,
@@ -67,8 +67,8 @@ func (a *API) Handle(ctx context.Context, req events.APIGatewayV2HTTPRequest) (e
 		}
 	}
 
-	// Shared prospectus / HubSpot / Copy Link / PDF render: GET one quote by id is public.
-	// List, mutate, preview, HubSpot search, and config stay behind the site password.
+	// Shared prospectus / Copy Link / PDF render: GET one quote by id is public.
+	// List, mutate, preview, Zoho search, and config stay behind the site password.
 	if !isPublicQuoteGet(method, path, id) && !apigw.Authorized(req) {
 		return apigw.Error(401, "unauthorized"), nil
 	}
@@ -88,11 +88,11 @@ func (a *API) Handle(ctx context.Context, req events.APIGatewayV2HTTPRequest) (e
 		return a.previewPricing(ctx, req)
 	case method == "POST" && path == "/quotes/form-link":
 		return a.formLink(ctx, req)
-	case method == "GET" && path == "/hubspot/companies":
-		return a.searchHubspotCompanies(ctx, req)
-	case method == "GET" && strings.HasPrefix(path, "/hubspot/companies/") && path != "/hubspot/companies/":
-		return a.getHubspotCompany(ctx, strings.TrimPrefix(path, "/hubspot/companies/"))
-	case method == "GET" && id != "" && !strings.HasPrefix(path, "/hubspot/") && !strings.HasSuffix(path, "/pdf") && !strings.HasSuffix(path, "/notify"):
+	case method == "GET" && path == "/zoho/accounts":
+		return a.searchZohoAccounts(ctx, req)
+	case method == "GET" && strings.HasPrefix(path, "/zoho/accounts/") && path != "/zoho/accounts/":
+		return a.getZohoAccount(ctx, strings.TrimPrefix(path, "/zoho/accounts/"))
+	case method == "GET" && id != "" && !strings.HasPrefix(path, "/zoho/") && !strings.HasSuffix(path, "/pdf") && !strings.HasSuffix(path, "/notify"):
 		return a.getQuote(ctx, id)
 	case method == "PATCH" && id != "":
 		return a.updateQuote(ctx, req)
@@ -108,7 +108,7 @@ func (a *API) Handle(ctx context.Context, req events.APIGatewayV2HTTPRequest) (e
 }
 
 // isPublicQuoteGet reports whether this request is an unauthenticated single-quote read
-// used by shared prospectus URLs (Copy Link, HubSpot delphinium_prospectus_url).
+// used by shared prospectus URLs (Copy Link, Zoho Delphinium_Prospectus_URL).
 func isPublicQuoteGet(method, path, id string) bool {
 	if !strings.EqualFold(method, "GET") || id == "" {
 		return false
@@ -116,7 +116,7 @@ func isPublicQuoteGet(method, path, id string) bool {
 	if id == "preview" || id == "form-link" {
 		return false
 	}
-	if strings.Contains(path, "/hubspot/") {
+	if strings.Contains(path, "/zoho/") {
 		return false
 	}
 	trimmed := strings.TrimSuffix(path, "/")
@@ -221,7 +221,7 @@ func (a *API) createQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 		PeerReference: body.PeerReference, TargetGoLive: body.TargetGoLive, ValidUntil: body.ValidUntil,
 		IncludeFreeTrialPage: body.IncludeFreeTrialPage, IncludePilotPage: body.IncludePilotPage,
 		SlackUserID: body.SlackUserID, Ref: body.Ref,
-		HubspotCompanyID: body.HubspotCompanyID,
+		ZohoAccountID:   body.ZohoAccountID,
 		PricingSnapshot: pr, CreatedAt: now, UpdatedAt: now,
 	}
 	if err := a.repo.Put(ctx, q); err != nil {
@@ -229,22 +229,8 @@ func (a *API) createQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	}
 
 	webURL := fmt.Sprintf("%s/quotes/%s", a.webBase, id)
-	hsURL := a.syncHubspotCompany(ctx, q.HubspotCompanyID, webURL)
-
-	// Optional: deal sync is off unless HUBSPOT_SYNC_DEALS=true.
-	if a.hubspot.DealSyncEnabled() {
-		hsNotes := fmt.Sprintf("Prospectus: %s", webURL)
-		hs, _ := a.hubspot.SyncDeal(ctx, body.SchoolName, pr.GrandTotal, hsNotes)
-		if hs.DealID != "" {
-			q.HubspotDealID = hs.DealID
-			_ = a.repo.Put(ctx, q)
-			if hsURL == "" {
-				hsURL = hs.DealURL
-			}
-		}
-	}
-
-	_ = a.slack.QuoteReady(ctx, body.SchoolName, webURL, "", hsURL)
+	a.syncZohoAccount(ctx, q.ZohoAccountID, webURL)
+	_ = a.slack.QuoteReady(ctx, body.SchoolName, webURL, "")
 
 	return apigw.JSON(201, quotes.QuoteResponse{
 		Quote: q, Pricing: pr, WebURL: webURL,
@@ -371,7 +357,7 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 	q.ValidUntil = body.ValidUntil
 	q.IncludeFreeTrialPage = body.IncludeFreeTrialPage
 	q.IncludePilotPage = body.IncludePilotPage
-	q.HubspotCompanyID = body.HubspotCompanyID
+	q.ZohoAccountID = body.ZohoAccountID
 	pr, err := pricing.Calculate(q.ToQuoteInput())
 	if err != nil {
 		return apigw.Error(400, err.Error()), nil
@@ -382,7 +368,7 @@ func (a *API) updateQuote(ctx context.Context, req events.APIGatewayV2HTTPReques
 		return apigw.Error(500, err.Error()), nil
 	}
 	webURL := fmt.Sprintf("%s/quotes/%s", a.webBase, id)
-	_ = a.syncHubspotCompany(ctx, q.HubspotCompanyID, webURL)
+	a.syncZohoAccount(ctx, q.ZohoAccountID, webURL)
 	return apigw.JSON(200, quotes.QuoteResponse{
 		Quote: q, Pricing: pr, WebURL: webURL,
 	}), nil
@@ -430,55 +416,45 @@ func (a *API) notifyQuote(ctx context.Context, id string) (events.APIGatewayV2HT
 	if q.PdfS3Key != "" {
 		pdfURL, _ = a.pdf.SignedURL(ctx, q.PdfS3Key)
 	}
-	hsURL := ""
-	if q.HubspotCompanyID != "" {
-		hsURL = fmt.Sprintf("https://app.hubspot.com/contacts/company/%s", q.HubspotCompanyID)
-	} else if q.HubspotDealID != "" {
-		hsURL = fmt.Sprintf("https://app.hubspot.com/contacts/deal/%s", q.HubspotDealID)
-	}
-	if err := a.slack.QuoteReady(ctx, q.SchoolName, webURL, pdfURL, hsURL); err != nil {
+	if err := a.slack.QuoteReady(ctx, q.SchoolName, webURL, pdfURL); err != nil {
 		return apigw.Error(500, err.Error()), nil
 	}
 	return apigw.JSON(200, map[string]string{"status": "notified"}), nil
 }
 
-func (a *API) syncHubspotCompany(ctx context.Context, companyID, prospectusURL string) string {
-	if companyID == "" || !a.hubspot.Enabled() {
-		return ""
+func (a *API) syncZohoAccount(ctx context.Context, accountID, prospectusURL string) {
+	if accountID == "" || !a.zoho.Enabled() {
+		return
 	}
-	res, err := a.hubspot.UpdateCompanyProspectusUrl(ctx, companyID, prospectusURL)
-	if err != nil || res.CompanyID == "" {
-		return ""
-	}
-	return res.CompanyURL
+	_, _ = a.zoho.UpdateProspectusURL(ctx, accountID, prospectusURL)
 }
 
-func (a *API) searchHubspotCompanies(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
-	if !a.hubspot.Enabled() {
-		return apigw.Error(503, "hubspot not configured"), nil
+func (a *API) searchZohoAccounts(ctx context.Context, req events.APIGatewayV2HTTPRequest) (events.APIGatewayV2HTTPResponse, error) {
+	if !a.zoho.Enabled() {
+		return apigw.Error(503, "zoho not configured"), nil
 	}
 	q := strings.TrimSpace(apigw.Query(req, "q"))
 	if q == "" {
-		return apigw.JSON(200, map[string]any{"results": []hubspot.Company{}}), nil
+		return apigw.JSON(200, map[string]any{"results": []zoho.Account{}}), nil
 	}
-	results, err := a.hubspot.SearchCompanies(ctx, q, 10)
+	results, err := a.zoho.SearchAccounts(ctx, q)
 	if err != nil {
 		return apigw.Error(502, err.Error()), nil
 	}
 	return apigw.JSON(200, map[string]any{"results": results}), nil
 }
 
-func (a *API) getHubspotCompany(ctx context.Context, id string) (events.APIGatewayV2HTTPResponse, error) {
-	if !a.hubspot.Enabled() {
-		return apigw.Error(503, "hubspot not configured"), nil
+func (a *API) getZohoAccount(ctx context.Context, id string) (events.APIGatewayV2HTTPResponse, error) {
+	if !a.zoho.Enabled() {
+		return apigw.Error(503, "zoho not configured"), nil
 	}
 	id = strings.Trim(strings.TrimSpace(id), "/")
 	if id == "" {
-		return apigw.Error(400, "company id required"), nil
+		return apigw.Error(400, "account id required"), nil
 	}
-	co, err := a.hubspot.GetCompany(ctx, id)
+	account, err := a.zoho.GetAccount(ctx, id)
 	if err != nil {
 		return apigw.Error(502, err.Error()), nil
 	}
-	return apigw.JSON(200, co), nil
+	return apigw.JSON(200, account), nil
 }

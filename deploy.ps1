@@ -304,11 +304,27 @@ if ($deployBackend) {
     try {
       # Non-interactive. Pass ApiPassword, AdminPassword, and Zoho parameters at deploy time.
       # Those values are not stored in backend/samconfig.toml.
-      sam deploy `
-        --no-confirm-changeset `
-        --no-fail-on-empty-changeset `
-        --stack-name $StackName `
-        --region $AwsRegion
+      $samArgs = @(
+        'deploy',
+        '--no-confirm-changeset',
+        '--no-fail-on-empty-changeset',
+        '--stack-name', $StackName,
+        '--region', $AwsRegion
+      )
+      $overrides = @()
+      if ($env:ZOHO_CLIENT_ID)     { $overrides += "ZohoClientId=$($env:ZOHO_CLIENT_ID)" }
+      if ($env:ZOHO_CLIENT_SECRET) { $overrides += "ZohoClientSecret=$($env:ZOHO_CLIENT_SECRET)" }
+      if ($env:ZOHO_REFRESH_TOKEN) { $overrides += "ZohoRefreshToken=$($env:ZOHO_REFRESH_TOKEN)" }
+      if ($env:ZOHO_ACCOUNTS_URL)  { $overrides += "ZohoAccountsUrl=$($env:ZOHO_ACCOUNTS_URL)" }
+      if ($env:ZOHO_API_DOMAIN)    { $overrides += "ZohoApiDomain=$($env:ZOHO_API_DOMAIN)" }
+      if ($overrides.Count -gt 0) {
+        Write-Ok ("Passing Zoho parameter-overrides (" + $overrides.Count + " keys; values not logged)")
+        $samArgs += '--parameter-overrides'
+        $samArgs += $overrides
+      } else {
+        Write-Warn 'No ZOHO_* env vars set; Zoho params will use previous stack values or empty defaults.'
+      }
+      & sam @samArgs
     } finally {
       Pop-Location
     }

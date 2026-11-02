@@ -134,6 +134,6 @@ export function getDefaultQuote() {
     includePilotPage: false,
     quoteName: '',
     quoteId: '',
-    hubspotCompanyId: '',
+    zohoAccountId: '',
   };
 }

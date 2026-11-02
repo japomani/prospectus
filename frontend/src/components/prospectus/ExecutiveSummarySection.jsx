@@ -550,52 +550,28 @@ export default function ExecutiveSummarySection({
               ) : (
                 <>
                   <div className="ex-logo-card">
-                    <img
-                      src="https://delphi-me.com/hs-fs/hubfs/Davis%20School%20District.png?width=1340&height=250&name=Davis%20School%20District.png"
-                      alt="Davis School District"
-                    />
+                    <img src="/logos/davis-school-district.png" alt="Davis School District" />
                   </div>
                   <div className="ex-logo-card">
-                    <img
-                      src="https://delphi-me.com/hs-fs/hubfs/vpw_logo_no_motto.webp?width=398&height=250&name=vpw_logo_no_motto.webp"
-                      alt="VPW"
-                    />
+                    <img src="/logos/virtual-prince-william.webp" alt="VPW" />
                   </div>
                   <div className="ex-logo-card">
-                    <img
-                      src="https://delphi-me.com/hs-fs/hubfs/cropped-utva_pbk12_logo_rgb-1.webp?width=908&height=250&name=cropped-utva_pbk12_logo_rgb-1.webp"
-                      alt="UTVA PBK12"
-                    />
+                    <img src="/logos/utah-virtual-academy.webp" alt="UTVA PBK12" />
                   </div>
                   <div className="ex-logo-card">
-                    <img
-                      src="https://delphi-me.com/hs-fs/hubfs/bakerwebacademylogo.webp?width=250&height=250&name=bakerwebacademylogo.webp"
-                      alt="Baker Web Academy"
-                    />
+                    <img src="/logos/baker-web-academy.webp" alt="Baker Web Academy" />
                   </div>
                   <div className="ex-logo-card">
-                    <img
-                      src="https://delphi-me.com/hs-fs/hubfs/weblogo-e1668897946927.png?width=750&height=250&name=weblogo-e1668897946927.png"
-                      alt="School logo"
-                    />
+                    <img src="/logos/kings-peak.png" alt="Kings Peak High" />
                   </div>
                   <div className="ex-logo-card">
-                    <img
-                      src="https://delphi-me.com/hs-fs/hubfs/web_kelseypeak_logo.png?width=750&height=250&name=web_kelseypeak_logo.png"
-                      alt="Kelsey Peak"
-                    />
+                    <img src="/logos/kelsey-peak.png" alt="Kelsey Peak" />
                   </div>
                   <div className="ex-logo-card">
-                    <img
-                      src="https://delphi-me.com/hs-fs/hubfs/web_rockypeak_logo.png?width=750&height=250&name=web_rockypeak_logo.png"
-                      alt="Rocky Peak"
-                    />
+                    <img src="/logos/rocky-peak.png" alt="Rocky Peak" />
                   </div>
                   <div className="ex-logo-card">
-                    <img
-                      src="https://images.squarespace-cdn.com/content/v1/582f38b737c581192c45a53d/5ec03609-0938-417f-95ce-a4b4b849d250/logo.gif"
-                      alt="School logo"
-                    />
+                    <img src="/logos/mewa.gif" alt="Metro East Web Academy" />
                   </div>
                 </>
               )}

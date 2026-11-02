@@ -40,7 +40,7 @@ export function quoteToApiBody(quote) {
     slackUserId: quote.slackUserId || '',
     ref: quote.ref || '',
     quoteName: quote.quoteName || '',
-    hubspotCompanyId: quote.hubspotCompanyId || '',
+    zohoAccountId: quote.zohoAccountId || '',
   };
 }
 
@@ -83,7 +83,7 @@ export function apiQuoteToForm(source) {
     includePilotPage: Boolean(q.includePilotPage),
     quoteName: q.quoteName || '',
     quoteId: q.quoteId || '',
-    hubspotCompanyId: q.hubspotCompanyId || '',
+    zohoAccountId: q.zohoAccountId || '',
     slackUserId: q.slackUserId || '',
     ref: q.ref || '',
     updatedAt: q.updatedAt || null,

@@ -190,13 +190,17 @@ func TestUpdateProspectusURL(t *testing.T) {
 		}
 		raw, _ := io.ReadAll(r.Body)
 		var body struct {
-			Data []map[string]string `json:"data"`
+			Data    []map[string]string `json:"data"`
+			Trigger []string            `json:"trigger"`
 		}
 		if err := json.Unmarshal(raw, &body); err != nil {
 			t.Fatal(err)
 		}
 		if len(body.Data) != 1 || body.Data[0][ProspectusURLField] != "https://example.com/quotes/q1" {
 			t.Fatalf("body %s", raw)
+		}
+		if body.Trigger == nil || len(body.Trigger) != 0 {
+			t.Fatalf("trigger %s", raw)
 		}
 		_ = json.NewEncoder(w).Encode(map[string]any{
 			"data": []map[string]string{{"code": "SUCCESS", "status": "success"}},

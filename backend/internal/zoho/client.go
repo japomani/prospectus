@@ -256,10 +256,12 @@ func (c *Client) UpdateProspectusURL(ctx context.Context, accountID, prospectusU
 		return SyncResult{}, fmt.Errorf("prospectus URL exceeds %d characters", prospectusURLMax)
 	}
 	result := SyncResult{AccountID: accountID, Property: ProspectusURLField}
+	// trigger: [] tells Zoho not to run Account workflows for this write.
 	payload := map[string]any{
 		"data": []map[string]string{{
 			ProspectusURLField: prospectusURL,
 		}},
+		"trigger": []string{},
 	}
 	resp, err := c.do(ctx, http.MethodPut, "/crm/v8/Accounts/"+url.PathEscape(accountID), payload)
 	if err != nil {

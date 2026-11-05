@@ -370,6 +370,10 @@ if ($deployFrontend) {
     Push-Location (Join-Path $Root 'frontend')
     try {
       $env:VITE_API_URL = $ApiUrl
+      # Customer-facing View Prospectus / Copy Link host (SPA may still load on *.cloudfront.net).
+      if (-not $env:VITE_PUBLIC_WEB_URL) {
+        $env:VITE_PUBLIC_WEB_URL = $CloudFrontUrl
+      }
       npm run build
     } finally {
       Pop-Location

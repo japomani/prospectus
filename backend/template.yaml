@@ -2,6 +2,18 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Delphinium Prospectus — Go API + static frontend
 
+# Custom domain is Prospectus-stack only (ACM + CloudFront alias + Route53).
+# Do not wire this into shared ProjectDelphinium/serverless CloudFront/ALB/certs.
+#
+# Dual hostname (hard requirement): Aliases add prospectus.delphi-me.com for new
+# published links (WEB_BASE_URL). The default *.cloudfront.net domain must keep
+# serving the same distribution with no redirect that would break old bookmarks.
+Conditions:
+  HasCustomDomain: !Not [!Equals [!Ref CustomDomainName, '']]
+  HasHostedZone: !And
+    - !Condition HasCustomDomain
+    - !Not [!Equals [!Ref HostedZoneId, '']]
+
 Globals:
   Function:
     Timeout: 30
@@ -12,8 +24,15 @@ Globals:
       Variables:
         QUOTES_TABLE: !Ref QuotesTable
         PDF_BUCKET: !Ref PdfBucket
-        WEB_BASE_URL: !Sub 'https://${CloudFrontDistribution.DomainName}'
-        PROSPECTUS_BASE_URL: !Sub 'https://${CloudFrontDistribution.DomainName}'
+        # Published hostname for quote/emailLine/Zoho URLs. Default cloudfront.net URL stays reachable.
+        WEB_BASE_URL: !If
+          - HasCustomDomain
+          - !Sub 'https://${CustomDomainName}'
+          - !Sub 'https://${CloudFrontDistribution.DomainName}'
+        PROSPECTUS_BASE_URL: !If
+          - HasCustomDomain
+          - !Sub 'https://${CustomDomainName}'
+          - !Sub 'https://${CloudFrontDistribution.DomainName}'
         ZOHO_CLIENT_ID: !Ref ZohoClientId
         ZOHO_CLIENT_SECRET: !Ref ZohoClientSecret
         ZOHO_REFRESH_TOKEN: !Ref ZohoRefreshToken
@@ -27,6 +46,14 @@ Globals:
         CONFIG_TABLE: !Ref ConfigTable
 
 Parameters:
+  CustomDomainName:
+    Type: String
+    Default: prospectus.delphi-me.com
+    Description: Public hostname for Prospectus (CloudFront alias). Leave empty to use only the default *.cloudfront.net URL.
+  HostedZoneId:
+    Type: String
+    Default: ZKQKC8513WHOI
+    Description: Route53 hosted zone ID for delphi-me.com (ACM DNS validation + alias records). Leave empty if DNS is outside this account.
   ZohoClientId:
     Type: String
     Default: ''
@@ -140,12 +167,42 @@ Resources:
         SigningBehavior: always
         SigningProtocol: sigv4
 
+  # Prospectus-only cert in us-east-1 (required for CloudFront). Not shared with other stacks.
+  ProspectusCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Condition: HasCustomDomain
+    Properties:
+      DomainName: !Ref CustomDomainName
+      ValidationMethod: DNS
+      # With HostedZoneId, CFN writes ACM validation CNAMEs automatically.
+      # Without it, add the ACM-provided CNAMEs at your DNS host, then the stack proceeds.
+      DomainValidationOptions: !If
+        - HasHostedZone
+        - - DomainName: !Ref CustomDomainName
+            HostedZoneId: !Ref HostedZoneId
+        - - DomainName: !Ref CustomDomainName
+      Tags:
+        - Key: Name
+          Value: prospectus-delphi-me-com
+        - Key: Project
+          Value: delphinium-prospectus
+
   CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
         Enabled: true
         DefaultRootObject: index.html
+        Aliases: !If
+          - HasCustomDomain
+          - - !Ref CustomDomainName
+          - !Ref AWS::NoValue
+        ViewerCertificate: !If
+          - HasCustomDomain
+          - AcmCertificateArn: !Ref ProspectusCertificate
+            SslSupportMethod: sni-only
+            MinimumProtocolVersion: TLSv1.2_2021
+          - CloudFrontDefaultCertificate: true
         Origins:
           - Id: S3Origin
             DomainName: !GetAtt FrontendBucket.RegionalDomainName
@@ -166,6 +223,32 @@ Resources:
           - ErrorCode: 403
             ResponseCode: 200
             ResponsePagePath: /index.html
+
+  # Alias A/AAAA → this stack's CloudFront only (hosted zone must be in this account).
+  ProspectusDnsA:
+    Type: AWS::Route53::RecordSet
+    Condition: HasHostedZone
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref CustomDomainName
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt CloudFrontDistribution.DomainName
+        # CloudFront global hosted zone id (AWS-fixed)
+        HostedZoneId: Z2FDTNDATAQYW2
+        EvaluateTargetHealth: false
+
+  ProspectusDnsAAAA:
+    Type: AWS::Route53::RecordSet
+    Condition: HasHostedZone
+    Properties:
+      HostedZoneId: !Ref HostedZoneId
+      Name: !Ref CustomDomainName
+      Type: AAAA
+      AliasTarget:
+        DNSName: !GetAtt CloudFrontDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2
+        EvaluateTargetHealth: false
 
   ProspectusApi:
     Type: AWS::Serverless::HttpApi
@@ -292,6 +375,14 @@ Outputs:
     Value: !Sub 'https://${ProspectusApi}.execute-api.${AWS::Region}.amazonaws.com'
   CloudFrontUrl:
     Value: !Sub 'https://${CloudFrontDistribution.DomainName}'
+    Description: Default CloudFront URL (kept working alongside the custom domain)
+  CustomDomainUrl:
+    Condition: HasCustomDomain
+    Value: !Sub 'https://${CustomDomainName}'
+    Description: Published public site URL used for WEB_BASE_URL / quote links
+  CertificateArn:
+    Condition: HasCustomDomain
+    Value: !Ref ProspectusCertificate
   FrontendBucketName:
     Value: !Ref FrontendBucket
   QuotesTableName:

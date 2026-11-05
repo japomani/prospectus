@@ -36,7 +36,7 @@ $AwsRegion        = if ($env:PROSPECTUS_AWS_REGION)   { $env:PROSPECTUS_AWS_REGI
 $FrontendBucket   = if ($env:PROSPECTUS_S3_BUCKET)    { $env:PROSPECTUS_S3_BUCKET }    else { 'delphinium-prospectus-frontendbucket-wmyrnj6h9qay' }
 $CloudFrontId     = if ($env:PROSPECTUS_CF_DIST_ID)   { $env:PROSPECTUS_CF_DIST_ID }   else { 'E2UVEOPVDSKJ0I' }
 $ApiUrl           = if ($env:VITE_API_URL)            { $env:VITE_API_URL }            else { 'https://g6yxi9yar3.execute-api.us-east-1.amazonaws.com' }
-$CloudFrontUrl    = if ($env:PROSPECTUS_WEB_URL)      { $env:PROSPECTUS_WEB_URL }      else { 'https://dgnilygbxuhxd.cloudfront.net' }
+$CloudFrontUrl    = if ($env:PROSPECTUS_WEB_URL)      { $env:PROSPECTUS_WEB_URL }      else { 'https://prospectus.delphi-me.com' }
 $StampFile        = Join-Path $Root '.last-deploy'
 
 # --- Helpers ---

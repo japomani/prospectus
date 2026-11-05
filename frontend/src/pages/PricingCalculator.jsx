@@ -387,21 +387,8 @@ export default function PricingCalculator() {
       setSaveError(null);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      setSaveError('Could not copy link — try again or copy from the address bar after Open.');
+      setSaveError('Could not copy link — try again or use View Prospectus and copy from the address bar.');
     }
-  }
-
-  function handleOpenShareLink() {
-    if (smsGateError) {
-      setSaveError(smsGateError);
-      return;
-    }
-    const path = shareableProspectusPath();
-    if (!path) {
-      setSaveError('Save the quote first to open the customer share link.');
-      return;
-    }
-    window.open(publicSiteUrl(path), '_blank', 'noopener,noreferrer');
   }
 
   function startNewQuote() {
@@ -1461,19 +1448,10 @@ export default function PricingCalculator() {
               >
                 {copied ? 'Copied!' : 'Copy Link'}
               </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleOpenShareLink}
-                disabled={!hasProducts || !quote.quoteId}
-                title={quote.quoteId ? 'Open customer prospectus in a new tab' : 'Save the quote first to open the share link'}
-              >
-                Open
-              </button>
             </div>
             {!quote.quoteId && hasProducts && (
               <p className="pricing-muted" style={{ marginTop: '8px' }}>
-                Save the quote to enable Copy Link and Open (stable <code>/quotes/…</code> URL for customers).
+                Save the quote to enable Copy Link (stable <code>/quotes/…</code> URL for customers). View Prospectus works anytime.
               </p>
             )}
           </div>

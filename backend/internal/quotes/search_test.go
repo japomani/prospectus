@@ -105,12 +105,12 @@ func TestParseSearchLimit(t *testing.T) {
 func TestToSearchResultEmailLine(t *testing.T) {
 	q := Quote{QuoteID: "id-1", SchoolName: "Pine Crest", Students: 50, Years: 1}
 	q.PricingSnapshot.GrandTotal = 1234.5
-	got := ToSearchResult(q, "https://dgnilygbxuhxd.cloudfront.net")
-	wantLine := "View Pine Crest's Delphinium Prospectus (https://dgnilygbxuhxd.cloudfront.net/quotes/id-1)"
+	got := ToSearchResult(q, "https://prospectus.delphi-me.com")
+	wantLine := "View Pine Crest's Delphinium Prospectus (https://prospectus.delphi-me.com/quotes/id-1)"
 	if got.EmailLine != wantLine {
 		t.Fatalf("emailLine %q", got.EmailLine)
 	}
-	if got.PublicURL != "https://dgnilygbxuhxd.cloudfront.net/quotes/id-1" {
+	if got.PublicURL != "https://prospectus.delphi-me.com/quotes/id-1" {
 		t.Fatalf("url %q", got.PublicURL)
 	}
 	if got.TotalPrice != 1234.5 || got.Students != 50 {

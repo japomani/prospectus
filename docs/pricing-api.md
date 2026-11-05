@@ -1,7 +1,8 @@
 # Pricing API
 
 Base URL (live): `https://g6yxi9yar3.execute-api.us-east-1.amazonaws.com`  
-Public quote pages: `https://dgnilygbxuhxd.cloudfront.net/quotes/{id}`
+Public quote pages: `https://prospectus.delphi-me.com/quotes/{id}`  
+Legacy bookmarks: `https://dgnilygbxuhxd.cloudfront.net/quotes/{id}` — same CloudFront distribution, must keep working (no hostname redirect).
 
 ## Auth
 
@@ -30,10 +31,10 @@ Rotate by putting a new SecureString in SSM, redeploying with that value (or upd
 - Every quote payload from `GET /quotes`, `GET /quotes/{id}`, and `GET /quotes/search` includes `emailLine`:
 
 ```text
-View {schoolName}'s Delphinium Prospectus (https://dgnilygbxuhxd.cloudfront.net/quotes/{id})
+View {schoolName}'s Delphinium Prospectus (https://prospectus.delphi-me.com/quotes/{id})
 ```
 
-No trailing punctuation. School name is the stored `schoolName`.
+Built from `WEB_BASE_URL` (live: `https://prospectus.delphi-me.com`). No trailing punctuation. School name is the stored `schoolName`.
 
 ## Endpoints
 
@@ -70,8 +71,8 @@ Response:
       "rep": "U…",
       "createdAt": "...",
       "updatedAt": "...",
-      "publicUrl": "https://dgnilygbxuhxd.cloudfront.net/quotes/...",
-      "emailLine": "View …'s Delphinium Prospectus (https://…)"
+      "publicUrl": "https://prospectus.delphi-me.com/quotes/...",
+      "emailLine": "View …'s Delphinium Prospectus (https://prospectus.delphi-me.com/quotes/...)"
     }
   ],
   "nextCursor": "…"

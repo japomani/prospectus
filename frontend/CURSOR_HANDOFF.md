@@ -20,15 +20,13 @@ S3 (PDF storage, signed URLs)
         ↑
 Lambda: Puppeteer PDF generator
         ↑
-Hermes agent → Slack
-  - Receives "create quote for X" request
-  - Sends form link back in Slack
-  - Posts PDF + web link when quote is saved
+Optional Slack notify on save
+  - Posts prospectus + PDF links when a quote is saved
 ```
 
 ### Key Decisions
 - **No HubSpot native quotes** — custom app owns UX, syncs to HubSpot via API on save
-- **Hermes sends a form link** (not conversational collection) to avoid token waste
+- **Form-link / pricing URL intake** — reps fill the calculator; avoid collecting quote details only in chat
 - **Two outputs per quote**: live web page (`/quotes/:id`) + PDF (Puppeteer via `?print=true`)
 - **AWS SAM** for deployment when ready
 - **DynamoDB** for quote persistence and shareable links
@@ -209,26 +207,9 @@ On quote save → Lambda pushes to HubSpot:
 
 ---
 
-## Hermes Agent Integration (future)
+## Slack notify (optional)
 
-Hermes is a Slack-based agent. Planned flow:
-
-```
-Rep: "Create a quote for Acme School"
-Hermes: "Here's your quote form: https://app.com/pricing?ref=abc123"
-[Rep fills out form and submits]
-Backend: saves quote, generates PDF, syncs to HubSpot
-Hermes posts to Slack:
-  "Quote for Acme School is ready"
-  [View Prospectus] [Download PDF] [Open in HubSpot]
-
-Rep: "Update quote #123"
-Hermes: "Here's the edit link: https://app.com/pricing?quoteId=123"
-```
-
-Hermes tools needed:
-- `generateFormLink(context)` → returns URL
-- `notifyChannel(quoteId, pdfUrl, webUrl, hubspotUrl)`
+On quote save, the API can post prospectus / PDF links to a configured Slack channel (`SLACK_BOT_TOKEN`, `SLACK_QUOTES_CHANNEL`). Form links for intake live on the pricing calculator (`POST /quotes/form-link`, `/pricing?...`).
 
 ---
 
@@ -259,7 +240,7 @@ Deploy command target: `sam build && sam deploy`
 - [ ] HubSpot sync on quote save
 - [ ] Puppeteer PDF Lambda
 - [ ] AWS deployment (SAM)
-- [ ] Hermes Slack integration
+- [ ] Slack notify on quote save (optional)
 
 ---
 

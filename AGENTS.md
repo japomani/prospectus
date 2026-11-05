@@ -16,4 +16,4 @@ MCP GitHub token: `GITHUB_TOKEN_PERSONAL` (see `.cursor/mcp.json`).
 ## Copy & messaging
 
 - **Marketing reference:** `docs/delphinium-marketing-synthesis.md` — positioning, proof points, pain table, voice, quotes.
-- **Cursor rule:** `.cursor/rules/delphinium-copy.mdc` applies when editing prospectus components, `fields.js`, Hermes skills, or `docs/`.
+- **Cursor rule:** `.cursor/rules/delphinium-copy.mdc` applies when editing prospectus components, `fields.js`, or `docs/`.

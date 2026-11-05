@@ -8,7 +8,6 @@ Personalized sales prospectus generator for Delphinium.
 prospectus/
 ├── frontend/     React+Vite SPA (pricing calculator + 11-page prospectus)
 ├── backend/      Go Lambda API (quotes, pricing, Zoho, Slack, PDF)
-├── hermes/       Nous Hermes Agent skill for Slack quote workflows
 └── scripts/      deploy helpers
 ```
 
@@ -69,12 +68,6 @@ aws cloudfront create-invalidation --distribution-id E2UVEOPVDSKJ0I --paths '/*'
 ```
 
 Live site: https://dgnilygbxuhxd.cloudfront.net
-
-## Hermes skill
-
-Copy `hermes/skills/delphinium-quotes/` to `~/.hermes/skills/` on your VPS and restart `hermes gateway`.
-
-Set `PROSPECTUS_API_URL` and `PROSPECTUS_WEB_URL` in Hermes environment.
 
 ## Environment variables
 

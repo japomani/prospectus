@@ -1,4 +1,4 @@
-import { CLEVER_FEE_FLAT, calculatePricing, formatCurrency } from './pricing.js';
+import { calculatePricing, formatCurrency } from './pricing.js';
 
 /** Price if this module were added to the current quote. */
 export function priceIfModuleAdded(quote, quoteKey) {
@@ -22,8 +22,10 @@ export function formatModulePrice(quote, quoteKey) {
 
 export function formatAddonPrice(quote, quoteKey) {
   if (quoteKey === 'clever') {
-    const schools = Math.max(1, Number(quote.cleverSchools) || 1);
-    return formatCurrency(CLEVER_FEE_FLAT * schools);
+    if (!quote.clever) return 'Custom / quote';
+    const fee = Number(quote.cleverFee) || 0;
+    if (fee > 0) return formatCurrency(fee);
+    return 'Custom / quote';
   }
   if (quoteKey === 'sms') {
     const fee = Number(quote.smsFee) || 0;

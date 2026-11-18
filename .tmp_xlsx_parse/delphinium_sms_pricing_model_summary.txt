@@ -1,0 +1,545 @@
+FILE: delphinium_sms_pricing_model.xlsx
+SHEETS: ['Cost Basis', 'B - Message Credits', 'Competitor Benchmark', 'Spec & Policy', 'Admin Mockup']
+DEFINED NAMES: {}
+
+======================================================================
+SHEET: Cost Basis  rows=31 cols=6 formulas=18
+======================================================================
+  A1=Delphinium Community Builder — SMS Cost Basis
+  A2=AWS rates researched from AWS published pricing (End User Messaging, SNS SMS, Connect appendix), Jul 2026. Yellow cells are inputs — confirm against your actual AWS invoice.
+  A4=CARRIER & PLATFORM COSTS (per message)
+  A5=Input | B5=Value | C5=Unit | D5=Notes / Source
+  A6=Blended carrier fee per segment | B6=0.00302 | C6=$/segment | D6=PLACEHOLDER — avg of AT&T/Verizon/T-Mobile A2P 10DLC per-segment fees. Replace with actual AWS EUM invoice rate.
+  A7=AWS End User Messaging fee per segment | B7=0.00581 | C7=$/segment | D7=PLACEHOLDER — AWS per-message send fee on top of carrier pass-through.
+  A8=Average segments per message | B8=1.3 | C8=segments | D8=Accounts for messages >160 chars splitting into multiple segments (attendance/engagement texts often run long).
+  A9=Direct cost per segment | B9==B6+B7 => 0.008830000000000001
+  A10=Direct cost per message (blended) | B10==B9*B8 => 0.011479000000000001
+  A12=10DLC REGISTRATION & COMPLIANCE OVERHEAD (amortized)
+  A13=Input | B13=Value | C13=Unit | D13=Notes / Source
+  A14=Brand registration (one-time) | B14=4.5 | C14=$ one-time
+  A15=Public-profit brand authentication (one-time) | B15=12.5 | C15=$ one-time
+  A16=Campaign vetting fee (one-time) | B16=15 | C16=$ one-time
+  A17=Brand vetting — optional, higher throughput (one-time) | B17=40 | C17=$ one-time
+  A18=Monthly campaign fee | B18=10 | C18=$/month
+  A19=10DLC number monthly lease (per number) | B19=1 | C19=$/month
+  A20=Number of 10DLC numbers leased | B20=50 | C20=numbers
+  A21=Amortization period for one-time fees | B21=12 | C21=months
+  A22=Total monthly overhead | B22==SUM(B14:B17)/B21+B18+B19*B20 => 66 | C22=$/month
+  A24=FULLY-LOADED COST PER MESSAGE (at sample volumes)
+  A25=Monthly message volume | B25=Overhead / message | C25=Fully-loaded cost / message
+  A26=1000 | B26==$B$22/A26 => 0.066 | C26==$B$10+B26 => 0.077479
+  A27=5000 | B27==$B$22/A27 => 0.0132 | C27==$B$10+B27 => 0.024679 | F27==0.03*40000*12 => 14400
+  A28=10000 | B28==$B$22/A28 => 0.0066 | C28==$B$10+B28 => 0.018079 | F28==F27/10000 => 1.44
+  A29=25000 | B29==$B$22/A29 => 0.00264 | C29==$B$10+B29 => 0.014119000000000001
+  A30=50000 | B30==$B$22/A30 => 0.00132 | C30==$B$10+B30 => 0.012799000000000001 | F30==2000*3 => 6000
+  A31=100000 | B31==$B$22/A31 => 0.00066 | C31==$B$10+B31 => 0.012139
+--- FORMULAS ---
+  B9: =B6+B7 => 0.008830000000000001
+  B10: =B9*B8 => 0.011479000000000001
+  B22: =SUM(B14:B17)/B21+B18+B19*B20 => 66
+  B26: =$B$22/A26 => 0.066
+  C26: =$B$10+B26 => 0.077479
+  B27: =$B$22/A27 => 0.0132
+  C27: =$B$10+B27 => 0.024679
+  F27: =0.03*40000*12 => 14400
+  B28: =$B$22/A28 => 0.0066
+  C28: =$B$10+B28 => 0.018079
+  F28: =F27/10000 => 1.44
+  B29: =$B$22/A29 => 0.00264
+  C29: =$B$10+B29 => 0.014119000000000001
+  B30: =$B$22/A30 => 0.00132
+  C30: =$B$10+B30 => 0.012799000000000001
+  F30: =2000*3 => 6000
+  B31: =$B$22/A31 => 0.00066
+  C31: =$B$10+B31 => 0.012139
+
+======================================================================
+SHEET: B - Message Credits  rows=86 cols=10 formulas=243
+======================================================================
+  A1=Scenario B (Message Credits): Cost-Metered Prepaid Credits
+  A2=Buy prepaid credits; discounted by block size. 1 credit = the cost of one TYPICAL message (avg segments), so buyers think in whole messages. Each message burns credits by its ACTUAL AWS cost x multiple — long messages and MMS burn more than 1 credit.
+  C3=DISCOUNT SCHEDULE (by prepaid block size)
+  A4=PRICING MODEL LEVERS | C4=Breakpoint (credits/mo ≥) | D4=% of List
+  A5=Cost per segment (from Cost Basis) | B5=='Cost Basis'!B9 => 0.008830000000000001 | C5=0 | D5=1
+  A6=Markup multiple (margin dial) | B6=3.35 | C6=5000 | D6=0.86
+  A7=List price per credit (= 1 typical message) | B7==B5*B18*B6 => 0.03845465000000001 | C7=10000 | D7=0.86
+  A8=Implied gross margin at list | B8==1-1/B6 => 0.7014925373134329 | C8=25000 | D8=0.74
+  C9=50000 | D9=0.57
+  A10=CREDIT VOLUME CALCULATOR (standalone) | C10=100000 | D10=0.49
+  A11=Fixed costs/yr (from Cost Basis) | B11==('Cost Basis'!$B$22*12)/$B$13 => 158.4 | C11=250000 | D11=0.43
+  A12=Cost per segment (from Cost Basis) | B12==B5 => 0.008830000000000001 | C12=500000 | D12=0.43
+  A13=Number of accounts served (overhead allocation) | B13=5 | C13=1000000 | D13=0.43
+  A14=List price per credit | B14==B7 => 0.03845465000000001
+  A15=# of FTE students | B15=2000
+  A16=# of teachers per student | B16=7
+  A17=# of messages per teacher per student / month (incl. replies) | B17=5
+  A18=Avg segments per typical message (defines 1 credit) | B18=='Cost Basis'!B8 => 1.3 | C18=Can't go less than 1000 messages a month
+  A19=Round to nearest (credits/mo) | B19=100
+  A20=# of Active months in a year | B20=10
+  A21=Expected messages / month | B21==B15*B16*B17 => 70000
+  A22=Expected credits / year | B22==B21*B20 => 700000
+  A23=Recommended credits to buy (mo) | B23==MROUND(B21,$B$19) => 70000
+  A24=Recommended credits to buy (yr) | B24==B23*B20 => 700000
+  A25=Discount for this volume (% of list) | B25==IFERROR(INDEX($D$5:$D$13,MATCH(B23,$C$5:$C$13,1)),1) => 0.57
+  A26=Discount price per credit | B26==B14*B25 => 0.0219191505
+  A27=Recommended monthly price | B27==B23*B14*B25 => 1534.340535
+  A28=Recommended annual price | B28==B24*B14*B25 => 15343.40535
+  A29=Price per student | B29==B28/B15 => 7.671702675000001
+  A30=Cost / yr | B30==B24*B5*B18+B11 => 8193.7
+  A31=Margin | B31==B28-B30 => 7149.70535
+  A32=Margin | B32==(B28-(B24*B5*B18+B11))/B28 => 0.4659790435634942
+  A37=TIER TABLE — Credits by student cohort
+  A38=FTE students | B38=Msgs = Credits/mo | C38=Rec credits/mo | D38=Discount | E38=Credits/yr | F38=Annual price | G38=Annual cost | H38=Margin | I38=Price/credit | J38=Cost/credit
+  A39=0 | B39==A39*$B$16*$B$17 => 0 | C39==MROUND(B39,$B$19) => 0 | D39==IFERROR(INDEX($D$5:$D$13,MATCH(C39,$C$5:$C$13,1)),1) => 1 | E39==C39*$B$20 => 0 | F39==E39*$B$14*D39 => 0 | G39==E39*$B$5*$B$18+$B$11 => 158.4 | H39==IF(F39=0,"",(F39-G39)/F39) => None | I39==IF(E39=0,"",F39/E39) => None | J39==IF(E39=0,"",G39/E39) => None
+  A40=500 | B40==A40*$B$16*$B$17 => 17500 | C40==MROUND(B40,$B$19) => 17500 | D40==IFERROR(INDEX($D$5:$D$13,MATCH(C40,$C$5:$C$13,1)),1) => 0.86 | E40==C40*$B$20 => 175000 | F40==E40*$B$14*D40 => 5787.424825000001 | G40==E40*$B$5*$B$18+$B$11 => 2167.2250000000004 | H40==IF(F40=0,"",(F40-G40)/F40) => 0.6255286132377538 | I40==IF(E40=0,"",F40/E40) => 0.033070999000000004 | J40==IF(E40=0,"",G40/E40) => 0.01238414285714286
+  A41=1000 | B41==A41*$B$16*$B$17 => 35000 | C41==MROUND(B41,$B$19) => 35000 | D41==IFERROR(INDEX($D$5:$D$13,MATCH(C41,$C$5:$C$13,1)),1) => 0.74 | E41==C41*$B$20 => 350000 | F41==E41*$B$14*D41 => 9959.754350000001 | G41==E41*$B$5*$B$18+$B$11 => 4176.05 | H41==IF(F41=0,"",(F41-G41)/F41) => 0.5807075302012845 | I41==IF(E41=0,"",F41/E41) => 0.028456441000000002 | J41==IF(E41=0,"",G41/E41) => 0.011931571428571429
+  A42=2000 | B42==A42*$B$16*$B$17 => 70000 | C42==MROUND(B42,$B$19) => 70000 | D42==IFERROR(INDEX($D$5:$D$13,MATCH(C42,$C$5:$C$13,1)),1) => 0.57 | E42==C42*$B$20 => 700000 | F42==E42*$B$14*D42 => 15343.40535 | G42==E42*$B$5*$B$18+$B$11 => 8193.7 | H42==IF(F42=0,"",(F42-G42)/F42) => 0.4659790435634942 | I42==IF(E42=0,"",F42/E42) => 0.0219191505 | J42==IF(E42=0,"",G42/E42) => 0.011705285714285715
+  A43=3000 | B43==A43*$B$16*$B$17 => 105000 | C43==MROUND(B43,$B$19) => 105000 | D43==IFERROR(INDEX($D$5:$D$13,MATCH(C43,$C$5:$C$13,1)),1) => 0.49 | E43==C43*$B$20 => 1050000 | F43==E43*$B$14*D43 => 19784.917425000003 | G43==E43*$B$5*$B$18+$B$11 => 12211.350000000002 | H43==IF(F43=0,"",(F43-G43)/F43) => 0.38279499794273214 | I43==IF(E43=0,"",F43/E43) => 0.018842778500000004 | J43==IF(E43=0,"",G43/E43) => 0.011629857142857145
+  A44=5000 | B44==A44*$B$16*$B$17 => 175000 | C44==MROUND(B44,$B$19) => 175000 | D44==IFERROR(INDEX($D$5:$D$13,MATCH(C44,$C$5:$C$13,1)),1) => 0.49 | E44==C44*$B$20 => 1750000 | F44==E44*$B$14*D44 => 32974.862375000004 | G44==E44*$B$5*$B$18+$B$11 => 20246.650000000005 | H44==IF(F44=0,"",(F44-G44)/F44) => 0.3859974373888497 | I44==IF(E44=0,"",F44/E44) => 0.0188427785 | J44==IF(E44=0,"",G44/E44) => 0.011569514285714289
+  A45=7500 | B45==A45*$B$16*$B$17 => 262500 | C45==MROUND(B45,$B$19) => 262500 | D45==IFERROR(INDEX($D$5:$D$13,MATCH(C45,$C$5:$C$13,1)),1) => 0.43 | E45==C45*$B$20 => 2625000 | F45==E45*$B$14*D45 => 43405.68618750001 | G45==E45*$B$5*$B$18+$B$11 => 30290.77500000001 | H45==IF(F45=0,"",(F45-G45)/F45) => 0.3021473069414772 | I45==IF(E45=0,"",F45/E45) => 0.016535499500000005 | J45==IF(E45=0,"",G45/E45) => 0.011539342857142861
+  A46=10000 | B46==A46*$B$16*$B$17 => 350000 | C46==MROUND(B46,$B$19) => 350000 | D46==IFERROR(INDEX($D$5:$D$13,MATCH(C46,$C$5:$C$13,1)),1) => 0.43 | E46==C46*$B$20 => 3500000 | F46==E46*$B$14*D46 => 57874.24825000001 | G46==E46*$B$5*$B$18+$B$11 => 40334.90000000001 | H46==IF(F46=0,"",(F46-G46)/F46) => 0.30305962980694096 | I46==IF(E46=0,"",F46/E46) => 0.016535499500000002 | J46==IF(E46=0,"",G46/E46) => 0.011524257142857146
+  A47=20000 | B47==A47*$B$16*$B$17 => 700000 | C47==MROUND(B47,$B$19) => 700000 | D47==IFERROR(INDEX($D$5:$D$13,MATCH(C47,$C$5:$C$13,1)),1) => 0.43 | E47==C47*$B$20 => 7000000 | F47==E47*$B$14*D47 => 115748.49650000002 | G47==E47*$B$5*$B$18+$B$11 => 80511.40000000001 | H47==IF(F47=0,"",(F47-G47)/F47) => 0.30442811410513665 | I47==IF(E47=0,"",F47/E47) => 0.016535499500000002 | J47==IF(E47=0,"",G47/E47) => 0.011501628571428573
+  A48=30000 | B48==A48*$B$16*$B$17 => 1050000 | C48==MROUND(B48,$B$19) => 1050000 | D48==IFERROR(INDEX($D$5:$D$13,MATCH(C48,$C$5:$C$13,1)),1) => 0.43 | E48==C48*$B$20 => 10500000 | F48==E48*$B$14*D48 => 173622.74475000004 | G48==E48*$B$5*$B$18+$B$11 => 120687.90000000002 | H48==IF(F48=0,"",(F48-G48)/F48) => 0.30488427553786845 | I48==IF(E48=0,"",F48/E48) => 0.016535499500000005 | J48==IF(E48=0,"",G48/E48) => 0.011494085714285717
+  A49=40000 | B49==A49*$B$16*$B$17 => 1400000 | C49==MROUND(B49,$B$19) => 1400000 | D49==IFERROR(INDEX($D$5:$D$13,MATCH(C49,$C$5:$C$13,1)),1) => 0.43 | E49==C49*$B$20 => 14000000 | F49==E49*$B$14*D49 => 231496.99300000005 | G49==E49*$B$5*$B$18+$B$11 => 160864.40000000002 | H49==IF(F49=0,"",(F49-G49)/F49) => 0.3051123562542344 | I49==IF(E49=0,"",F49/E49) => 0.016535499500000002 | J49==IF(E49=0,"",G49/E49) => 0.011490314285714287
+  A50=50000 | B50==A50*$B$16*$B$17 => 1750000 | C50==MROUND(B50,$B$19) => 1750000 | D50==IFERROR(INDEX($D$5:$D$13,MATCH(C50,$C$5:$C$13,1)),1) => 0.43 | E50==C50*$B$20 => 17500000 | F50==E50*$B$14*D50 => 289371.24125 | G50==E50*$B$5*$B$18+$B$11 => 201040.90000000005 | H50==IF(F50=0,"",(F50-G50)/F50) => 0.3052492046840538 | I50==IF(E50=0,"",F50/E50) => 0.016535499500000002 | J50==IF(E50=0,"",G50/E50) => 0.011488051428571431
+  A51=60000 | B51==A51*$B$16*$B$17 => 2100000 | C51==MROUND(B51,$B$19) => 2100000 | D51==IFERROR(INDEX($D$5:$D$13,MATCH(C51,$C$5:$C$13,1)),1) => 0.43 | E51==C51*$B$20 => 21000000 | F51==E51*$B$14*D51 => 347245.4895000001 | G51==E51*$B$5*$B$18+$B$11 => 241217.40000000005 | H51==IF(F51=0,"",(F51-G51)/F51) => 0.3053404369706003 | I51==IF(E51=0,"",F51/E51) => 0.016535499500000005 | J51==IF(E51=0,"",G51/E51) => 0.011486542857142859
+  A52=70000 | B52==A52*$B$16*$B$17 => 2450000 | C52==MROUND(B52,$B$19) => 2450000 | D52==IFERROR(INDEX($D$5:$D$13,MATCH(C52,$C$5:$C$13,1)),1) => 0.43 | E52==C52*$B$20 => 24500000 | F52==E52*$B$14*D52 => 405119.7377500001 | G52==E52*$B$5*$B$18+$B$11 => 281393.9000000001 | H52==IF(F52=0,"",(F52-G52)/F52) => 0.3054056028895619 | I52==IF(E52=0,"",F52/E52) => 0.016535499500000002 | J52==IF(E52=0,"",G52/E52) => 0.011485465306122452
+  A54=CHART SOURCE (students + message volume) — helper for axis labels
+  B55=Annual price | C55=Annual cost | D55=Margin
+  A56==TEXT(A39,"#,##0")&" stu / "&TEXT(B39,"#,##0")&" msg" => 0 stu / 0 msg | B56==F39 => 0 | C56==G39 => 158.4 | D56==H39 => None
+  A57==TEXT(A40,"#,##0")&" stu / "&TEXT(B40,"#,##0")&" msg" => 500 stu / 17,500 msg | B57==F40 => 5787.424825000001 | C57==G40 => 2167.2250000000004 | D57==H40 => 0.6255286132377538
+  A58==TEXT(A41,"#,##0")&" stu / "&TEXT(B41,"#,##0")&" msg" => 1,000 stu / 35,000 msg | B58==F41 => 9959.754350000001 | C58==G41 => 4176.05 | D58==H41 => 0.5807075302012845
+  A59==TEXT(A42,"#,##0")&" stu / "&TEXT(B42,"#,##0")&" msg" => 2,000 stu / 70,000 msg | B59==F42 => 15343.40535 | C59==G42 => 8193.7 | D59==H42 => 0.4659790435634942
+  A60==TEXT(A43,"#,##0")&" stu / "&TEXT(B43,"#,##0")&" msg" => 3,000 stu / 105,000 msg | B60==F43 => 19784.917425000003 | C60==G43 => 12211.350000000002 | D60==H43 => 0.38279499794273214
+  A61==TEXT(A44,"#,##0")&" stu / "&TEXT(B44,"#,##0")&" msg" => 5,000 stu / 175,000 msg | B61==F44 => 32974.862375000004 | C61==G44 => 20246.650000000005 | D61==H44 => 0.3859974373888497
+  A62==TEXT(A45,"#,##0")&" stu / "&TEXT(B45,"#,##0")&" msg" => 7,500 stu / 262,500 msg | B62==F45 => 43405.68618750001 | C62==G45 => 30290.77500000001 | D62==H45 => 0.3021473069414772
+  A63==TEXT(A46,"#,##0")&" stu / "&TEXT(B46,"#,##0")&" msg" => 10,000 stu / 350,000 msg | B63==F46 => 57874.24825000001 | C63==G46 => 40334.90000000001 | D63==H46 => 0.30305962980694096
+  A64==TEXT(A47,"#,##0")&" stu / "&TEXT(B47,"#,##0")&" msg" => 20,000 stu / 700,000 msg | B64==F47 => 115748.49650000002 | C64==G47 => 80511.40000000001 | D64==H47 => 0.30442811410513665
+  A65==TEXT(A48,"#,##0")&" stu / "&TEXT(B48,"#,##0")&" msg" => 30,000 stu / 1,050,000 msg | B65==F48 => 173622.74475000004 | C65==G48 => 120687.90000000002 | D65==H48 => 0.30488427553786845
+  A66==TEXT(A49,"#,##0")&" stu / "&TEXT(B49,"#,##0")&" msg" => 40,000 stu / 1,400,000 msg | B66==F49 => 231496.99300000005 | C66==G49 => 160864.40000000002 | D66==H49 => 0.3051123562542344
+  A67==TEXT(A50,"#,##0")&" stu / "&TEXT(B50,"#,##0")&" msg" => 50,000 stu / 1,750,000 msg | B67==F50 => 289371.24125 | C67==G50 => 201040.90000000005 | D67==H50 => 0.3052492046840538
+  A68==TEXT(A51,"#,##0")&" stu / "&TEXT(B51,"#,##0")&" msg" => 60,000 stu / 2,100,000 msg | B68==F51 => 347245.4895000001 | C68==G51 => 241217.40000000005 | D68==H51 => 0.3053404369706003
+  A69==TEXT(A52,"#,##0")&" stu / "&TEXT(B52,"#,##0")&" msg" => 70,000 stu / 2,450,000 msg | B69==F52 => 405119.7377500001 | C69==G52 => 281393.9000000001 | D69==H52 => 0.3054056028895619
+  A71=CHART SOURCE (per-message chart) — helper
+  B72=Price / msg | C72=Cost / msg (loaded) | D72=Cost / msg (loaded)
+  A73==TEXT(A39,"#,##0")&" stu / "&TEXT(B39,"#,##0")&" msg" => 0 stu / 0 msg | B73==I39 => None | C73==J39 => None
+  A74==TEXT(A40,"#,##0")&" stu / "&TEXT(B40,"#,##0")&" msg" => 500 stu / 17,500 msg | B74==I40 => 0.033070999000000004 | C74==J40 => 0.01238414285714286
+  A75==TEXT(A41,"#,##0")&" stu / "&TEXT(B41,"#,##0")&" msg" => 1,000 stu / 35,000 msg | B75==I41 => 0.028456441000000002 | C75==J41 => 0.011931571428571429
+  A76==TEXT(A42,"#,##0")&" stu / "&TEXT(B42,"#,##0")&" msg" => 2,000 stu / 70,000 msg | B76==I42 => 0.0219191505 | C76==J42 => 0.011705285714285715
+  A77==TEXT(A43,"#,##0")&" stu / "&TEXT(B43,"#,##0")&" msg" => 3,000 stu / 105,000 msg | B77==I43 => 0.018842778500000004 | C77==J43 => 0.011629857142857145
+  A78==TEXT(A44,"#,##0")&" stu / "&TEXT(B44,"#,##0")&" msg" => 5,000 stu / 175,000 msg | B78==I44 => 0.0188427785 | C78==J44 => 0.011569514285714289
+  A79==TEXT(A45,"#,##0")&" stu / "&TEXT(B45,"#,##0")&" msg" => 7,500 stu / 262,500 msg | B79==I45 => 0.016535499500000005 | C79==J45 => 0.011539342857142861
+  A80==TEXT(A46,"#,##0")&" stu / "&TEXT(B46,"#,##0")&" msg" => 10,000 stu / 350,000 msg | B80==I46 => 0.016535499500000002 | C80==J46 => 0.011524257142857146
+  A81==TEXT(A47,"#,##0")&" stu / "&TEXT(B47,"#,##0")&" msg" => 20,000 stu / 700,000 msg | B81==I47 => 0.016535499500000002 | C81==J47 => 0.011501628571428573
+  A82==TEXT(A48,"#,##0")&" stu / "&TEXT(B48,"#,##0")&" msg" => 30,000 stu / 1,050,000 msg | B82==I48 => 0.016535499500000005 | C82==J48 => 0.011494085714285717
+  A83==TEXT(A49,"#,##0")&" stu / "&TEXT(B49,"#,##0")&" msg" => 40,000 stu / 1,400,000 msg | B83==I49 => 0.016535499500000002 | C83==J49 => 0.011490314285714287
+  A84==TEXT(A50,"#,##0")&" stu / "&TEXT(B50,"#,##0")&" msg" => 50,000 stu / 1,750,000 msg | B84==I50 => 0.016535499500000002 | C84==J50 => 0.011488051428571431
+  A85==TEXT(A51,"#,##0")&" stu / "&TEXT(B51,"#,##0")&" msg" => 60,000 stu / 2,100,000 msg | B85==I51 => 0.016535499500000005 | C85==J51 => 0.011486542857142859
+  A86==TEXT(A52,"#,##0")&" stu / "&TEXT(B52,"#,##0")&" msg" => 70,000 stu / 2,450,000 msg | B86==I52 => 0.016535499500000002 | C86==J52 => 0.011485465306122452
+--- FORMULAS ---
+  B5: ='Cost Basis'!B9 => 0.008830000000000001
+  B7: =B5*B18*B6 => 0.03845465000000001
+  B8: =1-1/B6 => 0.7014925373134329
+  B11: =('Cost Basis'!$B$22*12)/$B$13 => 158.4
+  B12: =B5 => 0.008830000000000001
+  B14: =B7 => 0.03845465000000001
+  B18: ='Cost Basis'!B8 => 1.3
+  B21: =B15*B16*B17 => 70000
+  B22: =B21*B20 => 700000
+  B23: =MROUND(B21,$B$19) => 70000
+  B24: =B23*B20 => 700000
+  B25: =IFERROR(INDEX($D$5:$D$13,MATCH(B23,$C$5:$C$13,1)),1) => 0.57
+  B26: =B14*B25 => 0.0219191505
+  B27: =B23*B14*B25 => 1534.340535
+  B28: =B24*B14*B25 => 15343.40535
+  B29: =B28/B15 => 7.671702675000001
+  B30: =B24*B5*B18+B11 => 8193.7
+  B31: =B28-B30 => 7149.70535
+  B32: =(B28-(B24*B5*B18+B11))/B28 => 0.4659790435634942
+  B39: =A39*$B$16*$B$17 => 0
+  C39: =MROUND(B39,$B$19) => 0
+  D39: =IFERROR(INDEX($D$5:$D$13,MATCH(C39,$C$5:$C$13,1)),1) => 1
+  E39: =C39*$B$20 => 0
+  F39: =E39*$B$14*D39 => 0
+  G39: =E39*$B$5*$B$18+$B$11 => 158.4
+  H39: =IF(F39=0,"",(F39-G39)/F39) => None
+  I39: =IF(E39=0,"",F39/E39) => None
+  J39: =IF(E39=0,"",G39/E39) => None
+  B40: =A40*$B$16*$B$17 => 17500
+  C40: =MROUND(B40,$B$19) => 17500
+  D40: =IFERROR(INDEX($D$5:$D$13,MATCH(C40,$C$5:$C$13,1)),1) => 0.86
+  E40: =C40*$B$20 => 175000
+  F40: =E40*$B$14*D40 => 5787.424825000001
+  G40: =E40*$B$5*$B$18+$B$11 => 2167.2250000000004
+  H40: =IF(F40=0,"",(F40-G40)/F40) => 0.6255286132377538
+  I40: =IF(E40=0,"",F40/E40) => 0.033070999000000004
+  J40: =IF(E40=0,"",G40/E40) => 0.01238414285714286
+  B41: =A41*$B$16*$B$17 => 35000
+  C41: =MROUND(B41,$B$19) => 35000
+  D41: =IFERROR(INDEX($D$5:$D$13,MATCH(C41,$C$5:$C$13,1)),1) => 0.74
+  E41: =C41*$B$20 => 350000
+  F41: =E41*$B$14*D41 => 9959.754350000001
+  G41: =E41*$B$5*$B$18+$B$11 => 4176.05
+  H41: =IF(F41=0,"",(F41-G41)/F41) => 0.5807075302012845
+  I41: =IF(E41=0,"",F41/E41) => 0.028456441000000002
+  J41: =IF(E41=0,"",G41/E41) => 0.011931571428571429
+  B42: =A42*$B$16*$B$17 => 70000
+  C42: =MROUND(B42,$B$19) => 70000
+  D42: =IFERROR(INDEX($D$5:$D$13,MATCH(C42,$C$5:$C$13,1)),1) => 0.57
+  E42: =C42*$B$20 => 700000
+  F42: =E42*$B$14*D42 => 15343.40535
+  G42: =E42*$B$5*$B$18+$B$11 => 8193.7
+  H42: =IF(F42=0,"",(F42-G42)/F42) => 0.4659790435634942
+  I42: =IF(E42=0,"",F42/E42) => 0.0219191505
+  J42: =IF(E42=0,"",G42/E42) => 0.011705285714285715
+  B43: =A43*$B$16*$B$17 => 105000
+  C43: =MROUND(B43,$B$19) => 105000
+  D43: =IFERROR(INDEX($D$5:$D$13,MATCH(C43,$C$5:$C$13,1)),1) => 0.49
+  E43: =C43*$B$20 => 1050000
+  F43: =E43*$B$14*D43 => 19784.917425000003
+  G43: =E43*$B$5*$B$18+$B$11 => 12211.350000000002
+  H43: =IF(F43=0,"",(F43-G43)/F43) => 0.38279499794273214
+  I43: =IF(E43=0,"",F43/E43) => 0.018842778500000004
+  J43: =IF(E43=0,"",G43/E43) => 0.011629857142857145
+  B44: =A44*$B$16*$B$17 => 175000
+  C44: =MROUND(B44,$B$19) => 175000
+  D44: =IFERROR(INDEX($D$5:$D$13,MATCH(C44,$C$5:$C$13,1)),1) => 0.49
+  E44: =C44*$B$20 => 1750000
+  F44: =E44*$B$14*D44 => 32974.862375000004
+  G44: =E44*$B$5*$B$18+$B$11 => 20246.650000000005
+  H44: =IF(F44=0,"",(F44-G44)/F44) => 0.3859974373888497
+  I44: =IF(E44=0,"",F44/E44) => 0.0188427785
+  J44: =IF(E44=0,"",G44/E44) => 0.011569514285714289
+  B45: =A45*$B$16*$B$17 => 262500
+  C45: =MROUND(B45,$B$19) => 262500
+  D45: =IFERROR(INDEX($D$5:$D$13,MATCH(C45,$C$5:$C$13,1)),1) => 0.43
+  E45: =C45*$B$20 => 2625000
+  F45: =E45*$B$14*D45 => 43405.68618750001
+  G45: =E45*$B$5*$B$18+$B$11 => 30290.77500000001
+  H45: =IF(F45=0,"",(F45-G45)/F45) => 0.3021473069414772
+  I45: =IF(E45=0,"",F45/E45) => 0.016535499500000005
+  J45: =IF(E45=0,"",G45/E45) => 0.011539342857142861
+  B46: =A46*$B$16*$B$17 => 350000
+  C46: =MROUND(B46,$B$19) => 350000
+  D46: =IFERROR(INDEX($D$5:$D$13,MATCH(C46,$C$5:$C$13,1)),1) => 0.43
+  E46: =C46*$B$20 => 3500000
+  F46: =E46*$B$14*D46 => 57874.24825000001
+  G46: =E46*$B$5*$B$18+$B$11 => 40334.90000000001
+  H46: =IF(F46=0,"",(F46-G46)/F46) => 0.30305962980694096
+  I46: =IF(E46=0,"",F46/E46) => 0.016535499500000002
+  J46: =IF(E46=0,"",G46/E46) => 0.011524257142857146
+  B47: =A47*$B$16*$B$17 => 700000
+  C47: =MROUND(B47,$B$19) => 700000
+  D47: =IFERROR(INDEX($D$5:$D$13,MATCH(C47,$C$5:$C$13,1)),1) => 0.43
+  E47: =C47*$B$20 => 7000000
+  F47: =E47*$B$14*D47 => 115748.49650000002
+  G47: =E47*$B$5*$B$18+$B$11 => 80511.40000000001
+  H47: =IF(F47=0,"",(F47-G47)/F47) => 0.30442811410513665
+  I47: =IF(E47=0,"",F47/E47) => 0.016535499500000002
+  J47: =IF(E47=0,"",G47/E47) => 0.011501628571428573
+  B48: =A48*$B$16*$B$17 => 1050000
+  C48: =MROUND(B48,$B$19) => 1050000
+  D48: =IFERROR(INDEX($D$5:$D$13,MATCH(C48,$C$5:$C$13,1)),1) => 0.43
+  E48: =C48*$B$20 => 10500000
+  F48: =E48*$B$14*D48 => 173622.74475000004
+  G48: =E48*$B$5*$B$18+$B$11 => 120687.90000000002
+  H48: =IF(F48=0,"",(F48-G48)/F48) => 0.30488427553786845
+  I48: =IF(E48=0,"",F48/E48) => 0.016535499500000005
+  J48: =IF(E48=0,"",G48/E48) => 0.011494085714285717
+  B49: =A49*$B$16*$B$17 => 1400000
+  C49: =MROUND(B49,$B$19) => 1400000
+  D49: =IFERROR(INDEX($D$5:$D$13,MATCH(C49,$C$5:$C$13,1)),1) => 0.43
+  E49: =C49*$B$20 => 14000000
+  F49: =E49*$B$14*D49 => 231496.99300000005
+  G49: =E49*$B$5*$B$18+$B$11 => 160864.40000000002
+  H49: =IF(F49=0,"",(F49-G49)/F49) => 0.3051123562542344
+  I49: =IF(E49=0,"",F49/E49) => 0.016535499500000002
+  J49: =IF(E49=0,"",G49/E49) => 0.011490314285714287
+  B50: =A50*$B$16*$B$17 => 1750000
+  C50: =MROUND(B50,$B$19) => 1750000
+  D50: =IFERROR(INDEX($D$5:$D$13,MATCH(C50,$C$5:$C$13,1)),1) => 0.43
+  E50: =C50*$B$20 => 17500000
+  F50: =E50*$B$14*D50 => 289371.24125
+  G50: =E50*$B$5*$B$18+$B$11 => 201040.90000000005
+  H50: =IF(F50=0,"",(F50-G50)/F50) => 0.3052492046840538
+  I50: =IF(E50=0,"",F50/E50) => 0.016535499500000002
+  J50: =IF(E50=0,"",G50/E50) => 0.011488051428571431
+  B51: =A51*$B$16*$B$17 => 2100000
+  C51: =MROUND(B51,$B$19) => 2100000
+  D51: =IFERROR(INDEX($D$5:$D$13,MATCH(C51,$C$5:$C$13,1)),1) => 0.43
+  E51: =C51*$B$20 => 21000000
+  F51: =E51*$B$14*D51 => 347245.4895000001
+  G51: =E51*$B$5*$B$18+$B$11 => 241217.40000000005
+  H51: =IF(F51=0,"",(F51-G51)/F51) => 0.3053404369706003
+  I51: =IF(E51=0,"",F51/E51) => 0.016535499500000005
+  J51: =IF(E51=0,"",G51/E51) => 0.011486542857142859
+  B52: =A52*$B$16*$B$17 => 2450000
+  C52: =MROUND(B52,$B$19) => 2450000
+  D52: =IFERROR(INDEX($D$5:$D$13,MATCH(C52,$C$5:$C$13,1)),1) => 0.43
+  E52: =C52*$B$20 => 24500000
+  F52: =E52*$B$14*D52 => 405119.7377500001
+  G52: =E52*$B$5*$B$18+$B$11 => 281393.9000000001
+  H52: =IF(F52=0,"",(F52-G52)/F52) => 0.3054056028895619
+  I52: =IF(E52=0,"",F52/E52) => 0.016535499500000002
+  J52: =IF(E52=0,"",G52/E52) => 0.011485465306122452
+  A56: =TEXT(A39,"#,##0")&" stu / "&TEXT(B39,"#,##0")&" msg" => 0 stu / 0 msg
+  B56: =F39 => 0
+  C56: =G39 => 158.4
+  D56: =H39 => None
+  A57: =TEXT(A40,"#,##0")&" stu / "&TEXT(B40,"#,##0")&" msg" => 500 stu / 17,500 msg
+  B57: =F40 => 5787.424825000001
+  C57: =G40 => 2167.2250000000004
+  D57: =H40 => 0.6255286132377538
+  A58: =TEXT(A41,"#,##0")&" stu / "&TEXT(B41,"#,##0")&" msg" => 1,000 stu / 35,000 msg
+  B58: =F41 => 9959.754350000001
+  C58: =G41 => 4176.05
+  D58: =H41 => 0.5807075302012845
+  A59: =TEXT(A42,"#,##0")&" stu / "&TEXT(B42,"#,##0")&" msg" => 2,000 stu / 70,000 msg
+  B59: =F42 => 15343.40535
+  C59: =G42 => 8193.7
+  D59: =H42 => 0.4659790435634942
+  A60: =TEXT(A43,"#,##0")&" stu / "&TEXT(B43,"#,##0")&" msg" => 3,000 stu / 105,000 msg
+  B60: =F43 => 19784.917425000003
+  C60: =G43 => 12211.350000000002
+  D60: =H43 => 0.38279499794273214
+  A61: =TEXT(A44,"#,##0")&" stu / "&TEXT(B44,"#,##0")&" msg" => 5,000 stu / 175,000 msg
+  B61: =F44 => 32974.862375000004
+  C61: =G44 => 20246.650000000005
+  D61: =H44 => 0.3859974373888497
+  A62: =TEXT(A45,"#,##0")&" stu / "&TEXT(B45,"#,##0")&" msg" => 7,500 stu / 262,500 msg
+  B62: =F45 => 43405.68618750001
+  C62: =G45 => 30290.77500000001
+  D62: =H45 => 0.3021473069414772
+  A63: =TEXT(A46,"#,##0")&" stu / "&TEXT(B46,"#,##0")&" msg" => 10,000 stu / 350,000 msg
+  B63: =F46 => 57874.24825000001
+  C63: =G46 => 40334.90000000001
+  D63: =H46 => 0.30305962980694096
+  A64: =TEXT(A47,"#,##0")&" stu / "&TEXT(B47,"#,##0")&" msg" => 20,000 stu / 700,000 msg
+  B64: =F47 => 115748.49650000002
+  C64: =G47 => 80511.40000000001
+  D64: =H47 => 0.30442811410513665
+  A65: =TEXT(A48,"#,##0")&" stu / "&TEXT(B48,"#,##0")&" msg" => 30,000 stu / 1,050,000 msg
+  B65: =F48 => 173622.74475000004
+  C65: =G48 => 120687.90000000002
+  D65: =H48 => 0.30488427553786845
+  A66: =TEXT(A49,"#,##0")&" stu / "&TEXT(B49,"#,##0")&" msg" => 40,000 stu / 1,400,000 msg
+  B66: =F49 => 231496.99300000005
+  C66: =G49 => 160864.40000000002
+  D66: =H49 => 0.3051123562542344
+  A67: =TEXT(A50,"#,##0")&" stu / "&TEXT(B50,"#,##0")&" msg" => 50,000 stu / 1,750,000 msg
+  B67: =F50 => 289371.24125
+  C67: =G50 => 201040.90000000005
+  D67: =H50 => 0.3052492046840538
+  A68: =TEXT(A51,"#,##0")&" stu / "&TEXT(B51,"#,##0")&" msg" => 60,000 stu / 2,100,000 msg
+  B68: =F51 => 347245.4895000001
+  C68: =G51 => 241217.40000000005
+  D68: =H51 => 0.3053404369706003
+  A69: =TEXT(A52,"#,##0")&" stu / "&TEXT(B52,"#,##0")&" msg" => 70,000 stu / 2,450,000 msg
+  B69: =F52 => 405119.7377500001
+  C69: =G52 => 281393.9000000001
+  D69: =H52 => 0.3054056028895619
+  A73: =TEXT(A39,"#,##0")&" stu / "&TEXT(B39,"#,##0")&" msg" => 0 stu / 0 msg
+  B73: =I39 => None
+  C73: =J39 => None
+  A74: =TEXT(A40,"#,##0")&" stu / "&TEXT(B40,"#,##0")&" msg" => 500 stu / 17,500 msg
+  B74: =I40 => 0.033070999000000004
+  C74: =J40 => 0.01238414285714286
+  A75: =TEXT(A41,"#,##0")&" stu / "&TEXT(B41,"#,##0")&" msg" => 1,000 stu / 35,000 msg
+  B75: =I41 => 0.028456441000000002
+  C75: =J41 => 0.011931571428571429
+  A76: =TEXT(A42,"#,##0")&" stu / "&TEXT(B42,"#,##0")&" msg" => 2,000 stu / 70,000 msg
+  B76: =I42 => 0.0219191505
+  C76: =J42 => 0.011705285714285715
+  A77: =TEXT(A43,"#,##0")&" stu / "&TEXT(B43,"#,##0")&" msg" => 3,000 stu / 105,000 msg
+  B77: =I43 => 0.018842778500000004
+  C77: =J43 => 0.011629857142857145
+  A78: =TEXT(A44,"#,##0")&" stu / "&TEXT(B44,"#,##0")&" msg" => 5,000 stu / 175,000 msg
+  B78: =I44 => 0.0188427785
+  C78: =J44 => 0.011569514285714289
+  A79: =TEXT(A45,"#,##0")&" stu / "&TEXT(B45,"#,##0")&" msg" => 7,500 stu / 262,500 msg
+  B79: =I45 => 0.016535499500000005
+  C79: =J45 => 0.011539342857142861
+  A80: =TEXT(A46,"#,##0")&" stu / "&TEXT(B46,"#,##0")&" msg" => 10,000 stu / 350,000 msg
+  B80: =I46 => 0.016535499500000002
+  C80: =J46 => 0.011524257142857146
+  A81: =TEXT(A47,"#,##0")&" stu / "&TEXT(B47,"#,##0")&" msg" => 20,000 stu / 700,000 msg
+  B81: =I47 => 0.016535499500000002
+  C81: =J47 => 0.011501628571428573
+  A82: =TEXT(A48,"#,##0")&" stu / "&TEXT(B48,"#,##0")&" msg" => 30,000 stu / 1,050,000 msg
+  B82: =I48 => 0.016535499500000005
+  C82: =J48 => 0.011494085714285717
+  A83: =TEXT(A49,"#,##0")&" stu / "&TEXT(B49,"#,##0")&" msg" => 40,000 stu / 1,400,000 msg
+  B83: =I49 => 0.016535499500000002
+  C83: =J49 => 0.011490314285714287
+  A84: =TEXT(A50,"#,##0")&" stu / "&TEXT(B50,"#,##0")&" msg" => 50,000 stu / 1,750,000 msg
+  B84: =I50 => 0.016535499500000002
+  C84: =J50 => 0.011488051428571431
+  A85: =TEXT(A51,"#,##0")&" stu / "&TEXT(B51,"#,##0")&" msg" => 60,000 stu / 2,100,000 msg
+  B85: =I51 => 0.016535499500000005
+  C85: =J51 => 0.011486542857142859
+  A86: =TEXT(A52,"#,##0")&" stu / "&TEXT(B52,"#,##0")&" msg" => 70,000 stu / 2,450,000 msg
+  B86: =I52 => 0.016535499500000002
+  C86: =J52 => 0.011485465306122452
+
+======================================================================
+SHEET: Competitor Benchmark  rows=34 cols=8 formulas=11
+======================================================================
+  A1=Competitor Pricing Benchmark — SMS/MMS-Only Providers
+  A2=Delphinium Community Builder vs. direct SMS/MMS competitors. Normalized to $ per standard US text (1 segment ≤160 chars) where possible. Competitor rates researched from provider pricing pages, Jul 2026 — see cell notes for sources. Delphinium figures link live to the model.
+  A4=DELPHINIUM — YOUR MODEL (linked)
+  A5=Loaded cost per segment | C5=='Cost Basis'!B9 => 0.008830000000000001
+  A6=Loaded cost per typical message (1.3 seg) | C6=='Cost Basis'!B10 => 0.011479000000000001
+  A7=List price per credit (= 1 typical message) | C7=='B - Message Credits'!B7 => 0.03845465000000001
+  A8=List price per segment (list ÷ 1.3) | C8=='B - Message Credits'!B7/'Cost Basis'!B8 => 0.029580500000000003
+  A9=High-volume price per credit (43% of list) | C9=='B - Message Credits'!I52 => 0.016535499500000002
+  A10=MMS = 3 credits → effective per MMS | C10=='B - Message Credits'!B7*3 => 0.11536395000000002
+  A12=GROUP 1 — Business SMS/MMS platforms (managed apps, credit-based — your direct peers)
+  A13=Provider | B13=Pricing model | C13=Low-volume $/msg | D13=High-volume $/msg | E13=MMS | F13=Inbound | G13=1 credit = | H13=Notes
+  A14=SimpleTexting (Sinch) | B14=Credit subscription | C14=0.078 | D14=0.018 | E14=3 credits | F14=Free | G14=1 SMS segment | H14=15% nonprofit [501(c)(3)] discount; 20% annual; credits roll over. Longer text = 2 credits.
+  A15=SlickText | B15=Credit subscription | C15=0.05 | D15=0.0188 | E15=Higher | F15=Free | G15=1 SMS segment | H15=2 free months on annual; will price-match SimpleTexting.
+  A16=TextMagic | B16=Pay-as-you-go credits | C16=0.049 | D16=0.04 | E16=0.08 | F16=Free | G16=1 SMS segment | H16=Flat rate, no volume discount on PAYG. Number $10/mo. 155-char segment.
+  A17=Industry average | B17=— | C17=0.04 | D17=0.01 | E17=— | F17=— | G17=1 SMS segment | H17=Blended market reference band, not a specific vendor.
+  A19=GROUP 2 — CPaaS / raw SMS APIs (wholesale pipe, developer-billed per segment)
+  A20=Twilio | B20=PAYG API / segment | C20=0.0115 | D20=0.0073 | E20=0.02 | F20=0.0083 | G20=n/a (per segment) | H20=Raw API only — no UI, contacts, compliance UX. You'd build the app on top.
+  A21=Telnyx | B21=PAYG API / part | C21=0.008 | D21=0.0035 | E21=Higher | F21=0.004 | G21=n/a (per part) | H21=No markup on 10DLC fees; developer-first. Same build-it-yourself caveat.
+  A22=Plivo | B22=PAYG API / segment | C22=0.0085 | D22=0.0077 | E22=0.018 | F22=Free | G22=n/a (per segment) | H22=Inbound local SMS free. Cheapest mainstream API for high volume.
+  A23=AWS End User Messaging | B23=PAYG (your cost basis) | C23=='Cost Basis'!B9 => 0.008830000000000001 | D23=='Cost Basis'!B9 => 0.008830000000000001 | E23=3x seg | F23=Metered | G23=n/a (per segment) | H23=This is what Delphinium runs on — the cost floor, not a retail competitor.
+  A25=► DELPHINIUM (per typical message) | B25=Credit (cost-metered) | C25=='B - Message Credits'!B7 => 0.03845465000000001 | D25=='B - Message Credits'!I52 => 0.016535499500000002 | E25=='B - Message Credits'!B7*3 => 0.11536395000000002 | F25=1 credit | G25=1 typical msg (1.3 seg) | H25=Your credit bundles 1.3 segments vs. competitors' 1 segment — slightly more generous per credit.
+  A28=TAKEAWAYS
+  A29=1. vs. business SMS platforms (your real peers): Your ~$0.038 list sits in the low-middle of the $0.018–$0.078 band. Still below every named entry rate (TextMagic $0.049, SlickText ~$0.05, SimpleTexting $0.078) and right around the ~$0.04 industry average — but now slightly ABOVE SimpleTexting's mid-tier (~$0.032). Fairly/competitively priced; no longer underpriced at list.
+  A30=2. At high volume your ~$0.0165/credit still undercuts the 50K tiers (~$0.018–$0.019), and margin there now holds ~30% (up from ~24% at the old 3.05 markup). Better balance of price leadership and retained margin.
+  A31=3. vs. CPaaS (Twilio/Telnyx/Plivo): Your list (~$0.030/segment) is still ~3–4x their all-in wholesale rate ($0.008–$0.015/seg). That gap is the managed-application markup — expected, and the same premium SimpleTexting/SlickText charge over the same pipe.
+  A32=4. Structure matches the market: credit model + MMS = 3 credits mirrors SimpleTexting/SlickText exactly, so buyers can compare apples-to-apples. Your credit = 1.3 segments is slightly more generous than their 1-segment credit.
+  A33=5. Nonprofit angle: SimpleTexting gives 501(c)(3)s 15% off. If you sell to schools/nonprofits, consider matching a nonprofit discount so your effective price stays below theirs.
+  A34=Caveat: competitor figures are list prices from public pages (Jul 2026); enterprise/custom deals go lower. CPaaS rates exclude the app layer (UI, contacts, compliance, support) that you and the Group 1 platforms provide.
+--- FORMULAS ---
+  C5: ='Cost Basis'!B9 => 0.008830000000000001
+  C6: ='Cost Basis'!B10 => 0.011479000000000001
+  C7: ='B - Message Credits'!B7 => 0.03845465000000001
+  C8: ='B - Message Credits'!B7/'Cost Basis'!B8 => 0.029580500000000003
+  C9: ='B - Message Credits'!I52 => 0.016535499500000002
+  C10: ='B - Message Credits'!B7*3 => 0.11536395000000002
+  C23: ='Cost Basis'!B9 => 0.008830000000000001
+  D23: ='Cost Basis'!B9 => 0.008830000000000001
+  C25: ='B - Message Credits'!B7 => 0.03845465000000001
+  D25: ='B - Message Credits'!I52 => 0.016535499500000002
+  E25: ='B - Message Credits'!B7*3 => 0.11536395000000002
+
+======================================================================
+SHEET: Spec & Policy  rows=53 cols=2 formulas=2
+======================================================================
+  A1=Message Credits — Spec & Overage Policy (authoritative reference)
+  A2=Source of truth for the developer. The pricing model lives on 'B - Message Credits'. Where anything here conflicts with a note elsewhere, this sheet wins.
+  A4=1. CREDIT MODEL (SOURCE OF TRUTH)
+  A5=Customer-facing definition | B5=1 credit = the cost of one "typical" message (a standard short text). Buyers think in whole messages, not segments.
+  A6=Billing basis | B6=Clients prepurchase a block of credits = the estimated number of typical messages they'll need for the year. The balance draws down by ACTUAL usage.
+  A7=Draw-down (burn) rule | B7=Credits burned per message = actual AWS cost × markup multiple ÷ cost-per-credit. NO fixed per-type table — burn is metered from real cost. A typical message ≈ 1 credit by definition.
+  A8=Markup multiple | B8=='B - Message Credits'!B6 => 3.35
+  A9=List price per credit | B9=='B - Message Credits'!B7 => 0.03845465000000001
+  A10=Longer messages | B10=Multi-segment texts cost more to send, so they draw down proportionally more credits — automatically, via actual cost. Nothing to configure.
+  A11=MMS / media | B11=Picture/file messages cost more per send and draw down proportionally more credits. No fixed number — it floats with actual carrier cost. Enable only after MMS ships and cost is confirmed.
+  A12=Inbound messages | B12=Replies from parents/students ARE part of the burn — they consume credits too. Must be disclosed to customers and tracked as a separate metric in reporting.
+  A14=2. ACCOUNTS & ENFORCEMENT
+  A15=Credit pool ownership | B15=The credit pool sits at the paying account (root or parent). Most clients pay from one account.
+  A16=Sub-accounts | B16=Per sub-account billing mode: SHARED (draws from the parent pool) or INDEPENDENT (its own separate pool/balance). Support both — districts fund centrally; individual schools may buy their own.
+  A17=Enforcement unit | B17=The ANNUAL pool. Monthly figures are pacing/reporting only — never a monthly hard cap. Usage is seasonal (exam spikes, summer lulls); a monthly cap would falsely trip.
+  A19=3. PRICING, TOP-UPS & ROLLOVER
+  A20=Volume discount | B20=By the size of the block purchased in a single order (bigger block = deeper discount). See the discount schedule on 'B - Message Credits'. Discounts do not stack across separate purchases.
+  A21=Top-ups | B21=Priced at the client's CURRENT discount tier (the tier their existing block qualifies for) — NOT cumulative. Topping up never unlocks a deeper discount; deeper discounts come only from a bigger UP-FRONT block. Over-buying is safe — unused credits carry to next year — so clients are steered to commit more up front.
+  A22=Rollover / expiry | B22=Unused credits carry over on renewal but EXPIRE 12 months after purchase. If a client does NOT renew, remaining credits are forfeited — no refund or reimbursement.
+  A24=4. ADMIN UI
+  A25=Fuel gauge | B25=Remaining balance (credits + % of annual block); projected run-out date; annual pacing badge (On track / Ahead / Behind). Include a MONTHLY view too (this month's usage vs. pace).
+  A26=Burn rate | B26=Overall credits/month (rolling average) AND a separate reply/inbound burn metric — track replies distinctly.
+  A27=Usage breakdown | B27=By teacher and sub-account; by message type (short / long / MMS / inbound); plus a 'most expensive messages' list with the reason (length / media / destination).
+  A28=Alerts | B28=Configurable thresholds (default 80 / 90 / 100%); recipient list.
+  A29=Purchase / top-up | B29=Buy-more / top-up button showing the client's current discount tier. (Top-ups price at the current tier; a deeper discount requires a bigger up-front block.)
+  A30=Overage control | B30=Admin selects overage behavior IN ADVANCE (auto-bill / auto-purchase / hard-stop) — see section 5.
+  A31=Monthly report (email) | B31=Balance, burn rate, projected run-out, avg credits per message, top consumers, and reply burn.
+  A33=5. OVERAGE POLICY
+  A34=Notify ladder | B34=CLIENT admin: 80% → email; 90% → email + in-app banner + Buy-more CTA; 100% → prominent banner + CTA + email all admins. INTERNAL (our team): alert sales/success at 80% and 90% so we can proactively follow up and tee up the next block.
+  A35=At 100% — Auto-bill (DEFAULT) | B35=Keep sending; bill overage at the CURRENT discounted price per credit. Notify each time another block-size of overage accrues. No disruption to teachers/parents.
+  A36=At 100% — Auto-purchase | B36=Automatically buy the next recommended block at the cumulative-volume tier.
+  A37=At 100% — Hard-stop (opt-in) | B37=Stop sending at 105% of the annual block (≈ a week+ of runway) — NOT 1%. Warn admin that parent comms will cease. Only if the admin explicitly chooses this mode.
+  A38=Overage rate | B38=The client's CURRENT discounted price per credit (same tier they're on). Renegotiable at renewal.
+  A39=Reconciliation | B39=Annual settlement only — no quarterly true-up (the overage policy handles it in real time). Within-year under-use months net against over-use months before any settlement.
+  A41=6. DEVELOPER BUILD CHECKLIST
+  A42=Credit ledger | B42=One row per message: actual AWS cost, country/carrier, segments, direction (out/in), type (SMS/MMS), credits debited = cost × multiple ÷ cost-per-credit. Balance = purchased − debited.
+  A43=Account model | B43=Account entity with optional parent link + billing mode (shared | independent). Balance and limits attach to the pool owner.
+  A44=Enforcement | B44=Enforce on the annual pool; compute monthly pacing for display only.
+  A45=Notifications | B45=Threshold engine: 80 / 90 / 100% and per-block overage increments. Sends to BOTH the client admins AND our internal team (separate recipient lists).
+  A46=Overage state machine | B46=Implements section 5; behavior driven by the admin's pre-set mode (auto-bill / auto-purchase / hard-stop @105%).
+  A47=Monthly report job | B47=Scheduled email with the stats in section 4, including reply burn.
+  A48=MMS accounting | B48=Cost × multiplier (no fixed credit count). Enable after MMS ships and AWS MMS cost is confirmed.
+  A50=7. CUSTOMER-FACING COPY (DRAFT / PLACEHOLDER)
+  A51=How credits work (draft) | B51=Your plan includes a balance of message credits. One credit is the cost of a typical text message. Every message you send draws from your balance based on what it actually costs to deliver — most short texts use about one credit. Replies you receive countas messages too.
+  A52=Longer messages (draft) | B52=A long message uses more than one credit, because that message is sent in multiple parts  — you're only ever charged for what it actually costs to send.
+  A53=MMS / media (PLACEHOLDER) | B53=[PLACEHOLDER — finalize when MMS ships and AWS cost is confirmed] Picture, file, and video (MMS) messages cost more to deliver than a plain text, so they use more credits — roughly [N]× a typical message. The exact amount depends on the file and the recipient's carrier.
+--- FORMULAS ---
+  B8: ='B - Message Credits'!B6 => 3.35
+  B9: ='B - Message Credits'!B7 => 0.03845465000000001
+
+======================================================================
+SHEET: Admin Mockup  rows=40 cols=12 formulas=26
+======================================================================
+  A1=Admin Dashboard — Message Credits
+  A2=MOCKUP — illustrative sample data for one client (Davis). All panels are driven by the 'Sample data' block at right; edit those to see the dashboard react.
+  B4=Davis School District   ·   Annual plan: 700,000 credits   ·   10 active months   ·   Term expires Jun 30, 2026
+  K5=SAMPLE DATA (editable)
+  B6=CREDITS REMAINING | D6=USED TO DATE | F6=PROJECTED YEAR-END USE | H6=THIS MONTH | K6=Annual block (credits) | L6=700000
+  B7==L6-L7 => 308000 | D7==L7 => 392000 | F7==L7/L11*L10 => 653333.3333333334 | H7==L8 => 68000 | K7=Used to date | L7=392000
+  K8=This month used | L8=68000
+  B9==TEXT((L6-L7)/L6,"0%")&" of plan remaining" => 44% of plan remaining | D9==TEXT(L7/L6,"0%")&" of annual block" => 56% of annual block | F9==IF(F7<=L6,"On track — finishes under plan","Over pace — will exceed plan") => On track — finishes under plan | H9==TEXT(L9,"#,##0")&" from replies (inbound)" => 12,000 from replies (inbound) | K9=  of which replies (inbound) | L9=12000
+  K10=Active months (plan) | L10=10
+  B11=CREDIT BALANCE | K11=Months elapsed | L11=6
+  B12=% of plan used | C12==L7/L6 => 0.56 | K12=List price / credit | L12=='B - Message Credits'!B7 => 0.03845465000000001
+  B13=="Plan: "&TEXT(L6,"#,##0")&" credits     ·     Remaining: "&TEXT(L6-L7,"#,##0")&" credits" => Plan: 700,000 credits     ·     Remaining: 308,000 credits | K13=Current discount tier | L13=0.57
+  B15=BURN RATE
+  B16=Avg per active month | C16==L7/L11 => 65333.333333333336 | E16=Projected year-end use | F16==F7 => 653333.3333333334
+  B17=This month | C17==L8 => 68000 | E17=Annual plan | F17==L6 => 700000
+  B18=From replies (inbound) | C18==L9 => 12000 | D18==TEXT(L9/L8,"0%")&" of this month" => 18% of this month | E18=Cushion vs plan | F18==IF(F7<=L6,TEXT(L6-F7,"#,##0")&" to spare",TEXT(F7-L6,"#,##0")&" over") => 46,667 to spare
+  B20=USAGE BY MESSAGE TYPE | E20=TOP CONSUMERS (TEACHERS)
+  B21=Type | C21=Credits | D21=Share | E21=Teacher | F21=Grade | G21=Credits
+  B22=Short SMS | C22=260000 | D22==C22/$C$26 => 0.6632653061224489 | E22=M. Rivera | F22=9 | G22=52000
+  B23=Long (multi-part) | C23=78000 | D23==C23/$C$26 => 0.1989795918367347 | E23=J. Chen | F23=11 | G23=44000
+  B24=MMS / media | C24=30000 | D24==C24/$C$26 => 0.07653061224489796 | E24=A. Patel | F24=7 | G24=39000
+  B25=Replies (inbound) | C25=24000 | D25==C25/$C$26 => 0.061224489795918366 | E25=L. Gomez | F25=10 | G25=33000
+  B26=Total | C26==SUM(C22:C25) => 392000 | D26==SUM(D22:D25) => 1 | E26=K. Osei | F26=8 | G26=28000
+  B28=MOST EXPENSIVE MESSAGES
+  B29=Sent by | C29=Type | D29=Credits | E29=Why
+  B30=M. Rivera | C30=MMS | D30=5 | E30=2 MB image attachment
+  B31=Newsletter blast | C31=Long SMS | D31=4 | E31=640 chars → 4 segments
+  B32=J. Chen | C32=MMS | D32=4 | E32=PDF permission slip
+  B33=Exam reminder (intl) | C33=SMS | D33=3 | E33=International carrier rate
+  B35=BUY MORE / TOP-UP | E35=ALERTS & OVERAGE
+  B36=Current tier | C36==TEXT(L13,"0%")&" of list" => 57% of list | E36=Alert thresholds | F36=80%  ·  90%  ·  100%
+  B37=Your price / credit | C37==L12*L13 => 0.0219191505 | E37=Recipients | F37=Client admins + our team
+  B38=＋  Buy more credits | E38=Overage behavior | F38=Auto-bill at current rate
+  B39=Top-ups price at your current tier. A bigger up-front block earns a deeper discount. | E39=  (options) | F39=Auto-bill · Auto-purchase · Hard-stop @105%
+  E40=Rollover | F40=Carries over · expires 12 mo · no refund if not renewed
+--- FORMULAS ---
+  B7: =L6-L7 => 308000
+  D7: =L7 => 392000
+  F7: =L7/L11*L10 => 653333.3333333334
+  H7: =L8 => 68000
+  B9: =TEXT((L6-L7)/L6,"0%")&" of plan remaining" => 44% of plan remaining
+  D9: =TEXT(L7/L6,"0%")&" of annual block" => 56% of annual block
+  F9: =IF(F7<=L6,"On track — finishes under plan","Over pace — will exceed plan") => On track — finishes under plan
+  H9: =TEXT(L9,"#,##0")&" from replies (inbound)" => 12,000 from replies (inbound)
+  C12: =L7/L6 => 0.56
+  L12: ='B - Message Credits'!B7 => 0.03845465000000001
+  B13: ="Plan: "&TEXT(L6,"#,##0")&" credits     ·     Remaining: "&TEXT(L6-L7,"#,##0")&" credits" => Plan: 700,000 credits     ·     Remaining: 308,000 credits
+  C16: =L7/L11 => 65333.333333333336
+  F16: =F7 => 653333.3333333334
+  C17: =L8 => 68000
+  F17: =L6 => 700000
+  C18: =L9 => 12000
+  D18: =TEXT(L9/L8,"0%")&" of this month" => 18% of this month
+  F18: =IF(F7<=L6,TEXT(L6-F7,"#,##0")&" to spare",TEXT(F7-L6,"#,##0")&" over") => 46,667 to spare
+  D22: =C22/$C$26 => 0.6632653061224489
+  D23: =C23/$C$26 => 0.1989795918367347
+  D24: =C24/$C$26 => 0.07653061224489796
+  D25: =C25/$C$26 => 0.061224489795918366
+  C26: =SUM(C22:C25) => 392000
+  D26: =SUM(D22:D25) => 1
+  C36: =TEXT(L13,"0%")&" of list" => 57% of list
+  C37: =L12*L13 => 0.0219191505

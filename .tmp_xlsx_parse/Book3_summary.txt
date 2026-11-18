@@ -1,0 +1,51 @@
+FILE: Book3.xlsx
+SHEETS: ['Competitor Benchmark', 'Sheet1']
+DEFINED NAMES: {}
+
+======================================================================
+SHEET: Competitor Benchmark  rows=34 cols=8 formulas=11
+======================================================================
+  A1=Competitor Pricing Benchmark — SMS/MMS-Only Providers
+  A2=Delphinium Community Builder vs. direct SMS/MMS competitors. Normalized to $ per standard US text (1 segment ≤160 chars) where possible. Competitor rates researched from provider pricing pages, Jul 2026 — see cell notes for sources. Delphinium figures link live to the model.
+  A4=DELPHINIUM — YOUR MODEL (linked)
+  A5=Loaded cost per segment | C5=='[2]Cost Basis'!B9 => 0.008830000000000001
+  A6=Loaded cost per typical message (1.3 seg) | C6=='[2]Cost Basis'!B10 => 0.011479000000000001
+  A7=List price per credit (= 1 typical message) | C7=='[1]B - Message Credits'!B7 => 0.03845465000000001
+  A8=List price per segment (list ÷ 1.3) | C8=='[1]B - Message Credits'!B7/'[2]Cost Basis'!B8 => 0.029580500000000003
+  A9=High-volume price per credit (43% of list) | C9=='[1]B - Message Credits'!I52 => 0.016535499500000002
+  A10=MMS = 3 credits → effective per MMS | C10=='[1]B - Message Credits'!B7*3 => 0.11536395000000002
+  A12=GROUP 1 — Business SMS/MMS platforms (managed apps, credit-based — your direct peers)
+  A13=Provider | B13=Pricing model | C13=Low-volume $/msg | D13=High-volume $/msg | E13=MMS | F13=Inbound | G13=1 credit = | H13=Notes
+  A14=SimpleTexting (Sinch) | B14=Credit subscription | C14=0.078 | D14=0.018 | E14=3 credits | F14=Free | G14=1 SMS segment | H14=15% nonprofit [501(c)(3)] discount; 20% annual; credits roll over. Longer text = 2 credits.
+  A15=SlickText | B15=Credit subscription | C15=0.05 | D15=0.0188 | E15=Higher | F15=Free | G15=1 SMS segment | H15=2 free months on annual; will price-match SimpleTexting.
+  A16=TextMagic | B16=Pay-as-you-go credits | C16=0.049 | D16=0.04 | E16=0.08 | F16=Free | G16=1 SMS segment | H16=Flat rate, no volume discount on PAYG. Number $10/mo. 155-char segment.
+  A17=Industry average | B17=— | C17=0.04 | D17=0.01 | E17=— | F17=— | G17=1 SMS segment | H17=Blended market reference band, not a specific vendor.
+  A19=GROUP 2 — CPaaS / raw SMS APIs (wholesale pipe, developer-billed per segment)
+  A20=Twilio | B20=PAYG API / segment | C20=0.0115 | D20=0.0073 | E20=0.02 | F20=0.0083 | G20=n/a (per segment) | H20=Raw API only — no UI, contacts, compliance UX. You'd build the app on top.
+  A21=Telnyx | B21=PAYG API / part | C21=0.008 | D21=0.0035 | E21=Higher | F21=0.004 | G21=n/a (per part) | H21=No markup on 10DLC fees; developer-first. Same build-it-yourself caveat.
+  A22=Plivo | B22=PAYG API / segment | C22=0.0085 | D22=0.0077 | E22=0.018 | F22=Free | G22=n/a (per segment) | H22=Inbound local SMS free. Cheapest mainstream API for high volume.
+  A23=AWS End User Messaging | B23=PAYG (your cost basis) | C23=='[2]Cost Basis'!B9 => 0.008830000000000001 | D23=='[2]Cost Basis'!B9 => 0.008830000000000001 | E23=3x seg | F23=Metered | G23=n/a (per segment) | H23=This is what Delphinium runs on — the cost floor, not a retail competitor.
+  A25=► DELPHINIUM (per typical message) | B25=Credit (cost-metered) | C25=='[1]B - Message Credits'!B7 => 0.03845465000000001 | D25=='[1]B - Message Credits'!I52 => 0.016535499500000002 | E25=='[1]B - Message Credits'!B7*3 => 0.11536395000000002 | F25=1 credit | G25=1 typical msg (1.3 seg) | H25=Your credit bundles 1.3 segments vs. competitors' 1 segment — slightly more generous per credit.
+  A28=TAKEAWAYS
+  A29=1. vs. business SMS platforms (your real peers): Your ~$0.038 list sits in the low-middle of the $0.018–$0.078 band. Still below every named entry rate (TextMagic $0.049, SlickText ~$0.05, SimpleTexting $0.078) and right around the ~$0.04 industry average — but now slightly ABOVE SimpleTexting's mid-tier (~$0.032). Fairly/competitively priced; no longer underpriced at list.
+  A30=2. At high volume your ~$0.0165/credit still undercuts the 50K tiers (~$0.018–$0.019), and margin there now holds ~30% (up from ~24% at the old 3.05 markup). Better balance of price leadership and retained margin.
+  A31=3. vs. CPaaS (Twilio/Telnyx/Plivo): Your list (~$0.030/segment) is still ~3–4x their all-in wholesale rate ($0.008–$0.015/seg). That gap is the managed-application markup — expected, and the same premium SimpleTexting/SlickText charge over the same pipe.
+  A32=4. Structure matches the market: credit model + MMS = 3 credits mirrors SimpleTexting/SlickText exactly, so buyers can compare apples-to-apples. Your credit = 1.3 segments is slightly more generous than their 1-segment credit.
+  A33=5. Nonprofit angle: SimpleTexting gives 501(c)(3)s 15% off. If you sell to schools/nonprofits, consider matching a nonprofit discount so your effective price stays below theirs.
+  A34=Caveat: competitor figures are list prices from public pages (Jul 2026); enterprise/custom deals go lower. CPaaS rates exclude the app layer (UI, contacts, compliance, support) that you and the Group 1 platforms provide.
+--- FORMULAS ---
+  C5: ='[2]Cost Basis'!B9 => 0.008830000000000001
+  C6: ='[2]Cost Basis'!B10 => 0.011479000000000001
+  C7: ='[1]B - Message Credits'!B7 => 0.03845465000000001
+  C8: ='[1]B - Message Credits'!B7/'[2]Cost Basis'!B8 => 0.029580500000000003
+  C9: ='[1]B - Message Credits'!I52 => 0.016535499500000002
+  C10: ='[1]B - Message Credits'!B7*3 => 0.11536395000000002
+  C23: ='[2]Cost Basis'!B9 => 0.008830000000000001
+  D23: ='[2]Cost Basis'!B9 => 0.008830000000000001
+  C25: ='[1]B - Message Credits'!B7 => 0.03845465000000001
+  D25: ='[1]B - Message Credits'!I52 => 0.016535499500000002
+  E25: ='[1]B - Message Credits'!B7*3 => 0.11536395000000002
+
+======================================================================
+SHEET: Sheet1  rows=1 cols=1 formulas=0
+======================================================================

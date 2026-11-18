@@ -1,0 +1,1154 @@
+{
+  "file": "1.xlsx",
+  "sheets": [
+    "Admin Mockup",
+    "Sheet1"
+  ],
+  "sheet_details": {
+    "Admin Mockup": {
+      "max_row": 40,
+      "max_col": 12,
+      "formula_count": 26,
+      "formulas": [
+        {
+          "addr": "B7",
+          "raw": "=L6-L7",
+          "calc": 308000
+        },
+        {
+          "addr": "D7",
+          "raw": "=L7",
+          "calc": 392000
+        },
+        {
+          "addr": "F7",
+          "raw": "=L7/L11*L10",
+          "calc": 653333.3333333334
+        },
+        {
+          "addr": "H7",
+          "raw": "=L8",
+          "calc": 68000
+        },
+        {
+          "addr": "B9",
+          "raw": "=TEXT((L6-L7)/L6,\"0%\")&\" of plan remaining\"",
+          "calc": "44% of plan remaining"
+        },
+        {
+          "addr": "D9",
+          "raw": "=TEXT(L7/L6,\"0%\")&\" of annual block\"",
+          "calc": "56% of annual block"
+        },
+        {
+          "addr": "F9",
+          "raw": "=IF(F7<=L6,\"On track \u2014 finishes under plan\",\"Over pace \u2014 will exceed plan\")",
+          "calc": "On track \u2014 finishes under plan"
+        },
+        {
+          "addr": "H9",
+          "raw": "=TEXT(L9,\"#,##0\")&\" from replies (inbound)\"",
+          "calc": "12,000 from replies (inbound)"
+        },
+        {
+          "addr": "C12",
+          "raw": "=L7/L6",
+          "calc": 0.56
+        },
+        {
+          "addr": "L12",
+          "raw": "='[1]B - Message Credits'!B7",
+          "calc": 0.03845465000000001
+        },
+        {
+          "addr": "B13",
+          "raw": "=\"Plan: \"&TEXT(L6,\"#,##0\")&\" credits     \u00b7     Remaining: \"&TEXT(L6-L7,\"#,##0\")&\" credits\"",
+          "calc": "Plan: 700,000 credits     \u00b7     Remaining: 308,000 credits"
+        },
+        {
+          "addr": "C16",
+          "raw": "=L7/L11",
+          "calc": 65333.333333333336
+        },
+        {
+          "addr": "F16",
+          "raw": "=F7",
+          "calc": 653333.3333333334
+        },
+        {
+          "addr": "C17",
+          "raw": "=L8",
+          "calc": 68000
+        },
+        {
+          "addr": "F17",
+          "raw": "=L6",
+          "calc": 700000
+        },
+        {
+          "addr": "C18",
+          "raw": "=L9",
+          "calc": 12000
+        },
+        {
+          "addr": "D18",
+          "raw": "=TEXT(L9/L8,\"0%\")&\" of this month\"",
+          "calc": "18% of this month"
+        },
+        {
+          "addr": "F18",
+          "raw": "=IF(F7<=L6,TEXT(L6-F7,\"#,##0\")&\" to spare\",TEXT(F7-L6,\"#,##0\")&\" over\")",
+          "calc": "46,667 to spare"
+        },
+        {
+          "addr": "D22",
+          "raw": "=C22/$C$26",
+          "calc": 0.6632653061224489
+        },
+        {
+          "addr": "D23",
+          "raw": "=C23/$C$26",
+          "calc": 0.1989795918367347
+        },
+        {
+          "addr": "D24",
+          "raw": "=C24/$C$26",
+          "calc": 0.07653061224489796
+        },
+        {
+          "addr": "D25",
+          "raw": "=C25/$C$26",
+          "calc": 0.061224489795918366
+        },
+        {
+          "addr": "C26",
+          "raw": "=SUM(C22:C25)",
+          "calc": 392000
+        },
+        {
+          "addr": "D26",
+          "raw": "=SUM(D22:D25)",
+          "calc": 1
+        },
+        {
+          "addr": "C36",
+          "raw": "=TEXT(L13,\"0%\")&\" of list\"",
+          "calc": "57% of list"
+        },
+        {
+          "addr": "C37",
+          "raw": "=L12*L13",
+          "calc": 0.0219191505
+        }
+      ],
+      "rows": [
+        [
+          {
+            "addr": "A1",
+            "raw": "Admin Dashboard \u2014 Message Credits",
+            "calc": "Admin Dashboard \u2014 Message Credits"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A2",
+            "raw": "MOCKUP \u2014 illustrative sample data for one client (Davis). All panels are driven by the 'Sample data' block at right; edit those to see the dashboard react.",
+            "calc": "MOCKUP \u2014 illustrative sample data for one client (Davis). All panels are driven by the 'Sample data' block at right; edit those to see the dashboard react."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B4",
+            "raw": "Davis School District   \u00b7   Annual plan: 700,000 credits   \u00b7   10 active months   \u00b7   Term expires Jun 30, 2026",
+            "calc": "Davis School District   \u00b7   Annual plan: 700,000 credits   \u00b7   10 active months   \u00b7   Term expires Jun 30, 2026"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K5",
+            "raw": "SAMPLE DATA (editable)",
+            "calc": "SAMPLE DATA (editable)"
+          },
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B6",
+            "raw": "CREDITS REMAINING",
+            "calc": "CREDITS REMAINING"
+          },
+          null,
+          {
+            "addr": "D6",
+            "raw": "USED TO DATE",
+            "calc": "USED TO DATE"
+          },
+          null,
+          {
+            "addr": "F6",
+            "raw": "PROJECTED YEAR-END USE",
+            "calc": "PROJECTED YEAR-END USE"
+          },
+          null,
+          {
+            "addr": "H6",
+            "raw": "THIS MONTH",
+            "calc": "THIS MONTH"
+          },
+          null,
+          null,
+          {
+            "addr": "K6",
+            "raw": "Annual block (credits)",
+            "calc": "Annual block (credits)"
+          },
+          {
+            "addr": "L6",
+            "raw": 700000,
+            "calc": 700000
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B7",
+            "raw": "=L6-L7",
+            "calc": 308000
+          },
+          null,
+          {
+            "addr": "D7",
+            "raw": "=L7",
+            "calc": 392000
+          },
+          null,
+          {
+            "addr": "F7",
+            "raw": "=L7/L11*L10",
+            "calc": 653333.3333333334
+          },
+          null,
+          {
+            "addr": "H7",
+            "raw": "=L8",
+            "calc": 68000
+          },
+          null,
+          null,
+          {
+            "addr": "K7",
+            "raw": "Used to date",
+            "calc": "Used to date"
+          },
+          {
+            "addr": "L7",
+            "raw": 392000,
+            "calc": 392000
+          }
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K8",
+            "raw": "This month used",
+            "calc": "This month used"
+          },
+          {
+            "addr": "L8",
+            "raw": 68000,
+            "calc": 68000
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B9",
+            "raw": "=TEXT((L6-L7)/L6,\"0%\")&\" of plan remaining\"",
+            "calc": "44% of plan remaining"
+          },
+          null,
+          {
+            "addr": "D9",
+            "raw": "=TEXT(L7/L6,\"0%\")&\" of annual block\"",
+            "calc": "56% of annual block"
+          },
+          null,
+          {
+            "addr": "F9",
+            "raw": "=IF(F7<=L6,\"On track \u2014 finishes under plan\",\"Over pace \u2014 will exceed plan\")",
+            "calc": "On track \u2014 finishes under plan"
+          },
+          null,
+          {
+            "addr": "H9",
+            "raw": "=TEXT(L9,\"#,##0\")&\" from replies (inbound)\"",
+            "calc": "12,000 from replies (inbound)"
+          },
+          null,
+          null,
+          {
+            "addr": "K9",
+            "raw": "  of which replies (inbound)",
+            "calc": "  of which replies (inbound)"
+          },
+          {
+            "addr": "L9",
+            "raw": 12000,
+            "calc": 12000
+          }
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K10",
+            "raw": "Active months (plan)",
+            "calc": "Active months (plan)"
+          },
+          {
+            "addr": "L10",
+            "raw": 10,
+            "calc": 10
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B11",
+            "raw": "CREDIT BALANCE",
+            "calc": "CREDIT BALANCE"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K11",
+            "raw": "Months elapsed",
+            "calc": "Months elapsed"
+          },
+          {
+            "addr": "L11",
+            "raw": 6,
+            "calc": 6
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B12",
+            "raw": "% of plan used",
+            "calc": "% of plan used"
+          },
+          {
+            "addr": "C12",
+            "raw": "=L7/L6",
+            "calc": 0.56
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K12",
+            "raw": "List price / credit",
+            "calc": "List price / credit"
+          },
+          {
+            "addr": "L12",
+            "raw": "='[1]B - Message Credits'!B7",
+            "calc": 0.03845465000000001
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B13",
+            "raw": "=\"Plan: \"&TEXT(L6,\"#,##0\")&\" credits     \u00b7     Remaining: \"&TEXT(L6-L7,\"#,##0\")&\" credits\"",
+            "calc": "Plan: 700,000 credits     \u00b7     Remaining: 308,000 credits"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "K13",
+            "raw": "Current discount tier",
+            "calc": "Current discount tier"
+          },
+          {
+            "addr": "L13",
+            "raw": 0.57,
+            "calc": 0.57
+          }
+        ],
+        [
+          null,
+          {
+            "addr": "B15",
+            "raw": "BURN RATE",
+            "calc": "BURN RATE"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B16",
+            "raw": "Avg per active month",
+            "calc": "Avg per active month"
+          },
+          {
+            "addr": "C16",
+            "raw": "=L7/L11",
+            "calc": 65333.333333333336
+          },
+          null,
+          {
+            "addr": "E16",
+            "raw": "Projected year-end use",
+            "calc": "Projected year-end use"
+          },
+          {
+            "addr": "F16",
+            "raw": "=F7",
+            "calc": 653333.3333333334
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B17",
+            "raw": "This month",
+            "calc": "This month"
+          },
+          {
+            "addr": "C17",
+            "raw": "=L8",
+            "calc": 68000
+          },
+          null,
+          {
+            "addr": "E17",
+            "raw": "Annual plan",
+            "calc": "Annual plan"
+          },
+          {
+            "addr": "F17",
+            "raw": "=L6",
+            "calc": 700000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B18",
+            "raw": "From replies (inbound)",
+            "calc": "From replies (inbound)"
+          },
+          {
+            "addr": "C18",
+            "raw": "=L9",
+            "calc": 12000
+          },
+          {
+            "addr": "D18",
+            "raw": "=TEXT(L9/L8,\"0%\")&\" of this month\"",
+            "calc": "18% of this month"
+          },
+          {
+            "addr": "E18",
+            "raw": "Cushion vs plan",
+            "calc": "Cushion vs plan"
+          },
+          {
+            "addr": "F18",
+            "raw": "=IF(F7<=L6,TEXT(L6-F7,\"#,##0\")&\" to spare\",TEXT(F7-L6,\"#,##0\")&\" over\")",
+            "calc": "46,667 to spare"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B20",
+            "raw": "USAGE BY MESSAGE TYPE",
+            "calc": "USAGE BY MESSAGE TYPE"
+          },
+          null,
+          null,
+          {
+            "addr": "E20",
+            "raw": "TOP CONSUMERS (TEACHERS)",
+            "calc": "TOP CONSUMERS (TEACHERS)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B21",
+            "raw": "Type",
+            "calc": "Type"
+          },
+          {
+            "addr": "C21",
+            "raw": "Credits",
+            "calc": "Credits"
+          },
+          {
+            "addr": "D21",
+            "raw": "Share",
+            "calc": "Share"
+          },
+          {
+            "addr": "E21",
+            "raw": "Teacher",
+            "calc": "Teacher"
+          },
+          {
+            "addr": "F21",
+            "raw": "Grade",
+            "calc": "Grade"
+          },
+          {
+            "addr": "G21",
+            "raw": "Credits",
+            "calc": "Credits"
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B22",
+            "raw": "Short SMS",
+            "calc": "Short SMS"
+          },
+          {
+            "addr": "C22",
+            "raw": 260000,
+            "calc": 260000
+          },
+          {
+            "addr": "D22",
+            "raw": "=C22/$C$26",
+            "calc": 0.6632653061224489
+          },
+          {
+            "addr": "E22",
+            "raw": "M. Rivera",
+            "calc": "M. Rivera"
+          },
+          {
+            "addr": "F22",
+            "raw": 9,
+            "calc": 9
+          },
+          {
+            "addr": "G22",
+            "raw": 52000,
+            "calc": 52000
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B23",
+            "raw": "Long (multi-part)",
+            "calc": "Long (multi-part)"
+          },
+          {
+            "addr": "C23",
+            "raw": 78000,
+            "calc": 78000
+          },
+          {
+            "addr": "D23",
+            "raw": "=C23/$C$26",
+            "calc": 0.1989795918367347
+          },
+          {
+            "addr": "E23",
+            "raw": "J. Chen",
+            "calc": "J. Chen"
+          },
+          {
+            "addr": "F23",
+            "raw": 11,
+            "calc": 11
+          },
+          {
+            "addr": "G23",
+            "raw": 44000,
+            "calc": 44000
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B24",
+            "raw": "MMS / media",
+            "calc": "MMS / media"
+          },
+          {
+            "addr": "C24",
+            "raw": 30000,
+            "calc": 30000
+          },
+          {
+            "addr": "D24",
+            "raw": "=C24/$C$26",
+            "calc": 0.07653061224489796
+          },
+          {
+            "addr": "E24",
+            "raw": "A. Patel",
+            "calc": "A. Patel"
+          },
+          {
+            "addr": "F24",
+            "raw": 7,
+            "calc": 7
+          },
+          {
+            "addr": "G24",
+            "raw": 39000,
+            "calc": 39000
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B25",
+            "raw": "Replies (inbound)",
+            "calc": "Replies (inbound)"
+          },
+          {
+            "addr": "C25",
+            "raw": 24000,
+            "calc": 24000
+          },
+          {
+            "addr": "D25",
+            "raw": "=C25/$C$26",
+            "calc": 0.061224489795918366
+          },
+          {
+            "addr": "E25",
+            "raw": "L. Gomez",
+            "calc": "L. Gomez"
+          },
+          {
+            "addr": "F25",
+            "raw": 10,
+            "calc": 10
+          },
+          {
+            "addr": "G25",
+            "raw": 33000,
+            "calc": 33000
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B26",
+            "raw": "Total",
+            "calc": "Total"
+          },
+          {
+            "addr": "C26",
+            "raw": "=SUM(C22:C25)",
+            "calc": 392000
+          },
+          {
+            "addr": "D26",
+            "raw": "=SUM(D22:D25)",
+            "calc": 1
+          },
+          {
+            "addr": "E26",
+            "raw": "K. Osei",
+            "calc": "K. Osei"
+          },
+          {
+            "addr": "F26",
+            "raw": 8,
+            "calc": 8
+          },
+          {
+            "addr": "G26",
+            "raw": 28000,
+            "calc": 28000
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B28",
+            "raw": "MOST EXPENSIVE MESSAGES",
+            "calc": "MOST EXPENSIVE MESSAGES"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B29",
+            "raw": "Sent by",
+            "calc": "Sent by"
+          },
+          {
+            "addr": "C29",
+            "raw": "Type",
+            "calc": "Type"
+          },
+          {
+            "addr": "D29",
+            "raw": "Credits",
+            "calc": "Credits"
+          },
+          {
+            "addr": "E29",
+            "raw": "Why",
+            "calc": "Why"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B30",
+            "raw": "M. Rivera",
+            "calc": "M. Rivera"
+          },
+          {
+            "addr": "C30",
+            "raw": "MMS",
+            "calc": "MMS"
+          },
+          {
+            "addr": "D30",
+            "raw": 5,
+            "calc": 5
+          },
+          {
+            "addr": "E30",
+            "raw": "2 MB image attachment",
+            "calc": "2 MB image attachment"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B31",
+            "raw": "Newsletter blast",
+            "calc": "Newsletter blast"
+          },
+          {
+            "addr": "C31",
+            "raw": "Long SMS",
+            "calc": "Long SMS"
+          },
+          {
+            "addr": "D31",
+            "raw": 4,
+            "calc": 4
+          },
+          {
+            "addr": "E31",
+            "raw": "640 chars \u2192 4 segments",
+            "calc": "640 chars \u2192 4 segments"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B32",
+            "raw": "J. Chen",
+            "calc": "J. Chen"
+          },
+          {
+            "addr": "C32",
+            "raw": "MMS",
+            "calc": "MMS"
+          },
+          {
+            "addr": "D32",
+            "raw": 4,
+            "calc": 4
+          },
+          {
+            "addr": "E32",
+            "raw": "PDF permission slip",
+            "calc": "PDF permission slip"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B33",
+            "raw": "Exam reminder (intl)",
+            "calc": "Exam reminder (intl)"
+          },
+          {
+            "addr": "C33",
+            "raw": "SMS",
+            "calc": "SMS"
+          },
+          {
+            "addr": "D33",
+            "raw": 3,
+            "calc": 3
+          },
+          {
+            "addr": "E33",
+            "raw": "International carrier rate",
+            "calc": "International carrier rate"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B35",
+            "raw": "BUY MORE / TOP-UP",
+            "calc": "BUY MORE / TOP-UP"
+          },
+          null,
+          null,
+          {
+            "addr": "E35",
+            "raw": "ALERTS & OVERAGE",
+            "calc": "ALERTS & OVERAGE"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B36",
+            "raw": "Current tier",
+            "calc": "Current tier"
+          },
+          {
+            "addr": "C36",
+            "raw": "=TEXT(L13,\"0%\")&\" of list\"",
+            "calc": "57% of list"
+          },
+          null,
+          {
+            "addr": "E36",
+            "raw": "Alert thresholds",
+            "calc": "Alert thresholds"
+          },
+          {
+            "addr": "F36",
+            "raw": "80%  \u00b7  90%  \u00b7  100%",
+            "calc": "80%  \u00b7  90%  \u00b7  100%"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B37",
+            "raw": "Your price / credit",
+            "calc": "Your price / credit"
+          },
+          {
+            "addr": "C37",
+            "raw": "=L12*L13",
+            "calc": 0.0219191505
+          },
+          null,
+          {
+            "addr": "E37",
+            "raw": "Recipients",
+            "calc": "Recipients"
+          },
+          {
+            "addr": "F37",
+            "raw": "Client admins + our team",
+            "calc": "Client admins + our team"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B38",
+            "raw": "\uff0b  Buy more credits",
+            "calc": "\uff0b  Buy more credits"
+          },
+          null,
+          null,
+          {
+            "addr": "E38",
+            "raw": "Overage behavior",
+            "calc": "Overage behavior"
+          },
+          {
+            "addr": "F38",
+            "raw": "Auto-bill at current rate",
+            "calc": "Auto-bill at current rate"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B39",
+            "raw": "Top-ups price at your current tier. A bigger up-front block earns a deeper discount.",
+            "calc": "Top-ups price at your current tier. A bigger up-front block earns a deeper discount."
+          },
+          null,
+          null,
+          {
+            "addr": "E39",
+            "raw": "  (options)",
+            "calc": "  (options)"
+          },
+          {
+            "addr": "F39",
+            "raw": "Auto-bill \u00b7 Auto-purchase \u00b7 Hard-stop @105%",
+            "calc": "Auto-bill \u00b7 Auto-purchase \u00b7 Hard-stop @105%"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          {
+            "addr": "E40",
+            "raw": "Rollover",
+            "calc": "Rollover"
+          },
+          {
+            "addr": "F40",
+            "raw": "Carries over \u00b7 expires 12 mo \u00b7 no refund if not renewed",
+            "calc": "Carries over \u00b7 expires 12 mo \u00b7 no refund if not renewed"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "Sheet1": {
+      "max_row": 1,
+      "max_col": 1,
+      "formula_count": 0,
+      "formulas": [],
+      "rows": []
+    }
+  },
+  "defined_names": {}
+}

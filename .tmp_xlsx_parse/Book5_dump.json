@@ -1,0 +1,660 @@
+{
+  "file": "Book5.xlsx",
+  "sheets": [
+    "Cost Basis",
+    "Sheet1"
+  ],
+  "sheet_details": {
+    "Cost Basis": {
+      "max_row": 31,
+      "max_col": 6,
+      "formula_count": 18,
+      "formulas": [
+        {
+          "addr": "B9",
+          "raw": "=B6+B7",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "B10",
+          "raw": "=B9*B8",
+          "calc": 0.011479000000000001
+        },
+        {
+          "addr": "B22",
+          "raw": "=SUM(B14:B17)/B21+B18+B19*B20",
+          "calc": 66
+        },
+        {
+          "addr": "B26",
+          "raw": "=$B$22/A26",
+          "calc": 0.066
+        },
+        {
+          "addr": "C26",
+          "raw": "=$B$10+B26",
+          "calc": 0.077479
+        },
+        {
+          "addr": "B27",
+          "raw": "=$B$22/A27",
+          "calc": 0.0132
+        },
+        {
+          "addr": "C27",
+          "raw": "=$B$10+B27",
+          "calc": 0.024679
+        },
+        {
+          "addr": "F27",
+          "raw": "=0.03*40000*12",
+          "calc": 14400
+        },
+        {
+          "addr": "B28",
+          "raw": "=$B$22/A28",
+          "calc": 0.0066
+        },
+        {
+          "addr": "C28",
+          "raw": "=$B$10+B28",
+          "calc": 0.018079
+        },
+        {
+          "addr": "F28",
+          "raw": "=F27/10000",
+          "calc": 1.44
+        },
+        {
+          "addr": "B29",
+          "raw": "=$B$22/A29",
+          "calc": 0.00264
+        },
+        {
+          "addr": "C29",
+          "raw": "=$B$10+B29",
+          "calc": 0.014119000000000001
+        },
+        {
+          "addr": "B30",
+          "raw": "=$B$22/A30",
+          "calc": 0.00132
+        },
+        {
+          "addr": "C30",
+          "raw": "=$B$10+B30",
+          "calc": 0.012799000000000001
+        },
+        {
+          "addr": "F30",
+          "raw": "=2000*3",
+          "calc": 6000
+        },
+        {
+          "addr": "B31",
+          "raw": "=$B$22/A31",
+          "calc": 0.00066
+        },
+        {
+          "addr": "C31",
+          "raw": "=$B$10+B31",
+          "calc": 0.012139
+        }
+      ],
+      "rows": [
+        [
+          {
+            "addr": "A1",
+            "raw": "Delphinium Community Builder \u2014 SMS Cost Basis",
+            "calc": "Delphinium Community Builder \u2014 SMS Cost Basis"
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A2",
+            "raw": "AWS rates researched from AWS published pricing (End User Messaging, SNS SMS, Connect appendix), Jul 2026. Yellow cells are inputs \u2014 confirm against your actual AWS invoice.",
+            "calc": "AWS rates researched from AWS published pricing (End User Messaging, SNS SMS, Connect appendix), Jul 2026. Yellow cells are inputs \u2014 confirm against your actual AWS invoice."
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A4",
+            "raw": "CARRIER & PLATFORM COSTS (per message)",
+            "calc": "CARRIER & PLATFORM COSTS (per message)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A5",
+            "raw": "Input",
+            "calc": "Input"
+          },
+          {
+            "addr": "B5",
+            "raw": "Value",
+            "calc": "Value"
+          },
+          {
+            "addr": "C5",
+            "raw": "Unit",
+            "calc": "Unit"
+          },
+          {
+            "addr": "D5",
+            "raw": "Notes / Source",
+            "calc": "Notes / Source"
+          },
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A6",
+            "raw": "Blended carrier fee per segment",
+            "calc": "Blended carrier fee per segment"
+          },
+          {
+            "addr": "B6",
+            "raw": 0.00302,
+            "calc": 0.00302
+          },
+          {
+            "addr": "C6",
+            "raw": "$/segment",
+            "calc": "$/segment"
+          },
+          {
+            "addr": "D6",
+            "raw": "PLACEHOLDER \u2014 avg of AT&T/Verizon/T-Mobile A2P 10DLC per-segment fees. Replace with actual AWS EUM invoice rate.",
+            "calc": "PLACEHOLDER \u2014 avg of AT&T/Verizon/T-Mobile A2P 10DLC per-segment fees. Replace with actual AWS EUM invoice rate."
+          },
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A7",
+            "raw": "AWS End User Messaging fee per segment",
+            "calc": "AWS End User Messaging fee per segment"
+          },
+          {
+            "addr": "B7",
+            "raw": 0.00581,
+            "calc": 0.00581
+          },
+          {
+            "addr": "C7",
+            "raw": "$/segment",
+            "calc": "$/segment"
+          },
+          {
+            "addr": "D7",
+            "raw": "PLACEHOLDER \u2014 AWS per-message send fee on top of carrier pass-through.",
+            "calc": "PLACEHOLDER \u2014 AWS per-message send fee on top of carrier pass-through."
+          },
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A8",
+            "raw": "Average segments per message",
+            "calc": "Average segments per message"
+          },
+          {
+            "addr": "B8",
+            "raw": 1.3,
+            "calc": 1.3
+          },
+          {
+            "addr": "C8",
+            "raw": "segments",
+            "calc": "segments"
+          },
+          {
+            "addr": "D8",
+            "raw": "Accounts for messages >160 chars splitting into multiple segments (attendance/engagement texts often run long).",
+            "calc": "Accounts for messages >160 chars splitting into multiple segments (attendance/engagement texts often run long)."
+          },
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A9",
+            "raw": "Direct cost per segment",
+            "calc": "Direct cost per segment"
+          },
+          {
+            "addr": "B9",
+            "raw": "=B6+B7",
+            "calc": 0.008830000000000001
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A10",
+            "raw": "Direct cost per message (blended)",
+            "calc": "Direct cost per message (blended)"
+          },
+          {
+            "addr": "B10",
+            "raw": "=B9*B8",
+            "calc": 0.011479000000000001
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A12",
+            "raw": "10DLC REGISTRATION & COMPLIANCE OVERHEAD (amortized)",
+            "calc": "10DLC REGISTRATION & COMPLIANCE OVERHEAD (amortized)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A13",
+            "raw": "Input",
+            "calc": "Input"
+          },
+          {
+            "addr": "B13",
+            "raw": "Value",
+            "calc": "Value"
+          },
+          {
+            "addr": "C13",
+            "raw": "Unit",
+            "calc": "Unit"
+          },
+          {
+            "addr": "D13",
+            "raw": "Notes / Source",
+            "calc": "Notes / Source"
+          },
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A14",
+            "raw": "Brand registration (one-time)",
+            "calc": "Brand registration (one-time)"
+          },
+          {
+            "addr": "B14",
+            "raw": 4.5,
+            "calc": 4.5
+          },
+          {
+            "addr": "C14",
+            "raw": "$ one-time",
+            "calc": "$ one-time"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A15",
+            "raw": "Public-profit brand authentication (one-time)",
+            "calc": "Public-profit brand authentication (one-time)"
+          },
+          {
+            "addr": "B15",
+            "raw": 12.5,
+            "calc": 12.5
+          },
+          {
+            "addr": "C15",
+            "raw": "$ one-time",
+            "calc": "$ one-time"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A16",
+            "raw": "Campaign vetting fee (one-time)",
+            "calc": "Campaign vetting fee (one-time)"
+          },
+          {
+            "addr": "B16",
+            "raw": 15,
+            "calc": 15
+          },
+          {
+            "addr": "C16",
+            "raw": "$ one-time",
+            "calc": "$ one-time"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A17",
+            "raw": "Brand vetting \u2014 optional, higher throughput (one-time)",
+            "calc": "Brand vetting \u2014 optional, higher throughput (one-time)"
+          },
+          {
+            "addr": "B17",
+            "raw": 40,
+            "calc": 40
+          },
+          {
+            "addr": "C17",
+            "raw": "$ one-time",
+            "calc": "$ one-time"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A18",
+            "raw": "Monthly campaign fee",
+            "calc": "Monthly campaign fee"
+          },
+          {
+            "addr": "B18",
+            "raw": 10,
+            "calc": 10
+          },
+          {
+            "addr": "C18",
+            "raw": "$/month",
+            "calc": "$/month"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A19",
+            "raw": "10DLC number monthly lease (per number)",
+            "calc": "10DLC number monthly lease (per number)"
+          },
+          {
+            "addr": "B19",
+            "raw": 1,
+            "calc": 1
+          },
+          {
+            "addr": "C19",
+            "raw": "$/month",
+            "calc": "$/month"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A20",
+            "raw": "Number of 10DLC numbers leased",
+            "calc": "Number of 10DLC numbers leased"
+          },
+          {
+            "addr": "B20",
+            "raw": 50,
+            "calc": 50
+          },
+          {
+            "addr": "C20",
+            "raw": "numbers",
+            "calc": "numbers"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A21",
+            "raw": "Amortization period for one-time fees",
+            "calc": "Amortization period for one-time fees"
+          },
+          {
+            "addr": "B21",
+            "raw": 12,
+            "calc": 12
+          },
+          {
+            "addr": "C21",
+            "raw": "months",
+            "calc": "months"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A22",
+            "raw": "Total monthly overhead",
+            "calc": "Total monthly overhead"
+          },
+          {
+            "addr": "B22",
+            "raw": "=SUM(B14:B17)/B21+B18+B19*B20",
+            "calc": 66
+          },
+          {
+            "addr": "C22",
+            "raw": "$/month",
+            "calc": "$/month"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A24",
+            "raw": "FULLY-LOADED COST PER MESSAGE (at sample volumes)",
+            "calc": "FULLY-LOADED COST PER MESSAGE (at sample volumes)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A25",
+            "raw": "Monthly message volume",
+            "calc": "Monthly message volume"
+          },
+          {
+            "addr": "B25",
+            "raw": "Overhead / message",
+            "calc": "Overhead / message"
+          },
+          {
+            "addr": "C25",
+            "raw": "Fully-loaded cost / message",
+            "calc": "Fully-loaded cost / message"
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A26",
+            "raw": 1000,
+            "calc": 1000
+          },
+          {
+            "addr": "B26",
+            "raw": "=$B$22/A26",
+            "calc": 0.066
+          },
+          {
+            "addr": "C26",
+            "raw": "=$B$10+B26",
+            "calc": 0.077479
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A27",
+            "raw": 5000,
+            "calc": 5000
+          },
+          {
+            "addr": "B27",
+            "raw": "=$B$22/A27",
+            "calc": 0.0132
+          },
+          {
+            "addr": "C27",
+            "raw": "=$B$10+B27",
+            "calc": 0.024679
+          },
+          null,
+          null,
+          {
+            "addr": "F27",
+            "raw": "=0.03*40000*12",
+            "calc": 14400
+          }
+        ],
+        [
+          {
+            "addr": "A28",
+            "raw": 10000,
+            "calc": 10000
+          },
+          {
+            "addr": "B28",
+            "raw": "=$B$22/A28",
+            "calc": 0.0066
+          },
+          {
+            "addr": "C28",
+            "raw": "=$B$10+B28",
+            "calc": 0.018079
+          },
+          null,
+          null,
+          {
+            "addr": "F28",
+            "raw": "=F27/10000",
+            "calc": 1.44
+          }
+        ],
+        [
+          {
+            "addr": "A29",
+            "raw": 25000,
+            "calc": 25000
+          },
+          {
+            "addr": "B29",
+            "raw": "=$B$22/A29",
+            "calc": 0.00264
+          },
+          {
+            "addr": "C29",
+            "raw": "=$B$10+B29",
+            "calc": 0.014119000000000001
+          },
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A30",
+            "raw": 50000,
+            "calc": 50000
+          },
+          {
+            "addr": "B30",
+            "raw": "=$B$22/A30",
+            "calc": 0.00132
+          },
+          {
+            "addr": "C30",
+            "raw": "=$B$10+B30",
+            "calc": 0.012799000000000001
+          },
+          null,
+          null,
+          {
+            "addr": "F30",
+            "raw": "=2000*3",
+            "calc": 6000
+          }
+        ],
+        [
+          {
+            "addr": "A31",
+            "raw": 100000,
+            "calc": 100000
+          },
+          {
+            "addr": "B31",
+            "raw": "=$B$22/A31",
+            "calc": 0.00066
+          },
+          {
+            "addr": "C31",
+            "raw": "=$B$10+B31",
+            "calc": 0.012139
+          },
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "Sheet1": {
+      "max_row": 1,
+      "max_col": 1,
+      "formula_count": 0,
+      "formulas": [],
+      "rows": []
+    }
+  },
+  "defined_names": {}
+}

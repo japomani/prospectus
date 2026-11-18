@@ -14,15 +14,39 @@ Globals:
         PDF_BUCKET: !Ref PdfBucket
         WEB_BASE_URL: !Sub 'https://${CloudFrontDistribution.DomainName}'
         PROSPECTUS_BASE_URL: !Sub 'https://${CloudFrontDistribution.DomainName}'
-        HUBSPOT_ACCESS_TOKEN: !Ref HubspotAccessToken
+        ZOHO_CLIENT_ID: !Ref ZohoClientId
+        ZOHO_CLIENT_SECRET: !Ref ZohoClientSecret
+        ZOHO_REFRESH_TOKEN: !Ref ZohoRefreshToken
+        ZOHO_ACCOUNTS_URL: !Ref ZohoAccountsUrl
+        ZOHO_API_DOMAIN: !Ref ZohoApiDomain
         SLACK_BOT_TOKEN: !Ref SlackBotToken
         SLACK_QUOTES_CHANNEL: !Ref SlackQuotesChannel
+        API_PASSWORD: !Ref ApiPassword
+        ADMIN_PASSWORD: !Ref AdminPassword
+        SALES_READ_TOKEN: !Ref SalesReadToken
+        CONFIG_TABLE: !Ref ConfigTable
 
 Parameters:
-  HubspotAccessToken:
+  ZohoClientId:
     Type: String
     Default: ''
     NoEcho: true
+    Description: Zoho OAuth client id. Scopes ZohoCRM.modules.accounts.READ and ZohoCRM.modules.accounts.UPDATE.
+  ZohoClientSecret:
+    Type: String
+    Default: ''
+    NoEcho: true
+  ZohoRefreshToken:
+    Type: String
+    Default: ''
+    NoEcho: true
+    Description: Zoho refresh token. Leave empty until provided; the API does not call Zoho without it.
+  ZohoAccountsUrl:
+    Type: String
+    Default: 'https://accounts.zoho.com'
+  ZohoApiDomain:
+    Type: String
+    Default: 'https://www.zohoapis.com'
   SlackBotToken:
     Type: String
     Default: ''
@@ -30,6 +54,21 @@ Parameters:
   SlackQuotesChannel:
     Type: String
     Default: ''
+  ApiPassword:
+    Type: String
+    Default: 'delphinium'
+    NoEcho: true
+    Description: Shared password for mutating/list API routes (GET /quotes/{id} is public for shared links)
+  AdminPassword:
+    Type: String
+    Default: 'delphiniumadmin'
+    NoEcho: true
+    Description: Admin password for pricing/SMS config settings
+  SalesReadToken:
+    Type: String
+    Default: ''
+    NoEcho: true
+    Description: Revocable machine read-only token for Sales assistants (GET /quotes, /quotes/search, /quotes/{id} only). Prefer SSM /delphinium/prospectus/sales-read-token as source of truth.
 
 Resources:
   QuotesTable:
@@ -42,6 +81,18 @@ Resources:
           AttributeType: S
       KeySchema:
         - AttributeName: quoteId
+          KeyType: HASH
+
+  ConfigTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: delphinium-config
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
           KeyType: HASH
 
   PdfBucket:
@@ -121,7 +172,7 @@ Resources:
     Properties:
       CorsConfiguration:
         AllowOrigins: ['*']
-        AllowMethods: [GET, POST, PATCH, OPTIONS]
+        AllowMethods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
         AllowHeaders: [Content-Type, Authorization, X-Api-Key]
 
   ApiFunction:
@@ -134,9 +185,29 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref QuotesTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConfigTable
         - S3CrudPolicy:
             BucketName: !Ref PdfBucket
       Events:
+        GetAuthSession:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /auth/session
+            Method: GET
+        GetConfig:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /config
+            Method: GET
+        PutConfig:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /config
+            Method: PUT
         PostQuotes:
           Type: HttpApi
           Properties:
@@ -148,6 +219,12 @@ Resources:
           Properties:
             ApiId: !Ref ProspectusApi
             Path: /quotes
+            Method: GET
+        GetQuotesSearch:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /quotes/search
             Method: GET
         PostPreview:
           Type: HttpApi
@@ -173,6 +250,12 @@ Resources:
             ApiId: !Ref ProspectusApi
             Path: /quotes/{id}
             Method: PATCH
+        DeleteQuote:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /quotes/{id}
+            Method: DELETE
         PostPdf:
           Type: HttpApi
           Properties:
@@ -185,6 +268,18 @@ Resources:
             ApiId: !Ref ProspectusApi
             Path: /quotes/{id}/notify
             Method: POST
+        GetZohoAccounts:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /zoho/accounts
+            Method: GET
+        GetZohoAccountById:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProspectusApi
+            Path: /zoho/accounts/{id}
+            Method: GET
         OptionsCatchAll:
           Type: HttpApi
           Properties:
@@ -201,5 +296,7 @@ Outputs:
     Value: !Ref FrontendBucket
   QuotesTableName:
     Value: !Ref QuotesTable
+  ConfigTableName:
+    Value: !Ref ConfigTable
   PdfBucketName:
     Value: !Ref PdfBucket

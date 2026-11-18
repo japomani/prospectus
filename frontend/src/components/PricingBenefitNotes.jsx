@@ -1,45 +1,50 @@
-export default function PricingBenefitNotes() {
+import { Field } from './prospectus/Field.jsx';
+
+export default function PricingBenefitNotes({ fields, highlightFields }) {
   return (
     <aside className="doc-pricing-benefits">
-      <h2 className="doc-pricing-benefits-title">Delphinium Benefit Details</h2>
-
       <div className="benefit-notes-section">
-        <h3>Product license includes</h3>
-        <p>
-          Unlimited access for all students, courses, and teachers in Canvas, with product training
-          so one teacher can train others, and ongoing support as needed on the use of your products.
-        </p>
-        <p>
-          Pricing is based on student enrollment, includes volume discounts, does not require
-          individual classroom licensing, and our base price includes a minimum number of students.
-        </p>
-      </div>
-
-      <div className="benefit-notes-section">
-        <h3>Implementation services</h3>
-        <p>
-          Implementation services are a
-          {' '}
-          <strong>one-time fee</strong>
-          {' '}
-          that includes:
-        </p>
+        <h3>Product license includes:</h3>
         <ul>
-          <li>Installation</li>
-          <li>Initial onboarding training</li>
+          <li>
+            Unlimited access for every student, course, and teacher in{' '}
+            <Field value={fields.SCHOOL_NAME_POSSESSIVE} highlight={highlightFields} />{' '}
+            Canvas account or subaccount
+          </li>
+          <li>
+            Dedicated support for{' '}
+            <Field value={fields.SCHOOL_NAME_POSSESSIVE} highlight={highlightFields} />{' '}
+            primary contact
+          </li>
+          <li>Ongoing train-the-trainer support for teachers</li>
+          <li>Self-paced online lessons for every teacher</li>
+          <li>A community support forum for all teachers, monitored by our team</li>
         </ul>
       </div>
 
       <div className="benefit-notes-section">
-        <h3>Multi-year agreements</h3>
-        <p>Multi-year agreements can benefit you because you:</p>
-        <ol>
-          <li>Receive a discount</li>
-          <li>Lock in the current pricing</li>
+        <h3>Implementation is a one-time fee that includes:</h3>
+        <ul>
+          <li>Installation</li>
           <li>
-            Require advance payment of the agreement (payment plans available)
+            One-on-one onboarding training for{' '}
+            <Field value={fields.SCHOOL_NAME_POSSESSIVE} highlight={highlightFields} />{' '}
+            primary contact
           </li>
-        </ol>
+          <li>3 to 5 Zoom trainings to onboard an initial cohort of teachers</li>
+        </ul>
+      </div>
+
+      <div className="benefit-notes-section">
+        <h3>Multi-year agreements:</h3>
+        <ul>
+          <li>
+            Discounts available: 2 years at 2.5% off, 3 years at 5% off, 4 years at 7.5% off, or
+            5 years at 10% off
+          </li>
+          <li>Lock in today&apos;s pricing for the length of the agreement</li>
+          <li>Pay in advance of the license term, with payment plans available</li>
+        </ul>
       </div>
     </aside>
   );

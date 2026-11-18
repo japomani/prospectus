@@ -34,16 +34,13 @@ type notifyPayload struct {
 	Blocks  []any  `json:"blocks,omitempty"`
 }
 
-func (n *Notifier) QuoteReady(ctx context.Context, schoolName, webURL, pdfURL, hubspotURL string) error {
+func (n *Notifier) QuoteReady(ctx context.Context, schoolName, webURL, pdfURL string) error {
 	if !n.Enabled() {
 		return nil
 	}
 	text := fmt.Sprintf("Quote for *%s* is ready.\n• <%s|View Prospectus>", schoolName, webURL)
 	if pdfURL != "" {
 		text += fmt.Sprintf("\n• <%s|Download PDF>", pdfURL)
-	}
-	if hubspotURL != "" {
-		text += fmt.Sprintf("\n• <%s|Open in HubSpot>", hubspotURL)
 	}
 	body := notifyPayload{Channel: n.channel, Text: text}
 	b, _ := json.Marshal(body)

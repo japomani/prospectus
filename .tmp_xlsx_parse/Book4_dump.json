@@ -1,0 +1,3541 @@
+{
+  "file": "Book4.xlsx",
+  "sheets": [
+    "B - Message Credits",
+    "Sheet1"
+  ],
+  "sheet_details": {
+    "B - Message Credits": {
+      "max_row": 86,
+      "max_col": 10,
+      "formula_count": 243,
+      "formulas": [
+        {
+          "addr": "B5",
+          "raw": "='[1]Cost Basis'!B9",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "B7",
+          "raw": "=B5*B18*B6",
+          "calc": 0.03845465000000001
+        },
+        {
+          "addr": "B8",
+          "raw": "=1-1/B6",
+          "calc": 0.7014925373134329
+        },
+        {
+          "addr": "B11",
+          "raw": "=('[1]Cost Basis'!$B$22*12)/$B$13",
+          "calc": 158.4
+        },
+        {
+          "addr": "B12",
+          "raw": "=B5",
+          "calc": 0.008830000000000001
+        },
+        {
+          "addr": "B14",
+          "raw": "=B7",
+          "calc": 0.03845465000000001
+        },
+        {
+          "addr": "B18",
+          "raw": "='[1]Cost Basis'!B8",
+          "calc": 1.3
+        },
+        {
+          "addr": "B21",
+          "raw": "=B15*B16*B17",
+          "calc": 70000
+        },
+        {
+          "addr": "B22",
+          "raw": "=B21*B20",
+          "calc": 700000
+        },
+        {
+          "addr": "B23",
+          "raw": "=MROUND(B21,$B$19)",
+          "calc": 70000
+        },
+        {
+          "addr": "B24",
+          "raw": "=B23*B20",
+          "calc": 700000
+        },
+        {
+          "addr": "B25",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(B23,$C$5:$C$13,1)),1)",
+          "calc": 0.57
+        },
+        {
+          "addr": "B26",
+          "raw": "=B14*B25",
+          "calc": 0.0219191505
+        },
+        {
+          "addr": "B27",
+          "raw": "=B23*B14*B25",
+          "calc": 1534.340535
+        },
+        {
+          "addr": "B28",
+          "raw": "=B24*B14*B25",
+          "calc": 15343.40535
+        },
+        {
+          "addr": "B29",
+          "raw": "=B28/B15",
+          "calc": 7.671702675000001
+        },
+        {
+          "addr": "B30",
+          "raw": "=B24*B5*B18+B11",
+          "calc": 8193.7
+        },
+        {
+          "addr": "B31",
+          "raw": "=B28-B30",
+          "calc": 7149.70535
+        },
+        {
+          "addr": "B32",
+          "raw": "=(B28-(B24*B5*B18+B11))/B28",
+          "calc": 0.4659790435634942
+        },
+        {
+          "addr": "B39",
+          "raw": "=A39*$B$16*$B$17",
+          "calc": 0
+        },
+        {
+          "addr": "C39",
+          "raw": "=MROUND(B39,$B$19)",
+          "calc": 0
+        },
+        {
+          "addr": "D39",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C39,$C$5:$C$13,1)),1)",
+          "calc": 1
+        },
+        {
+          "addr": "E39",
+          "raw": "=C39*$B$20",
+          "calc": 0
+        },
+        {
+          "addr": "F39",
+          "raw": "=E39*$B$14*D39",
+          "calc": 0
+        },
+        {
+          "addr": "G39",
+          "raw": "=E39*$B$5*$B$18+$B$11",
+          "calc": 158.4
+        },
+        {
+          "addr": "H39",
+          "raw": "=IF(F39=0,\"\",(F39-G39)/F39)",
+          "calc": null
+        },
+        {
+          "addr": "I39",
+          "raw": "=IF(E39=0,\"\",F39/E39)",
+          "calc": null
+        },
+        {
+          "addr": "J39",
+          "raw": "=IF(E39=0,\"\",G39/E39)",
+          "calc": null
+        },
+        {
+          "addr": "B40",
+          "raw": "=A40*$B$16*$B$17",
+          "calc": 17500
+        },
+        {
+          "addr": "C40",
+          "raw": "=MROUND(B40,$B$19)",
+          "calc": 17500
+        },
+        {
+          "addr": "D40",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C40,$C$5:$C$13,1)),1)",
+          "calc": 0.86
+        },
+        {
+          "addr": "E40",
+          "raw": "=C40*$B$20",
+          "calc": 175000
+        },
+        {
+          "addr": "F40",
+          "raw": "=E40*$B$14*D40",
+          "calc": 5787.424825000001
+        },
+        {
+          "addr": "G40",
+          "raw": "=E40*$B$5*$B$18+$B$11",
+          "calc": 2167.2250000000004
+        },
+        {
+          "addr": "H40",
+          "raw": "=IF(F40=0,\"\",(F40-G40)/F40)",
+          "calc": 0.6255286132377538
+        },
+        {
+          "addr": "I40",
+          "raw": "=IF(E40=0,\"\",F40/E40)",
+          "calc": 0.033070999000000004
+        },
+        {
+          "addr": "J40",
+          "raw": "=IF(E40=0,\"\",G40/E40)",
+          "calc": 0.01238414285714286
+        },
+        {
+          "addr": "B41",
+          "raw": "=A41*$B$16*$B$17",
+          "calc": 35000
+        },
+        {
+          "addr": "C41",
+          "raw": "=MROUND(B41,$B$19)",
+          "calc": 35000
+        },
+        {
+          "addr": "D41",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C41,$C$5:$C$13,1)),1)",
+          "calc": 0.74
+        },
+        {
+          "addr": "E41",
+          "raw": "=C41*$B$20",
+          "calc": 350000
+        },
+        {
+          "addr": "F41",
+          "raw": "=E41*$B$14*D41",
+          "calc": 9959.754350000001
+        },
+        {
+          "addr": "G41",
+          "raw": "=E41*$B$5*$B$18+$B$11",
+          "calc": 4176.05
+        },
+        {
+          "addr": "H41",
+          "raw": "=IF(F41=0,\"\",(F41-G41)/F41)",
+          "calc": 0.5807075302012845
+        },
+        {
+          "addr": "I41",
+          "raw": "=IF(E41=0,\"\",F41/E41)",
+          "calc": 0.028456441000000002
+        },
+        {
+          "addr": "J41",
+          "raw": "=IF(E41=0,\"\",G41/E41)",
+          "calc": 0.011931571428571429
+        },
+        {
+          "addr": "B42",
+          "raw": "=A42*$B$16*$B$17",
+          "calc": 70000
+        },
+        {
+          "addr": "C42",
+          "raw": "=MROUND(B42,$B$19)",
+          "calc": 70000
+        },
+        {
+          "addr": "D42",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C42,$C$5:$C$13,1)),1)",
+          "calc": 0.57
+        },
+        {
+          "addr": "E42",
+          "raw": "=C42*$B$20",
+          "calc": 700000
+        },
+        {
+          "addr": "F42",
+          "raw": "=E42*$B$14*D42",
+          "calc": 15343.40535
+        },
+        {
+          "addr": "G42",
+          "raw": "=E42*$B$5*$B$18+$B$11",
+          "calc": 8193.7
+        },
+        {
+          "addr": "H42",
+          "raw": "=IF(F42=0,\"\",(F42-G42)/F42)",
+          "calc": 0.4659790435634942
+        },
+        {
+          "addr": "I42",
+          "raw": "=IF(E42=0,\"\",F42/E42)",
+          "calc": 0.0219191505
+        },
+        {
+          "addr": "J42",
+          "raw": "=IF(E42=0,\"\",G42/E42)",
+          "calc": 0.011705285714285715
+        },
+        {
+          "addr": "B43",
+          "raw": "=A43*$B$16*$B$17",
+          "calc": 105000
+        },
+        {
+          "addr": "C43",
+          "raw": "=MROUND(B43,$B$19)",
+          "calc": 105000
+        },
+        {
+          "addr": "D43",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C43,$C$5:$C$13,1)),1)",
+          "calc": 0.49
+        },
+        {
+          "addr": "E43",
+          "raw": "=C43*$B$20",
+          "calc": 1050000
+        },
+        {
+          "addr": "F43",
+          "raw": "=E43*$B$14*D43",
+          "calc": 19784.917425000003
+        },
+        {
+          "addr": "G43",
+          "raw": "=E43*$B$5*$B$18+$B$11",
+          "calc": 12211.350000000002
+        },
+        {
+          "addr": "H43",
+          "raw": "=IF(F43=0,\"\",(F43-G43)/F43)",
+          "calc": 0.38279499794273214
+        },
+        {
+          "addr": "I43",
+          "raw": "=IF(E43=0,\"\",F43/E43)",
+          "calc": 0.018842778500000004
+        },
+        {
+          "addr": "J43",
+          "raw": "=IF(E43=0,\"\",G43/E43)",
+          "calc": 0.011629857142857145
+        },
+        {
+          "addr": "B44",
+          "raw": "=A44*$B$16*$B$17",
+          "calc": 175000
+        },
+        {
+          "addr": "C44",
+          "raw": "=MROUND(B44,$B$19)",
+          "calc": 175000
+        },
+        {
+          "addr": "D44",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C44,$C$5:$C$13,1)),1)",
+          "calc": 0.49
+        },
+        {
+          "addr": "E44",
+          "raw": "=C44*$B$20",
+          "calc": 1750000
+        },
+        {
+          "addr": "F44",
+          "raw": "=E44*$B$14*D44",
+          "calc": 32974.862375000004
+        },
+        {
+          "addr": "G44",
+          "raw": "=E44*$B$5*$B$18+$B$11",
+          "calc": 20246.650000000005
+        },
+        {
+          "addr": "H44",
+          "raw": "=IF(F44=0,\"\",(F44-G44)/F44)",
+          "calc": 0.3859974373888497
+        },
+        {
+          "addr": "I44",
+          "raw": "=IF(E44=0,\"\",F44/E44)",
+          "calc": 0.0188427785
+        },
+        {
+          "addr": "J44",
+          "raw": "=IF(E44=0,\"\",G44/E44)",
+          "calc": 0.011569514285714289
+        },
+        {
+          "addr": "B45",
+          "raw": "=A45*$B$16*$B$17",
+          "calc": 262500
+        },
+        {
+          "addr": "C45",
+          "raw": "=MROUND(B45,$B$19)",
+          "calc": 262500
+        },
+        {
+          "addr": "D45",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C45,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E45",
+          "raw": "=C45*$B$20",
+          "calc": 2625000
+        },
+        {
+          "addr": "F45",
+          "raw": "=E45*$B$14*D45",
+          "calc": 43405.68618750001
+        },
+        {
+          "addr": "G45",
+          "raw": "=E45*$B$5*$B$18+$B$11",
+          "calc": 30290.77500000001
+        },
+        {
+          "addr": "H45",
+          "raw": "=IF(F45=0,\"\",(F45-G45)/F45)",
+          "calc": 0.3021473069414772
+        },
+        {
+          "addr": "I45",
+          "raw": "=IF(E45=0,\"\",F45/E45)",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "J45",
+          "raw": "=IF(E45=0,\"\",G45/E45)",
+          "calc": 0.011539342857142861
+        },
+        {
+          "addr": "B46",
+          "raw": "=A46*$B$16*$B$17",
+          "calc": 350000
+        },
+        {
+          "addr": "C46",
+          "raw": "=MROUND(B46,$B$19)",
+          "calc": 350000
+        },
+        {
+          "addr": "D46",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C46,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E46",
+          "raw": "=C46*$B$20",
+          "calc": 3500000
+        },
+        {
+          "addr": "F46",
+          "raw": "=E46*$B$14*D46",
+          "calc": 57874.24825000001
+        },
+        {
+          "addr": "G46",
+          "raw": "=E46*$B$5*$B$18+$B$11",
+          "calc": 40334.90000000001
+        },
+        {
+          "addr": "H46",
+          "raw": "=IF(F46=0,\"\",(F46-G46)/F46)",
+          "calc": 0.30305962980694096
+        },
+        {
+          "addr": "I46",
+          "raw": "=IF(E46=0,\"\",F46/E46)",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "J46",
+          "raw": "=IF(E46=0,\"\",G46/E46)",
+          "calc": 0.011524257142857146
+        },
+        {
+          "addr": "B47",
+          "raw": "=A47*$B$16*$B$17",
+          "calc": 700000
+        },
+        {
+          "addr": "C47",
+          "raw": "=MROUND(B47,$B$19)",
+          "calc": 700000
+        },
+        {
+          "addr": "D47",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C47,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E47",
+          "raw": "=C47*$B$20",
+          "calc": 7000000
+        },
+        {
+          "addr": "F47",
+          "raw": "=E47*$B$14*D47",
+          "calc": 115748.49650000002
+        },
+        {
+          "addr": "G47",
+          "raw": "=E47*$B$5*$B$18+$B$11",
+          "calc": 80511.40000000001
+        },
+        {
+          "addr": "H47",
+          "raw": "=IF(F47=0,\"\",(F47-G47)/F47)",
+          "calc": 0.30442811410513665
+        },
+        {
+          "addr": "I47",
+          "raw": "=IF(E47=0,\"\",F47/E47)",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "J47",
+          "raw": "=IF(E47=0,\"\",G47/E47)",
+          "calc": 0.011501628571428573
+        },
+        {
+          "addr": "B48",
+          "raw": "=A48*$B$16*$B$17",
+          "calc": 1050000
+        },
+        {
+          "addr": "C48",
+          "raw": "=MROUND(B48,$B$19)",
+          "calc": 1050000
+        },
+        {
+          "addr": "D48",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C48,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E48",
+          "raw": "=C48*$B$20",
+          "calc": 10500000
+        },
+        {
+          "addr": "F48",
+          "raw": "=E48*$B$14*D48",
+          "calc": 173622.74475000004
+        },
+        {
+          "addr": "G48",
+          "raw": "=E48*$B$5*$B$18+$B$11",
+          "calc": 120687.90000000002
+        },
+        {
+          "addr": "H48",
+          "raw": "=IF(F48=0,\"\",(F48-G48)/F48)",
+          "calc": 0.30488427553786845
+        },
+        {
+          "addr": "I48",
+          "raw": "=IF(E48=0,\"\",F48/E48)",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "J48",
+          "raw": "=IF(E48=0,\"\",G48/E48)",
+          "calc": 0.011494085714285717
+        },
+        {
+          "addr": "B49",
+          "raw": "=A49*$B$16*$B$17",
+          "calc": 1400000
+        },
+        {
+          "addr": "C49",
+          "raw": "=MROUND(B49,$B$19)",
+          "calc": 1400000
+        },
+        {
+          "addr": "D49",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C49,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E49",
+          "raw": "=C49*$B$20",
+          "calc": 14000000
+        },
+        {
+          "addr": "F49",
+          "raw": "=E49*$B$14*D49",
+          "calc": 231496.99300000005
+        },
+        {
+          "addr": "G49",
+          "raw": "=E49*$B$5*$B$18+$B$11",
+          "calc": 160864.40000000002
+        },
+        {
+          "addr": "H49",
+          "raw": "=IF(F49=0,\"\",(F49-G49)/F49)",
+          "calc": 0.3051123562542344
+        },
+        {
+          "addr": "I49",
+          "raw": "=IF(E49=0,\"\",F49/E49)",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "J49",
+          "raw": "=IF(E49=0,\"\",G49/E49)",
+          "calc": 0.011490314285714287
+        },
+        {
+          "addr": "B50",
+          "raw": "=A50*$B$16*$B$17",
+          "calc": 1750000
+        },
+        {
+          "addr": "C50",
+          "raw": "=MROUND(B50,$B$19)",
+          "calc": 1750000
+        },
+        {
+          "addr": "D50",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C50,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E50",
+          "raw": "=C50*$B$20",
+          "calc": 17500000
+        },
+        {
+          "addr": "F50",
+          "raw": "=E50*$B$14*D50",
+          "calc": 289371.24125
+        },
+        {
+          "addr": "G50",
+          "raw": "=E50*$B$5*$B$18+$B$11",
+          "calc": 201040.90000000005
+        },
+        {
+          "addr": "H50",
+          "raw": "=IF(F50=0,\"\",(F50-G50)/F50)",
+          "calc": 0.3052492046840538
+        },
+        {
+          "addr": "I50",
+          "raw": "=IF(E50=0,\"\",F50/E50)",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "J50",
+          "raw": "=IF(E50=0,\"\",G50/E50)",
+          "calc": 0.011488051428571431
+        },
+        {
+          "addr": "B51",
+          "raw": "=A51*$B$16*$B$17",
+          "calc": 2100000
+        },
+        {
+          "addr": "C51",
+          "raw": "=MROUND(B51,$B$19)",
+          "calc": 2100000
+        },
+        {
+          "addr": "D51",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C51,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E51",
+          "raw": "=C51*$B$20",
+          "calc": 21000000
+        },
+        {
+          "addr": "F51",
+          "raw": "=E51*$B$14*D51",
+          "calc": 347245.4895000001
+        },
+        {
+          "addr": "G51",
+          "raw": "=E51*$B$5*$B$18+$B$11",
+          "calc": 241217.40000000005
+        },
+        {
+          "addr": "H51",
+          "raw": "=IF(F51=0,\"\",(F51-G51)/F51)",
+          "calc": 0.3053404369706003
+        },
+        {
+          "addr": "I51",
+          "raw": "=IF(E51=0,\"\",F51/E51)",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "J51",
+          "raw": "=IF(E51=0,\"\",G51/E51)",
+          "calc": 0.011486542857142859
+        },
+        {
+          "addr": "B52",
+          "raw": "=A52*$B$16*$B$17",
+          "calc": 2450000
+        },
+        {
+          "addr": "C52",
+          "raw": "=MROUND(B52,$B$19)",
+          "calc": 2450000
+        },
+        {
+          "addr": "D52",
+          "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C52,$C$5:$C$13,1)),1)",
+          "calc": 0.43
+        },
+        {
+          "addr": "E52",
+          "raw": "=C52*$B$20",
+          "calc": 24500000
+        },
+        {
+          "addr": "F52",
+          "raw": "=E52*$B$14*D52",
+          "calc": 405119.7377500001
+        },
+        {
+          "addr": "G52",
+          "raw": "=E52*$B$5*$B$18+$B$11",
+          "calc": 281393.9000000001
+        },
+        {
+          "addr": "H52",
+          "raw": "=IF(F52=0,\"\",(F52-G52)/F52)",
+          "calc": 0.3054056028895619
+        },
+        {
+          "addr": "I52",
+          "raw": "=IF(E52=0,\"\",F52/E52)",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "J52",
+          "raw": "=IF(E52=0,\"\",G52/E52)",
+          "calc": 0.011485465306122452
+        },
+        {
+          "addr": "A56",
+          "raw": "=TEXT(A39,\"#,##0\")&\" stu / \"&TEXT(B39,\"#,##0\")&\" msg\"",
+          "calc": "0 stu / 0 msg"
+        },
+        {
+          "addr": "B56",
+          "raw": "=F39",
+          "calc": 0
+        },
+        {
+          "addr": "C56",
+          "raw": "=G39",
+          "calc": 158.4
+        },
+        {
+          "addr": "D56",
+          "raw": "=H39",
+          "calc": null
+        },
+        {
+          "addr": "A57",
+          "raw": "=TEXT(A40,\"#,##0\")&\" stu / \"&TEXT(B40,\"#,##0\")&\" msg\"",
+          "calc": "500 stu / 17,500 msg"
+        },
+        {
+          "addr": "B57",
+          "raw": "=F40",
+          "calc": 5787.424825000001
+        },
+        {
+          "addr": "C57",
+          "raw": "=G40",
+          "calc": 2167.2250000000004
+        },
+        {
+          "addr": "D57",
+          "raw": "=H40",
+          "calc": 0.6255286132377538
+        },
+        {
+          "addr": "A58",
+          "raw": "=TEXT(A41,\"#,##0\")&\" stu / \"&TEXT(B41,\"#,##0\")&\" msg\"",
+          "calc": "1,000 stu / 35,000 msg"
+        },
+        {
+          "addr": "B58",
+          "raw": "=F41",
+          "calc": 9959.754350000001
+        },
+        {
+          "addr": "C58",
+          "raw": "=G41",
+          "calc": 4176.05
+        },
+        {
+          "addr": "D58",
+          "raw": "=H41",
+          "calc": 0.5807075302012845
+        },
+        {
+          "addr": "A59",
+          "raw": "=TEXT(A42,\"#,##0\")&\" stu / \"&TEXT(B42,\"#,##0\")&\" msg\"",
+          "calc": "2,000 stu / 70,000 msg"
+        },
+        {
+          "addr": "B59",
+          "raw": "=F42",
+          "calc": 15343.40535
+        },
+        {
+          "addr": "C59",
+          "raw": "=G42",
+          "calc": 8193.7
+        },
+        {
+          "addr": "D59",
+          "raw": "=H42",
+          "calc": 0.4659790435634942
+        },
+        {
+          "addr": "A60",
+          "raw": "=TEXT(A43,\"#,##0\")&\" stu / \"&TEXT(B43,\"#,##0\")&\" msg\"",
+          "calc": "3,000 stu / 105,000 msg"
+        },
+        {
+          "addr": "B60",
+          "raw": "=F43",
+          "calc": 19784.917425000003
+        },
+        {
+          "addr": "C60",
+          "raw": "=G43",
+          "calc": 12211.350000000002
+        },
+        {
+          "addr": "D60",
+          "raw": "=H43",
+          "calc": 0.38279499794273214
+        },
+        {
+          "addr": "A61",
+          "raw": "=TEXT(A44,\"#,##0\")&\" stu / \"&TEXT(B44,\"#,##0\")&\" msg\"",
+          "calc": "5,000 stu / 175,000 msg"
+        },
+        {
+          "addr": "B61",
+          "raw": "=F44",
+          "calc": 32974.862375000004
+        },
+        {
+          "addr": "C61",
+          "raw": "=G44",
+          "calc": 20246.650000000005
+        },
+        {
+          "addr": "D61",
+          "raw": "=H44",
+          "calc": 0.3859974373888497
+        },
+        {
+          "addr": "A62",
+          "raw": "=TEXT(A45,\"#,##0\")&\" stu / \"&TEXT(B45,\"#,##0\")&\" msg\"",
+          "calc": "7,500 stu / 262,500 msg"
+        },
+        {
+          "addr": "B62",
+          "raw": "=F45",
+          "calc": 43405.68618750001
+        },
+        {
+          "addr": "C62",
+          "raw": "=G45",
+          "calc": 30290.77500000001
+        },
+        {
+          "addr": "D62",
+          "raw": "=H45",
+          "calc": 0.3021473069414772
+        },
+        {
+          "addr": "A63",
+          "raw": "=TEXT(A46,\"#,##0\")&\" stu / \"&TEXT(B46,\"#,##0\")&\" msg\"",
+          "calc": "10,000 stu / 350,000 msg"
+        },
+        {
+          "addr": "B63",
+          "raw": "=F46",
+          "calc": 57874.24825000001
+        },
+        {
+          "addr": "C63",
+          "raw": "=G46",
+          "calc": 40334.90000000001
+        },
+        {
+          "addr": "D63",
+          "raw": "=H46",
+          "calc": 0.30305962980694096
+        },
+        {
+          "addr": "A64",
+          "raw": "=TEXT(A47,\"#,##0\")&\" stu / \"&TEXT(B47,\"#,##0\")&\" msg\"",
+          "calc": "20,000 stu / 700,000 msg"
+        },
+        {
+          "addr": "B64",
+          "raw": "=F47",
+          "calc": 115748.49650000002
+        },
+        {
+          "addr": "C64",
+          "raw": "=G47",
+          "calc": 80511.40000000001
+        },
+        {
+          "addr": "D64",
+          "raw": "=H47",
+          "calc": 0.30442811410513665
+        },
+        {
+          "addr": "A65",
+          "raw": "=TEXT(A48,\"#,##0\")&\" stu / \"&TEXT(B48,\"#,##0\")&\" msg\"",
+          "calc": "30,000 stu / 1,050,000 msg"
+        },
+        {
+          "addr": "B65",
+          "raw": "=F48",
+          "calc": 173622.74475000004
+        },
+        {
+          "addr": "C65",
+          "raw": "=G48",
+          "calc": 120687.90000000002
+        },
+        {
+          "addr": "D65",
+          "raw": "=H48",
+          "calc": 0.30488427553786845
+        },
+        {
+          "addr": "A66",
+          "raw": "=TEXT(A49,\"#,##0\")&\" stu / \"&TEXT(B49,\"#,##0\")&\" msg\"",
+          "calc": "40,000 stu / 1,400,000 msg"
+        },
+        {
+          "addr": "B66",
+          "raw": "=F49",
+          "calc": 231496.99300000005
+        },
+        {
+          "addr": "C66",
+          "raw": "=G49",
+          "calc": 160864.40000000002
+        },
+        {
+          "addr": "D66",
+          "raw": "=H49",
+          "calc": 0.3051123562542344
+        },
+        {
+          "addr": "A67",
+          "raw": "=TEXT(A50,\"#,##0\")&\" stu / \"&TEXT(B50,\"#,##0\")&\" msg\"",
+          "calc": "50,000 stu / 1,750,000 msg"
+        },
+        {
+          "addr": "B67",
+          "raw": "=F50",
+          "calc": 289371.24125
+        },
+        {
+          "addr": "C67",
+          "raw": "=G50",
+          "calc": 201040.90000000005
+        },
+        {
+          "addr": "D67",
+          "raw": "=H50",
+          "calc": 0.3052492046840538
+        },
+        {
+          "addr": "A68",
+          "raw": "=TEXT(A51,\"#,##0\")&\" stu / \"&TEXT(B51,\"#,##0\")&\" msg\"",
+          "calc": "60,000 stu / 2,100,000 msg"
+        },
+        {
+          "addr": "B68",
+          "raw": "=F51",
+          "calc": 347245.4895000001
+        },
+        {
+          "addr": "C68",
+          "raw": "=G51",
+          "calc": 241217.40000000005
+        },
+        {
+          "addr": "D68",
+          "raw": "=H51",
+          "calc": 0.3053404369706003
+        },
+        {
+          "addr": "A69",
+          "raw": "=TEXT(A52,\"#,##0\")&\" stu / \"&TEXT(B52,\"#,##0\")&\" msg\"",
+          "calc": "70,000 stu / 2,450,000 msg"
+        },
+        {
+          "addr": "B69",
+          "raw": "=F52",
+          "calc": 405119.7377500001
+        },
+        {
+          "addr": "C69",
+          "raw": "=G52",
+          "calc": 281393.9000000001
+        },
+        {
+          "addr": "D69",
+          "raw": "=H52",
+          "calc": 0.3054056028895619
+        },
+        {
+          "addr": "A73",
+          "raw": "=TEXT(A39,\"#,##0\")&\" stu / \"&TEXT(B39,\"#,##0\")&\" msg\"",
+          "calc": "0 stu / 0 msg"
+        },
+        {
+          "addr": "B73",
+          "raw": "=I39",
+          "calc": null
+        },
+        {
+          "addr": "C73",
+          "raw": "=J39",
+          "calc": null
+        },
+        {
+          "addr": "A74",
+          "raw": "=TEXT(A40,\"#,##0\")&\" stu / \"&TEXT(B40,\"#,##0\")&\" msg\"",
+          "calc": "500 stu / 17,500 msg"
+        },
+        {
+          "addr": "B74",
+          "raw": "=I40",
+          "calc": 0.033070999000000004
+        },
+        {
+          "addr": "C74",
+          "raw": "=J40",
+          "calc": 0.01238414285714286
+        },
+        {
+          "addr": "A75",
+          "raw": "=TEXT(A41,\"#,##0\")&\" stu / \"&TEXT(B41,\"#,##0\")&\" msg\"",
+          "calc": "1,000 stu / 35,000 msg"
+        },
+        {
+          "addr": "B75",
+          "raw": "=I41",
+          "calc": 0.028456441000000002
+        },
+        {
+          "addr": "C75",
+          "raw": "=J41",
+          "calc": 0.011931571428571429
+        },
+        {
+          "addr": "A76",
+          "raw": "=TEXT(A42,\"#,##0\")&\" stu / \"&TEXT(B42,\"#,##0\")&\" msg\"",
+          "calc": "2,000 stu / 70,000 msg"
+        },
+        {
+          "addr": "B76",
+          "raw": "=I42",
+          "calc": 0.0219191505
+        },
+        {
+          "addr": "C76",
+          "raw": "=J42",
+          "calc": 0.011705285714285715
+        },
+        {
+          "addr": "A77",
+          "raw": "=TEXT(A43,\"#,##0\")&\" stu / \"&TEXT(B43,\"#,##0\")&\" msg\"",
+          "calc": "3,000 stu / 105,000 msg"
+        },
+        {
+          "addr": "B77",
+          "raw": "=I43",
+          "calc": 0.018842778500000004
+        },
+        {
+          "addr": "C77",
+          "raw": "=J43",
+          "calc": 0.011629857142857145
+        },
+        {
+          "addr": "A78",
+          "raw": "=TEXT(A44,\"#,##0\")&\" stu / \"&TEXT(B44,\"#,##0\")&\" msg\"",
+          "calc": "5,000 stu / 175,000 msg"
+        },
+        {
+          "addr": "B78",
+          "raw": "=I44",
+          "calc": 0.0188427785
+        },
+        {
+          "addr": "C78",
+          "raw": "=J44",
+          "calc": 0.011569514285714289
+        },
+        {
+          "addr": "A79",
+          "raw": "=TEXT(A45,\"#,##0\")&\" stu / \"&TEXT(B45,\"#,##0\")&\" msg\"",
+          "calc": "7,500 stu / 262,500 msg"
+        },
+        {
+          "addr": "B79",
+          "raw": "=I45",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "C79",
+          "raw": "=J45",
+          "calc": 0.011539342857142861
+        },
+        {
+          "addr": "A80",
+          "raw": "=TEXT(A46,\"#,##0\")&\" stu / \"&TEXT(B46,\"#,##0\")&\" msg\"",
+          "calc": "10,000 stu / 350,000 msg"
+        },
+        {
+          "addr": "B80",
+          "raw": "=I46",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C80",
+          "raw": "=J46",
+          "calc": 0.011524257142857146
+        },
+        {
+          "addr": "A81",
+          "raw": "=TEXT(A47,\"#,##0\")&\" stu / \"&TEXT(B47,\"#,##0\")&\" msg\"",
+          "calc": "20,000 stu / 700,000 msg"
+        },
+        {
+          "addr": "B81",
+          "raw": "=I47",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C81",
+          "raw": "=J47",
+          "calc": 0.011501628571428573
+        },
+        {
+          "addr": "A82",
+          "raw": "=TEXT(A48,\"#,##0\")&\" stu / \"&TEXT(B48,\"#,##0\")&\" msg\"",
+          "calc": "30,000 stu / 1,050,000 msg"
+        },
+        {
+          "addr": "B82",
+          "raw": "=I48",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "C82",
+          "raw": "=J48",
+          "calc": 0.011494085714285717
+        },
+        {
+          "addr": "A83",
+          "raw": "=TEXT(A49,\"#,##0\")&\" stu / \"&TEXT(B49,\"#,##0\")&\" msg\"",
+          "calc": "40,000 stu / 1,400,000 msg"
+        },
+        {
+          "addr": "B83",
+          "raw": "=I49",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C83",
+          "raw": "=J49",
+          "calc": 0.011490314285714287
+        },
+        {
+          "addr": "A84",
+          "raw": "=TEXT(A50,\"#,##0\")&\" stu / \"&TEXT(B50,\"#,##0\")&\" msg\"",
+          "calc": "50,000 stu / 1,750,000 msg"
+        },
+        {
+          "addr": "B84",
+          "raw": "=I50",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C84",
+          "raw": "=J50",
+          "calc": 0.011488051428571431
+        },
+        {
+          "addr": "A85",
+          "raw": "=TEXT(A51,\"#,##0\")&\" stu / \"&TEXT(B51,\"#,##0\")&\" msg\"",
+          "calc": "60,000 stu / 2,100,000 msg"
+        },
+        {
+          "addr": "B85",
+          "raw": "=I51",
+          "calc": 0.016535499500000005
+        },
+        {
+          "addr": "C85",
+          "raw": "=J51",
+          "calc": 0.011486542857142859
+        },
+        {
+          "addr": "A86",
+          "raw": "=TEXT(A52,\"#,##0\")&\" stu / \"&TEXT(B52,\"#,##0\")&\" msg\"",
+          "calc": "70,000 stu / 2,450,000 msg"
+        },
+        {
+          "addr": "B86",
+          "raw": "=I52",
+          "calc": 0.016535499500000002
+        },
+        {
+          "addr": "C86",
+          "raw": "=J52",
+          "calc": 0.011485465306122452
+        }
+      ],
+      "rows": [
+        [
+          {
+            "addr": "A1",
+            "raw": "Scenario B (Message Credits): Cost-Metered Prepaid Credits",
+            "calc": "Scenario B (Message Credits): Cost-Metered Prepaid Credits"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A2",
+            "raw": "Buy prepaid credits; discounted by block size. 1 credit = the cost of one TYPICAL message (avg segments), so buyers think in whole messages. Each message burns credits by its ACTUAL AWS cost x multiple \u2014 long messages and MMS burn more than 1 credit.",
+            "calc": "Buy prepaid credits; discounted by block size. 1 credit = the cost of one TYPICAL message (avg segments), so buyers think in whole messages. Each message burns credits by its ACTUAL AWS cost x multiple \u2014 long messages and MMS burn more than 1 credit."
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          {
+            "addr": "C3",
+            "raw": "DISCOUNT SCHEDULE (by prepaid block size)",
+            "calc": "DISCOUNT SCHEDULE (by prepaid block size)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A4",
+            "raw": "PRICING MODEL LEVERS",
+            "calc": "PRICING MODEL LEVERS"
+          },
+          null,
+          {
+            "addr": "C4",
+            "raw": "Breakpoint (credits/mo \u2265)",
+            "calc": "Breakpoint (credits/mo \u2265)"
+          },
+          {
+            "addr": "D4",
+            "raw": "% of List",
+            "calc": "% of List"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A5",
+            "raw": "Cost per segment (from Cost Basis)",
+            "calc": "Cost per segment (from Cost Basis)"
+          },
+          {
+            "addr": "B5",
+            "raw": "='[1]Cost Basis'!B9",
+            "calc": 0.008830000000000001
+          },
+          {
+            "addr": "C5",
+            "raw": 0,
+            "calc": 0
+          },
+          {
+            "addr": "D5",
+            "raw": 1,
+            "calc": 1
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A6",
+            "raw": "Markup multiple (margin dial)",
+            "calc": "Markup multiple (margin dial)"
+          },
+          {
+            "addr": "B6",
+            "raw": 3.35,
+            "calc": 3.35
+          },
+          {
+            "addr": "C6",
+            "raw": 5000,
+            "calc": 5000
+          },
+          {
+            "addr": "D6",
+            "raw": 0.86,
+            "calc": 0.86
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A7",
+            "raw": "List price per credit (= 1 typical message)",
+            "calc": "List price per credit (= 1 typical message)"
+          },
+          {
+            "addr": "B7",
+            "raw": "=B5*B18*B6",
+            "calc": 0.03845465000000001
+          },
+          {
+            "addr": "C7",
+            "raw": 10000,
+            "calc": 10000
+          },
+          {
+            "addr": "D7",
+            "raw": 0.86,
+            "calc": 0.86
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A8",
+            "raw": "Implied gross margin at list",
+            "calc": "Implied gross margin at list"
+          },
+          {
+            "addr": "B8",
+            "raw": "=1-1/B6",
+            "calc": 0.7014925373134329
+          },
+          {
+            "addr": "C8",
+            "raw": 25000,
+            "calc": 25000
+          },
+          {
+            "addr": "D8",
+            "raw": 0.74,
+            "calc": 0.74
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          {
+            "addr": "C9",
+            "raw": 50000,
+            "calc": 50000
+          },
+          {
+            "addr": "D9",
+            "raw": 0.57,
+            "calc": 0.57
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A10",
+            "raw": "CREDIT VOLUME CALCULATOR (standalone)",
+            "calc": "CREDIT VOLUME CALCULATOR (standalone)"
+          },
+          null,
+          {
+            "addr": "C10",
+            "raw": 100000,
+            "calc": 100000
+          },
+          {
+            "addr": "D10",
+            "raw": 0.49,
+            "calc": 0.49
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A11",
+            "raw": "Fixed costs/yr (from Cost Basis)",
+            "calc": "Fixed costs/yr (from Cost Basis)"
+          },
+          {
+            "addr": "B11",
+            "raw": "=('[1]Cost Basis'!$B$22*12)/$B$13",
+            "calc": 158.4
+          },
+          {
+            "addr": "C11",
+            "raw": 250000,
+            "calc": 250000
+          },
+          {
+            "addr": "D11",
+            "raw": 0.43,
+            "calc": 0.43
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A12",
+            "raw": "Cost per segment (from Cost Basis)",
+            "calc": "Cost per segment (from Cost Basis)"
+          },
+          {
+            "addr": "B12",
+            "raw": "=B5",
+            "calc": 0.008830000000000001
+          },
+          {
+            "addr": "C12",
+            "raw": 500000,
+            "calc": 500000
+          },
+          {
+            "addr": "D12",
+            "raw": 0.43,
+            "calc": 0.43
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A13",
+            "raw": "Number of accounts served (overhead allocation)",
+            "calc": "Number of accounts served (overhead allocation)"
+          },
+          {
+            "addr": "B13",
+            "raw": 5,
+            "calc": 5
+          },
+          {
+            "addr": "C13",
+            "raw": 1000000,
+            "calc": 1000000
+          },
+          {
+            "addr": "D13",
+            "raw": 0.43,
+            "calc": 0.43
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A14",
+            "raw": "List price per credit",
+            "calc": "List price per credit"
+          },
+          {
+            "addr": "B14",
+            "raw": "=B7",
+            "calc": 0.03845465000000001
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A15",
+            "raw": "# of FTE students",
+            "calc": "# of FTE students"
+          },
+          {
+            "addr": "B15",
+            "raw": 2000,
+            "calc": 2000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A16",
+            "raw": "# of teachers per student",
+            "calc": "# of teachers per student"
+          },
+          {
+            "addr": "B16",
+            "raw": 7,
+            "calc": 7
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A17",
+            "raw": "# of messages per teacher per student / month (incl. replies)",
+            "calc": "# of messages per teacher per student / month (incl. replies)"
+          },
+          {
+            "addr": "B17",
+            "raw": 5,
+            "calc": 5
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A18",
+            "raw": "Avg segments per typical message (defines 1 credit)",
+            "calc": "Avg segments per typical message (defines 1 credit)"
+          },
+          {
+            "addr": "B18",
+            "raw": "='[1]Cost Basis'!B8",
+            "calc": 1.3
+          },
+          {
+            "addr": "C18",
+            "raw": "Can't go less than 1000 messages a month",
+            "calc": "Can't go less than 1000 messages a month"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A19",
+            "raw": "Round to nearest (credits/mo)",
+            "calc": "Round to nearest (credits/mo)"
+          },
+          {
+            "addr": "B19",
+            "raw": 100,
+            "calc": 100
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A20",
+            "raw": "# of Active months in a year",
+            "calc": "# of Active months in a year"
+          },
+          {
+            "addr": "B20",
+            "raw": 10,
+            "calc": 10
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A21",
+            "raw": "Expected messages / month",
+            "calc": "Expected messages / month"
+          },
+          {
+            "addr": "B21",
+            "raw": "=B15*B16*B17",
+            "calc": 70000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A22",
+            "raw": "Expected credits / year",
+            "calc": "Expected credits / year"
+          },
+          {
+            "addr": "B22",
+            "raw": "=B21*B20",
+            "calc": 700000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A23",
+            "raw": "Recommended credits to buy (mo)",
+            "calc": "Recommended credits to buy (mo)"
+          },
+          {
+            "addr": "B23",
+            "raw": "=MROUND(B21,$B$19)",
+            "calc": 70000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A24",
+            "raw": "Recommended credits to buy (yr)",
+            "calc": "Recommended credits to buy (yr)"
+          },
+          {
+            "addr": "B24",
+            "raw": "=B23*B20",
+            "calc": 700000
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A25",
+            "raw": "Discount for this volume (% of list)",
+            "calc": "Discount for this volume (% of list)"
+          },
+          {
+            "addr": "B25",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(B23,$C$5:$C$13,1)),1)",
+            "calc": 0.57
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A26",
+            "raw": "Discount price per credit",
+            "calc": "Discount price per credit"
+          },
+          {
+            "addr": "B26",
+            "raw": "=B14*B25",
+            "calc": 0.0219191505
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A27",
+            "raw": "Recommended monthly price",
+            "calc": "Recommended monthly price"
+          },
+          {
+            "addr": "B27",
+            "raw": "=B23*B14*B25",
+            "calc": 1534.340535
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A28",
+            "raw": "Recommended annual price",
+            "calc": "Recommended annual price"
+          },
+          {
+            "addr": "B28",
+            "raw": "=B24*B14*B25",
+            "calc": 15343.40535
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A29",
+            "raw": "Price per student",
+            "calc": "Price per student"
+          },
+          {
+            "addr": "B29",
+            "raw": "=B28/B15",
+            "calc": 7.671702675000001
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A30",
+            "raw": "Cost / yr",
+            "calc": "Cost / yr"
+          },
+          {
+            "addr": "B30",
+            "raw": "=B24*B5*B18+B11",
+            "calc": 8193.7
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A31",
+            "raw": "Margin",
+            "calc": "Margin"
+          },
+          {
+            "addr": "B31",
+            "raw": "=B28-B30",
+            "calc": 7149.70535
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A32",
+            "raw": "Margin",
+            "calc": "Margin"
+          },
+          {
+            "addr": "B32",
+            "raw": "=(B28-(B24*B5*B18+B11))/B28",
+            "calc": 0.4659790435634942
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A37",
+            "raw": "TIER TABLE \u2014 Credits by student cohort",
+            "calc": "TIER TABLE \u2014 Credits by student cohort"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A38",
+            "raw": "FTE students",
+            "calc": "FTE students"
+          },
+          {
+            "addr": "B38",
+            "raw": "Msgs = Credits/mo",
+            "calc": "Msgs = Credits/mo"
+          },
+          {
+            "addr": "C38",
+            "raw": "Rec credits/mo",
+            "calc": "Rec credits/mo"
+          },
+          {
+            "addr": "D38",
+            "raw": "Discount",
+            "calc": "Discount"
+          },
+          {
+            "addr": "E38",
+            "raw": "Credits/yr",
+            "calc": "Credits/yr"
+          },
+          {
+            "addr": "F38",
+            "raw": "Annual price",
+            "calc": "Annual price"
+          },
+          {
+            "addr": "G38",
+            "raw": "Annual cost",
+            "calc": "Annual cost"
+          },
+          {
+            "addr": "H38",
+            "raw": "Margin",
+            "calc": "Margin"
+          },
+          {
+            "addr": "I38",
+            "raw": "Price/credit",
+            "calc": "Price/credit"
+          },
+          {
+            "addr": "J38",
+            "raw": "Cost/credit",
+            "calc": "Cost/credit"
+          }
+        ],
+        [
+          {
+            "addr": "A39",
+            "raw": 0,
+            "calc": 0
+          },
+          {
+            "addr": "B39",
+            "raw": "=A39*$B$16*$B$17",
+            "calc": 0
+          },
+          {
+            "addr": "C39",
+            "raw": "=MROUND(B39,$B$19)",
+            "calc": 0
+          },
+          {
+            "addr": "D39",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C39,$C$5:$C$13,1)),1)",
+            "calc": 1
+          },
+          {
+            "addr": "E39",
+            "raw": "=C39*$B$20",
+            "calc": 0
+          },
+          {
+            "addr": "F39",
+            "raw": "=E39*$B$14*D39",
+            "calc": 0
+          },
+          {
+            "addr": "G39",
+            "raw": "=E39*$B$5*$B$18+$B$11",
+            "calc": 158.4
+          },
+          {
+            "addr": "H39",
+            "raw": "=IF(F39=0,\"\",(F39-G39)/F39)",
+            "calc": null
+          },
+          {
+            "addr": "I39",
+            "raw": "=IF(E39=0,\"\",F39/E39)",
+            "calc": null
+          },
+          {
+            "addr": "J39",
+            "raw": "=IF(E39=0,\"\",G39/E39)",
+            "calc": null
+          }
+        ],
+        [
+          {
+            "addr": "A40",
+            "raw": 500,
+            "calc": 500
+          },
+          {
+            "addr": "B40",
+            "raw": "=A40*$B$16*$B$17",
+            "calc": 17500
+          },
+          {
+            "addr": "C40",
+            "raw": "=MROUND(B40,$B$19)",
+            "calc": 17500
+          },
+          {
+            "addr": "D40",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C40,$C$5:$C$13,1)),1)",
+            "calc": 0.86
+          },
+          {
+            "addr": "E40",
+            "raw": "=C40*$B$20",
+            "calc": 175000
+          },
+          {
+            "addr": "F40",
+            "raw": "=E40*$B$14*D40",
+            "calc": 5787.424825000001
+          },
+          {
+            "addr": "G40",
+            "raw": "=E40*$B$5*$B$18+$B$11",
+            "calc": 2167.2250000000004
+          },
+          {
+            "addr": "H40",
+            "raw": "=IF(F40=0,\"\",(F40-G40)/F40)",
+            "calc": 0.6255286132377538
+          },
+          {
+            "addr": "I40",
+            "raw": "=IF(E40=0,\"\",F40/E40)",
+            "calc": 0.033070999000000004
+          },
+          {
+            "addr": "J40",
+            "raw": "=IF(E40=0,\"\",G40/E40)",
+            "calc": 0.01238414285714286
+          }
+        ],
+        [
+          {
+            "addr": "A41",
+            "raw": 1000,
+            "calc": 1000
+          },
+          {
+            "addr": "B41",
+            "raw": "=A41*$B$16*$B$17",
+            "calc": 35000
+          },
+          {
+            "addr": "C41",
+            "raw": "=MROUND(B41,$B$19)",
+            "calc": 35000
+          },
+          {
+            "addr": "D41",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C41,$C$5:$C$13,1)),1)",
+            "calc": 0.74
+          },
+          {
+            "addr": "E41",
+            "raw": "=C41*$B$20",
+            "calc": 350000
+          },
+          {
+            "addr": "F41",
+            "raw": "=E41*$B$14*D41",
+            "calc": 9959.754350000001
+          },
+          {
+            "addr": "G41",
+            "raw": "=E41*$B$5*$B$18+$B$11",
+            "calc": 4176.05
+          },
+          {
+            "addr": "H41",
+            "raw": "=IF(F41=0,\"\",(F41-G41)/F41)",
+            "calc": 0.5807075302012845
+          },
+          {
+            "addr": "I41",
+            "raw": "=IF(E41=0,\"\",F41/E41)",
+            "calc": 0.028456441000000002
+          },
+          {
+            "addr": "J41",
+            "raw": "=IF(E41=0,\"\",G41/E41)",
+            "calc": 0.011931571428571429
+          }
+        ],
+        [
+          {
+            "addr": "A42",
+            "raw": 2000,
+            "calc": 2000
+          },
+          {
+            "addr": "B42",
+            "raw": "=A42*$B$16*$B$17",
+            "calc": 70000
+          },
+          {
+            "addr": "C42",
+            "raw": "=MROUND(B42,$B$19)",
+            "calc": 70000
+          },
+          {
+            "addr": "D42",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C42,$C$5:$C$13,1)),1)",
+            "calc": 0.57
+          },
+          {
+            "addr": "E42",
+            "raw": "=C42*$B$20",
+            "calc": 700000
+          },
+          {
+            "addr": "F42",
+            "raw": "=E42*$B$14*D42",
+            "calc": 15343.40535
+          },
+          {
+            "addr": "G42",
+            "raw": "=E42*$B$5*$B$18+$B$11",
+            "calc": 8193.7
+          },
+          {
+            "addr": "H42",
+            "raw": "=IF(F42=0,\"\",(F42-G42)/F42)",
+            "calc": 0.4659790435634942
+          },
+          {
+            "addr": "I42",
+            "raw": "=IF(E42=0,\"\",F42/E42)",
+            "calc": 0.0219191505
+          },
+          {
+            "addr": "J42",
+            "raw": "=IF(E42=0,\"\",G42/E42)",
+            "calc": 0.011705285714285715
+          }
+        ],
+        [
+          {
+            "addr": "A43",
+            "raw": 3000,
+            "calc": 3000
+          },
+          {
+            "addr": "B43",
+            "raw": "=A43*$B$16*$B$17",
+            "calc": 105000
+          },
+          {
+            "addr": "C43",
+            "raw": "=MROUND(B43,$B$19)",
+            "calc": 105000
+          },
+          {
+            "addr": "D43",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C43,$C$5:$C$13,1)),1)",
+            "calc": 0.49
+          },
+          {
+            "addr": "E43",
+            "raw": "=C43*$B$20",
+            "calc": 1050000
+          },
+          {
+            "addr": "F43",
+            "raw": "=E43*$B$14*D43",
+            "calc": 19784.917425000003
+          },
+          {
+            "addr": "G43",
+            "raw": "=E43*$B$5*$B$18+$B$11",
+            "calc": 12211.350000000002
+          },
+          {
+            "addr": "H43",
+            "raw": "=IF(F43=0,\"\",(F43-G43)/F43)",
+            "calc": 0.38279499794273214
+          },
+          {
+            "addr": "I43",
+            "raw": "=IF(E43=0,\"\",F43/E43)",
+            "calc": 0.018842778500000004
+          },
+          {
+            "addr": "J43",
+            "raw": "=IF(E43=0,\"\",G43/E43)",
+            "calc": 0.011629857142857145
+          }
+        ],
+        [
+          {
+            "addr": "A44",
+            "raw": 5000,
+            "calc": 5000
+          },
+          {
+            "addr": "B44",
+            "raw": "=A44*$B$16*$B$17",
+            "calc": 175000
+          },
+          {
+            "addr": "C44",
+            "raw": "=MROUND(B44,$B$19)",
+            "calc": 175000
+          },
+          {
+            "addr": "D44",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C44,$C$5:$C$13,1)),1)",
+            "calc": 0.49
+          },
+          {
+            "addr": "E44",
+            "raw": "=C44*$B$20",
+            "calc": 1750000
+          },
+          {
+            "addr": "F44",
+            "raw": "=E44*$B$14*D44",
+            "calc": 32974.862375000004
+          },
+          {
+            "addr": "G44",
+            "raw": "=E44*$B$5*$B$18+$B$11",
+            "calc": 20246.650000000005
+          },
+          {
+            "addr": "H44",
+            "raw": "=IF(F44=0,\"\",(F44-G44)/F44)",
+            "calc": 0.3859974373888497
+          },
+          {
+            "addr": "I44",
+            "raw": "=IF(E44=0,\"\",F44/E44)",
+            "calc": 0.0188427785
+          },
+          {
+            "addr": "J44",
+            "raw": "=IF(E44=0,\"\",G44/E44)",
+            "calc": 0.011569514285714289
+          }
+        ],
+        [
+          {
+            "addr": "A45",
+            "raw": 7500,
+            "calc": 7500
+          },
+          {
+            "addr": "B45",
+            "raw": "=A45*$B$16*$B$17",
+            "calc": 262500
+          },
+          {
+            "addr": "C45",
+            "raw": "=MROUND(B45,$B$19)",
+            "calc": 262500
+          },
+          {
+            "addr": "D45",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C45,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E45",
+            "raw": "=C45*$B$20",
+            "calc": 2625000
+          },
+          {
+            "addr": "F45",
+            "raw": "=E45*$B$14*D45",
+            "calc": 43405.68618750001
+          },
+          {
+            "addr": "G45",
+            "raw": "=E45*$B$5*$B$18+$B$11",
+            "calc": 30290.77500000001
+          },
+          {
+            "addr": "H45",
+            "raw": "=IF(F45=0,\"\",(F45-G45)/F45)",
+            "calc": 0.3021473069414772
+          },
+          {
+            "addr": "I45",
+            "raw": "=IF(E45=0,\"\",F45/E45)",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "J45",
+            "raw": "=IF(E45=0,\"\",G45/E45)",
+            "calc": 0.011539342857142861
+          }
+        ],
+        [
+          {
+            "addr": "A46",
+            "raw": 10000,
+            "calc": 10000
+          },
+          {
+            "addr": "B46",
+            "raw": "=A46*$B$16*$B$17",
+            "calc": 350000
+          },
+          {
+            "addr": "C46",
+            "raw": "=MROUND(B46,$B$19)",
+            "calc": 350000
+          },
+          {
+            "addr": "D46",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C46,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E46",
+            "raw": "=C46*$B$20",
+            "calc": 3500000
+          },
+          {
+            "addr": "F46",
+            "raw": "=E46*$B$14*D46",
+            "calc": 57874.24825000001
+          },
+          {
+            "addr": "G46",
+            "raw": "=E46*$B$5*$B$18+$B$11",
+            "calc": 40334.90000000001
+          },
+          {
+            "addr": "H46",
+            "raw": "=IF(F46=0,\"\",(F46-G46)/F46)",
+            "calc": 0.30305962980694096
+          },
+          {
+            "addr": "I46",
+            "raw": "=IF(E46=0,\"\",F46/E46)",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "J46",
+            "raw": "=IF(E46=0,\"\",G46/E46)",
+            "calc": 0.011524257142857146
+          }
+        ],
+        [
+          {
+            "addr": "A47",
+            "raw": 20000,
+            "calc": 20000
+          },
+          {
+            "addr": "B47",
+            "raw": "=A47*$B$16*$B$17",
+            "calc": 700000
+          },
+          {
+            "addr": "C47",
+            "raw": "=MROUND(B47,$B$19)",
+            "calc": 700000
+          },
+          {
+            "addr": "D47",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C47,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E47",
+            "raw": "=C47*$B$20",
+            "calc": 7000000
+          },
+          {
+            "addr": "F47",
+            "raw": "=E47*$B$14*D47",
+            "calc": 115748.49650000002
+          },
+          {
+            "addr": "G47",
+            "raw": "=E47*$B$5*$B$18+$B$11",
+            "calc": 80511.40000000001
+          },
+          {
+            "addr": "H47",
+            "raw": "=IF(F47=0,\"\",(F47-G47)/F47)",
+            "calc": 0.30442811410513665
+          },
+          {
+            "addr": "I47",
+            "raw": "=IF(E47=0,\"\",F47/E47)",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "J47",
+            "raw": "=IF(E47=0,\"\",G47/E47)",
+            "calc": 0.011501628571428573
+          }
+        ],
+        [
+          {
+            "addr": "A48",
+            "raw": 30000,
+            "calc": 30000
+          },
+          {
+            "addr": "B48",
+            "raw": "=A48*$B$16*$B$17",
+            "calc": 1050000
+          },
+          {
+            "addr": "C48",
+            "raw": "=MROUND(B48,$B$19)",
+            "calc": 1050000
+          },
+          {
+            "addr": "D48",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C48,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E48",
+            "raw": "=C48*$B$20",
+            "calc": 10500000
+          },
+          {
+            "addr": "F48",
+            "raw": "=E48*$B$14*D48",
+            "calc": 173622.74475000004
+          },
+          {
+            "addr": "G48",
+            "raw": "=E48*$B$5*$B$18+$B$11",
+            "calc": 120687.90000000002
+          },
+          {
+            "addr": "H48",
+            "raw": "=IF(F48=0,\"\",(F48-G48)/F48)",
+            "calc": 0.30488427553786845
+          },
+          {
+            "addr": "I48",
+            "raw": "=IF(E48=0,\"\",F48/E48)",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "J48",
+            "raw": "=IF(E48=0,\"\",G48/E48)",
+            "calc": 0.011494085714285717
+          }
+        ],
+        [
+          {
+            "addr": "A49",
+            "raw": 40000,
+            "calc": 40000
+          },
+          {
+            "addr": "B49",
+            "raw": "=A49*$B$16*$B$17",
+            "calc": 1400000
+          },
+          {
+            "addr": "C49",
+            "raw": "=MROUND(B49,$B$19)",
+            "calc": 1400000
+          },
+          {
+            "addr": "D49",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C49,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E49",
+            "raw": "=C49*$B$20",
+            "calc": 14000000
+          },
+          {
+            "addr": "F49",
+            "raw": "=E49*$B$14*D49",
+            "calc": 231496.99300000005
+          },
+          {
+            "addr": "G49",
+            "raw": "=E49*$B$5*$B$18+$B$11",
+            "calc": 160864.40000000002
+          },
+          {
+            "addr": "H49",
+            "raw": "=IF(F49=0,\"\",(F49-G49)/F49)",
+            "calc": 0.3051123562542344
+          },
+          {
+            "addr": "I49",
+            "raw": "=IF(E49=0,\"\",F49/E49)",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "J49",
+            "raw": "=IF(E49=0,\"\",G49/E49)",
+            "calc": 0.011490314285714287
+          }
+        ],
+        [
+          {
+            "addr": "A50",
+            "raw": 50000,
+            "calc": 50000
+          },
+          {
+            "addr": "B50",
+            "raw": "=A50*$B$16*$B$17",
+            "calc": 1750000
+          },
+          {
+            "addr": "C50",
+            "raw": "=MROUND(B50,$B$19)",
+            "calc": 1750000
+          },
+          {
+            "addr": "D50",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C50,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E50",
+            "raw": "=C50*$B$20",
+            "calc": 17500000
+          },
+          {
+            "addr": "F50",
+            "raw": "=E50*$B$14*D50",
+            "calc": 289371.24125
+          },
+          {
+            "addr": "G50",
+            "raw": "=E50*$B$5*$B$18+$B$11",
+            "calc": 201040.90000000005
+          },
+          {
+            "addr": "H50",
+            "raw": "=IF(F50=0,\"\",(F50-G50)/F50)",
+            "calc": 0.3052492046840538
+          },
+          {
+            "addr": "I50",
+            "raw": "=IF(E50=0,\"\",F50/E50)",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "J50",
+            "raw": "=IF(E50=0,\"\",G50/E50)",
+            "calc": 0.011488051428571431
+          }
+        ],
+        [
+          {
+            "addr": "A51",
+            "raw": 60000,
+            "calc": 60000
+          },
+          {
+            "addr": "B51",
+            "raw": "=A51*$B$16*$B$17",
+            "calc": 2100000
+          },
+          {
+            "addr": "C51",
+            "raw": "=MROUND(B51,$B$19)",
+            "calc": 2100000
+          },
+          {
+            "addr": "D51",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C51,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E51",
+            "raw": "=C51*$B$20",
+            "calc": 21000000
+          },
+          {
+            "addr": "F51",
+            "raw": "=E51*$B$14*D51",
+            "calc": 347245.4895000001
+          },
+          {
+            "addr": "G51",
+            "raw": "=E51*$B$5*$B$18+$B$11",
+            "calc": 241217.40000000005
+          },
+          {
+            "addr": "H51",
+            "raw": "=IF(F51=0,\"\",(F51-G51)/F51)",
+            "calc": 0.3053404369706003
+          },
+          {
+            "addr": "I51",
+            "raw": "=IF(E51=0,\"\",F51/E51)",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "J51",
+            "raw": "=IF(E51=0,\"\",G51/E51)",
+            "calc": 0.011486542857142859
+          }
+        ],
+        [
+          {
+            "addr": "A52",
+            "raw": 70000,
+            "calc": 70000
+          },
+          {
+            "addr": "B52",
+            "raw": "=A52*$B$16*$B$17",
+            "calc": 2450000
+          },
+          {
+            "addr": "C52",
+            "raw": "=MROUND(B52,$B$19)",
+            "calc": 2450000
+          },
+          {
+            "addr": "D52",
+            "raw": "=IFERROR(INDEX($D$5:$D$13,MATCH(C52,$C$5:$C$13,1)),1)",
+            "calc": 0.43
+          },
+          {
+            "addr": "E52",
+            "raw": "=C52*$B$20",
+            "calc": 24500000
+          },
+          {
+            "addr": "F52",
+            "raw": "=E52*$B$14*D52",
+            "calc": 405119.7377500001
+          },
+          {
+            "addr": "G52",
+            "raw": "=E52*$B$5*$B$18+$B$11",
+            "calc": 281393.9000000001
+          },
+          {
+            "addr": "H52",
+            "raw": "=IF(F52=0,\"\",(F52-G52)/F52)",
+            "calc": 0.3054056028895619
+          },
+          {
+            "addr": "I52",
+            "raw": "=IF(E52=0,\"\",F52/E52)",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "J52",
+            "raw": "=IF(E52=0,\"\",G52/E52)",
+            "calc": 0.011485465306122452
+          }
+        ],
+        [
+          {
+            "addr": "A54",
+            "raw": "CHART SOURCE (students + message volume) \u2014 helper for axis labels",
+            "calc": "CHART SOURCE (students + message volume) \u2014 helper for axis labels"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B55",
+            "raw": "Annual price",
+            "calc": "Annual price"
+          },
+          {
+            "addr": "C55",
+            "raw": "Annual cost",
+            "calc": "Annual cost"
+          },
+          {
+            "addr": "D55",
+            "raw": "Margin",
+            "calc": "Margin"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A56",
+            "raw": "=TEXT(A39,\"#,##0\")&\" stu / \"&TEXT(B39,\"#,##0\")&\" msg\"",
+            "calc": "0 stu / 0 msg"
+          },
+          {
+            "addr": "B56",
+            "raw": "=F39",
+            "calc": 0
+          },
+          {
+            "addr": "C56",
+            "raw": "=G39",
+            "calc": 158.4
+          },
+          {
+            "addr": "D56",
+            "raw": "=H39",
+            "calc": null
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A57",
+            "raw": "=TEXT(A40,\"#,##0\")&\" stu / \"&TEXT(B40,\"#,##0\")&\" msg\"",
+            "calc": "500 stu / 17,500 msg"
+          },
+          {
+            "addr": "B57",
+            "raw": "=F40",
+            "calc": 5787.424825000001
+          },
+          {
+            "addr": "C57",
+            "raw": "=G40",
+            "calc": 2167.2250000000004
+          },
+          {
+            "addr": "D57",
+            "raw": "=H40",
+            "calc": 0.6255286132377538
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A58",
+            "raw": "=TEXT(A41,\"#,##0\")&\" stu / \"&TEXT(B41,\"#,##0\")&\" msg\"",
+            "calc": "1,000 stu / 35,000 msg"
+          },
+          {
+            "addr": "B58",
+            "raw": "=F41",
+            "calc": 9959.754350000001
+          },
+          {
+            "addr": "C58",
+            "raw": "=G41",
+            "calc": 4176.05
+          },
+          {
+            "addr": "D58",
+            "raw": "=H41",
+            "calc": 0.5807075302012845
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A59",
+            "raw": "=TEXT(A42,\"#,##0\")&\" stu / \"&TEXT(B42,\"#,##0\")&\" msg\"",
+            "calc": "2,000 stu / 70,000 msg"
+          },
+          {
+            "addr": "B59",
+            "raw": "=F42",
+            "calc": 15343.40535
+          },
+          {
+            "addr": "C59",
+            "raw": "=G42",
+            "calc": 8193.7
+          },
+          {
+            "addr": "D59",
+            "raw": "=H42",
+            "calc": 0.4659790435634942
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A60",
+            "raw": "=TEXT(A43,\"#,##0\")&\" stu / \"&TEXT(B43,\"#,##0\")&\" msg\"",
+            "calc": "3,000 stu / 105,000 msg"
+          },
+          {
+            "addr": "B60",
+            "raw": "=F43",
+            "calc": 19784.917425000003
+          },
+          {
+            "addr": "C60",
+            "raw": "=G43",
+            "calc": 12211.350000000002
+          },
+          {
+            "addr": "D60",
+            "raw": "=H43",
+            "calc": 0.38279499794273214
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A61",
+            "raw": "=TEXT(A44,\"#,##0\")&\" stu / \"&TEXT(B44,\"#,##0\")&\" msg\"",
+            "calc": "5,000 stu / 175,000 msg"
+          },
+          {
+            "addr": "B61",
+            "raw": "=F44",
+            "calc": 32974.862375000004
+          },
+          {
+            "addr": "C61",
+            "raw": "=G44",
+            "calc": 20246.650000000005
+          },
+          {
+            "addr": "D61",
+            "raw": "=H44",
+            "calc": 0.3859974373888497
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A62",
+            "raw": "=TEXT(A45,\"#,##0\")&\" stu / \"&TEXT(B45,\"#,##0\")&\" msg\"",
+            "calc": "7,500 stu / 262,500 msg"
+          },
+          {
+            "addr": "B62",
+            "raw": "=F45",
+            "calc": 43405.68618750001
+          },
+          {
+            "addr": "C62",
+            "raw": "=G45",
+            "calc": 30290.77500000001
+          },
+          {
+            "addr": "D62",
+            "raw": "=H45",
+            "calc": 0.3021473069414772
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A63",
+            "raw": "=TEXT(A46,\"#,##0\")&\" stu / \"&TEXT(B46,\"#,##0\")&\" msg\"",
+            "calc": "10,000 stu / 350,000 msg"
+          },
+          {
+            "addr": "B63",
+            "raw": "=F46",
+            "calc": 57874.24825000001
+          },
+          {
+            "addr": "C63",
+            "raw": "=G46",
+            "calc": 40334.90000000001
+          },
+          {
+            "addr": "D63",
+            "raw": "=H46",
+            "calc": 0.30305962980694096
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A64",
+            "raw": "=TEXT(A47,\"#,##0\")&\" stu / \"&TEXT(B47,\"#,##0\")&\" msg\"",
+            "calc": "20,000 stu / 700,000 msg"
+          },
+          {
+            "addr": "B64",
+            "raw": "=F47",
+            "calc": 115748.49650000002
+          },
+          {
+            "addr": "C64",
+            "raw": "=G47",
+            "calc": 80511.40000000001
+          },
+          {
+            "addr": "D64",
+            "raw": "=H47",
+            "calc": 0.30442811410513665
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A65",
+            "raw": "=TEXT(A48,\"#,##0\")&\" stu / \"&TEXT(B48,\"#,##0\")&\" msg\"",
+            "calc": "30,000 stu / 1,050,000 msg"
+          },
+          {
+            "addr": "B65",
+            "raw": "=F48",
+            "calc": 173622.74475000004
+          },
+          {
+            "addr": "C65",
+            "raw": "=G48",
+            "calc": 120687.90000000002
+          },
+          {
+            "addr": "D65",
+            "raw": "=H48",
+            "calc": 0.30488427553786845
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A66",
+            "raw": "=TEXT(A49,\"#,##0\")&\" stu / \"&TEXT(B49,\"#,##0\")&\" msg\"",
+            "calc": "40,000 stu / 1,400,000 msg"
+          },
+          {
+            "addr": "B66",
+            "raw": "=F49",
+            "calc": 231496.99300000005
+          },
+          {
+            "addr": "C66",
+            "raw": "=G49",
+            "calc": 160864.40000000002
+          },
+          {
+            "addr": "D66",
+            "raw": "=H49",
+            "calc": 0.3051123562542344
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A67",
+            "raw": "=TEXT(A50,\"#,##0\")&\" stu / \"&TEXT(B50,\"#,##0\")&\" msg\"",
+            "calc": "50,000 stu / 1,750,000 msg"
+          },
+          {
+            "addr": "B67",
+            "raw": "=F50",
+            "calc": 289371.24125
+          },
+          {
+            "addr": "C67",
+            "raw": "=G50",
+            "calc": 201040.90000000005
+          },
+          {
+            "addr": "D67",
+            "raw": "=H50",
+            "calc": 0.3052492046840538
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A68",
+            "raw": "=TEXT(A51,\"#,##0\")&\" stu / \"&TEXT(B51,\"#,##0\")&\" msg\"",
+            "calc": "60,000 stu / 2,100,000 msg"
+          },
+          {
+            "addr": "B68",
+            "raw": "=F51",
+            "calc": 347245.4895000001
+          },
+          {
+            "addr": "C68",
+            "raw": "=G51",
+            "calc": 241217.40000000005
+          },
+          {
+            "addr": "D68",
+            "raw": "=H51",
+            "calc": 0.3053404369706003
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A69",
+            "raw": "=TEXT(A52,\"#,##0\")&\" stu / \"&TEXT(B52,\"#,##0\")&\" msg\"",
+            "calc": "70,000 stu / 2,450,000 msg"
+          },
+          {
+            "addr": "B69",
+            "raw": "=F52",
+            "calc": 405119.7377500001
+          },
+          {
+            "addr": "C69",
+            "raw": "=G52",
+            "calc": 281393.9000000001
+          },
+          {
+            "addr": "D69",
+            "raw": "=H52",
+            "calc": 0.3054056028895619
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A71",
+            "raw": "CHART SOURCE (per-message chart) \u2014 helper",
+            "calc": "CHART SOURCE (per-message chart) \u2014 helper"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "addr": "B72",
+            "raw": "Price / msg",
+            "calc": "Price / msg"
+          },
+          {
+            "addr": "C72",
+            "raw": "Cost / msg (loaded)",
+            "calc": "Cost / msg (loaded)"
+          },
+          {
+            "addr": "D72",
+            "raw": "Cost / msg (loaded)",
+            "calc": "Cost / msg (loaded)"
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A73",
+            "raw": "=TEXT(A39,\"#,##0\")&\" stu / \"&TEXT(B39,\"#,##0\")&\" msg\"",
+            "calc": "0 stu / 0 msg"
+          },
+          {
+            "addr": "B73",
+            "raw": "=I39",
+            "calc": null
+          },
+          {
+            "addr": "C73",
+            "raw": "=J39",
+            "calc": null
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A74",
+            "raw": "=TEXT(A40,\"#,##0\")&\" stu / \"&TEXT(B40,\"#,##0\")&\" msg\"",
+            "calc": "500 stu / 17,500 msg"
+          },
+          {
+            "addr": "B74",
+            "raw": "=I40",
+            "calc": 0.033070999000000004
+          },
+          {
+            "addr": "C74",
+            "raw": "=J40",
+            "calc": 0.01238414285714286
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A75",
+            "raw": "=TEXT(A41,\"#,##0\")&\" stu / \"&TEXT(B41,\"#,##0\")&\" msg\"",
+            "calc": "1,000 stu / 35,000 msg"
+          },
+          {
+            "addr": "B75",
+            "raw": "=I41",
+            "calc": 0.028456441000000002
+          },
+          {
+            "addr": "C75",
+            "raw": "=J41",
+            "calc": 0.011931571428571429
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A76",
+            "raw": "=TEXT(A42,\"#,##0\")&\" stu / \"&TEXT(B42,\"#,##0\")&\" msg\"",
+            "calc": "2,000 stu / 70,000 msg"
+          },
+          {
+            "addr": "B76",
+            "raw": "=I42",
+            "calc": 0.0219191505
+          },
+          {
+            "addr": "C76",
+            "raw": "=J42",
+            "calc": 0.011705285714285715
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A77",
+            "raw": "=TEXT(A43,\"#,##0\")&\" stu / \"&TEXT(B43,\"#,##0\")&\" msg\"",
+            "calc": "3,000 stu / 105,000 msg"
+          },
+          {
+            "addr": "B77",
+            "raw": "=I43",
+            "calc": 0.018842778500000004
+          },
+          {
+            "addr": "C77",
+            "raw": "=J43",
+            "calc": 0.011629857142857145
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A78",
+            "raw": "=TEXT(A44,\"#,##0\")&\" stu / \"&TEXT(B44,\"#,##0\")&\" msg\"",
+            "calc": "5,000 stu / 175,000 msg"
+          },
+          {
+            "addr": "B78",
+            "raw": "=I44",
+            "calc": 0.0188427785
+          },
+          {
+            "addr": "C78",
+            "raw": "=J44",
+            "calc": 0.011569514285714289
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A79",
+            "raw": "=TEXT(A45,\"#,##0\")&\" stu / \"&TEXT(B45,\"#,##0\")&\" msg\"",
+            "calc": "7,500 stu / 262,500 msg"
+          },
+          {
+            "addr": "B79",
+            "raw": "=I45",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "C79",
+            "raw": "=J45",
+            "calc": 0.011539342857142861
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A80",
+            "raw": "=TEXT(A46,\"#,##0\")&\" stu / \"&TEXT(B46,\"#,##0\")&\" msg\"",
+            "calc": "10,000 stu / 350,000 msg"
+          },
+          {
+            "addr": "B80",
+            "raw": "=I46",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "C80",
+            "raw": "=J46",
+            "calc": 0.011524257142857146
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A81",
+            "raw": "=TEXT(A47,\"#,##0\")&\" stu / \"&TEXT(B47,\"#,##0\")&\" msg\"",
+            "calc": "20,000 stu / 700,000 msg"
+          },
+          {
+            "addr": "B81",
+            "raw": "=I47",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "C81",
+            "raw": "=J47",
+            "calc": 0.011501628571428573
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A82",
+            "raw": "=TEXT(A48,\"#,##0\")&\" stu / \"&TEXT(B48,\"#,##0\")&\" msg\"",
+            "calc": "30,000 stu / 1,050,000 msg"
+          },
+          {
+            "addr": "B82",
+            "raw": "=I48",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "C82",
+            "raw": "=J48",
+            "calc": 0.011494085714285717
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A83",
+            "raw": "=TEXT(A49,\"#,##0\")&\" stu / \"&TEXT(B49,\"#,##0\")&\" msg\"",
+            "calc": "40,000 stu / 1,400,000 msg"
+          },
+          {
+            "addr": "B83",
+            "raw": "=I49",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "C83",
+            "raw": "=J49",
+            "calc": 0.011490314285714287
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A84",
+            "raw": "=TEXT(A50,\"#,##0\")&\" stu / \"&TEXT(B50,\"#,##0\")&\" msg\"",
+            "calc": "50,000 stu / 1,750,000 msg"
+          },
+          {
+            "addr": "B84",
+            "raw": "=I50",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "C84",
+            "raw": "=J50",
+            "calc": 0.011488051428571431
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A85",
+            "raw": "=TEXT(A51,\"#,##0\")&\" stu / \"&TEXT(B51,\"#,##0\")&\" msg\"",
+            "calc": "60,000 stu / 2,100,000 msg"
+          },
+          {
+            "addr": "B85",
+            "raw": "=I51",
+            "calc": 0.016535499500000005
+          },
+          {
+            "addr": "C85",
+            "raw": "=J51",
+            "calc": 0.011486542857142859
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "addr": "A86",
+            "raw": "=TEXT(A52,\"#,##0\")&\" stu / \"&TEXT(B52,\"#,##0\")&\" msg\"",
+            "calc": "70,000 stu / 2,450,000 msg"
+          },
+          {
+            "addr": "B86",
+            "raw": "=I52",
+            "calc": 0.016535499500000002
+          },
+          {
+            "addr": "C86",
+            "raw": "=J52",
+            "calc": 0.011485465306122452
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "Sheet1": {
+      "max_row": 1,
+      "max_col": 1,
+      "formula_count": 0,
+      "formulas": [],
+      "rows": []
+    }
+  },
+  "defined_names": {}
+}

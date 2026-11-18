@@ -1,0 +1,58 @@
+FILE: Book5.xlsx
+SHEETS: ['Cost Basis', 'Sheet1']
+DEFINED NAMES: {}
+
+======================================================================
+SHEET: Cost Basis  rows=31 cols=6 formulas=18
+======================================================================
+  A1=Delphinium Community Builder — SMS Cost Basis
+  A2=AWS rates researched from AWS published pricing (End User Messaging, SNS SMS, Connect appendix), Jul 2026. Yellow cells are inputs — confirm against your actual AWS invoice.
+  A4=CARRIER & PLATFORM COSTS (per message)
+  A5=Input | B5=Value | C5=Unit | D5=Notes / Source
+  A6=Blended carrier fee per segment | B6=0.00302 | C6=$/segment | D6=PLACEHOLDER — avg of AT&T/Verizon/T-Mobile A2P 10DLC per-segment fees. Replace with actual AWS EUM invoice rate.
+  A7=AWS End User Messaging fee per segment | B7=0.00581 | C7=$/segment | D7=PLACEHOLDER — AWS per-message send fee on top of carrier pass-through.
+  A8=Average segments per message | B8=1.3 | C8=segments | D8=Accounts for messages >160 chars splitting into multiple segments (attendance/engagement texts often run long).
+  A9=Direct cost per segment | B9==B6+B7 => 0.008830000000000001
+  A10=Direct cost per message (blended) | B10==B9*B8 => 0.011479000000000001
+  A12=10DLC REGISTRATION & COMPLIANCE OVERHEAD (amortized)
+  A13=Input | B13=Value | C13=Unit | D13=Notes / Source
+  A14=Brand registration (one-time) | B14=4.5 | C14=$ one-time
+  A15=Public-profit brand authentication (one-time) | B15=12.5 | C15=$ one-time
+  A16=Campaign vetting fee (one-time) | B16=15 | C16=$ one-time
+  A17=Brand vetting — optional, higher throughput (one-time) | B17=40 | C17=$ one-time
+  A18=Monthly campaign fee | B18=10 | C18=$/month
+  A19=10DLC number monthly lease (per number) | B19=1 | C19=$/month
+  A20=Number of 10DLC numbers leased | B20=50 | C20=numbers
+  A21=Amortization period for one-time fees | B21=12 | C21=months
+  A22=Total monthly overhead | B22==SUM(B14:B17)/B21+B18+B19*B20 => 66 | C22=$/month
+  A24=FULLY-LOADED COST PER MESSAGE (at sample volumes)
+  A25=Monthly message volume | B25=Overhead / message | C25=Fully-loaded cost / message
+  A26=1000 | B26==$B$22/A26 => 0.066 | C26==$B$10+B26 => 0.077479
+  A27=5000 | B27==$B$22/A27 => 0.0132 | C27==$B$10+B27 => 0.024679 | F27==0.03*40000*12 => 14400
+  A28=10000 | B28==$B$22/A28 => 0.0066 | C28==$B$10+B28 => 0.018079 | F28==F27/10000 => 1.44
+  A29=25000 | B29==$B$22/A29 => 0.00264 | C29==$B$10+B29 => 0.014119000000000001
+  A30=50000 | B30==$B$22/A30 => 0.00132 | C30==$B$10+B30 => 0.012799000000000001 | F30==2000*3 => 6000
+  A31=100000 | B31==$B$22/A31 => 0.00066 | C31==$B$10+B31 => 0.012139
+--- FORMULAS ---
+  B9: =B6+B7 => 0.008830000000000001
+  B10: =B9*B8 => 0.011479000000000001
+  B22: =SUM(B14:B17)/B21+B18+B19*B20 => 66
+  B26: =$B$22/A26 => 0.066
+  C26: =$B$10+B26 => 0.077479
+  B27: =$B$22/A27 => 0.0132
+  C27: =$B$10+B27 => 0.024679
+  F27: =0.03*40000*12 => 14400
+  B28: =$B$22/A28 => 0.0066
+  C28: =$B$10+B28 => 0.018079
+  F28: =F27/10000 => 1.44
+  B29: =$B$22/A29 => 0.00264
+  C29: =$B$10+B29 => 0.014119000000000001
+  B30: =$B$22/A30 => 0.00132
+  C30: =$B$10+B30 => 0.012799000000000001
+  F30: =2000*3 => 6000
+  B31: =$B$22/A31 => 0.00066
+  C31: =$B$10+B31 => 0.012139
+
+======================================================================
+SHEET: Sheet1  rows=1 cols=1 formulas=0
+======================================================================

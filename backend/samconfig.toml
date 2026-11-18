@@ -7,3 +7,6 @@ s3_prefix = "delphinium-prospectus"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
+# Pass ApiPassword, AdminPassword, Slack, and Zoho parameters at deploy time.
+# Do not commit those values here.
+

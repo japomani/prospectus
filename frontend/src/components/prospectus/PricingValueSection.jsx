@@ -8,6 +8,7 @@ import {
 } from '../../lib/pricing.js';
 
 export default function PricingValueSection({
+  id,
   quote,
   pricing,
   fields,
@@ -20,7 +21,7 @@ export default function PricingValueSection({
   const customDiscounts = pricing.customItems.filter(i => i.computedValue < 0);
   const hasAddons =
     pricing.implementationFee > 0
-    || pricing.cleverFee > 0
+    || quote.clever
     || quote.sms
     || customCharges.length > 0;
   const hasDiscounts =
@@ -37,21 +38,41 @@ export default function PricingValueSection({
       : [];
 
   return (
-    <section className="sheet">
+    <section id={id} className="sheet sheet-pricing">
       <div className="page-label screen-only">{pageLabel}</div>
-      <div className="doc-kicker">Pricing &amp; value</div>
-      <h2 className="doc-h2 doc-pricing-page-title">Your investment</h2>
 
-      <div className="doc-pricing-page keep">
+      {/* Eyebrow + title + totals stay together; notes may break to the next page */}
+      <div className="doc-pricing-main keep">
+        <div className="ex-kicker"><span className="ex-tick"></span>Pricing &amp; value</div>
+        <h2 className="ex-h doc-pricing-page-title">
+          <span style={{ fontWeight: 'normal' }}>
+            <Field value={fields.SCHOOL_NAME_POSSESSIVE} highlight={highlightFields} />
+          </span>{' '}
+          <span className="em" style={{ fontStyle: 'normal' }}>investment in engagement</span>
+        </h2>
+
         <div className="doc-pricing-summary">
-          <div className="doc-pricing-section-title">Students</div>
-          <div className="doc-pricing-row">
-            <span>
-              <Field value={fields.STUDENT_COUNT} highlight={highlightFields} />
-            </span>
+          <div className="doc-pricing-meta-grid">
+            <div className="doc-pricing-row doc-pricing-meta">
+              <span className="doc-pricing-meta-label ex-subhead is-top">Number of students</span>
+              <span>
+                <Field value={fields.STUDENT_COUNT} highlight={highlightFields} />
+              </span>
+            </div>
+            <div className="doc-pricing-row doc-pricing-meta">
+              <span className="doc-pricing-meta-label ex-subhead is-top">Agreement term</span>
+              <span>
+                <Field value={fields.TERM_YEARS} highlight={highlightFields} />
+              </span>
+            </div>
           </div>
+          <hr className="doc-pricing-divider doc-pricing-divider--thin" />
 
-          <div className="doc-pricing-section-title">Products</div>
+          <div className="doc-pricing-section-title ex-subhead">Products</div>
+          <div className="doc-pricing-row">
+            <span>Delphinium Core</span>
+            <span className="doc-pricing-included">Included</span>
+          </div>
           {Object.entries(pricing.productLicenses).map(([key, val]) => (
             <div className="doc-pricing-row" key={key}>
               <span>
@@ -62,14 +83,14 @@ export default function PricingValueSection({
               <span>{formatCurrency(val)}</span>
             </div>
           ))}
-          <div className="doc-pricing-row doc-pricing-subtotal">
-            <span>Product Subtotal</span>
+          <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--lavender">
+            <span>Annual Product Subtotal</span>
             <span>{formatCurrency(pricing.productSubtotal)}</span>
           </div>
 
           {hasDiscounts && (
             <>
-              <div className="doc-pricing-section-title">Discounts</div>
+              <div className="doc-pricing-section-title ex-subhead">Discounts</div>
               {pricing.volumeDiscount > 0 && (
                 <div className="doc-pricing-row doc-pricing-discount">
                   <span>
@@ -103,7 +124,7 @@ export default function PricingValueSection({
                 </div>
               ))}
               {pricing.annualSavings > 0 && (
-                <div className="doc-pricing-row doc-pricing-total doc-pricing-discount">
+                <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--green">
                   <span>Annual Savings</span>
                   <span>{formatCurrency(pricing.annualSavings)}</span>
                 </div>
@@ -113,29 +134,50 @@ export default function PricingValueSection({
 
           {hasAddons && (
             <>
-              <div className="doc-pricing-section-title">Add-ons</div>
+              <div className="doc-pricing-section-title ex-subhead">Add-ons</div>
               {pricing.implementationFee > 0 && (
                 <div className="doc-pricing-row">
                   <span>Implementation Fee (one time for setup and training)</span>
                   <span>{formatCurrency(pricing.implementationFee)}</span>
                 </div>
               )}
-              {pricing.cleverFee > 0 && (
+              {quote.clever && (
                 <div className="doc-pricing-row">
+                  <span>SIS Integration</span>
                   <span>
-                    Clever Integration
-                    {(quote.cleverSchools || 1) > 1 && ` (${quote.cleverSchools} schools)`}
+                    {pricing.cleverFee > 0 ? formatCurrency(pricing.cleverFee) : 'Custom / quote'}
                   </span>
-                  <span>{formatCurrency(pricing.cleverFee)}</span>
                 </div>
               )}
               {quote.sms && (
-                <div className="doc-pricing-row">
-                  <span>SMS Texting</span>
-                  <span>
-                    {pricing.smsFee > 0 ? formatCurrency(pricing.smsFee) : 'Custom / quote'}
-                  </span>
-                </div>
+                <>
+                  <div className="doc-pricing-row">
+                    <span>SMS Texting — annual credits</span>
+                    <span>
+                      {pricing.smsFee > 0 ? formatCurrency(pricing.smsFee) : 'Custom / quote'}
+                    </span>
+                  </div>
+                  <div className="doc-pricing-row doc-pricing-row--nested">
+                    <span>Credits purchased</span>
+                    <span>{fields.SMS_CREDITS_PURCHASED}</span>
+                  </div>
+                  <div className="doc-pricing-row doc-pricing-row--nested">
+                    <span>Effective rate</span>
+                    <span>{fields.SMS_EFFECTIVE_RATE}</span>
+                  </div>
+                  <div className="doc-pricing-row doc-pricing-row--nested">
+                    <span>Annual credit cost</span>
+                    <span>{fields.SMS_ANNUAL_CREDIT_COST}</span>
+                  </div>
+                  <div className="doc-pricing-row doc-pricing-row--nested">
+                    <span>Discount over full cost</span>
+                    <span>{fields.SMS_DISCOUNT_OVER_FULL}</span>
+                  </div>
+                  <div className="doc-pricing-row doc-pricing-row--nested">
+                    <span>Overage method</span>
+                    <span>{fields.SMS_OVERAGE_MODE}</span>
+                  </div>
+                </>
               )}
               {customCharges.map(item => (
                 <div className="doc-pricing-row" key={item.id}>
@@ -146,18 +188,16 @@ export default function PricingValueSection({
             </>
           )}
 
-          <hr className="doc-pricing-divider" />
-
           {pricing.years > 1 ? (
             payUpfront ? (
               <>
-                <div className="doc-pricing-row">
+                <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--lavender doc-pricing-pill--section-start">
                   <span>Annual Total</span>
                   <span>{formatCurrency(pricing.annualTotal)}</span>
                 </div>
-                <div className="doc-pricing-row doc-pricing-total">
+                <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--lavender-strong">
                   <span>
-                    Total due
+                    Total Due
                     {' '}
                     (
                     {pricing.years}
@@ -166,7 +206,7 @@ export default function PricingValueSection({
                   <span>{formatCurrency(pricing.grandTotal)}</span>
                 </div>
                 {pricing.totalSavings > 0 && (
-                  <div className="doc-pricing-row doc-pricing-savings">
+                  <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--green">
                     <span>
                       Total Savings (
                       {pricing.years}
@@ -179,11 +219,11 @@ export default function PricingValueSection({
               </>
             ) : (
               <>
-                <div className="doc-pricing-row">
+                <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--lavender doc-pricing-pill--section-start">
                   <span>Annual Total</span>
                   <span>{formatCurrency(pricing.annualTotal)}</span>
                 </div>
-                <div className="doc-pricing-row doc-pricing-total">
+                <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--lavender-strong">
                   <span>
                     Agreement total
                     {' '}
@@ -195,7 +235,7 @@ export default function PricingValueSection({
                   <span>{formatCurrency(pricing.grandTotal)}</span>
                 </div>
                 {pricing.totalSavings > 0 && (
-                  <div className="doc-pricing-row doc-pricing-savings">
+                  <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--green">
                     <span>
                       Total Savings (
                       {pricing.years}
@@ -207,7 +247,7 @@ export default function PricingValueSection({
                 )}
                 {yearlySchedule.length > 0 && (
                   <>
-                    <div className="doc-pricing-section-title">Payment schedule</div>
+                    <div className="doc-pricing-section-title ex-subhead">Payment schedule</div>
                     {yearlySchedule.map(row => (
                       <div className="doc-pricing-row" key={row.year}>
                         <span>
@@ -228,11 +268,11 @@ export default function PricingValueSection({
             )
           ) : (
             <>
-              <div className="doc-pricing-row doc-pricing-total">
+              <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--lavender doc-pricing-pill--section-start">
                 <span>Annual Total</span>
                 <span>{formatCurrency(pricing.annualTotal)}</span>
               </div>
-              <div className="doc-pricing-row doc-pricing-total">
+              <div className="doc-pricing-row doc-pricing-pill doc-pricing-pill--lavender-strong">
                 <span>Grand Total (1 Year)</span>
                 <span>{formatCurrency(pricing.grandTotal)}</span>
               </div>
@@ -241,7 +281,7 @@ export default function PricingValueSection({
 
           {quote.notes?.trim() && (
             <>
-              <div className="doc-pricing-section-title">Notes</div>
+              <div className="doc-pricing-section-title ex-subhead">Notes</div>
               <div className="doc-pricing-notes">{quote.notes.trim()}</div>
             </>
           )}
@@ -253,9 +293,9 @@ export default function PricingValueSection({
             .
           </div>
         </div>
-
-        <PricingBenefitNotes />
       </div>
+
+      <PricingBenefitNotes fields={fields} highlightFields={highlightFields} />
     </section>
   );
 }

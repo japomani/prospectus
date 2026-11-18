@@ -21,15 +21,17 @@ export function buildSuggestedQuoteName(quote, pricing = null) {
   const products = Object.entries(PRODUCT_ABBREV)
     .filter(([key]) => quote[key])
     .map(([, abbrev]) => abbrev);
-  if (quote.clever) products.push('Clever');
+  if (quote.clever) products.push('SIS');
   if (quote.sms) products.push('SMS');
   if (products.length) parts.push(products.join(', '));
 
   const years = Number(quote.years) || 1;
   parts.push(years === 1 ? '1 yr' : `${years} yr`);
 
-  if (pricing?.annualTotal > 0) {
-    parts.push(`${formatCurrency(pricing.annualTotal)}/yr`);
+  // Match Grand Total / agreement total from the pricing summary (includes
+  // one-time custom items and implementation), not annual recurring only.
+  if (pricing?.grandTotal > 0) {
+    parts.push(formatCurrency(pricing.grandTotal));
   }
 
   if (parts.length === 0) return 'New quote';

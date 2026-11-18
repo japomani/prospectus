@@ -29,10 +29,26 @@ When a rep asks for recent quotes:
 
 1. Call `GET /quotes?rep={slackUserId}`
 
+When a rep (or Sales assistant) asks to find quotes by school, contact email, date, or rep:
+
+1. Call `GET /quotes/search` with any of: `q`, `email`, `rep`, `createdAfter`, `createdBefore`, `limit`, `cursor`
+2. Prefer the returned `emailLine` and `publicUrl` when sharing a prospectus over email
+3. Each result includes school name, contact name/email, FTE (`students`), products, term years, total price, rep, timestamps
+
+## Auth for machine / Sales assistant
+
+Use the **Sales read token** (`SALES_READ_TOKEN`) as `Authorization: Bearer …` for read-only calls only:
+
+- Allowed: `GET /quotes`, `GET /quotes/search`, `GET /quotes/{id}`
+- Rejected (403): create/update/delete, PDF, notify, preview, form-link, config
+
+Token lives in SSM `/delphinium/prospectus/sales-read-token` (see `docs/pricing-api.md`). Do not invent or paste the raw token into Slack.
+
 ## Environment
 
 - `PROSPECTUS_API_URL` — API Gateway base URL (e.g. https://xxx.execute-api.us-east-1.amazonaws.com)
 - `PROSPECTUS_WEB_URL` — CloudFront URL for the React app
+- `PROSPECTUS_SALES_READ_TOKEN` or `SALES_READ_TOKEN` — machine read-only token (optional; site password still works for Hermes when configured)
 
 ## Example
 

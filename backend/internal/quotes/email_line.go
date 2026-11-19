@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// PublicQuoteURL returns the shareable CloudFront prospectus URL for a quote id.
+// PublicQuoteURL returns the shareable public prospectus URL for a quote id.
 func PublicQuoteURL(webBase, quoteID string) string {
 	base := strings.TrimRight(strings.TrimSpace(webBase), "/")
 	id := strings.TrimSpace(quoteID)

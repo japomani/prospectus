@@ -21,6 +21,7 @@ import { formatCustomItemLabel, PRODUCT_LABELS } from '../lib/pricingSummary.js'
 import { calculatePricing, formatCurrency, getMultiYearDiscountPercent, buildDefaultYearlyPayments, resolveYearlyPaymentSchedule } from '../lib/pricing.js';
 import { formatDate, fromDateInputValue, toDateInputValue } from '../lib/dates.js';
 import { buildSuggestedQuoteName, displayQuoteLabel } from '../lib/quoteName.js';
+import { publicSiteUrl } from '../lib/publicSite.js';
 import {
   DEFAULT_LICENSE_CONFIG,
   DEFAULT_SMS_CONFIG,
@@ -323,7 +324,8 @@ export default function PricingCalculator() {
       setSaveError(smsGateError);
       return;
     }
-    window.open(prospectusViewPath(quoteId), '_blank');
+    // Absolute published host so View Prospectus never inherits legacy cloudfront.net origin.
+    window.open(publicSiteUrl(prospectusViewPath(quoteId)), '_blank', 'noopener,noreferrer');
   }
 
   function shareLinkLabel() {
@@ -375,7 +377,7 @@ export default function PricingCalculator() {
       setSaveError('Save the quote first to get a shareable customer link.');
       return;
     }
-    const url = `${window.location.origin}${path}`;
+    const url = publicSiteUrl(path);
     const label = shareLinkLabel();
     const plain = `${label}\n${url}`;
     const html = `<div style="font-family: Arial, sans-serif;"><a href="${url}" style="color: #00adef; text-decoration: none;">${label.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</a></div>`;
@@ -385,21 +387,8 @@ export default function PricingCalculator() {
       setSaveError(null);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      setSaveError('Could not copy link — try again or copy from the address bar after Open.');
+      setSaveError('Could not copy link — try again or use View Prospectus and copy from the address bar.');
     }
-  }
-
-  function handleOpenShareLink() {
-    if (smsGateError) {
-      setSaveError(smsGateError);
-      return;
-    }
-    const path = shareableProspectusPath();
-    if (!path) {
-      setSaveError('Save the quote first to open the customer share link.');
-      return;
-    }
-    window.open(path, '_blank', 'noopener,noreferrer');
   }
 
   function startNewQuote() {
@@ -1459,19 +1448,10 @@ export default function PricingCalculator() {
               >
                 {copied ? 'Copied!' : 'Copy Link'}
               </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleOpenShareLink}
-                disabled={!hasProducts || !quote.quoteId}
-                title={quote.quoteId ? 'Open customer prospectus in a new tab' : 'Save the quote first to open the share link'}
-              >
-                Open
-              </button>
             </div>
             {!quote.quoteId && hasProducts && (
               <p className="pricing-muted" style={{ marginTop: '8px' }}>
-                Save the quote to enable Copy Link and Open (stable <code>/quotes/…</code> URL for customers).
+                Save the quote to enable Copy Link (stable <code>/quotes/…</code> URL for customers). View Prospectus works anytime.
               </p>
             )}
           </div>

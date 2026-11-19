@@ -68,7 +68,8 @@ aws s3 sync ../frontend/dist/ s3://delphinium-prospectus-frontendbucket-wmyrnj6h
 aws cloudfront create-invalidation --distribution-id E2UVEOPVDSKJ0I --paths '/*'
 ```
 
-Live site: https://dgnilygbxuhxd.cloudfront.net
+Live site (new published links): https://prospectus.delphi-me.com  
+Legacy CloudFront URL (same distribution, must keep working — no redirect): https://dgnilygbxuhxd.cloudfront.net
 
 ## Hermes skill
 
@@ -88,7 +89,7 @@ Quotes link to a Zoho CRM **Account**. There is no Prospectus module.
 2. Set `ZOHO_CLIENT_ID`, `ZOHO_CLIENT_SECRET`, and `ZOHO_REFRESH_TOKEN` (use `-` or empty to disable; search returns 503 and save does not call Zoho)
 3. `ZOHO_ACCOUNTS_URL` defaults to `https://accounts.zoho.com`. `ZOHO_API_DOMAIN` defaults to `https://www.zohoapis.com`
 
-On quote save/update with `zohoAccountId`, the API PUTs `{WEB_BASE_URL}/quotes/{id}` into `Accounts.Delphinium_Prospectus_URL`. Pass `ApiPassword` and `AdminPassword` at deploy time; they are not stored in `samconfig.toml`.
+On quote save/update with `zohoAccountId`, the API PUTs `{WEB_BASE_URL}/quotes/{id}` (live `WEB_BASE_URL` = `https://prospectus.delphi-me.com`) into `Accounts.Delphinium_Prospectus_URL`. Pass `ApiPassword` and `AdminPassword` at deploy time; they are not stored in `samconfig.toml`.
 
 ### Pricing API docs
 
